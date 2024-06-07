@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
@@ -24,6 +25,12 @@ export default {
 				'paragraphSmall' : '8px',
 				'button' : '18px',
 				'button2' : '15px'
+			},
+			fontFamily:{
+				cocogooseRegular: ['Cocogoose-Regular', 'sans-serif'],
+				cocogooseSemiLight : ['Cocogoose-SemiLight', 'sans-serif'],
+				cocogooseLight: ['Cocogoose-Light', 'sans-serif'],
+				cocogooseUltraLight: ['Cocogoose-UltraLight', 'sans-serif']
 			}
 		},
 	},

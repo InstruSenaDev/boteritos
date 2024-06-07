@@ -1,28 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Input from '../components/forms/Input.astro'
-import Boton from '../components/Boton.astro';
+import Login from './general/Login.astro';
+//const result = await fetch('https://api.spacexdata.com/v5/launches');
+//const data = await result.json();
+
+//console.log(data);
+
 ---
 
 <Layout title="Boteritos">
-	<main class="w-full h-screen flex justify-center items-center p-4">
-		<form action="" class="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]">
-			<div class="flex flex-col gap-7 max-w-[400px] w-full">
-				<h1 class="text-black text-title">Bienvenido</h1>
-				<Input texto='Numero de documento' placeholder="Ingresa tu documento" icon='' />
-				<Input texto='Numero de documento' placeholder="Ingresa tu documento" icon='' />
-				<div class="flex justify-between">
-					<div>
-						<input type="checkbox" name="" id="recordar">
-						<label for="recordar" class="text-paragraph2 text-black">Recordarme</label>
-					</div>
-					<a>¿Olvidaste tu contraseña?</a>
-				</div>
-				<Boton text="Iniciar Sesión" />
-			</div>
-			<div class="max-h-96 max-w-[520px] w-full md:block hidden">
-				<img src="../../public/img/imgLogin.png" alt="" class="object-contain w-full h-full">
-			</div>
-		</form>
-	</main>
+	<Login  /> 
 </Layout>
