@@ -2,35 +2,87 @@
 import Info from "../../components/profile/Info.astro";
 import ProfileLayout from "../../layouts/ProfileLayout.astro";
 
-
 ---
 
-<ProfileLayout >
+<ProfileLayout title="Perfil" >
+    <img src="../../public/img/perfil.png" alt="" slot="imagen">
     <Info
-    title="nombre"
-    text="Esteban"
-    slot="datos"/>
+        title="Nombre completo"
+        text="Sebastian Rodriguez"
+        slot="datos2"/>
 
     <Info
-    title=""
-    text=""
-    slot="img"/>
+        title="Correo"
+        text="yo@gmail.com"
+        slot="datos2"/>
 
     <Info
-    title="Documento"
-    text="1122414214"
+    title="Fecha de nacimiento"
+    text="22-02-2005"
+    slot="datos2"/>
+
+    <Info
+    title="Edad"
+    text="19"
     slot="datos2"/>
     <Info
-    title="Documento"
-    text="1122414214"
+    title="Tipo de documento"
+    text="Cedula de ciudadania"
     slot="datos2"/>
+    
     <Info
-    title="Documento"
-    text="1122414214"
+    title="NO. de documento"
+    text="1234556"
     slot="datos2"/>
+
     <Info
-    title="Documento"
-    text="1122414214"
+    title="Dirección"
+    text="CRa xxb #xx-xx"
+    slot="datos2"/>
+
+    <Info
+    title="Comuna"
+    text="Zona Franca"
+    slot="datos2"/>
+
+    <Info
+    title="Teléfono"
+    text="310252500"
+    slot="datos2"/>
+    
+    <Info
+    title="Nombre del responsable"
+    text="Brian Marin"
+    slot="datos2"/>
+    
+    <Info
+    title="Correo del responsable"
+    text="correo@gmail.com"
+    slot="datos2"/>
+    
+    <Info
+    title="Talla de camisa"
+    text="XL"
+    slot="datos2"/>
+    
+    <Info
+    title="Diagnostico"
+    text="Deficit de atencion"
+    slot="datos2"/>
+    
+    <Info
+    title="Medicamentos"
+    text="Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas."
+    slot="datos2"/>
+    
+    <Info
+    title="Restricciones alimenticias"
+    text="Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas."
+    slot="datos2"/>
+    
+    <Info
+    title="Observaciones"
+    text="Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas.Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas.Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas."
     slot="datos2"/>
 
 </ProfileLayout>
