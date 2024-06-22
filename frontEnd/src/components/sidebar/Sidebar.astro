@@ -1,12 +1,32 @@
 ---
+import type { ImageFunction } from "astro:content";
 import  Elemento  from "./Elemento.astro";
+
+interface Props {
+    img : string
+}
+
+const {img} = Astro.props;
 ---
 
-<div class="h-screen w-[20rem] bg-ligthBlue">
-    <div class="bg-white h-8 w-auto">
-
+<div class="h-screen w-[100px] bg-white flex flex-col items-center">
+    <div class=" bg-darkBlue h-[100px] w-full flex  items-center mb-6 relative justify-center">
+        <div class="w-[60px] h-[60px] rounded-full bg-white">
+            <img src={img} alt="Easter egg" class="w-full h-full object-cover rounded-full">
+        </div>
+        <div class="w-[24px] h-[24px] rounded-full bg-white text-sm flex justify-center items-center absolute right-[-12px]">
+            <i class="fa-solid fa-angle-right"></i>
+        </div>
     </div>
-    <Elemento texto="Steins Gate"/>
+    <div class="w-[60px] flex flex-col items-center gap-y-4">
+        <Elemento icon={"fa-solid fa-user"} />
+        <Elemento icon={"fa-solid fa-users"} />
+        <Elemento icon={"fa-solid fa-trophy"} />
+        <Elemento icon={"fa-solid fa-lock"} />
+        <Elemento icon={"fa-solid fa-user-plus"} />
+        <div class="w-full  border-darkBlue border-[1px]"></div>
+        <Elemento icon={"fa-solid fa-arrow-right-from-bracket"} />
+    </div>
 </div>
 
 

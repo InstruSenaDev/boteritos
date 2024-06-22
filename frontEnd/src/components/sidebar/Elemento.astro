@@ -1,9 +1,12 @@
 ---
 interface Props{
-    texto : string;
+    icon : string;
 }
 
-const {texto} = Astro.props;
+const {icon} = Astro.props;
 ---
 
- <p>{texto}</p>
+<div class="w-[60px] h-[44px]  text-gray hover:bg-darkBlue hover:text-white ease-in duration-100 flex justify-center items-center rounded-3xl">
+    <i class=`text-xl ${icon}`></i>
+</div>
+ 

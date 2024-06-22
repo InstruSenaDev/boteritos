@@ -12,7 +12,8 @@ export default {
 				'black': '#1E1E1E',
 				'backgroundWhite' : '#F0F4F9',
 				'white' : '#FFFFFF',
-				'placeholderBlue' : '#D6DEFA'
+				'placeholderBlue' : '#D6DEFA',
+				'gray' : '#B1B1B1'
 			},
 			fontSize:{
 				'title' : '28px',
