@@ -19,8 +19,9 @@ const { title } = Astro.props;
 		<script src="https://kit.fontawesome.com/763c79dbc1.js" crossorigin="anonymous"></script>
 		<title>{title}</title>
 	</head>
-	<body class="h-full bg-backgroundWhite">
-		<slot />
+	<body class="h-full bg-backgroundWhite flex">
+
 		<Sidebar img={"../../../public/img/perfil.png"}/>
+		<slot/>
 	</body>
 </html>
