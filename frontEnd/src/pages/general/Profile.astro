@@ -1,22 +1,31 @@
 ---
 import Info from "../../components/profile/Info.astro";
 import Layout from "../../layouts/Layout.astro";
-import ProfileLayout from "../../layouts/ProfileLayout.astro";
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+
 
 
 ---
-<Layout title="Perfil">
-    <ProfileLayout  >
-        <img src="../../public/img/perfil.png" alt="" slot="imagen">
-        <Info
-            title="Nombre completo"
-            text="Sebastian Rodriguez"
-            slot="datos"/>
 
-        <Info
-            title="Correo"
-            text="yo@gmail.com"
-            slot="datos"/>
+    <LayoutGeneral  >
+        <article class="px-7 py-4 sm:flex sm:flex-col w-[90%] sm:px-24 sm:py-16 bg-white rounded-xl">
+        <div class="sm:justify-items-center sm:flex sm:flex-row border-b-2 border-b-placeholderBlue py-7 gap-7 ">
+
+            <img src="../../public/img/perfil.png" alt="" slot="imagen" class="h-[158px]">
+
+                <div class="flex flex-col w-full">
+                    <Info
+                        title="Nombre completo"
+                        text="Sebastian Rodriguez"
+                        slot="datos"/>
+
+                    <Info
+                        title="Correo"
+                        text="yo@gmail.com"
+                        slot="datos"/>
+                </div>
+        </div>
+
 
         <Info
         title="Fecha de nacimiento"
@@ -86,6 +95,5 @@ import ProfileLayout from "../../layouts/ProfileLayout.astro";
         title="Observaciones"
         text="Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas.Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas.Lorem ipsum dolor sit amet consectetur adipiscing elit urna eu, placerat  id vitae class orci quam netus maecenas."
         slot="datos2"/>
-
-    </ProfileLayout>
-</Layout>
+    </article>
+    </LayoutGeneral>
