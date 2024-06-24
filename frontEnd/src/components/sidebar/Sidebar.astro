@@ -2,6 +2,7 @@
 import type { ImageFunction } from "astro:content";
 import  Elemento  from "./Elemento.astro";
 
+
 interface Props {
     img?: string
 }
@@ -12,7 +13,7 @@ const {img} = Astro.props;
 <div class="h-screen w-[100px] bg-white flex flex-col items-center flex-shrink-0">
     <div class=" bg-darkBlue h-[100px] w-full flex  items-center mb-6 relative justify-center">
         <div class="w-[60px] h-[60px] rounded-full bg-white">
-            <img src={img} alt="Easter egg" class="w-full h-full object-cover rounded-full">
+            <img src="../../../public/img/perfil.png" alt="Easter egg" class="w-full h-full object-cover rounded-full">
         </div>
         <div class="w-[24px] h-[24px] rounded-full bg-white text-sm flex justify-center items-center absolute right-[-12px]">
             <i class="fa-solid fa-angle-right"></i>

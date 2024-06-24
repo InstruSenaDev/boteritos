@@ -1,6 +1,7 @@
 ---
 import Boton from "../components/Boton.astro";
 import Input from "../components/forms/Input.astro";
+import Layout from "./Layout.astro";
 
 interface Props {
     titulo: string    
@@ -10,7 +11,7 @@ const {titulo} = Astro.props;
 
 
 ---
-
+<Layout title="Inicio">
 <main class="w-full h-screen flex justify-center items-center p-4 text-black">
     <form action="" class="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]">
         <div class="flex flex-col gap-7 max-w-[400px] w-full">
@@ -25,3 +26,4 @@ const {titulo} = Astro.props;
         </div>
     </form>
 </main>
+</Layout>
