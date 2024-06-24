@@ -1,21 +1,13 @@
 ---
+import Sidebar from '../components/sidebar/Sidebar.astro';
 import Layout from './Layout.astro';
 
-interface Props {
-    title?:string;
-}
-
-const {title} = Astro.props;
 ---
+
+
 <Layout title="Perfil">
-    <main class="flex justify-center px-10 py-5 " >
-        <article class="px-7 py-4 sm:flex sm:flex-col w-[90%] sm:px-24 sm:py-16 bg-white rounded-xl">
-        <div class="w-[100%]">
-            <h1 class="text-title2 font-Cocogoose-SemiLight text-darkBlue ">
-                Información personal
-            </h1>
-            <slot name="datos2"/>
-        </article>
+    <Sidebar />
+        <div >
+
         </div>
-    </main>
 </Layout>
