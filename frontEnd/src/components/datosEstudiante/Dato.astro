@@ -1,0 +1,11 @@
+---
+interface Props {
+    titulo?: string,  
+    dato?: string  
+}
+const  {titulo, dato} = Astro.props;
+---
+<div class="flex gap-x-3 max-w-[500px]">
+    <p class="font-cocogooseLight text-paragraph text-darkBlue">{titulo}:</p>
+    <p class="font-cocogooseLight text-paragraph">{dato}</p>
+</div>

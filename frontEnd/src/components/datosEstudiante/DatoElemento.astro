@@ -1,10 +1,14 @@
 ---
 interface Props {
-  img?: string;
+  icon?: string;
   texto?: string;
 }
 
-const { img, texto } = Astro.props;
+const { icon, texto } = Astro.props;
 ---
 
-<div class="bg-white h-[150px] min-w-[160px] w-[212px] max-w-[300px]"></div>
+<div class="bg-white text-darkBlue gap-y-3 p-4 h-[150px] min-w-[160px] w-[212px]  rounded-xl flex flex-col justify-center items-center ">
+    <i class=`text-5xl ${icon}`></i>
+    <p class="font-cocogooseLight text-paragraph">{texto}</p>
+</div>
+

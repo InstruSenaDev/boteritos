@@ -1,0 +1,12 @@
+---
+interface Props {
+    titulo?: string;
+}
+
+const {titulo} = Astro.props;
+---
+
+<div class="w-full bg-white p-6 text-darkBlue rounded-xl flex justify-between">
+    <p class="font-cocogooseSemiLight text-subTitle">{titulo}</p>
+    <p class="font-cocogooseSemiLight text-subTitle2 underline">Editar</p>
+</div>
