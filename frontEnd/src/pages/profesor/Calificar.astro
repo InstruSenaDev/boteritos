@@ -6,10 +6,32 @@ import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
 <LayoutGeneral>
   <div class= "px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl ">
+    <div >Aquí va el buscador</div>
+    <header class="flex p-5 gap-7 border-b-2 border-b-placeholderBlue justify-between">
+      <div class="font-paragraph font-cocogooseLight text-darkBlue bg-red-400 w-12 max-w-12 flex-auto"><p>NO°</p></div>
+  
+      <div class="font-paragraph font-cocogooseLight text-darkBlue bg-red-800 w-full max-w-md flex-auto"><p>Nombre del logro</p></div>
+  
+      <div class="font-paragraph font-cocogooseLight text-darkBlue bg-red-400 w-full max-w-40 flex-auto"> <p>componente de fecha</p></div>
+  
+      <div class="flex justify-around bg-red-300 w-full max-w-[250px] flex-auto">
+        <div class="font-paragraph font-cocogooseLight text-darkBlue bg-amber-300 w-full max-w-5"><p>LA</p></div>
+  
+        <div class="font-paragraph font-cocogooseLight text-darkBlue bg-amber-400 w-full max-w-5"><p>LP</p></div>
+  
+        <div class="font-paragraph font-cocogooseLight text-darkBlue bg-amber-500 w-full max-w-5"><p>LN</p></div>
+      </div>
+    </header>
     <CalificarEstudiante 
     date="01-23"
     number="01"
     text="Posee normas que le ayudan a comunicarse">
     </CalificarEstudiante>
+    <CalificarEstudiante 
+    date="01-23"
+    number="01"
+    text="Posee normas que le ayudan a comunicarse">
+    </CalificarEstudiante>
+    
   </div>
 </LayoutGeneral>
