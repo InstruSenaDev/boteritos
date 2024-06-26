@@ -8,25 +8,24 @@ interface Props{
 const {number, date,text} = Astro.props;
 ---
 
-<div class="">
+
   
   <div class="flex p-5 gap-7  border-b-2 border-b-placeholderBlue justify-between">
-    <div class="font-paragraph2 font-cocogooseLight text-black bg-red-400 w-12 max-w-12 flex-auto"><p>{number}</p></div>
+    <div class="font-paragraph2 font-cocogooseLight text-black  w-12 max-w-12 flex-auto"><p>{number}</p></div>
 
-    <div class="font-paragraph2 font-cocogooseLight text-black bg-amber-500 w-full max-w-md flex-auto"><p>{text}</p></div>
+    <div class="font-paragraph2 font-cocogooseLight text-black  w-full max-w-md flex-auto"><p>{text}</p></div>
 
-    <div class="font-paragraph2 font-cocogooseLight text-black bg-amber-300 w-full max-w-40 flex-auto"><p>{date}</p></div>
+    <div class="font-paragraph2 font-cocogooseLight text-black  w-full max-w-40 flex-auto underline"><p>{date}</p></div>
 
-      <div class="flex justify-around bg-red-400 w-full max-w-[250px] flex-auto">
+      <div class="flex justify-around w-full max-w-[250px] flex-auto">
 
-        <div class="bg-amber-300 w-full max-w-5 flex justify-center items-center"><input type="checkbox"></div> 
+        <div class=" w-full max-w-5 flex justify-center items-center"><input type="checkbox" class="w-4 h-4 "></div> 
 
-        <div class="bg-amber-400 w-full max-w-5 flex justify-center items-center"><input type="checkbox"></div> 
+        <div class=" w-full max-w-5 flex justify-center items-center"><input type="checkbox" class="w-4 h-4"></div> 
 
-        <div class="bg-amber-500 w-full max-w-5 flex justify-center items-center"><input type="checkbox"></div> 
+        <div class=" w-full max-w-5 flex justify-center items-center"> <input type="checkbox" class="w-4 h-4"></div> 
 
       </div>
 
   </div>
 
-</div>

@@ -9,7 +9,7 @@ const {title} = Astro.props;
 ---
 
 
-<Layout title="">
+<Layout title={title}>
     <Sidebar />
         <div class="flex px-10 py-5 w-full">
             <slot />
