@@ -1,10 +1,14 @@
 ---
+import HeaderData from "../../components/tables/headerData/HeaderData";
 import TableStudents from "../../components/tables/tableStudents";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
 ---
 
 <LayoutGeneral title="Estudiantes">
-    
-    <TableStudents texto="Hola" />
+    <main>
+        <HeaderData />
+        <p class="text-subTitle font-cocogooseSemiLight text-darkBlue">LISTA DE ESTUDIANTES</p>
+        <TableStudents texto="Hola" />
+    </main>
 </LayoutGeneral>

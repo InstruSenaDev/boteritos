@@ -10,7 +10,10 @@ const { title } = Astro.props;
 
 <Layout title={title}>
   <Sidebar />
-  <div class="flex px-10 py-5 w-full">
-    <slot />
+  <div class="w-full">
+    <header class="w-full h-[100px] bg-white">TEXTO</header>
+    <div class="px-10 py-5 w-full">
+        <slot />
+    </div>
   </div>
 </Layout>

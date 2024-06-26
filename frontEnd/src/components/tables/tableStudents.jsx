@@ -28,6 +28,16 @@ export default function TableStudents({texto}){
                     <DataState texto={"Incompleto"} />
                     <p>No calificado</p>
                     <p class="justify-self-center">Iconos</p>
+
+                </div>
+                <div class="grid grid-cols-7 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
+
+                    <p>01</p>
+                    <p class="col-span-2 underline">Briand David Marín Hernandéz</p>
+                    <p>Diagnostico</p>
+                    <DataState texto={"Incompleto"} />
+                    <p>No calificado</p>
+                    <p class="justify-self-center">Iconos</p>
                     
                 </div>
             </main>
