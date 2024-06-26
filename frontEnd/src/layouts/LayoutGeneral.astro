@@ -2,12 +2,16 @@
 import Sidebar from '../components/sidebar/Sidebar.astro';
 import Layout from './Layout.astro';
 
+interface props {
+title:string;
+}
+const {title} = Astro.props;
 ---
 
 
-<Layout title="Perfil">
+<Layout title="">
     <Sidebar />
-        <div class="flex px-10 py-5">
+        <div class="flex px-10 py-5 w-full">
             <slot />
         </div>
 </Layout>
