@@ -2,12 +2,12 @@
 import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import GrupoDatos from "../../components/datosEstudiante/GrupoDatos.astro";
-import Dato from "../../components/datosEstudiante/Dato.astro";
+
 ---
 
 <LayoutGeneral>
   <div class="w-full space-y-7">
-    <div class="  flex flex-wrap justify-between">
+    <div class="flex flex-wrap justify-between   ">
       <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
       <DatoElemento icon={"fa-solid fa-user-group"} texto={"Responsable(s)"}/>
       <DatoElemento icon={"fa-solid fa-hospital"} texto={"Condicion medica"}/>
@@ -16,7 +16,7 @@ import Dato from "../../components/datosEstudiante/Dato.astro";
     </div>
     <div class="w-full h-0 border-darkBlue border-2"></div>
     <div>
-      <GrupoDatos titulo={"Datos personales"}/>
+      <GrupoDatos titulo={"Datos personales"} tituloDato={"Nombre"} dato={"Brian David Marin"}/>
 
     </div>
   </div>
