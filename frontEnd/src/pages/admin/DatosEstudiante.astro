@@ -1,0 +1,26 @@
+---
+import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import GrupoDatos from "../../components/datosEstudiante/GrupoDatos.astro";
+import Dato from "../../components/datosEstudiante/Dato.astro";
+---
+
+<LayoutGeneral>
+  <div class="w-full space-y-7">
+    <div class="  flex flex-wrap justify-between">
+      <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
+      <DatoElemento icon={"fa-solid fa-user-group"} texto={"Responsable(s)"}/>
+      <DatoElemento icon={"fa-solid fa-hospital"} texto={"Condicion medica"}/>
+      <DatoElemento icon={"fa-solid fa-address-card"} texto={"Historia clinica"}/>
+      <DatoElemento icon={"fa-solid fa-user"} texto={"Informes"}/>
+    </div>
+    <div class="w-full h-0 border-darkBlue border-2"></div>
+    <div>
+      <GrupoDatos titulo={"Datos personales"}/>
+
+    </div>
+  </div>
+  
+  
+
+</LayoutGeneral>
