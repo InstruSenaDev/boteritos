@@ -1,21 +1,21 @@
 @font-face {
     font-family: 'Cocogoose-Regular';
-    src: url('./public/fonts/Zetafonts\ -\ CocogoosePro-Regular.otf') format('truetype');
+    src: url('./public/fonts/CocogoosePro-Regular.otf') format('truetype');
 }
 
 @font-face {
     font-family: 'Cocogoose-Light';
-    src: url('./public/fonts/Zetafonts\ -\ CocogoosePro-Light.otf') format('truetype');
+    src: url('./public/fonts/CocogoosePro-Light.otf') format('truetype');
 }
 
 @font-face {
     font-family: 'Cocogoose-SemiLight';
-    src: url('./public/fonts/Zetafonts\ -\ CocogoosePro-SemiLight.otf') format('truetype');
+    src: url('./public/fonts/CocogoosePro-SemiLight.otf') format('truetype');
 }
 
 @font-face {
     font-family: 'Cocogoose-UltraLight';
-    src: url('./public/fonts/Zetafonts\ -\ CocogoosePro-UltraLight.otf') format('truetype');
+    src: url('./public/fonts/CocogoosePro-UltraLight.otf') format('truetype');
 }
 
 @tailwind base;

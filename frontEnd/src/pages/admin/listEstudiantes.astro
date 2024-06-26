@@ -1,9 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import TableStudents from "../../components/tables/TableStudents.jsx";
+import TableStudents from "../../components/tables/tableStudents";
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+
 ---
 
-<Layout title="Estudiantes">
-    <h1>Aqui va la lista de estudiantes</h1>
+<LayoutGeneral title="Estudiantes">
+    
     <TableStudents texto="Hola" />
-</Layout>
+</LayoutGeneral>
