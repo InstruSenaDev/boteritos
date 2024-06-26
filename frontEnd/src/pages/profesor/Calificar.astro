@@ -1,0 +1,73 @@
+---
+import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
+import CalificarEstudiante from "../../components/qualify/CalificarEstudiante.astro";
+import Buscador from "../../components/search/Buscador.astro";
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+
+---
+
+<LayoutGeneral title="Calificar">
+  <div class="flex flex-col w-full gap-y-10">
+    <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
+    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
+    
+      <div class="w-full flex flex-row items-start"><Buscador/></div>
+      <header class="flex p-5 gap-7 border-b-2 border-b-placeholderBlue justify-between">
+        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-12 max-w-12 flex-auto"><p>NO°</p></div>
+    
+        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-md flex-auto"><p>Nombre del logro</p></div>
+    
+        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-40 flex-auto"> <p>Fecha</p></div>
+    
+        <div class="flex justify-around  w-full max-w-[250px] flex-auto">
+          <div class="font-paragraph font-cocogooseLight text-darkBlue w-full max-w-5"><p>LP</p></div>
+    
+          <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-5"><p>LA</p></div>
+    
+          <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-5"><p>LN</p></div>
+          
+        </div>
+      </header>
+
+      <CalificarEstudiante 
+      date="01-23"
+      number="01"
+      text="Posee normas que le ayudan a comunicarse">
+      </CalificarEstudiante>
+
+      <CalificarEstudiante 
+      date="01-23"
+      number="02"
+      text="Posee normas que le ayudan a comunicarse">
+      </CalificarEstudiante>
+
+      <CalificarEstudiante 
+      date="01-23"
+      number="03"
+      text="Posee normas que le ayudan a comunicarse">
+    </CalificarEstudiante>
+
+    <CalificarEstudiante 
+    date="01-23"
+    number="04"
+    text="Posee normas que le ayudan a comunicarse">
+  </CalificarEstudiante>
+
+  <CalificarEstudiante 
+  date="01-23"
+  number="05"
+  text="Posee normas que le ayudan a comunicarse">
+  </CalificarEstudiante>
+
+    </div>
+
+    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
+      <CalificarEstudiante 
+      date="01-23"
+      number="01"
+      text="Posee normas que le ayudan a comunicarse">
+      </CalificarEstudiante>
+    </div>
+    
+  </div>
+</LayoutGeneral>

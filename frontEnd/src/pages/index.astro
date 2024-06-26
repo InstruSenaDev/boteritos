@@ -2,13 +2,18 @@
 import Layout from '../layouts/Layout.astro';
 import Login from './general/Login.astro';
 
-//const result = await fetch('https://api.spacexdata.com/v5/launches');
-//const data = await result.json();
+let i = 0;
 
-//console.log(data);
+const funcionPrueba = ()=>{
+    console.log(i);
+    i += i;
+}
 
 ---
 
 <Layout title="Boteritos">
-	<Login/>
+    <main class="p-12">
+        <button onclick=`${funcionPrueba}`>CLICK</button>
+        <p>i</p>
+    </main>
 </Layout>

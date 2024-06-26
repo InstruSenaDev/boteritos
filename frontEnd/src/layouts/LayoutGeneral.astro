@@ -1,13 +1,19 @@
 ---
-import Sidebar from '../components/sidebar/Sidebar.astro';
-import Layout from './Layout.astro';
+import Sidebar from "../components/sidebar/Sidebar.astro";
+import Layout from "./Layout.astro";
 
+interface props {
+  title: string;
+}
+const { title } = Astro.props;
 ---
 
-
-<Layout title="Perfil">
-    <Sidebar />
-        <div class="flex px-10 py-5 w-full">
-            <slot />
-        </div>
+<Layout title={title}>
+  <Sidebar />
+  <div class="w-full">
+    <header class="w-full h-[100px] bg-white">TEXTO</header>
+    <div class="px-10 py-5 w-full">
+        <slot />
+    </div>
+  </div>
 </Layout>

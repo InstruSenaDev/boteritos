@@ -1,8 +1,14 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
+import TableStudents from "../../components/tables/tableStudents";
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
 ---
 
-<Layout title="Estudiantes">
-    <h1>Aqui va la lista de estudiantes</h1>
-</Layout>
+<LayoutGeneral title="Estudiantes">
+    <main>
+        <HeaderData />
+        <p class="text-subTitle font-cocogooseSemiLight text-darkBlue">LISTA DE ESTUDIANTES</p>
+        <TableStudents texto="Hola" />
+    </main>
+</LayoutGeneral>

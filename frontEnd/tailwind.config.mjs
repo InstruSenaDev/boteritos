@@ -13,7 +13,13 @@ export default {
 				'backgroundWhite' : '#F0F4F9',
 				'white' : '#FFFFFF',
 				'placeholderBlue' : '#D6DEFA',
-				'gray' : '#B1B1B1'
+				'gray' : '#B1B1B1',
+				'greenFull' : '#1D8348',
+				'redFull' : '#E74C3C',
+				'yellowFull' : '#F5E960',
+				'greenOpaque' : '#1D834850',
+				'redOpaque' : '#E74C3C50',
+				'yellowOpaque' : '#F5E96050'
 			},
 			fontSize:{
 				'title' : '28px',
