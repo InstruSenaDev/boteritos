@@ -1,0 +1,15 @@
+---
+interface Props {
+    tituloDato: string,
+    dato?: string,
+    condicion?: string;
+}
+
+const {tituloDato, dato, condicion} = Astro.props
+---
+
+<div class=" flex gap-x-3">
+    <p class="font-cocogooseLight text-paragraph text-darkBlue">{tituloDato}:</p>
+    <p class="font-cocogooseLight text-paragraph2 flex-1">{dato}</p>
+</div>
+

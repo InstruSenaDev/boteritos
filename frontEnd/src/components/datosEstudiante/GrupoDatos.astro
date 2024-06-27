@@ -1,21 +1,22 @@
 ---
 interface Props {
     titulo?: string;
-    tituloDato?: string,  
-    dato?: string  
 }
 
-const {titulo, tituloDato, dato} = Astro.props;
+const {titulo} = Astro.props;
 ---
 
-<div class="w-full bg-white p-6 text-darkBlue rounded-xl flex flex-col">
-    <div class="flex justify-between">
+<div class="w-full bg-white p-6 rounded-xl flex flex-col gap-y-5">
+    <div class="flex justify-between text-darkBlue">
         <p class="font-cocogooseSemiLight text-subTitle">{titulo}</p>
         <p class="font-cocogooseSemiLight text-subTitle2 underline">Editar</p>
     </div>
-    
-    <div class="flex gap-x-3 max-w-[500px]">
-        <p class="font-cocogooseLight text-paragraph text-darkBlue">{tituloDato}:</p>
-        <p class="font-cocogooseLight text-paragraph">{dato}</p>
+    <div class="flex px-5 justify-between gap-x-5">
+        <div class="flex flex-col w-full gap-y-3">
+            <slot name="columnaD"/>
+        </div>
+        <div class="flex flex-col w-full gap-y-3">
+            <slot name="columnaI"/>
+        </div>
     </div>
 </div>
