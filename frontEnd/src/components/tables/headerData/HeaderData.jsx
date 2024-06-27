@@ -1,6 +1,6 @@
 const HeaderData = () => {
   return (
-    <div class="flex gap-3 text-black font-cocogooseLight">
+    <div class="flex gap-3 text-black font-cocogooseLight sm:flex-row flex-col">
       {/*IMAGEN DEL ESTUDIANTE*/}
       <div class="min-h-[130px] grow bg-white rounded-xl max-w-[100px] p-4">
         <img
