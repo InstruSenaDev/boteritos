@@ -1,6 +1,8 @@
 ---
+import Boton from "../../components/Boton.astro";
 import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
 import CalificarEstudiante from "../../components/qualify/CalificarEstudiante.astro";
+import Observacion from "../../components/qualify/Observacion.astro";
 import Buscador from "../../components/search/Buscador.astro";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
@@ -11,7 +13,8 @@ import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
     <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
     <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
     
-      <div class="w-full flex flex-row items-start"><Buscador/></div>
+      <div class="w-full flex flex-row items-start mb-5"><Buscador/></div>
+
       <header class="flex p-5 gap-7 border-b-2 border-b-placeholderBlue justify-between">
         <div class="font-paragraph font-cocogooseLight text-darkBlue  w-12 max-w-12 flex-auto"><p>NO°</p></div>
     
@@ -61,13 +64,25 @@ import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
     </div>
 
-    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
-      <CalificarEstudiante 
-      date="01-23"
-      number="01"
-      text="Posee normas que le ayudan a comunicarse">
-      </CalificarEstudiante>
+    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl gap-5">
+      
+      <Observacion title="Generar Automaticamente"/>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, aperiam repudiandae minima 
+        vitae eos ab a numquam voluptate minus unde quidem perferendis quod voluptates labore asperiores nisi 
+        repellat omnis! Nobis.
+      </p>
+    </div>
+
+    <div class="w full flex justify-end gap-x-3">
+      <Boton text="Guardar" type="white"/>
+
+      <Boton text="Enviar" type="blue" />
     </div>
     
+
+    
+    
   </div>
+ 
 </LayoutGeneral>
