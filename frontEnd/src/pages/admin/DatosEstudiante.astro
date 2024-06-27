@@ -4,11 +4,13 @@ import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import GrupoDatos from "../../components/datosEstudiante/GrupoDatos.astro";
 import Dato from "../../components/datosEstudiante/Dato.astro";
 import Boton from "../../components/Boton.astro";
-
+import HeaderData from "../../components/tables/headerData/HeaderData";
 ---
 
 <LayoutGeneral title = "Información" titleHeader = "Estudiantes">
+  
   <div class="w-full space-y-7">
+    <HeaderData/>
     <div class="flex flex-wrap justify-between gap-y-3  ">
       <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
       <DatoElemento icon={"fa-solid fa-user-group"} texto={"Responsable(s)"}/>
