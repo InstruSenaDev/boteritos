@@ -15,12 +15,12 @@ const {number, name, diagnostic, qualify, area} = Astro.props;
   <div class="flex p-5 gap-7  border-b-2 border-b-placeholderBlue justify-between">
     <div class="flex items-center font-paragraph2 font-cocogooseLight text-black  w-12 max-w-12 flex-auto"><p>{number}</p></div>
 
-    <div class="flex items-center font-paragraph2 font-cocogooseLight text-black  w-full max-w-[250px] flex-auto underline"><p>{name}</p></div>
+    <div class="flex items-center font-paragraph2 font-cocogooseLight text-black  w-full max-w-[300px] flex-auto underline"><p>{name}</p></div>
 
     <div class="flex items-center font-paragraph2 font-cocogooseLight text-black  w-full max-w-[150px] flex-auto"><p>{diagnostic}</p></div>
 
 
-    <div class:list={["font-paragraph2 font-cocogooseLight text-black flex flex-row w-full max-w-[160px] rounded-md p-1.5 gap-2.5",
+    <div class:list={["font-paragraph2 font-cocogooseLight text-black flex flex-row w-full max-w-[150px] rounded-md p-1.5 gap-2.5",
       {
         "bg-greenFull/50 text-greenFull":qualify==='Calificado',
         "bg-redFull/50 text-redFull":qualify==='No calificado'
