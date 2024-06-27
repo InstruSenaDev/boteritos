@@ -14,6 +14,7 @@ export default {
 				'white' : '#FFFFFF',
 				'placeholderBlue' : '#D6DEFA',
 				'gray' : '#B1B1B1',
+				'grayOpaque' : '#B1B1B150',
 				'greenFull' : '#1D8348',
 				'redFull' : '#E74C3C',
 				'yellowFull' : '#F5E960',
