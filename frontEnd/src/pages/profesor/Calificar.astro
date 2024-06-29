@@ -4,14 +4,18 @@ import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
 import CalificarEstudiante from "../../components/qualify/CalificarEstudiante.astro";
 import Observacion from "../../components/qualify/Observacion.astro";
 import Buscador from "../../components/search/Buscador.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import Dropdown from "../../components/forms/Input.astro";
+
 
 ---
 
 <LayoutGeneral title="Calificar">
   <div class="flex flex-col w-full gap-y-10">
-    <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
-    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
+    <HeaderData/>
+    <Dropdown texto="Tipo de documento" placeholder="Seleccione una opción" icon=""/>
+    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl w-full">
     
       <div class="w-full flex flex-row items-start mb-5"><Buscador/></div>
 
