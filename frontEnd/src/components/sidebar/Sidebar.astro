@@ -11,7 +11,7 @@ interface Props {
 const { img, nombre, profesion } = Astro.props;
 ---
 
-<div class="sidebar h-screen w-[100px] bg-white flex flex-col items-center flex-shrink-0 sticky top-0 transition-width duration-300 ease-in-out" id="sidebar">
+<div class="hidden sm:flex sidebar h-screen w-[100px] bg-white flex-col items-center flex-shrink-0 sticky top-0 transition-width duration-300 ease-in-out" id="sidebar">
     <div class="bg-darkBlue h-[100px] w-full flex items-center mb-6 relative justify-center">
       <div class="w-[60px] h-[60px] rounded-full bg-white">
         <img src="../../../public/img/perfil.png" alt="Easter egg" class="w-full h-full object-cover rounded-full">
