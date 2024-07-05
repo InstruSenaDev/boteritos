@@ -16,10 +16,6 @@ const { img, nombre, profesion } = Astro.props;
       <div class="w-[60px] h-[60px] rounded-full bg-white">
         <img src="../../../public/img/perfil.png" alt="Easter egg" class="w-full h-full object-cover rounded-full">
       </div>
-      <div class="ml-2 name-and-profession text-white">
-        <p class="font-cocogooseLight text-paragraph2">{nombre}</p>
-        <p class="font-cocogooseLight text-paragraph3">{profesion}</p>
-      </div>
       <div class="w-[24px] h-[24px] rounded-full bg-white text-sm flex justify-center items-center absolute right-[-12px] cursor-pointer" id="toggleButton">
         <i class="fa-solid fa-angle-right"></i>
       </div>
@@ -35,53 +31,4 @@ const { img, nombre, profesion } = Astro.props;
     </div>
   </div>
   
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const sidebar = document.getElementById('sidebar');
-      const toggleButton = document.getElementById('toggleButton');
-      let isExpanded = false;
   
-      toggleButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Evitar que el evento se propague al window
-        isExpanded = !isExpanded;
-        if (isExpanded) {
-          sidebar.classList.add('w-[300px]');
-          sidebar.classList.remove('w-[100px]');
-          toggleButton.querySelector('i').classList.remove('fa-angle-right');
-          toggleButton.querySelector('i').classList.add('fa-angle-left');
-        } else {
-          sidebar.classList.add('w-[100px]');
-          sidebar.classList.remove('w-[300px]');
-          toggleButton.querySelector('i').classList.remove('fa-angle-left');
-          toggleButton.querySelector('i').classList.add('fa-angle-right');
-        }
-        updateVisibility(); // Llama a la función para actualizar la visibilidad del nombre y profesión
-        document.querySelectorAll('.element-text').forEach(el => {
-          el.classList.toggle('hidden', !isExpanded);
-        });
-      });
-  
-      window.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && isExpanded) {
-          isExpanded = false;
-          sidebar.classList.add('w-[100px]');
-          sidebar.classList.remove('w-[300px]');
-          toggleButton.querySelector('i').classList.remove('fa-angle-left');
-          toggleButton.querySelector('i').classList.add('fa-angle-right');
-          updateVisibility(); // Llama a la función para actualizar la visibilidad del nombre y profesión
-          document.querySelectorAll('.element-text').forEach(el => {
-            el.classList.add('hidden');
-          });
-        }
-      });
-  
-      function updateVisibility() {
-        const nameAndProfession = document.querySelector('.name-and-profession');
-        if (isExpanded) {
-          nameAndProfession.classList.remove('hidden');
-        } else {
-          nameAndProfession.classList.add('hidden');
-        }
-      }
-    });
-  </script>
