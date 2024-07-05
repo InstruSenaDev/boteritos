@@ -11,12 +11,9 @@ const {titulo} = Astro.props;
         <p class="font-cocogooseSemiLight text-subTitle">{titulo}</p>
         <p class="font-cocogooseSemiLight text-subTitle2 underline">Editar</p>
     </div>
-    <div class="flex flex-col xl:flex-row px-5 justify-between gap-y-3">
+    <div class="flex px-5 justify-between gap-x-5">
         <div class="flex flex-col w-full gap-y-3">
-            <slot name="columnaD"/>
-        </div>
-        <div class="flex flex-col w-full gap-y-3">
-            <slot name="columnaI"/>
+            <slot />
         </div>
     </div>
 </div>

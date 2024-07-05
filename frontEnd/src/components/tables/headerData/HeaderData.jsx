@@ -1,6 +1,6 @@
 const HeaderData = () => {
   return (
-    <div class="flex gap-3 text-black font-cocogooseLight">
+    <div class="flex gap-3 text-black font-cocogooseLight flex-wrap">
       {/*IMAGEN DEL ESTUDIANTE*/}
       <div class="min-h-[130px] grow bg-white rounded-xl max-w-[100px] p-4">
         <img
@@ -15,6 +15,7 @@ const HeaderData = () => {
         <p class="text-paragraph text-darkBlue">Nombre del estudiante</p>
         <p class="text-paragraph2">Identificacion</p>
         <p class="text-paragraph2">XX años</p>
+
         {/* PARA LOS ICONOS, SE HARÁ UN COMPONENTE */}
         <div class="flex gap-3">
           <div class="w-[15px] h-[15px] bg-grayOpaque flex justify-center items-center rounded">
