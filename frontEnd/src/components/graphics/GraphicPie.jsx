@@ -1,26 +1,18 @@
 import { DonutChart, Legend } from '@tremor/react';
 
-const sales = [
+const logros = [
   {
-    name: 'New York',
-    sales: 980,
+    name: 'LA',
+    value: 4,
   },
   {
-    name: 'London',
-    sales: 456,
+    name: 'LP',
+    value: 2,
   },
   {
-    name: 'Hong Kong',
-    sales: 390,
-  },
-  {
-    name: 'San Francisco',
-    sales: 240,
-  },
-  {
-    name: 'Singapore',
-    sales: 190,
-  },
+    name: 'LN',
+    value: 1,
+  }
 ];
 
 const valueFormatter = (number) =>
@@ -29,19 +21,18 @@ const valueFormatter = (number) =>
 export default function DonutChartUsageExample() {
   return (
     <>
-      <div className="flex items-center justify-center space-x-6">
+      <div className="h-full flex items-center justify-center space-x-3">
         <DonutChart
-          data={sales}
-          category="sales"
+          data={logros}
+          category="value"
           index="name"
-          valueFormatter={valueFormatter}
-          colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
-          className="w-40"
+          colors={['green', 'yellow', 'red']}
+          className="w-20 h-20 z-50"
         />
         <Legend
-          categories={['New York', 'London', 'Hong Kong', 'San Francisco', 'Singapore']}
-          colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
-          className="max-w-xs"
+          categories={['Alcanzado', 'En proceso', 'No alcanzado']}
+          colors={['green', 'yellow', 'red']}
+          className="max-w-36 z-10"
         />
       </div>
     </>

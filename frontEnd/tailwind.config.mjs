@@ -1,11 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors';
 
+
 export default {
 	content: [
 		'./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}', 
 		"./node_modules/@tremor/**/*.{js,ts,jsx,tsx}"
 	],
+	
 	theme: {
 		extend: {
 			colors:{
@@ -56,35 +58,7 @@ export default {
 					},
 				},
 				// dark mode
-				'dark-tremor': {
-					brand: {
-						faint: '#0B1229',
-						muted: colors.blue[950],
-						subtle: colors.blue[800],
-						DEFAULT: colors.blue[500],
-						emphasis: colors.blue[400],
-						inverted: colors.blue[950],
-					},
-					background: {
-						muted: '#131A2B',
-						subtle: colors.gray[800],
-						DEFAULT: colors.gray[900],
-						emphasis: colors.gray[300],
-					},
-					border: {
-						DEFAULT: colors.gray[800],
-					},
-					ring: {
-						DEFAULT: colors.gray[800],
-					},
-					content: {
-						subtle: colors.gray[600],
-						DEFAULT: colors.gray[500],
-						emphasis: colors.gray[200],
-						strong: colors.gray[50],
-						inverted: colors.gray[950],
-					},
-				},
+				'dark-tremor': 'class'
 			},
 			boxShadow: {
 				// light
@@ -122,36 +96,37 @@ export default {
 				cocogooseSemiLight : ['Cocogoose-SemiLight', 'sans-serif'],
 				cocogooseLight: ['Cocogoose-Light', 'sans-serif'],
 				cocogooseUltraLight: ['Cocogoose-UltraLight', 'sans-serif']
-			}
+			},
+			
 		}
 	},
 	safelist: [
 		{
 		  pattern:
-			/^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(bg-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		  variants: ['hover', 'ui-selected'],
 		},
 		{
 		  pattern:
-			/^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(text-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		  variants: ['hover', 'ui-selected'],
 		},
 		{
 		  pattern:
-			/^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(border-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		  variants: ['hover', 'ui-selected'],
 		},
 		{
 		  pattern:
-			/^(ring-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(ring-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 		{
 		  pattern:
-			/^(stroke-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(stroke-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 		{
 		  pattern:
-			/^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			/^(fill-(?:slate|gray|greenFull|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
 		},
 	  ],
 	plugins: [],

@@ -1,5 +1,4 @@
-
-
+import GraphicPie from "../../../components/graphics/GraphicPie"
 
 const HeaderData = () => {
   return (
@@ -52,7 +51,7 @@ const HeaderData = () => {
 
       {/* ESTADISTICAS */}
       <div className="min-h-[130px] grow bg-white rounded-xl p-4">
-        Aqui iria la gran grafica
+        <GraphicPie />
       </div>
 
       {/*BOTON VER */}
