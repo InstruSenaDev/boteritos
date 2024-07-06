@@ -1,23 +1,32 @@
 ---
+import Boton from "../../components/Boton.astro";
 import DatoElemento from "../../components/datosEstudiante/DatoElemento.astro";
 import CalificarEstudiante from "../../components/qualify/CalificarEstudiante.astro";
+import Observacion from "../../components/qualify/Observacion.astro";
 import Buscador from "../../components/search/Buscador.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import ModalForm from "../../components/modales/ModalForm.astro";
+import Input from "../../components/forms/Input.astro";
+
 
 ---
 
 <LayoutGeneral title="Calificar">
-  <div class="flex flex-col w-full gap-y-10">
-    <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"}/>
-    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
+  <div class="flex flex-col w-full gap-y-10"> 
+    <HeaderData/>
+    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl w-full">
     
-      <div class="w-full flex flex-row items-start"><Buscador/></div>
+      <div class="w-full flex flex-row items-start mb-5">
+        <Buscador/>
+      </div>
+
       <header class="flex p-5 gap-7 border-b-2 border-b-placeholderBlue justify-between">
-        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-12 max-w-12 flex-auto"><p>NO°</p></div>
+        <div class="font-paragraph font-cocogooseLight text-darkBlue w-12 max-w-12 flex-auto"><p>NO°</p></div>
     
-        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-md flex-auto"><p>Nombre del logro</p></div>
+        <div class="font-paragraph font-cocogooseLight text-darkBlue w-full max-w-md flex-auto"><p>Nombre del logro</p></div>
     
-        <div class="font-paragraph font-cocogooseLight text-darkBlue  w-full max-w-40 flex-auto"> <p>Fecha</p></div>
+        <div class="font-paragraph font-cocogooseLight text-darkBlue w-full max-w-40 flex-auto"> <p>Fecha</p></div>
     
         <div class="flex justify-around  w-full max-w-[250px] flex-auto">
           <div class="font-paragraph font-cocogooseLight text-darkBlue w-full max-w-5"><p>LP</p></div>
@@ -61,13 +70,23 @@ import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 
     </div>
 
-    <div class= "px-7 py-4 sm:flex sm:flex-col sm:px-24 sm:py-16 bg-white rounded-xl ">
-      <CalificarEstudiante 
-      date="01-23"
-      number="01"
-      text="Posee normas que le ayudan a comunicarse">
-      </CalificarEstudiante>
+ 
+
+    <div class="w full flex justify-end gap-x-3">
+      <Boton text="Guardar" type="white"/>
+
+      <Boton text="Enviar" type="blue" />
     </div>
     
+
+    
+    
   </div>
+ <ModalForm>
+   <Input texto="diagnostico" placeholder="Ingresa el diagnostico" icon="" slot="inputs"/>
+   <Input texto="restrinciones" placeholder="Ingresa las restrinciones" icon="" slot="inputs"/>
+   <Input texto="Medicamentos" placeholder="Ingresa los medicamentos" icon="" slot="inputs"/>
+   <Boton text="cerrar" type="white" slot="boton"/>
+ </ModalForm>
+
 </LayoutGeneral>

@@ -20,7 +20,8 @@ export default {
 				'yellowFull' : '#F5E960',
 				'greenOpaque' : '#1D834850',
 				'redOpaque' : '#E74C3C50',
-				'yellowOpaque' : '#F5E96050'
+				'yellowOpaque' : '#F5E96050',
+				'hoverBlue': '#0F407B'
 			},
 			fontSize:{
 				'title' : '28px',
