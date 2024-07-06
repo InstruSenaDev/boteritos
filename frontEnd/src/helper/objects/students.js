@@ -12,6 +12,18 @@ export const objStudents = [
       "telefono": "3101234567"
     },
     {
+      "nombre": "Briand",
+      "apellido": "Marín",
+      "numeroDocumento": "1126588201",
+      "diagnosticoMental": "Esquizofrenia",
+      "edad": 18,
+      "datos": true,
+      "calificado": false,
+      "nombrePadre": "Indefinido",
+      "nombreMadre": "Graciela Hernandéz",
+      "telefono": "3235287523"
+    },
+    {
       "nombre": "María",
       "apellido": "García",
       "numeroDocumento": "2345678901",

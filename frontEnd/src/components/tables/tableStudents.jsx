@@ -16,15 +16,15 @@ export default function TableStudents() {
             <input type="text" class="" />
             </div>
         </header>
-        {/* HEADER TABLA */}
+        
         {/* grid-cols-[200px_minmax(900px,_1fr)_100px] 
             grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px]
             50px minmax(300px, 1fr) minmax(250px, 1fr) repeat(2, minmax(100px, 1fr)) 60px;
         grid-template-columns: repeat(7, minmax(0, 1fr));
         */}
         <section class="max-h-[80vh] overflow-y-scroll">
-
-            <div class="sticky top-0 bg-white grid grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
+            {/* HEADER TABLA */}
+            <div class="sticky top-0 bg-white sm:grid grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
             <p>No°</p>
             <p>Nombre</p>
             <p>Diagnóstico</p>
@@ -35,13 +35,17 @@ export default function TableStudents() {
             {/*CUERPO DE LA TABLA */}
 
             {objStudents.map((data, index) => (
-            <div class="grid grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
-                <p>{index.toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
+              
+                <p>{(index + 1).toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
                 <p class="underline">{`${data.nombre}  ${data.apellido}`}</p>
                 <p>{data.diagnosticoMental}</p>
                 <DataState state={data.datos} />
                 <DataState state={data.calificado} />
-                <p class="justify-self-center">Iconos</p>
+                <div class="justify-self-center flex gap-3">
+                  <i class="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"></i>
+                  <i class="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
+                </div>
             </div>
             ))}
         </section>
