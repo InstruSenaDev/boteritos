@@ -1,22 +1,49 @@
-import React from "preact/compat";
+import { DonutChart, Legend } from '@tremor/react';
 
-import { VictoryPie } from "victory";
+const sales = [
+  {
+    name: 'New York',
+    sales: 980,
+  },
+  {
+    name: 'London',
+    sales: 456,
+  },
+  {
+    name: 'Hong Kong',
+    sales: 390,
+  },
+  {
+    name: 'San Francisco',
+    sales: 240,
+  },
+  {
+    name: 'Singapore',
+    sales: 190,
+  },
+];
 
-const dataLogros = [{ x: "LP", y: "4" }, { x: "LA", y: "5" }, { x: "LN", y: "2" }];
+const valueFormatter = (number) =>
+  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
 
-const GraphicPie = () => {
+export default function DonutChartUsageExample() {
   return (
     <>
-      <VictoryPie
-        data={[
-          { x: "Cats", y: 35 },
-          { x: "Dogs", y: 40 },
-          { x: "Birds", y: 55 }
-        ]}
-      />
-
+      <div className="flex items-center justify-center space-x-6">
+        <DonutChart
+          data={sales}
+          category="sales"
+          index="name"
+          valueFormatter={valueFormatter}
+          colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
+          className="w-40"
+        />
+        <Legend
+          categories={['New York', 'London', 'Hong Kong', 'San Francisco', 'Singapore']}
+          colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
+          className="max-w-xs"
+        />
+      </div>
     </>
   );
 }
-
-export default GraphicPie;
