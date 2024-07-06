@@ -4,11 +4,9 @@ import Elemento from "./Elemento.astro";
 
 interface Props {
   img?: string,
-  nombre?: string,
-  profesion?: string;
 }
 
-const { img, nombre, profesion } = Astro.props;
+const { img } = Astro.props;
 ---
 
 <div class="hidden sm:flex sidebar h-screen w-[100px] bg-white flex-col items-center flex-shrink-0 sticky top-0">

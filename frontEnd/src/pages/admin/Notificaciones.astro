@@ -1,12 +1,17 @@
 ---
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import HeaderData from "../../components/tables/headerData/HeaderData";
+import Notificacion from "../../components/notificaciones/Notificacion.astro";
+
 ---
 
 <LayoutGeneral title = "Notificaciones" titleHeader = "Notificaciones">
      
-    <div class="flex  flex-col w-full bg-white">
-         <p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+    <div class="flex flex-col w-full bg-white px-10 rounded-xl divide-y-2">
+      
+        <Notificacion img={"../../../public/img/perfil.png"} nombre={"Brian David Marin"} area={"Socio - Afectiva"} hora={"2"}/>
+        <Notificacion img={"../../../public/img/perfil.png"} nombre={"Brian David Marin"} area={"Socio - Afectiva"} hora={"2"}/>
+        <Notificacion img={"../../../public/img/perfil.png"} nombre={"Brian David Marin"} area={"Socio - Afectiva"} hora={"2"}/>
     </div>
         
 </LayoutGeneral>
