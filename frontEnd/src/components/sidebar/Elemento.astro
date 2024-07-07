@@ -1,4 +1,5 @@
 ---
+
 interface Props {
   icon: string;
   texto: string;
@@ -6,11 +7,10 @@ interface Props {
 
 const { icon, texto } = Astro.props;
 ---
-
-<div class="w-full flex items-center gap-x-2 rounded-3xl text-gray hover:bg-darkBlue hover:text-white ease-in duration-100">
-  <div class="w-[60px] h-[44px]  flex justify-center items-center">
+<div class="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white ease-in duration-100">
+  <div class="w-[60px] h-[44px] flex justify-center items-center">
     <i class={`text-xl ${icon}`}></i>
   </div>
-  <span class="element-text hidden whitespace-nowrap">{texto}</span>
+  <span class="font-cocogooseLight text-paragraph2 text-content transition-opacity duration-300">{texto}</span>
 </div>
  
