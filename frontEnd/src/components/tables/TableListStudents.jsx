@@ -1,6 +1,6 @@
 import DataState from "./dataStates/DataState";
 import { objStudentsTeacher } from "../../helper/objects/studentsTeacher";
-import Buscador from "../search/Buscador.astro";
+import Buscador from "../search/Buscador";
 
 export default function TableListStudents() {
   return (
