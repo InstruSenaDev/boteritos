@@ -16,8 +16,8 @@ export default function TableListaLogros(){
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Fecha</p>
-            <p>estado</p>
-            <p>tipo</p>
+            <p>Estado</p>
+            <p>Tipo</p>
             
 
           </div>
