@@ -1,12 +1,16 @@
 ---
-interface Props{
-    icon : string;
+
+interface Props {
+  icon: string;
+  texto: string;
 }
 
-const {icon} = Astro.props;
+const { icon, texto } = Astro.props;
 ---
-
-<div class="w-[60px] h-[44px]  text-gray hover:bg-darkBlue hover:text-white ease-in duration-100 flex justify-center items-center rounded-3xl">
-    <i class=`text-xl ${icon}`></i>
+<div class="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white ease-in duration-100">
+  <div class="w-[60px] h-[44px] flex justify-center items-center">
+    <i class={`text-xl ${icon}`}></i>
+  </div>
+  <span class="font-cocogooseLight text-paragraph2 text-content hidden transition-opacity duration-300">{texto}</span>
 </div>
  

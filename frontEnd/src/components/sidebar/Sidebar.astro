@@ -1,34 +1,63 @@
 ---
-import type { ImageFunction } from "astro:content";
-import  Elemento  from "./Elemento.astro";
-
+import type { string } from "astro/zod";
+import Elemento from "./Elemento.astro";
+import {sidebarsection} from "../../helper/objects/sidebarElementsArray";
 
 interface Props {
-    img?: string
+  img?: string,
+  name?: string,
+  profession?: string;
 }
 
-const {img} = Astro.props;
+const { img, name, profession } = Astro.props;
+
+
+
 ---
+<div class="hidden sm:flex w-[95px] h-screen sticky top-0">
 
-<div class="h-screen w-[100px] bg-white flex flex-col items-center flex-shrink-0 sticky top-0">
-    <div class=" bg-darkBlue h-[100px] w-full flex  items-center mb-6 relative justify-center">
-        <div class="w-[60px] h-[60px] rounded-full bg-white">
-            <img src="../../../public/img/perfil.png" alt="Easter egg" class="w-full h-full object-cover rounded-full">
-        </div>
-        <div class="w-[24px] h-[24px] rounded-full bg-white text-sm flex justify-center items-center absolute right-[-12px]">
-            <i class="fa-solid fa-angle-right"></i>
-        </div>
+<div class=" absolute  sidebar h-screen bg-white flex-col items-center flex-shrink-0  transition-all duration-300 w-[95px]" id="sidebar">
+  <div class="bg-darkBlue px-5 h-[100px] w-full flex items-center mb-6 relative justify-center text-white transition-all duration-300">
+    <div class="w-[60px] min-w-[60px] h-[60px] rounded-full bg-white flex items-center justify-center">
+      <img src={img || ""} alt="Easter egg" class="w-full h-full object-cover rounded-full">
     </div>
-    <div class="w-[60px] flex flex-col items-center gap-y-4">
-        <Elemento icon={"fa-solid fa-user"} />
-        <Elemento icon={"fa-solid fa-users"} />
-        <Elemento icon={"fa-solid fa-trophy"} />
-        <Elemento icon={"fa-solid fa-lock"} />
-        <Elemento icon={"fa-solid fa-user-plus"} />
-        <div class="w-full  border-darkBlue border-[1px]"></div>
-        <Elemento icon={"fa-solid fa-arrow-right-from-bracket"} />
+    <div class="font-cocogooseLight text-content hidden ml-2">
+      <p class="text-paragraph2">{name}</p>
+      <p class="text-paragraph3">{profession}</p>
     </div>
+    <div class="w-[24px] h-[24px] rounded-full bg-white text-sm text-black flex justify-center items-center absolute right-[-12px] cursor-pointer" id="toggleButton">
+      <i class="fa-solid fa-angle-right"></i>
+    </div>
+  </div>
+  <div class="flex flex-col items-center gap-y-4 w-full px-4">
+    {sidebarsection.map((sidebarsections) => (
+      <Elemento icon={sidebarsections.icon} texto={sidebarsections.texto} />
+    ))}
+    <div class="w-full border-darkBlue border-[1px]"></div>
+    <Elemento icon="fa-solid fa-arrow-right-from-bracket" texto="Salir" />
+  </div>
 </div>
+<div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-10"></div>
+</div>
+  
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleButton = document.getElementById('toggleButton');
+    let isExpanded = false;
 
+    toggleButton.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      sidebar.classList.toggle('w-[300px]', isExpanded);
+      sidebar.classList.toggle('w-[95px]', !isExpanded);
+      toggleButton.querySelector('i').classList.toggle('fa-angle-right', !isExpanded);
+      toggleButton.querySelector('i').classList.toggle('fa-angle-left', isExpanded);
+      document.querySelectorAll('.text-content').forEach(el => {
+        el.classList.toggle('hidden', !isExpanded);
+        el.classList.toggle('block', isExpanded);
+      });
+    });
+  });
 
-
+  
+</script>

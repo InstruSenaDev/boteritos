@@ -1,0 +1,24 @@
+---
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
+import Notificacion from "../../components/notificaciones/Notificacion.astro";
+import Buscador from "../../components/search/Buscador;
+import {datosnoti} from "../../helper/objects/notificationArray";
+
+---
+
+<LayoutGeneral title = "Notificaciones" titleHeader = "Notificaciones">
+     
+    <div class="flex flex-col w-full bg-white sm:p-10 p-2 rounded-xl gap-y-3">
+      
+      <div class="divide-y divide-ligthBlue">
+        {datosnoti.map((datonoti) => (
+            <Notificacion img={datonoti.img} nombre={datonoti.nombre} area={datonoti.area} hora={datonoti.hora} />
+        )
+    
+    )}
+      </div>
+        
+    </div>
+        
+</LayoutGeneral>

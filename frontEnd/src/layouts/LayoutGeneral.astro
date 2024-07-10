@@ -1,18 +1,26 @@
 ---
 import Sidebar from "../components/sidebar/Sidebar.astro";
 import Layout from "./Layout.astro";
+import Header from "../components/header/header.astro";
+import {sidebardata} from "../helper/objects/sidebarDataArray";
 
 interface props {
-  title: string;
+  title: string,
+  titleHeader: string;
 }
-const { title } = Astro.props;
+const { title, titleHeader } = Astro.props;
+
 ---
 
 <Layout title={title}>
-  <Sidebar />
-  <div class="w-full">
-    <header class="w-full h-[100px] bg-white">TEXTO</header>
-    <div class="px-5 sm:px-10 py-5 w-full">
+  {sidebardata.map((data)=>(
+    <Sidebar name={data.name} profession={data.profession} img={data.img}/>
+  )
+  )}
+  
+  <div class=" w-full ">
+    <Header titulo={titleHeader}/>
+    <div class="px-5 sm:px-10 py-5 min-w-screen">
         <slot />
     </div>
   </div>
