@@ -1,17 +1,26 @@
 ---
 interface Props {
-    texto : string,
-    placeholder: string,
-    icon : string
+    value?: string,
+    text?: string;
 }
 
-const { texto, placeholder} = Astro.props;
+const {value, text} = Astro.props;
+
+const values = [
+    {"option":"Opcion 1"},
+    {"option":"Opcion 2"},
+    {"option":"Opcion 3"}
+]
 ---
 
-<div class="max-w-[400px] flex flex-col gap-2 text-xd w-full">
-    <label for="input" class="text-paragraph font-cocogooseLight text-black">{texto}</label>
-    <div class="relative w-full">
-        <input type="text" id="input" placeholder={placeholder} class="h-10 rounded-xl w-full px-5 pb-[5px] text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px]">
-        
-    </div>
+<div class="max-w-[400px] flex gap-2">
+    <form action="#" class="flex flex-col w-full">
+        <label for="" class="text-paragraph font-cocogooseLight text-black">{text}</label>
+        <select name="#">
+            {values.map((valueskey)=>(
+                <option value={valueskey.option}>{valueskey.option}</option>
+            )
+            )}
+        </select>
+    </form>
 </div>
