@@ -4,6 +4,7 @@ import CalificarEstudiante from "../../components/qualify/CalificarEstudiante.as
 import HeaderData from "../../components/tables/headerData/HeaderData";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import TableCalificarEstudiante from "../../components/tables/tableCalificarEstudiante"
+import Observacion from "../../components/qualify/Observacion.astro";
 
 ---
 
@@ -11,6 +12,10 @@ import TableCalificarEstudiante from "../../components/tables/tableCalificarEstu
   <main class="flex flex-col w-full gap-y-8"> 
     <HeaderData client:visible />
     <TableCalificarEstudiante/>
+
+    <div class="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
+      <Observacion title="Generar automaticamente" observacion="el estudiante cumple con todos los logros solicitados y es aplicado"/>
+    </div>
 
     <div class="w full flex justify-end gap-x-3">
       <Boton text="Guardar" type="white"/>
