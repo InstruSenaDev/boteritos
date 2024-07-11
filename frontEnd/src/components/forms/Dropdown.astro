@@ -1,10 +1,11 @@
 ---
 interface Props {
     value?: string,
-    text?: string;
+    text?: string,
+    placeholder?: string;
 }
 
-const {value, text} = Astro.props;
+const {value, text, placeholder} = Astro.props;
 
 const values = [
     {"option":"Opcion 1"},
@@ -13,14 +14,14 @@ const values = [
 ]
 ---
 
-<div class="max-w-[400px] flex gap-2">
-    <form action="#" class="flex flex-col w-full">
-        <label for="" class="text-paragraph font-cocogooseLight text-black">{text}</label>
-        <select name="#">
-            {values.map((valueskey)=>(
-                <option value={valueskey.option}>{valueskey.option}</option>
-            )
-            )}
+<div>
+    <form action="#" >
+        <label for="dropdown" class="text-paragraph font-cocogooseLight text-black">{text}</label>
+        <select name="dropdown" id="dropdown" class="flex px-4 w-full max-w-[400px] h-10 rounded-xl text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px]" >
+            <option value="" disabled selected>{placeholder}</option>
+            {values.map((valueskey) => (
+                <option value={valueskey.option} class="bg-darkBlue">{valueskey.option}</option>
+            ))}
         </select>
     </form>
 </div>
