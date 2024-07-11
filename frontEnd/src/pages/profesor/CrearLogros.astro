@@ -1,17 +1,12 @@
 ---
 import ListaLogros from "../../components/qualify/ListaLogros.astro";
 import Buscador from "../../components/search/Buscador";
+import TableListaLogros from "../../components/tables/tableListaLogros";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
-import Blanco from "../general/Blanco.astro";
-import TableListaLogros from "../../components/tables/tableListaLogros" ;
-
-
 ---
 
 <LayoutGeneral title="Logros">
-    
-  <main class="flex flex-col w-full gap-y-8"> 
-        <TableListaLogros/>
+  <main class="flex flex-col w-full gap-y-8">
+    <TableListaLogros />
   </main>
-    
-</Layout>
+</LayoutGeneral>
