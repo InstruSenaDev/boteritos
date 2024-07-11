@@ -6,14 +6,14 @@ import DatosHistoria from "../../components/datosEstudiante/DatosHistoria.astro"
 import Boton from "../../components/Boton.astro";
 import HeaderData from "../../components/tables/headerData/HeaderData";
 import GrupoDatoElemento from "../../components/datosEstudiante/GrupoDatoElemento.astro";
-import { DropdownB } from "../../components/forms/Dropdown";
+import { SelectHero } from "../../components/forms/Dropdown";
 import Input from "../../components/forms/Input.astro";
 ---
 
 <LayoutGeneral title = "Información" titleHeader = "Estudiantes">
   <div class="w-full space-y-7">
     <HeaderData client:visible/>
-    <DropdownB/>
+    <SelectHero  client:visible/>
     <Input
     texto="Numero de documento"
     placeholder="Ingresa tu documento"
