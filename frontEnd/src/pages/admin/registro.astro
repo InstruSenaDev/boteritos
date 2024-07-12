@@ -3,6 +3,7 @@ import { Dropdown } from "../../components/forms/Dropdown";
 import Input from "../../components/forms/Input.astro";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import Boton from "../../components/Boton.astro";
+import UploadFile from "../../components/forms/UploadFile.astro";
 ---
 
 <LayoutGeneral titleHeader="Registro de usuarios">
@@ -23,7 +24,7 @@ import Boton from "../../components/Boton.astro";
                     <Input texto={"Numero de documento"} placeholder={"Documento del usuario"}/>
                     <Input texto={"Comuna"} placeholder={"Comuna del usuario"}/>
                     <Dropdown name={"Sexo"}/>
-                   
+                    <UploadFile title={"Foto"}>
                 </div>
             </div>
             <div class="w-full flex justify-center">
