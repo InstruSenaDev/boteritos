@@ -1,20 +1,23 @@
 
 import { Select, SelectItem } from '@tremor/react';
+import { dataDropdown } from '../../helper/objects/dropdownArray';
 
-export function SelectHero() {
+export function Dropdown({name}) {
   return (
     <div className="max-w-[400px] flex flex-col gap-2 w-full">
       <div className="text-paragraph font-cocogooseLight text-black">
-        Select
+        {name}
       </div>
-      <div className='text-paragraph3 font-cocogooseLight'>
+      <div className='text-paragraph3 font-cocogooseLight  h-10' >
         <Select
-          defaultValue="1"
-          className=" rounded-lg w-full  border-darkBlue  border-[1.5px]"
+          defaultValue="4"
+          className=" w-full border-[1.5px] border-darkBlue rounded-xl focus:bg-darkBlue focus:text-white" 
         >
-          <SelectItem value="1">Option One</SelectItem>
-          <SelectItem value="2">Option Two</SelectItem>
-          <SelectItem value="3">Option Three</SelectItem>
+          <SelectItem value= "4">Selecciona una opción</SelectItem>
+          {dataDropdown.map((dropdownKey)=>(
+           <SelectItem className='cursor-pointer' value= {dropdownKey.value}>{dropdownKey.option}</SelectItem>
+          ))}
+          
         </Select>
       </div>
 
