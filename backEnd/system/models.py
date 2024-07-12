@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 
 # Create your models here.
@@ -80,7 +81,6 @@ class Logros(models.Model):
         managed = False
         db_table = 'logros'
 
-
 class Personas(models.Model):
     idpersona = models.AutoField(db_column='idPersona', primary_key=True)  # Field name made lowercase.
     nombre = models.TextField()
@@ -101,6 +101,9 @@ class Personas(models.Model):
     class Meta:
         managed = False
         db_table = 'personas'
+        
+    def __str__(self):
+        return self.nombre
 
 
 class Responsable(models.Model):
@@ -157,6 +160,9 @@ class Tipodocumento(models.Model):
     class Meta:
         managed = False
         db_table = 'tipodocumento'
+        
+    def __str__(self):
+        return self.tipodocumento
 
 
 class Tipoparentesco(models.Model):
