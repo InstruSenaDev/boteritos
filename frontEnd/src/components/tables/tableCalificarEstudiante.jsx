@@ -12,7 +12,7 @@ export default function TableCalificarEstudiante(){
       
         <section className="max-h-[80vh] overflow-y-scroll">
           {/*HEADER TABLA*/}
-          <div className="sticky top-0 bg-white sm:grid grid-cols-[50px_minmax(550px,_1fr)_minmax(150px,_1fr)_minmax(250px,_1fr)] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+          <div className="sticky top-0  bg-white sm:flex sm:justify-between lg:grid lg:grid-cols-[50px_minmax(550px,_1fr)_minmax(150px,_1fr)_minmax(250px,_1fr)] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Fecha</p>
@@ -27,10 +27,11 @@ export default function TableCalificarEstudiante(){
 
           {/*CUERPO DE LA TABLA */}
           {ObjLogros.map((data,index)=>(
-            <div className="grid grid-cols-1 sm:grid-cols-[50px_minmax(550px,_1fr)_minmax(150px,_1fr)_minmax(250px,_1fr)] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
+            <div className="sm:flex sm:justify-between lg:grid grid-cols-1 lg:grid-cols-[50px_minmax(550px,_1fr)_minmax(150px,_1fr)_minmax(250px,_1fr)] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
                 
               <p>{(index + 1).toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
               <p>{`${data.achievement}`}</p>
+              
               <p>{`${data.date}`}</p>
 
               <div class="flex justify-around w-full max-w-[250px] flex-auto">

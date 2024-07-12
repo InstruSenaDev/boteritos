@@ -23,7 +23,7 @@ export default function TableStudents() {
         */}
         <section className="max-h-[80vh] overflow-y-scroll">
             {/* HEADER TABLA */}
-            <div className="sticky top-0 bg-white sm:grid grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+            <div className="sticky top-0 bg-white sm:flex sm:justify-between lg:grid grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
             <p>No°</p>
             <p>Nombre</p>
             <p>Diagnóstico</p>
@@ -34,7 +34,7 @@ export default function TableStudents() {
             {/*CUERPO DE LA TABLA */}
 
             {objStudents.map((data, index) => (
-            <div className="grid grid-cols-1 sm:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
+            <div className="grid grid-cols-1 sm:flex sm:justify-between lg:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
               
                 <p>{(index + 1).toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
                 <p className="underline">{`${data.nombre}  ${data.apellido}`}</p>

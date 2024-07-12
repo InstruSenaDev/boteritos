@@ -12,7 +12,7 @@ export default function TableListaLogros(){
       
         <section className="max-h-[80vh] overflow-y-scroll">
           {/*HEADER TABLA*/}
-          <div className="sticky top-0 bg-white sm:grid grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+          <div className="sticky top-0 bg-white sm:flex sm:justify-between lg:grid grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Fecha</p>
@@ -24,7 +24,7 @@ export default function TableListaLogros(){
 
           {/*CUERPO DE LA TABLA */}
           {ObjLogrosCreados.map((data,index)=>(
-            <div className="grid grid-cols-1 sm:grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] items-center gap-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
+            <div className="grid grid-cols-1 sm:flex sm:justify-between lg:grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] items-center gap-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue">
                 
               <p>{(index + 1).toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
               <p>{`${data.achievement}`}</p>
