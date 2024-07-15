@@ -1,11 +1,19 @@
 ---
 interface Props {
-    text : string
+  text: string;
+  type: string;
 }
 
-const {text} = Astro.props;
+const { text, type } = Astro.props;
 ---
 
-<button class="bg-darkBlue font-cocogooseRegular tracking-widest text-white text-button max-w-[400px] min-w-28 w-full h-[50px] rounded-xl">
-    {text}
+<button
+    class:list={[
+        "font-cocogooseRegular tracking-widest text-button max-w-[400px] min-w-28 w-full h-[50px] rounded-xl border-darkBlue",
+        {
+            "bg-white text-darkBlue hover:bg-darkBlue hover:text-white ":type==='white',
+            "bg-darkBlue text-white hover:bg-hoverBlue hover:text-white ":type==='blue'
+        }
+    ]}>
+  {text}
 </button>
