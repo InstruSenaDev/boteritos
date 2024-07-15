@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.acc-header{
+@apply flex justify-between items-center  lg:px-0 lg:py-0
+}
+
+.acc-body{
+@apply overflow-hidden lg:block duration-300;
+}
+
+.acc-item.close .acc-body{
+  @apply max-h-0 lg:max-h-fit opacity-0 lg:opacity-100
+}
+
+.acc-item.open .acc-body{
+  @apply opacity-100 max-h-fit lg:py-0
+}
+
+.acc-item.open .acc-header i{
+  @apply rotate-180;
+}
+
+.acc-header i{
+  @apply duration-300;
+}
