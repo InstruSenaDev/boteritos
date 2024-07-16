@@ -4,12 +4,16 @@ import Input from "../../components/forms/Input.astro";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import Boton from "../../components/Boton.astro";
 import UploadFile from "../../components/forms/UploadFile.astro";
-
+import { dataDoc, dataRol, dataSexo, dataMatricula } from "../../helper/objects/dropdownArray";
 
 const errors = { nombre: "" };
 if (Astro.request.method === "POST") {
   try {
     const data = await Astro.request.formData();
+    console.log("DATOS-----------------------------------------------------");
+    
+    console.log(data);
+    
     const rol = data.get("rol");
     const nombre = data.get("nombre");
     const documento = data.get("documento");
@@ -21,6 +25,7 @@ if (Astro.request.method === "POST") {
     const ndocumento = data.get("ndocumento");
     const comuna = data.get("comuna");
     const sexo = data.get("sexo");
+    
     if (typeof nombre !== "string" || nombre.length < 1) {
       errors.nombre += "Ingresa un nombre valido ";
     }
@@ -40,20 +45,20 @@ if (Astro.request.method === "POST") {
         <form class="flex flex-col max-w-[910px] bg-white  w-full p-10 rounded-xl gap-y-10" method="POST">
             <div class="flex max-w-[830px] w-full gap-x-[30px]">
                 <div class="flex flex-col w-full gap-y-8">
-                    <Dropdown name={"rol"} label={"¿Que deseas crear?"} client:visible/>
+                    <Dropdown name={"rol"} label={"¿Que deseas crear?"} data={dataRol} client:visible />
                     <Input name={"nombre"} texto={"Nombre"} placeholder={"Nombre del usuario"}/>
                     {errors.nombre && <p>{errors.nombre}</p>}
-                    <Dropdown name={"documento"} label={"Tipo de documento"} client:visible/>
+                    <Dropdown name={"documento"} label={"Tipo de documento"} data={dataDoc} client:visible/>
                     <Input name={"direccion"} texto={"Dirección"} placeholder={"Dirección del usuario"}/>
                     <Input name={"correo"} texto={"Correo"} placeholder={"Correo electronico del usuario"}/>
                     <Input name={"instituto"} texto={"Instituto"} placeholder={"Instituto del usuario"}/>
                 </div>
                 <div class="flex flex-col w-full gap-y-8">
-                    <Dropdown name={"matricula"} label={"Tipo de matricula"} client:visible/>
+                    <Dropdown name={"matricula"} label={"Tipo de matricula"} data={dataMatricula} client:visible/>
                     <Input name={"apellidos"} texto={"Apellidos"} placeholder={"Apellido del usuario"}/>
                     <Input name={"ndocumento"} texto={"Numero de documento"} placeholder={"Documento del usuario"}/>
                     <Input name={"comuna"} texto={"Comuna"} placeholder={"Comuna del usuario"}/>
-                    <Dropdown name={"sexo"} label={"Sexo"} client:visible/>
+                    <Dropdown name={"sexo"} label={"Sexo"} data={dataSexo} client:visible/>
                     <UploadFile title={"Foto"}>
                 </div>
             </div>

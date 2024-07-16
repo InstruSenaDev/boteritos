@@ -1,8 +1,7 @@
 
 import { Select, SelectItem } from '@tremor/react';
-import { dataDropdown } from '../../helper/objects/dropdownArray';
 
-export function Dropdown({label, name}) {
+export function Dropdown({label, name, data}) {
   return (
     <div className="max-w-[400px] flex flex-col gap-2 w-full">
       <div className="text-paragraph font-cocogooseLight text-black">
@@ -15,8 +14,8 @@ export function Dropdown({label, name}) {
           name={name}
           required
         >
-          <SelectItem value= "4">Selecciona una opción</SelectItem>
-          {dataDropdown.map((dropdownKey)=>(
+          
+          {data.map((dropdownKey)=>(
            <SelectItem className='cursor-pointer' value= {dropdownKey.value}>{dropdownKey.option}</SelectItem>
           ))}
           
