@@ -6,7 +6,8 @@ from .serializer import PersonasSerializer, TipoDocumentoSerializer
 #CONSULTAS
 
 class PersonaViewSet(viewsets.ModelViewSet):
-    queryset = Personas.objects.filter(comuna='5')
+    #queryset = Personas.objects.filter(comuna='5')
+    queryset = Personas.objects.all()
     serializer_class = PersonasSerializer
     
     

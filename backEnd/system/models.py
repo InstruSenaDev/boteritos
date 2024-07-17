@@ -11,7 +11,6 @@ class Areas(models.Model):
         managed = False
         db_table = 'areas'
 
-
 class Areaslogros(models.Model):
     idareaslogros = models.AutoField(db_column='idAreasLogros', primary_key=True)  # Field name made lowercase.
     resultado = models.TextField()
@@ -58,7 +57,6 @@ class Historiaclinica(models.Model):
         managed = False
         db_table = 'historiaclinica'
 
-
 class Informe(models.Model):
     idinforme = models.AutoField(db_column='idInforme', primary_key=True)  # Field name made lowercase.
     nombreinforme = models.TextField(db_column='nombreInforme')  # Field name made lowercase.
@@ -69,7 +67,6 @@ class Informe(models.Model):
     class Meta:
         managed = False
         db_table = 'informe'
-
 
 class Logros(models.Model):
     idlogros = models.AutoField(db_column='idLogros', primary_key=True)  # Field name made lowercase.
@@ -89,7 +86,6 @@ class Personas(models.Model):
     barrio = models.TextField()
     correo = models.TextField()
     urlimg = models.TextField(db_column='urlImg')  # Field name made lowercase.
-    sexo = models.TextField()
     fecharegistro = models.DateField(db_column='fechaRegistro')  # Field name made lowercase.
     fechaingreso = models.DateField(db_column='fechaIngreso')  # Field name made lowercase.
     fechanacimiento = models.DateField(db_column='fechaNacimiento')  # Field name made lowercase.
@@ -97,14 +93,11 @@ class Personas(models.Model):
     institutoprocedencia = models.TextField(db_column='institutoProcedencia', blank=True, null=True)  # Field name made lowercase.
     direccion = models.TextField()
     idtipodocumento = models.ForeignKey('Tipodocumento', models.DO_NOTHING, db_column='idTipoDocumento')  # Field name made lowercase.
+    idsexo = models.ForeignKey('Sexo', models.DO_NOTHING, db_column='idSexo')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'personas'
-        
-    def __str__(self):
-        return self.nombre
-
 
 class Responsable(models.Model):
     idresponsable = models.AutoField(db_column='idResponsable', primary_key=True)  # Field name made lowercase.
@@ -123,7 +116,6 @@ class Responsable(models.Model):
         managed = False
         db_table = 'responsable'
 
-
 class Rh(models.Model):
     idrh = models.AutoField(db_column='idRh', primary_key=True)  # Field name made lowercase.
     tiporh = models.TextField(db_column='tipoRh')  # Field name made lowercase.
@@ -131,7 +123,6 @@ class Rh(models.Model):
     class Meta:
         managed = False
         db_table = 'rh'
-
 
 class Rol(models.Model):
     idrol = models.AutoField(db_column='idRol', primary_key=True)  # Field name made lowercase.
@@ -141,6 +132,13 @@ class Rol(models.Model):
         managed = False
         db_table = 'rol'
 
+class Sexo(models.Model):
+    idsexo = models.AutoField(db_column='idSexo', primary_key=True)  # Field name made lowercase.
+    sexo = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'sexo'
 
 class Telefono(models.Model):
     idtelefono = models.AutoField(db_column='idTelefono', primary_key=True)  # Field name made lowercase.
@@ -152,7 +150,6 @@ class Telefono(models.Model):
         managed = False
         db_table = 'telefono'
 
-
 class Tipodocumento(models.Model):
     idtipodocumento = models.AutoField(db_column='idTipoDocumento', primary_key=True)  # Field name made lowercase.
     tipodocumento = models.TextField(db_column='tipoDocumento')  # Field name made lowercase.
@@ -160,10 +157,6 @@ class Tipodocumento(models.Model):
     class Meta:
         managed = False
         db_table = 'tipodocumento'
-        
-    def __str__(self):
-        return self.tipodocumento
-
 
 class Tipoparentesco(models.Model):
     idparentesco = models.AutoField(db_column='idParentesco', primary_key=True)  # Field name made lowercase.
@@ -173,11 +166,10 @@ class Tipoparentesco(models.Model):
         managed = False
         db_table = 'tipoparentesco'
 
-
 class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)  # Field name made lowercase.
     contrasena = models.TextField()
-    cambiocontrasena = models.TextField(db_column='cambioContrase±a')  # Field name made lowercase.
+    cambiocontrasena = models.TextField(db_column='cambioContrasena')  # Field name made lowercase.
     estado = models.TextField()
     idpersona = models.ForeignKey(Personas, models.DO_NOTHING, db_column='idPersona')  # Field name made lowercase.
     idrol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='idRol')  # Field name made lowercase.

@@ -5,8 +5,8 @@ from system import views
 
 router = routers.DefaultRouter()
 #ENDPOINTS
-router.register(r'personas', views.PersonaViewSet, 'people')
-router.register(r'tipodoc', views.TipoDocumentoViewSet)
+router.register(r'prueba/personas', views.PersonaViewSet, 'people')
+router.register(r'prueba/tipodoc', views.TipoDocumentoViewSet)
 
 urlpatterns= [
     path('', include(router.urls))
