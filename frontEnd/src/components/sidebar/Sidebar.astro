@@ -1,3 +1,4 @@
+
 ---
 import Elemento from "./Elemento.astro";
 import { sidebarsection } from "../../helper/objects/sidebarElementsArray";
@@ -11,15 +12,15 @@ interface Props {
 const { img, name, profession } = Astro.props;
 ---
 
-<div class="hidden xl:flex h-screen sticky top-0">
-  <div class="absolute sidebar h-screen bg-white flex-col items-center flex-shrink-0 transition-all duration-300  w-[95px]" id="sidebar">
+<div class="w-[95px] hidden xl:flex h-screen sticky top-0 ">
+  <div class="absolute sidebar h-screen bg-white flex-col items-center flex-shrink-0 transition-all duration-300 w-[95px]" id="sidebar">
     <div class="bg-darkBlue px-5 h-[100px] w-full flex items-center mb-6 relative justify-center text-white">
       <div class="w-[60px] min-w-[60px] h-[60px] rounded-full bg-white flex items-center justify-center">
         <img src={img || ""} alt="Easter egg" class="w-full h-full object-cover rounded-full">
       </div>
-      <div class="font-cocogooseLight ml-2 transition-all duration-75 ease-in-out max-w-[150px] overflow-hidden opacity-0" id="sidebar-text">
-        <p class="text-paragraph2  overflow-hidden">{name}</p>
-        <p class="text-paragraph3 overflow-hidden">{profession}</p>
+      <div class="font-cocogooseLight ml-2 hidden" id="sidebar-text">
+        <p class="text-paragraph2">{name}</p>
+        <p class="text-paragraph3">{profession}</p>
       </div>
       <div class="w-[24px] h-[24px] rounded-full bg-white text-sm text-black flex justify-center items-center absolute right-[-12px] cursor-pointer" id="toggleButton">
         <i class="fa-solid fa-angle-right"></i>
@@ -27,7 +28,7 @@ const { img, name, profession } = Astro.props;
     </div>
     <div class="flex flex-col items-center gap-y-4 w-full px-4">
       {sidebarsection.map((sidebarsections, index) => (
-        <Elemento icon={sidebarsections.icon} texto={sidebarsections.texto}  />
+        <Elemento icon={sidebarsections.icon} texto={sidebarsections.texto} />
       ))}
       <div class="w-full border-darkBlue border-[1px]"></div>
       <Elemento icon="fa-solid fa-arrow-right-from-bracket" texto="Salir" />
@@ -43,29 +44,21 @@ const { img, name, profession } = Astro.props;
     const elements = document.querySelectorAll('.sidebar-element span');
 
     toggleButton.addEventListener('click', () => {
-      if (sidebar.classList.contains('w-[320px]')) {
-        sidebar.classList.remove('w-[320px]');
+      if (sidebar.classList.contains('w-[280px]')) {
+        sidebar.classList.remove('w-[280px]');
         sidebar.classList.add('w-[95px]');
-        sidebarText.style.maxWidth = '150px';
-        sidebarText.classList.add('opacity-0');
+        sidebarText.classList.add('hidden');
         elements.forEach(element => {
-          element.classList.add('opacity-0');
+          element.classList.add('hidden');
         });
-        setTimeout(() => {
-          sidebarText.style.overflow = 'hidden';
-        }, 75);
         toggleButton.innerHTML = '<i class="fa-solid fa-angle-right"></i>';
       } else {
         sidebar.classList.remove('w-[95px]');
-        sidebar.classList.add('w-[320px]');
-        sidebarText.style.maxWidth = 'none';
-        sidebarText.style.overflow = 'visible';
-        setTimeout(() => {
-          sidebarText.classList.remove('opacity-0');
-          elements.forEach(element => {
-            element.classList.remove('opacity-0');
-          });
-        }, 50);
+        sidebar.classList.add('w-[280px]');
+        sidebarText.classList.remove('hidden');
+        elements.forEach(element => {
+          element.classList.remove('hidden');
+        });
         toggleButton.innerHTML = '<i class="fa-solid fa-angle-left"></i>';
       }
     });
