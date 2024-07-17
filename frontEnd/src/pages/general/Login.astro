@@ -1,21 +1,25 @@
 ---
-import Input from "../../components/forms/Input.astro";
+
 import LoginLayout from "../../layouts/LoginLayout.astro";
+import {Input} from "../../components/forms/Input.jsx";
 ---
 
 <LoginLayout titulo="BIENVENIDO">
-  <Input
-    texto="Numero de documento"
+  
+
+  <Input texto="Numero de documento"
     placeholder="Ingresa tu documento"
-    icon=""
     slot="inputs"
+    name={"documento"}
+    tipo={"text"}
   />
-  <Input
-    texto="Numero de documento"
-    placeholder="Ingresa tu documento"
-    icon=""
+  <Input texto="Contraseña"
+    placeholder="Ingresa tu contraseña"
     slot="inputs"
+    name={"contraseña"}
+    tipo={"text"}
   />
+  
 
   <div class="flex justify-between" slot="footer">
     
