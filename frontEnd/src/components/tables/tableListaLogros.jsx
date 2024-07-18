@@ -50,9 +50,9 @@ export default function TableListaLogros() {
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0 acc-body">
+              <div className="flex gap-2 lg:gap-0 acc-body ">
                 <p className="text-darkBlue lg:hidden">Fecha:</p>
-                <div className="">
+                <div className=" flex justify-self-center">
                   <p>{`${data.date}`}</p>
                 </div>
               </div>
