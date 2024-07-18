@@ -8,14 +8,14 @@ export function Dropdown({label, name}) {
       <div className="text-paragraph font-cocogooseLight text-black">
         {label}
       </div>
-      <div className='text-paragraph3 font-cocogooseLight  h-10' >
+      <div className='text-paragraph3 font-cocogooseLight' >
         <Select
           defaultValue="4"
           className=" w-full border-[1.5px] border-darkBlue rounded-xl focus:bg-darkBlue focus:text-white" 
           name={name}
           required
         >
-          <SelectItem value= "4">Selecciona una opción</SelectItem>
+          
           {dataDropdown.map((dropdownKey)=>(
            <SelectItem className='cursor-pointer' value= {dropdownKey.value}>{dropdownKey.option}</SelectItem>
           ))}

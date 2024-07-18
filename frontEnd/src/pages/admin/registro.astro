@@ -1,70 +1,22 @@
 ---
 import { Dropdown } from "../../components/forms/Dropdown";
-import Input from "../../components/forms/Input.astro";
+import { Input } from "../../components/forms/Input";
+import { UploadFile } from "../../components/forms/UploadFile";
+import { Form } from "../../components/sections/Form";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import Boton from "../../components/Boton.astro";
-import UploadFile from "../../components/forms/UploadFile.astro";
 
-
-const errors = { nombre: "" };
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const rol = data.get("rol");
-    const nombre = data.get("nombre");
-    const documento = data.get("documento");
-    const direccion = data.get("direccion");
-    const correo = data.get("correo");
-    const instituto = data.get("instituto");
-    const matricula = data.get("matricula");
-    const apeliidos = data.get("apeliidos");
-    const ndocumento = data.get("ndocumento");
-    const comuna = data.get("comuna");
-    const sexo = data.get("sexo");
-    if (typeof nombre !== "string" || nombre.length < 1) {
-      errors.nombre += "Ingresa un nombre valido ";
-    }
-
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-  
-}
 
 ---
 
 <LayoutGeneral titleHeader="Registro de usuarios">
-    <div class="flex w-full h-full items-center justify-center">
-        <form class="flex flex-col max-w-[910px] bg-white  w-full p-10 rounded-xl gap-y-10" method="POST">
-            <div class="flex max-w-[830px] w-full gap-x-[30px]">
-                <div class="flex flex-col w-full gap-y-8">
-                    <Dropdown name={"rol"} label={"¿Que deseas crear?"} client:visible/>
-                    <Input name={"nombre"} texto={"Nombre"} placeholder={"Nombre del usuario"}/>
-                    {errors.nombre && <p>{errors.nombre}</p>}
-                    <Dropdown name={"documento"} label={"Tipo de documento"} client:visible/>
-                    <Input name={"direccion"} texto={"Dirección"} placeholder={"Dirección del usuario"}/>
-                    <Input name={"correo"} texto={"Correo"} placeholder={"Correo electronico del usuario"}/>
-                    <Input name={"instituto"} texto={"Instituto"} placeholder={"Instituto del usuario"}/>
-                </div>
-                <div class="flex flex-col w-full gap-y-8">
-                    <Dropdown name={"matricula"} label={"Tipo de matricula"} client:visible/>
-                    <Input name={"apellidos"} texto={"Apellidos"} placeholder={"Apellido del usuario"}/>
-                    <Input name={"ndocumento"} texto={"Numero de documento"} placeholder={"Documento del usuario"}/>
-                    <Input name={"comuna"} texto={"Comuna"} placeholder={"Comuna del usuario"}/>
-                    <Dropdown name={"sexo"} label={"Sexo"} client:visible/>
-                    <UploadFile title={"Foto"}>
-                </div>
-            </div>
-            <div class="w-full flex justify-center">
-                <Boton text="Confirmar" type="blue"/>
-            </div>
-        </form>
+  <div class="flex w-full h-full items-center justify-center">
+    <div class="flex flex-col max-w-[910px] bg-white  w-full p-10 rounded-xl gap-y-10"> 
+      <Form client:visible/>
+      <div class="w-full flex justify-center">
+        <Boton text="Confirmar" type="blue"/>
+      </div>
     </div>
-    
-
-
-
+  </div>
 </LayoutGeneral>
 
