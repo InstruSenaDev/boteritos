@@ -13,12 +13,9 @@ def user(request):
     #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
     #el metodo http que se utilizó en la peticion
     if request.method == 'GET':
+        print("EJECUCION PETICION")
         query = Personas.objects.all()
-        print(query)
         querySerializer = PersonasSerializer(query,many = True)
-        print(querySerializer)
-        print('-------------------------------')
-        print(querySerializer.data)
         return Response(querySerializer.data) 
     
     if request.method == 'POST':
@@ -46,7 +43,7 @@ def user(request):
                 print(userData.data)
             
             response = {
-                "persoana" : querySerializer.data,
+                "persona" : querySerializer.data,
                 "usuario" : userData.data
             }
             

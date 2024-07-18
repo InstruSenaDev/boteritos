@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    #'coreapi',
-    'system',
-    'users'
+    'users',
+    'system'
+    #'coreapi'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
