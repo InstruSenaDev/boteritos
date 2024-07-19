@@ -44,7 +44,8 @@ export default function TableStudents() {
           {/*CUERPO DE LA TABLA */}
 
           {objStudents.map((data, index) => (
-            <div className={` acc-item grid grid-cols-1 lg:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc == index ? "open": "close"}`} key={index} >
+            <div className={`acc-item grid grid-cols-1 lg:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center lg:gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc == index ? "open": "close"}`} key={index} >
+              
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">No°:</p>
                 <div className="acc-header w-full flex justify-between items-center ">
@@ -82,7 +83,6 @@ export default function TableStudents() {
 
               <div className="flex gap-2 lg:gap-0 acc-body lg:justify-center">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
-
                 <div className="justify-self-center flex gap-3">
                   <i className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"></i>
                   <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
