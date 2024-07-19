@@ -44,7 +44,7 @@ export default {
 						emphasis: colors.gray[700],
 					},
 					border: {
-						DEFAULT: colors.gray[200],
+						DEFAULT: 'transparent',
 					},
 					ring: {
 						DEFAULT: colors.gray[200],
@@ -62,7 +62,7 @@ export default {
 			},
 			boxShadow: {
 				// light
-				'tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+				'tremor-input': 'none',
 				'tremor-card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
 				'tremor-dropdown': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
 				// dark
@@ -72,7 +72,7 @@ export default {
 			},
 			borderRadius: {
 				'tremor-small': '0.375rem',
-				'tremor-default': '0.5rem',
+				'tremor-default': '0.75rem',
 				'tremor-full': '9999px',
 			},
 			fontSize:{
@@ -87,9 +87,10 @@ export default {
 				'button' : '18px',
 				'button2' : '15px',
 				'tremor-label': ['0.75rem', { lineHeight: '1rem' }],
-				'tremor-default': ['0.875rem', { lineHeight: '1.25rem' }],
+				
 				'tremor-title': ['1.125rem', { lineHeight: '1.75rem' }],
 				'tremor-metric': ['1.875rem', { lineHeight: '2.25rem' }],
+				'tremor-default': 'inherit',
 			},
 			fontFamily:{
 				cocogooseRegular: ['Cocogoose-Regular', 'sans-serif'],
@@ -130,4 +131,7 @@ export default {
 		},
 	  ],
 	plugins: [],
+
+
+
 }

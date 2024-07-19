@@ -2,15 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import Login from './general/Login.astro';
 
-let i = 0;
-
-const funcionPrueba = ()=>{
-    console.log(i);
-    i += i;
-}
+const isLogin = true
 
 ---
 
 <Layout title="Boteritos">
-        <Login/>
+    <>
+        {
+            isLogin ? 
+            <Login /> :
+            <p>Hola</p>
+        }
+    </>
 </Layout>
