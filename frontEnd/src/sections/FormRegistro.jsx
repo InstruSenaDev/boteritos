@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Dropdown } from "../forms/Dropdown";
-import { Input } from "../forms/Input";
-import { UploadFile } from "../forms/UploadFile";
-import { dataDoc, dataRol, dataSexo, dataMatricula } from "../../helper/objects/dropdownArray.js";
-import { Boton } from '../forms/Boton.jsx'; 
+import { Dropdown } from "../components/forms/Dropdown.jsx";
+import { Input } from "../components/forms/Input.jsx";
+import { UploadFile } from "../components/forms/UploadFile.jsx";
+import { dataDoc, dataRol, dataSexo, dataMatricula } from "../helper/objects/dropdownArray.js";
+import { Boton } from '../components/forms/Boton.jsx'; 
 
 export const Form = () => {
 

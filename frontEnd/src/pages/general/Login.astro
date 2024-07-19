@@ -1,23 +1,26 @@
 ---
-
+import { FormLogin } from "../../sections/FormLogin";
 import LoginLayout from "../../layouts/LoginLayout.astro";
 import {Input} from "../../components/forms/Input.jsx";
 ---
 
 <LoginLayout titulo="BIENVENIDO">
-  
 
   <Input texto="Numero de documento"
     placeholder="Ingresa tu documento"
     slot="inputs"
     name={"documento"}
     tipo={"text"}
+    onChange={""} 
+    value={""}
   />
   <Input texto="Contraseña"
     placeholder="Ingresa tu contraseña"
     slot="inputs"
     name={"contraseña"}
     tipo={"text"}
+    onChange={""} 
+    value={""}
   />
   
 
