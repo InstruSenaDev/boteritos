@@ -1,14 +1,9 @@
-
 import { Select, SelectItem } from '@tremor/react';
-import { useState } from 'react';
 
-export function Dropdown({ label, name, data, valueChange }) {
-
-  const [value, setValue] = useState();
-
-    const handleChange = (e) => {
-        //console.log(e);
-        valueChange = setValue(value)
+export function Dropdown({ label, name, data, onChange }) {
+    // Función para manejar cambios en el dropdown
+    const handleChange = (value) => {
+        onChange(value);
     };
 
     return (
@@ -21,7 +16,7 @@ export function Dropdown({ label, name, data, valueChange }) {
                     defaultValue=""
                     className="w-full border-[1.5px] border-darkBlue rounded-xl focus:bg-darkBlue focus:text-white"
                     name={name}
-                    onChange={handleChange}
+                    onValueChange={handleChange}  // Manejador de cambios asignado
                     required
                 >
                     {data.map((dropdownKey) => (
