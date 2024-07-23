@@ -20,33 +20,19 @@ export const FormLogin = () => {
     }
 
     // Función para manejar el envío del formulario
-    const handleFormSubmit = (event) => {
+    const handleFormLoginSubmit = (event) => {
         event.preventDefault();
         console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
     }
 
     return (
-        <form onSubmit={handleFormSubmit} className="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]">
+        <form onSubmit={handleFormLoginSubmit} className="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]">
             <div className="flex flex-col gap-7 max-w-[400px] w-full">
                 <h1 className="text-title font-cocogooseRegular tracking-widest text-darkBlue">
                     Inicio de sesión
                 </h1>
-                <Input
-                    texto="Número de documento"
-                    placeholder="Ingresa tu documento"
-                    name="ndocumento" 
-                    tipo="text"
-                    onChange={handleInputChange}
-                    value={values.ndocumento}
-                />
-                <Input
-                    texto="Contraseña"
-                    placeholder="Ingresa tu contraseña"
-                    name="contraseña" 
-                    tipo="password" 
-                    onChange={handleInputChange}
-                    value={values.contraseña}
-                />
+                <Input texto="Número de documento" placeholder="Ingresa tu documento" name="ndocumento" tipo="text" onChange={handleInputChange} value={values.ndocumento}/>
+                <Input texto="Contraseña" placeholder="Ingresa tu contraseña" name="contraseña" tipo="password" onChange={handleInputChange} value={values.contraseña}/>
                 <div className="flex flex-col lg:flex-row justify-between gap-y-2">
                     <div className="space-x-2">
                         <input type="checkbox" id="recordar" className="rounded-full" />
