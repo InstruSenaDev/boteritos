@@ -14,54 +14,53 @@ def user(request):
     #el metodo http que se utilizó en la peticion
     if request.method == 'GET':
         query = Personas.objects.all()
-        print(query)
         querySerializer = PersonasSerializer(query,many = True)
-        print(querySerializer)
-        print('-------------------------------')
-        print(querySerializer.data)
-        return Response(querySerializer.data) 
+        return Response(querySerializer.data,status=status.HTTP_200_OK) 
     
     if request.method == 'POST':
         querySerializer = PersonasSerializer(data= request.data)
-        print(request.data['idRol'])
         
         if querySerializer.is_valid():
             querySerializer.save() #INSERT A PERSONAS
             #OBTENEMOS LA DATA QUE SE GUARDÓ Y ACCEDEMOS A SU ID PARA HACER EL 
-            
             #INSERT EN USUARIOS
-            newUser = querySerializer.data
-            print(newUser.get('idpersona'))
-            dataNewUser = {
-                'contrasena' : newUser.get('numerodocumento'),
+            userData = querySerializer.data
+            userDataObj = {
+                'contrasena' : userData.get('numerodocumento'),
                 'cambiocontrasena' : '0',
                 'estado' : '1',
-                'idpersona' : newUser.get('idpersona'),
+                'idpersona' : userData.get('idpersona'),
                 'idrol' : request.data['idRol']
             }
-            userData = UsuarioSerializer(data=dataNewUser)
+            newUser = UsuarioSerializer(data=userDataObj)
             
-            if userData.is_valid():
-                userData.save()
-                print(userData.data)
+            if newUser.is_valid():
+                newUser.save()  
+                      
+                return Response({"persona":querySerializer.data, "usuario" : newUser.data }, status=status.HTTP_201_CREATED)
             
-            response = {
-                "persoana" : querySerializer.data,
-                "usuario" : userData.data
-            }
-            
-            return Response(response, status=status.HTTP_201_CREATED)
+            return Response(newUser.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(querySerializer.errors)
+        return Response(querySerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-""""
-class PersonaViewSet(viewsets.ModelViewSet):
-    #queryset = Personas.objects.filter(comuna='5')
-    queryset = Personas.objects.all()
-    serializer_class = PersonasSerializer
+@api_view(['GET', 'PUT'])
+def userOne(request, idPersona):
     
-class TipoDocumentoViewSet(viewsets.ModelViewSet):
-    queryset = Tipodocumento.objects.all()
-    serializer_class = TipoDocumentoSerializer
-"""
+    oneUser = Personas.objects.filter(idpersona = idPersona).first()
+    #Validacion por si la persona no se encuentra
+    if not oneUser:
+        return Response({'message' : 'No se encontró el usuario'}, status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+            
+        oneUserSerializer = PersonasSerializer(oneUser)
+        return Response(oneUserSerializer.data, status=status.HTTP_200_OK)
+
+    if request.method == 'PUT':
+                
+        oneUserSerializer = PersonasSerializer(oneUser, data= request.data)
+        if oneUserSerializer.is_valid():
+            oneUserSerializer.save()
+            return Response(oneUserSerializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(oneUserSerializer.errors)
