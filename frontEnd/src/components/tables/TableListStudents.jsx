@@ -1,8 +1,18 @@
 import DataState from "./dataStates/DataState";
 import { objStudentsTeacher } from "../../helper/objects/studentsTeacher";
-import Buscador from "../search/Buscador.astro";
+import Buscador from "../search/Buscador";
+import { useState } from "react";
+import "../../../input.css"
+
 
 export default function TableListStudents() {
+
+  const [openAcc, setOpenAcc] = useState(-1);
+
+  const toogleRow = (index) => {
+    openAcc != index ? setOpenAcc(index) : setOpenAcc(-1);
+  }
+
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-3 w-full overflow-y-hidden">

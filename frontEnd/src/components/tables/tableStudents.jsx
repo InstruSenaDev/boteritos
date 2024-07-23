@@ -6,6 +6,9 @@ import { urlApi } from "../../helper/urls/apiUrl"
 export default function TableStudents() {
 
   const [dataStudents, setDataStudents] = useState([]);
+  
+  const { search } = useLocation();
+  console.log(search);
 
   useEffect(()=>{
     const obtainData = async () =>{
