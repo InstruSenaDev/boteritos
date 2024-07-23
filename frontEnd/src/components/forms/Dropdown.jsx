@@ -14,7 +14,7 @@ export function Dropdown({ label, name, data, onChange }) {
             <div className='text-paragraph3 font-cocogooseLight h-10'>
                 <Select
                     defaultValue=""
-                    className="w-full border-[1.5px] border-darkBlue rounded-xl focus:bg-darkBlue focus:text-white"
+                    className="w-full h-full border-[1.5px] border-darkBlue rounded-xl focus:bg-darkBlue focus:text-white"
                     name={name}
                     onValueChange={handleChange}  // Manejador de cambios asignado
                     required
