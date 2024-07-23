@@ -1,37 +1,10 @@
 ---
-import Input from "../../components/forms/Input.astro";
-import LoginLayout from "../../layouts/LoginLayout.astro";
+import { FormLogin } from "../../sections/FormLogin";
+import Layout from "../../layouts/Layout.astro";
 ---
 
-<LoginLayout titulo="BIENVENIDO">
-  <Input
-    texto="Numero de documento"
-    placeholder="Ingresa tu documento"
-    icon=""
-    slot="inputs"
-  />
-  <Input
-    texto="Numero de documento"
-    placeholder="Ingresa tu documento"
-    icon=""
-    slot="inputs"
-  />
-
-  <div class="flex justify-between" slot="footer">
-    
-    <div>
-      <input type="checkbox" name="" id="recordar" class="rounded-full"/>
-      <label for="recordar" class="text-paragraph2 font-cocogooseLight">Recordarme</label
-      >
-    </div>
-    <a class="text-paragraph2 font-cocogooseLight text-darkBlue">¿Olvidaste tu contraseña?</a>
-
-  </div>
-
-  <img
-    src="../../../public/img/imgLogin.png"
-    alt=""
-    class="object-contain w-full h-full"
-    slot="imagen"
-  />
-</LoginLayout>
+<Layout title="Inicio">
+  <main class="w-full h-screen flex justify-center items-center p-4 text-black">
+    <FormLogin/>
+  </main>
+</Layout>

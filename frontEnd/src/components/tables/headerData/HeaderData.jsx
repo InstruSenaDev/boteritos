@@ -50,7 +50,7 @@ const HeaderData = () => {
       </div>
 
       {/* ESTADISTICAS */}
-      <div className="min-h-[130px] grow bg-white rounded-xl p-4">
+      <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex justify-start">
         <GraphicPie />
       </div>
 

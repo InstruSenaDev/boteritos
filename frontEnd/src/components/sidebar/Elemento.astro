@@ -2,15 +2,13 @@
 interface Props {
   icon: string;
   texto: string;
-  textSize?: string; // Propiedad opcional para el tamaño de texto
 }
 
-const { icon, texto, textSize } = Astro.props;
+const { icon, texto } = Astro.props;
 ---
-
-<div class={`w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white ease-in duration-300 cursor-pointer transition-all duration-300 `}>
+<div class="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white cursor-pointer sidebar-element">
   <div class="w-[60px] h-[44px] flex justify-center items-center">
     <i class={`text-xl ${icon}`}></i>
   </div>
-  <span class="font-cocogooseLight text-paragraph2 text-content hidden transition-all duration-300 elemento">{texto}</span>
+  <span class="font-cocogooseLight text-paragraph2 hidden">{texto}</span>
 </div>
