@@ -59,6 +59,7 @@ def userOne(request, idPersona):
     if request.method == 'PUT':
                 
         oneUserSerializer = PersonasSerializer(oneUser, data= request.data)
+        #
         if oneUserSerializer.is_valid():
             oneUserSerializer.save()
             return Response(oneUserSerializer.data, status=status.HTTP_201_CREATED)
