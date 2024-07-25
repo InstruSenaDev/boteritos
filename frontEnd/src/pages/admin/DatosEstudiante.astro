@@ -1,7 +1,8 @@
 ---
+import React from "react";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
-import GrupoDatos from "../../components/datosEstudiante/GrupoDatos.astro";
-import Dato from "../../components/datosEstudiante/Dato.astro";
+import { GrupoDatos } from "../../components/datosEstudiante/GrupoDatos.jsx";
+import { Dato } from "../../components/datosEstudiante/Dato.jsx";
 import DatosHistoria from "../../components/datosEstudiante/DatosHistoria.astro";
 import { Boton } from "../../components/forms/Boton";
 import HeaderData from "../../components/tables/headerData/HeaderData";
@@ -13,22 +14,31 @@ import { datoInfo } from "../../helper/objects/dataStudentsArray";
 const columnA = datoInfo.slice(0, Math.ceil(datoInfo.length / 2));
 const columnB = datoInfo.slice(Math.ceil(datoInfo.length / 2)); 
 ---
-<LayoutGeneral title="Información" titleHeader="Estudiantes">
+<LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
   <div class="w-full space-y-7">
     <HeaderData client:visible />
     <GrupoDatoElemento />
     <div class="w-full h-0 border-darkBlue border-2"></div>
     <div class="space-y-7">
-      <GrupoDatos titulo={"Datos personales"}>
+      <GrupoDatos titulo="Telefono(s)">
+        {{
+          columnaD: <Dato tituloDato="Primer telefono" dato="(+57) 3235287523" />,
+          columnaI: <Dato tituloDato="Segundo telefono" dato="(+57) 3235287523" />
+        }}
+      </GrupoDatos>
+
+      {/*<GrupoDatos titulo={"Datos personales"}>
         {columnA.map((infoKey) => (
           <Dato  tituloDato={infoKey.tituloDato} dato={infoKey.dato} slot="columnaD" />
         ))}
         {columnB.map((infoKey) => (
           <Dato  tituloDato={infoKey.tituloDato} dato={infoKey.dato} slot="columnaI" />
         ))}
-      </GrupoDatos>
-      {/* Repite esto para los demás grupos de datos */}
-      <GrupoDatos titulo={"Telefono(s)"}>
+      </GrupoDatos>*/}
+
+
+
+      {/*<GrupoDatos titulo={"Telefono(s)"}>
         <Dato tituloDato={"Primer telefono"} dato={"(+57) 3235287523"} slot="columnaD" />
         <Dato tituloDato={"Segundo telefono"} dato={"(+57) 3235287523"} slot="columnaI" />
       </GrupoDatos>
@@ -54,7 +64,7 @@ const columnB = datoInfo.slice(Math.ceil(datoInfo.length / 2));
         <Dato tituloDato={"Diagnostico"} dato={"Lorem"} />
         <Dato tituloDato={"Restricciones alimenticias"} dato={"Mantequilla de maní"} />
         <Dato tituloDato={"Observaciones"} dato={"Lorem Lorem ipsum dolor sit amet. Et repudiandae molestiae est minima tempora aut deserunt blanditiis sit distinctio velit ad quae deleniti 33 rerum incidunt aut enim voluptas. Ea sint perferendis ex aliquam unde rem veniam debitis ex quidem voluptas. Aut sequi porro ad recusandae quia et voluptatem laboriosam ea dolores quia. A maiores aspernatur et perspiciatis tenetur ut impedit minima qui maiores earum sed voluptas eaque ex accusamus sint ut enim aperiam."} />
-      </DatosHistoria>
+      </DatosHistoria>*/}
     </div>
     <div class="w-full flex justify-center">
       <Boton text="Confirmar" type="blue" />
