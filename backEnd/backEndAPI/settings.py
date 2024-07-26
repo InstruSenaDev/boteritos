@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
-    #'coreapi',
-    'system',
-    'users'
+    'users',
+    'system'
+    #'coreapi'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,7 +84,7 @@ WSGI_APPLICATION = 'backEndAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'boteritos',
+        'NAME' : 'boteritos',
         'USER' : 'root',
         'HOST' : 'localhost',
         'PORT' : '3306'

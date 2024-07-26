@@ -10,7 +10,6 @@ class PersonaViewSet(viewsets.ModelViewSet):
     queryset = Personas.objects.all()
     serializer_class = PersonasSerializer
     
-    
 class TipoDocumentoViewSet(viewsets.ModelViewSet):
     queryset = Tipodocumento.objects.all()
     serializer_class = TipoDocumentoSerializer
