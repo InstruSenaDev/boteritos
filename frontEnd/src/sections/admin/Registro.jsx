@@ -12,7 +12,6 @@ import {
 import { Boton } from "../../components/forms/Boton.jsx";
 
 export const Registro = () => {
-  // Estado para almacenar los valores de los inputs
   const [values, setValues] = useState({
     rol: "",
     matricula: "",
@@ -29,10 +28,9 @@ export const Registro = () => {
     foto: null,
   });
 
-  // Estado para almacenar el rol seleccionado
   const [selectedRole, setSelectedRole] = useState("");
 
-  // Función para manejar cambios en los inputs de texto
+  // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setValues({
@@ -41,16 +39,16 @@ export const Registro = () => {
     });
   };
 
-  // Función para manejar el envío del formulario
+  // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
   };
 
-  // Función para manejar cambios en el dropdown de rol
+  // Maneja cambios en el dropdown de rol
   const handleRoleChange = (value) => {
     setSelectedRole(value);
-    setValues({ ...values, rol: value }); // actualizar el estado de 'rol'
+    setValues({ ...values, rol: value }); // Actualiza el estado de 'rol'
     console.log("rol value:", value); // Mostrar el valor seleccionado del rol en la consola
   };
 
@@ -60,10 +58,10 @@ export const Registro = () => {
     console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
   };
 
-  // Función para manejar cambios en los archivos cargados
+  // Maneja cambios en los archivos cargados
   const handleFileChange = (name, file) => {
     setValues({ ...values, [name]: file });
-    console.log(`${name} file:`, file);
+    console.log(`${name} file:`, file); // Mostrar el archivo seleccionado en la consola
   };
 
   return (
@@ -79,7 +77,7 @@ export const Registro = () => {
           data={dataRol}
           onChange={handleRoleChange}
         />
-        {/* Dropdown para seleccionar el tipo de matrícula */}
+        {/* Renderiza dropdowns adicionales según el rol seleccionado */}
         {selectedRole == "2" ? (
           <Dropdown
             name={"area"}
@@ -158,7 +156,7 @@ export const Registro = () => {
           data={dataSexo}
           onChange={(value) => handleDropdownChange("sexo", value)}
         />
-        {/* Renderización condicional del campo "instituto" */}
+        {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
         {selectedRole !== "1" && selectedRole !== "2" ? (
           <Input
             name={"instituto"}
@@ -169,9 +167,17 @@ export const Registro = () => {
             value={values.instituto}
           />
         ) : (
-          <UploadFile title={"Hoja de vida"} onFileChange={(file) => handleFileChange("hojaDeVida", file)} />
+          <UploadFile 
+            title={"Hoja de vida"} 
+            id="hojaDeVida" 
+            onFileChange={(file) => handleFileChange("hojaDeVida", file)} 
+          />
         )}
-        <UploadFile title={"Foto"} onFileChange={(file) => handleFileChange("foto", file)} />
+        <UploadFile 
+          title={"Foto"} 
+          id="foto" 
+          onFileChange={(file) => handleFileChange("foto", file)} 
+        />
       </div>
       <div className="w-full flex justify-center">
         {/* Botón para confirmar el formulario */}
