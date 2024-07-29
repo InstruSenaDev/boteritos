@@ -3,8 +3,15 @@ import { ObjLogrosCreados } from "../../helper/objects/ListaLogros";
 import Buscador from "../search/Buscador";
 import "../../../input.css";
 import { useState } from "react";
+import React from "react";
+import { Modal } from "../modales/Modal";
+
+
 
 export default function TableListaLogros() {
+
+
+
   const [openAcc, setOpenAcc] = useState(-1);
 
   const toogleRow = (index) =>{
@@ -16,7 +23,10 @@ export default function TableListaLogros() {
     <>
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
         {/*Buscador*/}
+        <div className="flex justify-between w-full pb-5">
         <Buscador />
+        <Modal txtboton="Abreme" txtmodal="Funcioné:D"/>
+        </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">
           {/*HEADER TABLA*/}
@@ -74,6 +84,7 @@ export default function TableListaLogros() {
           ))}
         </section>
       </main>
+
     </>
   );
 }
