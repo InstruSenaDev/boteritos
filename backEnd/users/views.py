@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Personas, Tipodocumento
+from .models import Personas, Tipodocumento, Usuario
 from .serializer import PersonasSerializer, TipoDocumentoSerializer, UsuarioSerializer
 
 # Create your views here.
@@ -17,13 +17,13 @@ def user(request):
         querySerializer = PersonasSerializer(query,many = True)
         return Response(querySerializer.data,status=status.HTTP_200_OK) 
     
+    #Crear Persona y Usuario
     if request.method == 'POST':
         querySerializer = PersonasSerializer(data= request.data)
         
         if querySerializer.is_valid():
             querySerializer.save() #INSERT A PERSONAS
-            #OBTENEMOS LA DATA QUE SE GUARDÓ Y ACCEDEMOS A SU ID PARA HACER EL 
-            #INSERT EN USUARIOS
+            #OBTENEMOS LA DATA QUE SE GUARDÓ Y ACCEDEMOS A SU ID PARA HACER EL INSERT EN USUARIOS
             userData = querySerializer.data
             userDataObj = {
                 'contrasena' : userData.get('numerodocumento'),
@@ -32,11 +32,12 @@ def user(request):
                 'idpersona' : userData.get('idpersona'),
                 'idrol' : request.data['idRol']
             }
+            
             newUser = UsuarioSerializer(data=userDataObj)
+            print(userDataObj['contrasena'])
             
             if newUser.is_valid():
-                newUser.save()  
-                      
+                newUser.save()
                 return Response({"persona":querySerializer.data, "usuario" : newUser.data }, status=status.HTTP_201_CREATED)
             
             return Response(newUser.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -65,3 +66,34 @@ def userOne(request, idPersona):
             return Response(oneUserSerializer.data, status=status.HTTP_201_CREATED)
         
         return Response(oneUserSerializer.errors)
+
+@api_view(['POST'])
+def login (request):
+    
+    if request.method == 'POST':
+        numDocumento = request.data.get('numerodocumento')
+        contrasena = request.data.get('contrasena')
+        
+        onePerson = Personas.objects.filter(numerodocumento = numDocumento).first()
+        
+        if not onePerson:
+            return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
+        
+        onePersonSerializer = PersonasSerializer(onePerson)
+        idOneUser = onePersonSerializer.data.get('idpersona')
+        print(onePersonSerializer.data.get('idpersona'))
+        
+        oneUser = Usuario.objects.filter(idpersona = idOneUser).first()
+        
+        print(f"Hash: {oneUser.contrasena}")
+        print(f"Contraseña: {contrasena}")
+        
+        oneUserSerializer = UsuarioSerializer(oneUser)
+        
+        print(f"Data: {oneUserSerializer.data}")
+        print(f"Resultado: {oneUser.check_password(contrasena)}")
+        
+        if not oneUser.check_password(contrasena):
+            return Response({"message" : "Login sin exito"}, status=status.HTTP_400_BAD_REQUEST)
+              
+        return Response({"message": "Login con exito" , "Token" : "aqui debe ir mi token"}, status=status.HTTP_200_OK)

@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 
 urlpatterns= [
     path('personas', views.user),
-    path('personas/<int:idPersona>', views.userOne)
+    path('personas/<int:idPersona>', views.userOne),
+    path('login', views.login)
     #path('docs/', include_docs_urls(title='Boteritos API'))
 ]

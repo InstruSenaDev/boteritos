@@ -1,4 +1,5 @@
 from django.db import models
+import bcrypt
 
 # Create your models here.
 class Areas(models.Model):
@@ -177,3 +178,24 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+    
+    def set_password(self, raw_password):
+        #HASH DE CONTRASEÑA
+        self.contrasena = bcrypt.hashpw(raw_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+    #FUNCION QUE ME PERMITE VALIDAR MI CONTRASEÑA
+    def check_password(self, raw_password):
+        print(f"Contraseña DB: {self.contrasena}")
+        print(f"Contraseña recibida: {raw_password}")
+        
+        return bcrypt.checkpw(raw_password.encode('utf-8'), self.contrasena.encode('utf-8'))
+
+    #PROXIMA REVISION POR EL CAMBIO DE CONTRASEÑA
+    def save(self, *args, **kwargs):
+        # Hashear la contraseña solo si es nueva o ha sido cambiada
+        if not self.pk or self.cambiocontrasena == 'True':
+            print(f"Contraseña antes: {self.contrasena}")
+            self.set_password(self.contrasena)
+            print(f"Contraseña despues: {self.contrasena}")
+            self.cambiocontrasena = '0'
+        super(Usuario, self).save(*args, **kwargs)
