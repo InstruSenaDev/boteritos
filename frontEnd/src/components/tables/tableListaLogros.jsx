@@ -25,7 +25,9 @@ export default function TableListaLogros() {
         {/*Buscador*/}
         <div className="flex justify-between w-full pb-5">
         <Buscador />
-        <Modal txtboton="Abreme" txtmodal="Funcioné:D"/>
+        <Modal txtboton="Abreme" txtmodal="Agregar datos medicos">
+          
+        </Modal>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">
