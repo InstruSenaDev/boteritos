@@ -20,7 +20,7 @@ def user(request):
     
     #Crear Persona y Usuario
     if request.method == 'POST':
-        userSerializer = UsuarioSerializer(data= request.data)
+        userSerializer = UsuarioSerializer(data = request.data)
         
         if userSerializer.is_valid():
             userSerializer.save()

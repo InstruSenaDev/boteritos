@@ -11,6 +11,7 @@ import {
 } from "../../helper/objects/dropdownArray.js";
 import { Boton } from "../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../api/post.js";
+import { getDate } from "../../helper/functions/getDate.js"
 
 export const Registro = () => {
   const [values, setValues] = useState({
@@ -22,7 +23,6 @@ export const Registro = () => {
     barrio : "",
     correo : "",
     urlimg : "",
-    fecharegistro : "", 
     fechaingreso : "",
     fechanacimiento : "",
     edad : "",
@@ -31,10 +31,10 @@ export const Registro = () => {
     idtipodocumento : "",
     idsexo : "",
     contrasena : "",
-    cambiocontrasena : "",
-    estado : "",
-    idrol : "" 
-
+    cambiocontrasena : "0",
+    estado : "1",
+    idrol : "",
+    
     //hojaDeVida: null,
   });
 
@@ -56,9 +56,21 @@ export const Registro = () => {
     
     //FALTA TRIM
     const dataUser = {...values,
-        nombre : `${values.nombre} ${values.apellido}`
+        nombre : `${values.nombre.trim()} ${values.apellido.trim()}`,
+        numerodocumento : values.numerodocumento.trim(),
+        comuna : values.comuna.trim(),
+        barrio : values.barrio.trim(),
+        correo : values.correo.trim(),
+        urlimg : `https://${values.urlimg}img.com`,
+        edad : values.edad.trim(),
+        institutoprocedencia : values.institutoprocedencia.trim(), 
+        direccion : values.direccion.trim(),
+        contrasena : values.numerodocumento.trim(),
+        fecharegistro : getDate(),
+        idarea : 'N/A'
      }
     console.log(dataUser);
+    createUser(dataUser)
     //const response = postUserStudent(dataUser)
   };
 
@@ -81,6 +93,11 @@ export const Registro = () => {
     console.log(`${name} file:`, file); // Mostrar el archivo seleccionado en la consola
   };
 
+  const createUser = async (data) => {
+    const response = await postUserStudent(data, 'usuarios')
+    console.log(response);
+  }
+
   return (
     <form
       onSubmit={handleFormSubmit}
@@ -97,10 +114,10 @@ export const Registro = () => {
         {/* Renderiza dropdowns adicionales según el rol seleccionado */}
         {selectedRole == "2" ? (
           <Dropdown
-            name={"area"}
+            name={"idarea"}
             label={"Area"}
             data={dataArea}
-            onChange={(value) => handleDropdownChange("matricula", value)}
+            onChange={(value) => handleDropdownChange("idarea", value)}
           />
         ) : selectedRole == "3" ? (
           <Dropdown
@@ -140,7 +157,44 @@ export const Registro = () => {
           placeholder={"Documento del usuario"}
           tipo={"number"}
           onChange={handleInputChange}
-          value={values.ndocumento}
+          value={values.numerodocumento}
+        />
+        <Input
+          name={"fechanacimiento"}
+          texto={"Fecha de nacimiento"}
+          placeholder={"Nacimiento del usuario"}
+          tipo={"text"}
+          onChange={handleInputChange}
+          value={values.fechanacimiento}
+        />
+        <Input
+          name={"edad"}
+          texto={"Edad"}
+          placeholder={"Edad del usuario"}
+          tipo={"text"}
+          onChange={handleInputChange}
+          value={values.edad}
+        />
+        {
+          selectedRole != 1 ? 
+          <Input
+            name={"fechaingreso"}
+            texto={"Fecha de ingreso"}
+            placeholder={"Ingreso del usuario"}
+            tipo={"text"}
+            onChange={handleInputChange}
+            value={values.fechaingreso}
+          />
+          :
+          null 
+        }
+        <Input
+          name={"barrio"}
+          texto={"Barrio"}
+          placeholder={"Barrio del usuario"}
+          tipo={"text"}
+          onChange={handleInputChange}
+          value={values.barrio}
         />
         <Input
           name={"direccion"}

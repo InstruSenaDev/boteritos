@@ -13,7 +13,6 @@ export const Input = ({ texto, placeholder, name, tipo, onChange, value }) => {
                     onChange={onChange}
                     value={value}
                 />
-                {/* <img src="../../../public/img/icons.svg" alt=""/> */}
             </div>
         </div>
     );

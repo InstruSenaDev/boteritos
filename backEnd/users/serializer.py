@@ -114,7 +114,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
-
+    
 
 class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
