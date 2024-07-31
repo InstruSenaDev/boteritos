@@ -26,7 +26,7 @@ export const FormLogin = () => {
     }
 
     return (
-        <main class="w-full h-screen flex justify-center items-center p-4 text-black">
+        <main className="w-full h-screen flex justify-center items-center p-4 text-black">
             <form onSubmit={handleFormLoginSubmit} className="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]">
                 <div className="flex flex-col gap-7 max-w-[400px] w-full">
                     <h1 className="text-title font-cocogooseRegular tracking-widest text-darkBlue">

@@ -4,9 +4,9 @@ import TableStudents from '../../components/tables/tableStudents'
 
 const ListStudents = () => {
   return (
-    <main class="flex flex-col gap-8">
+    <main className="flex flex-col gap-8">
         <HeaderData />
-        <p class="text-subTitle font-cocogooseSemiLight text-darkBlue">LISTA DE ESTUDIANTES</p>
+        <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">LISTA DE ESTUDIANTES</p>
         <TableStudents />
     </main>
   )

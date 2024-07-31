@@ -10,22 +10,32 @@ import {
   dataArea,
 } from "../../helper/objects/dropdownArray.js";
 import { Boton } from "../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../api/post.js";
 
 export const Registro = () => {
   const [values, setValues] = useState({
-    rol: "",
-    matricula: "",
-    nombre: "",
-    apellidos: "",
-    documento: "",
-    ndocumento: "",
-    direccion: "",
-    comuna: "",
-    correo: "",
-    sexo: "",
-    instituto: "",
-    hojaDeVida: null,
-    foto: null,
+
+    nombre : "",
+    apellido : "",
+    numerodocumento : "",
+    comuna : "",
+    barrio : "",
+    correo : "",
+    urlimg : "",
+    fecharegistro : "", 
+    fechaingreso : "",
+    fechanacimiento : "",
+    edad : "",
+    institutoprocedencia : "", 
+    direccion : "",
+    idtipodocumento : "",
+    idsexo : "",
+    contrasena : "",
+    cambiocontrasena : "",
+    estado : "",
+    idrol : "" 
+
+    //hojaDeVida: null,
   });
 
   const [selectedRole, setSelectedRole] = useState("");
@@ -43,12 +53,19 @@ export const Registro = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
+    
+    //FALTA TRIM
+    const dataUser = {...values,
+        nombre : `${values.nombre} ${values.apellido}`
+     }
+    console.log(dataUser);
+    //const response = postUserStudent(dataUser)
   };
 
   // Maneja cambios en el dropdown de rol
   const handleRoleChange = (value) => {
     setSelectedRole(value);
-    setValues({ ...values, rol: value }); // Actualiza el estado de 'rol'
+    setValues({ ...values, idrol: value }); // Actualiza el estado de 'rol'
     console.log("rol value:", value); // Mostrar el valor seleccionado del rol en la consola
   };
 
@@ -69,10 +86,10 @@ export const Registro = () => {
       onSubmit={handleFormSubmit}
       className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-8 gap-x-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
         {/* Dropdown para seleccionar el rol */}
         <Dropdown
-          name={"rol"}
+          name={"idrol"}
           label={"¿Qué deseas crear?"}
           data={dataRol}
           onChange={handleRoleChange}
@@ -103,25 +120,25 @@ export const Registro = () => {
           value={values.nombre}
         />
         <Input
-          name={"apellidos"}
+          name={"apellido"}
           texto={"Apellidos"}
           placeholder={"Apellido del usuario"}
           tipo={"text"}
           onChange={handleInputChange}
-          value={values.apellidos}
+          value={values.apellido}
         />
         {/* Dropdown para seleccionar el tipo de documento */}
         <Dropdown
-          name={"documento"}
+          name={"idtipodocumento"}
           label={"Tipo de documento"}
           data={dataDoc}
-          onChange={(value) => handleDropdownChange("documento", value)}
+          onChange={(value) => handleDropdownChange("idtipodocumento", value)}
         />
         <Input
-          name={"ndocumento"}
+          name={"numerodocumento"}
           texto={"Número de documento"}
           placeholder={"Documento del usuario"}
-          tipo={"text"}
+          tipo={"number"}
           onChange={handleInputChange}
           value={values.ndocumento}
         />
@@ -137,7 +154,7 @@ export const Registro = () => {
           name={"comuna"}
           texto={"Comuna"}
           placeholder={"Comuna del usuario"}
-          tipo={"text"}
+          tipo={"number"}
           onChange={handleInputChange}
           value={values.comuna}
         />
@@ -145,21 +162,21 @@ export const Registro = () => {
           name={"correo"}
           texto={"Correo"}
           placeholder={"Correo electrónico del usuario"}
-          tipo={"text"}
+          tipo={"email"}
           onChange={handleInputChange}
           value={values.correo}
         />
         {/* Dropdown para seleccionar el sexo */}
         <Dropdown
-          name={"sexo"}
+          name={"idsexo"}
           label={"Sexo"}
           data={dataSexo}
-          onChange={(value) => handleDropdownChange("sexo", value)}
+          onChange={(value) => handleDropdownChange("idsexo", value)}
         />
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
         {selectedRole !== "1" && selectedRole !== "2" ? (
           <Input
-            name={"instituto"}
+            name={"institutoprocedencia"}
             texto={"Instituto"}
             placeholder={"Instituto del usuario"}
             tipo={"text"}

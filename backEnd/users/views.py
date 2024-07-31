@@ -1,66 +1,52 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Personas, Tipodocumento, Usuario
-from .serializer import PersonasSerializer, TipoDocumentoSerializer, UsuarioSerializer
+from .models import Tipodocumento, Usuarios
+from .serializer import TipoDocumentoSerializer, UsuarioSerializer
 
 # Create your views here.
 #CONSULTAS
 
 @api_view(['GET','POST'])
 def user(request):
-    
     #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
     #el metodo http que se utilizó en la peticion
+    
+    #OBTENER TODOS LOS USUARIOS
     if request.method == 'GET':
-        query = Personas.objects.all()
-        querySerializer = PersonasSerializer(query,many = True)
-        return Response(querySerializer.data,status=status.HTTP_200_OK) 
+        user = Usuarios.objects.all()
+        userSerializer = UsuarioSerializer(user, many = True)
+        return Response(userSerializer.data,status=status.HTTP_200_OK) 
     
     #Crear Persona y Usuario
     if request.method == 'POST':
-        querySerializer = PersonasSerializer(data= request.data)
+        userSerializer = UsuarioSerializer(data= request.data)
         
-        if querySerializer.is_valid():
-            querySerializer.save() #INSERT A PERSONAS
-            #OBTENEMOS LA DATA QUE SE GUARDÓ Y ACCEDEMOS A SU ID PARA HACER EL INSERT EN USUARIOS
-            userData = querySerializer.data
-            userDataObj = {
-                'contrasena' : userData.get('numerodocumento'),
-                'cambiocontrasena' : '0',
-                'estado' : '1',
-                'idpersona' : userData.get('idpersona'),
-                'idrol' : request.data['idRol']
-            }
-            
-            newUser = UsuarioSerializer(data=userDataObj)
-            print(userDataObj['contrasena'])
-            
-            if newUser.is_valid():
-                newUser.save()
-                return Response({"persona":querySerializer.data, "usuario" : newUser.data }, status=status.HTTP_201_CREATED)
-            
-            return Response(newUser.errors, status=status.HTTP_400_BAD_REQUEST)
+        if userSerializer.is_valid():
+            userSerializer.save()
+            return Response(
+                {"message" : "Usuario creado" , "Usuario" : userSerializer.data }, 
+                status=status.HTTP_200_OK
+                )
         
-        return Response(querySerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT'])
-def userOne(request, idPersona):
+def userOne(request, idUsuario):
     
-    oneUser = Personas.objects.filter(idpersona = idPersona).first()
+    oneUser = Usuarios.objects.filter(idusuario = idUsuario).first()
     #Validacion por si la persona no se encuentra
     if not oneUser:
         return Response({'message' : 'No se encontró el usuario'}, status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
             
-        oneUserSerializer = PersonasSerializer(oneUser)
+        oneUserSerializer = UsuarioSerializer(oneUser)
         return Response(oneUserSerializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'PUT':
                 
-        oneUserSerializer = PersonasSerializer(oneUser, data= request.data)
-        #
+        oneUserSerializer = UsuarioSerializer(oneUser, data= request.data)
         if oneUserSerializer.is_valid():
             oneUserSerializer.save()
             return Response(oneUserSerializer.data, status=status.HTTP_201_CREATED)
@@ -71,29 +57,22 @@ def userOne(request, idPersona):
 def login (request):
     
     if request.method == 'POST':
+        #DATOS RECIBIDOS
         numDocumento = request.data.get('numerodocumento')
         contrasena = request.data.get('contrasena')
         
-        onePerson = Personas.objects.filter(numerodocumento = numDocumento).first()
+        oneUser = Usuarios.objects.filter(numerodocumento = numDocumento).first()
         
-        if not onePerson:
+        if not oneUser:
             return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
-        
-        onePersonSerializer = PersonasSerializer(onePerson)
-        idOneUser = onePersonSerializer.data.get('idpersona')
-        print(onePersonSerializer.data.get('idpersona'))
-        
-        oneUser = Usuario.objects.filter(idpersona = idOneUser).first()
-        
-        print(f"Hash: {oneUser.contrasena}")
-        print(f"Contraseña: {contrasena}")
-        
-        oneUserSerializer = UsuarioSerializer(oneUser)
-        
-        print(f"Data: {oneUserSerializer.data}")
-        print(f"Resultado: {oneUser.check_password(contrasena)}")
-        
+               
         if not oneUser.check_password(contrasena):
-            return Response({"message" : "Login sin exito"}, status=status.HTTP_400_BAD_REQUEST)
-              
-        return Response({"message": "Login con exito" , "Token" : "aqui debe ir mi token"}, status=status.HTTP_200_OK)
+            return Response(
+                {"message" : "Login sin exito"}, 
+                status=status.HTTP_400_BAD_REQUEST
+                )
+
+        return Response(
+            {"message": "Login con exito" , "Token" : "aqui debe ir mi token"}, 
+            status=status.HTTP_200_OK
+            )
