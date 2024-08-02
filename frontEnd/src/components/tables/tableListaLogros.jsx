@@ -19,6 +19,7 @@ export default function TableListaLogros() {
   console.log(openAcc);
   return (
     <>
+      
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
         {/*Buscador*/}
         <div className="flex justify-between w-full pb-5">
@@ -27,11 +28,12 @@ export default function TableListaLogros() {
             txtboton="Abreme"
             txtmodal="Agregar datos medicos"
             txtbutton2="AGREGAR"
+            cols="2"
           >
-            <div className="grid grid-cols-2 gap-x-[30px] gap-y-[20px]">
+         
               <Input
                 texto="Nombre completo"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa el nombre completo"
                 name="nombre"
                 tipo="text"
               />
@@ -44,42 +46,42 @@ export default function TableListaLogros() {
 
               <Input
                 texto="Número de documento"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa el número documento"
                 name="ndocumento"
                 tipo="text"
               />
               <Input
                 texto="Teléfono"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa el número de teléfono"
                 name="telefono"
                 tipo="text"
               />
               <Input
                 texto="Otro teléfono"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa un segundo teléfono"
                 name="telefonodos"
                 tipo="text"
               />
 
               <Input
                 texto="Dirección"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa la dirección"
                 name="direccion"
                 tipo="text"
               />
               <Input
                 texto="Empresa"
-                placeholder="Ingresa tu documento"
+                placeholder="Ingresa la empresa"
                 name="ndocumento"
                 tipo="text"
               />
-              <Input
-                texto="Tipo parentezco"
-                placeholder="Ingresa tu documento"
-                name="ndocumento"
-                tipo="text"
+              <Dropdown
+                name={"parentesco"}
+                label={"Tipo de parentesco"}
+                data={dataDoc}
+                onChange={(value) => handleDropdownChange("parentesco", value)}
               />
-            </div>
+ 
           </Modal>
         </div>
 
