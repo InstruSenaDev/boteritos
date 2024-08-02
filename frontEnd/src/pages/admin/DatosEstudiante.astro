@@ -3,22 +3,26 @@ import React from "react";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import { GrupoDatos } from "../../components/datosEstudiante/GrupoDatos.jsx";
 import { Dato } from "../../components/datosEstudiante/Dato.jsx";
-import {DatosHistoria} from "../../components/datosEstudiante/DatosHistoria";
+import { DatosHistoria } from "../../components/datosEstudiante/DatosHistoria";
 import { Boton } from "../../components/forms/Boton";
 import HeaderData from "../../components/tables/headerData/HeaderData";
 import GrupoDatoElemento from "../../components/datosEstudiante/GrupoDatoElemento.astro";
 import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
+import { InformativeModal } from "../../components/modales/InformativeModal";
 
-
+// Bloque de script para usar React
+const [isOpen, setIsOpen] = React.useState(false);
 ---
 <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
   <div class="w-full space-y-7">
+    <InformativeModal isOpen={isOpen} setIsOpen={setIsOpen} />
+    <h1>hola</h1>
     <HeaderData client:visible />
     <GrupoDatoElemento />
     <div class="w-full h-0 border-darkBlue border-2"></div>
     <div class="space-y-7">
       <GrupoDatos titulo={"Datos personales"}>
-        <Dato data={dataPersonal}/>
+          <Dato data={dataPersonal}/>
       </GrupoDatos>
       <GrupoDatos titulo={"Datos personales"}>
         <Dato data={dataTelefono}/>
@@ -26,7 +30,7 @@ import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataH
       <GrupoDatos titulo={"Responsable"}>
         <Dato data={dataResponsable}/>
       </GrupoDatos>
-      <GrupoDatos titulo={"Condicion Medica"}>
+      <GrupoDatos titulo={"dataCondicionMedica"}>
         <Dato data={dataCondicionMedica}/>
       </GrupoDatos>
       <DatosHistoria titulo={"Historia clinica"}>
