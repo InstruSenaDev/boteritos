@@ -1,0 +1,15 @@
+---
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
+import GrupoDatoElemento from "../../components/datosEstudiante/GrupoDatoElemento.astro";
+import {InformeIndividual} from "../../components/informe/InformeIndividual";
+---
+
+<LayoutGeneral title="InformeObservacion" titleHeader="Informe">
+    <div class="w-full space-y-7">
+        <HeaderData client:visible />
+        <GrupoDatoElemento/>
+        <div class="w-full h-0 border-darkBlue border-2"></div>
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"}/>
+    </div>
+</LayoutGeneral>
