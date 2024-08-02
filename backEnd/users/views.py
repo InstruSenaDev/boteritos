@@ -62,7 +62,7 @@ def login (request):
         contrasena = request.data.get('contrasena')
         
         oneUser = Usuarios.objects.filter(numerodocumento = numDocumento).first()
-        
+        print(oneUser)
         if not oneUser:
             return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
                
@@ -72,7 +72,16 @@ def login (request):
                 status=status.HTTP_400_BAD_REQUEST
                 )
 
+        dataUser = UsuarioSerializer(oneUser)
+        
+        dataUserClean = {
+            "idUsuario" : dataUser.data.get('idusuario'),
+            "nombre" : dataUser.data.get('nombre'),
+            "urlImg" : dataUser.data.get('urlimg'),
+            "idrol" : dataUser.data.get('idrol')
+        }
+        
         return Response(
-            {"message": "Login con exito" , "Token" : "aqui debe ir mi token"}, 
+            {"message": "Login con exito" , "data" : dataUserClean, "token" : "aqui debe ir mi token"}, 
             status=status.HTTP_200_OK
             )

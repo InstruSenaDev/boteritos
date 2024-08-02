@@ -10,7 +10,7 @@ export default function TableStudents() {
   useEffect(()=>{
     const obtainData = async () =>{
       const dataApi = await getAllUser('usuarios')
-      setDataStudents(dataApi)
+      setDataStudents(dataApi.data)
     };
     obtainData()
   },[])

@@ -12,7 +12,6 @@ import {
 import { Boton } from "../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../api/post.js";
 import { getDate } from "../../helper/functions/getDate.js"
-
 export const Registro = () => {
   const [values, setValues] = useState({
 
@@ -26,7 +25,7 @@ export const Registro = () => {
     fechaingreso : "",
     fechanacimiento : "",
     edad : "",
-    institutoprocedencia : "", 
+    institutoprocedencia : "N/A", 
     direccion : "",
     idtipodocumento : "",
     idsexo : "",
@@ -34,6 +33,7 @@ export const Registro = () => {
     cambiocontrasena : "0",
     estado : "1",
     idrol : "",
+    idarea : 'N/A'
     
     //hojaDeVida: null,
   });
@@ -66,8 +66,7 @@ export const Registro = () => {
         institutoprocedencia : values.institutoprocedencia.trim(), 
         direccion : values.direccion.trim(),
         contrasena : values.numerodocumento.trim(),
-        fecharegistro : getDate(),
-        idarea : 'N/A'
+        fecharegistro : getDate()
      }
     console.log(dataUser);
     createUser(dataUser)
