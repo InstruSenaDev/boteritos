@@ -1,6 +1,23 @@
+import { useEffect } from "react";
 import GraphicPie from "../../../components/graphics/GraphicPie"
 
 const HeaderData = () => {
+  const logros = [
+    {
+      name: 'LA',
+      value: 2,
+    },
+    {
+      name: 'LP',
+      value: 2,
+    },
+    {
+      name: 'LN',
+      value: 2,
+    }
+  ];
+
+
   return (
     <div className="flex gap-3 text-black font-cocogooseLight sm:flex-row flex-col">
       {/*IMAGEN DEL ESTUDIANTE*/}
@@ -51,7 +68,7 @@ const HeaderData = () => {
 
       {/* ESTADISTICAS */}
       <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex justify-start">
-        <GraphicPie />
+        <GraphicPie data={logros} />
       </div>
 
       {/*BOTON VER */}

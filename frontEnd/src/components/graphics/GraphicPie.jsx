@@ -1,29 +1,11 @@
 import { DonutChart, Legend } from '@tremor/react';
 
-const logros = [
-  {
-    name: 'LA',
-    value: 4,
-  },
-  {
-    name: 'LP',
-    value: 2,
-  },
-  {
-    name: 'LN',
-    value: 1,
-  }
-];
-
-const valueFormatter = (number) =>
-  `$ ${Intl.NumberFormat('us').format(number).toString()}`;
-
-export default function DonutChartUsageExample() {
+export default function GraphicPie({data}) {
   return (
     <>
       <div className="h-full flex items-center justify-center space-x-3">
         <DonutChart
-          data={logros}
+          data={data}
           category="value"
           index="name"
           colors={['green', 'yellow', 'red']}

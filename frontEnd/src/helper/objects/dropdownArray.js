@@ -20,3 +20,12 @@ export const dataMatricula =[
   {"option" : "Matricula 2", "value" : "2"},
   {"option" : "Matricula 3", "value" : "3"}
 ]
+
+export const dataArea =[
+  {"option" : "Teatro", "value" : "1"},
+  {"option" : "Musica", "value" : "2"},
+  {"option" : "Pintura", "value" : "3"},
+  {"option" : "Danza", "value" : "4"},
+  {"option" : "Socio Afectiva", "value" : "5"},
+  {"option" : "Vida Diaria", "value" : "6"},
+]

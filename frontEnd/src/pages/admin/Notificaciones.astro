@@ -5,6 +5,7 @@ import Notificacion from "../../components/notificaciones/Notificacion.astro";
 import Buscador from "../../components/search/Buscador";
 import {datosnoti} from "../../helper/objects/notificationArray";
 
+
 ---
 
 <LayoutGeneral title = "Notificaciones" titleHeader = "Notificaciones">
@@ -16,7 +17,7 @@ import {datosnoti} from "../../helper/objects/notificationArray";
             <Notificacion img={datonoti.img} nombre={datonoti.nombre} area={datonoti.area} hora={datonoti.hora} />
         )
     
-    )}
+        )}
       </div>
         
     </div>

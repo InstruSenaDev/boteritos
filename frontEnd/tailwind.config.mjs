@@ -31,8 +31,8 @@ export default {
 				tremor: {
 					brand: {
 						faint: colors.blue[50],
-						muted: colors.blue[200],
-						subtle: colors.blue[400],
+						muted: colors.transparent,
+						subtle: colors.transparent,
 						DEFAULT: colors.blue[500],
 						emphasis: colors.blue[700],
 						inverted: colors.white,
@@ -56,6 +56,7 @@ export default {
 						strong: colors.gray[900],
 						inverted: colors.white,
 					},
+					
 				},
 				// dark mode
 				'dark-tremor': 'class'
