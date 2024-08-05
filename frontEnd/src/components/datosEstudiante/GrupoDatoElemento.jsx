@@ -1,22 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { DatoElemento } from "./DatoElemento";
-import { InformativeModal } from '../modales/InformativeModal';
-import { Input } from '../forms/Input';
+import { InformativeModal } from "../modales/InformativeModal";
+import { Input } from "../forms/Input";
+import { Dropdown } from "../forms/Dropdown";
+import { dataDoc } from "../../helper/objects/dropdownArray";
+import { UploadFile } from "../forms/UploadFile";
 
 export const GrupoDatoElemento = () => {
+  const [cols, setCols] = useState(1);
   const [selectedContent, setSelectedContent] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [values, setValues] = useState({
-    telefono: '',
-    documento: '',
-    responsable: '',
-    condicionMedica: '',
-    historiaClinica: '',
-    informes: ''
+    telefono: "",
+    telefonodos: "",
+    documento: "",
+    responsable: "",
+    condicionMedica: "",
+    historiaClinica: "",
+    informes: "",
+    parentesco: "",
+    nombre: "",
+    ndocumento: "",
+    direccion: "",
+    empresa: "",
   });
 
   const handleOpenModal = (contentType) => {
     setSelectedContent(contentType);
+    switch (contentType) {
+      case "Telefono":
+        setCols(1);
+        break;
+      case "Responsable":
+        setCols(2);
+        break;
+      case "CondicionMedica":
+        setCols(1);
+        break;
+      case "HistoriaClinica":
+        setCols(1);
+        break;
+      case "Informes":
+        setCols(1);
+        break;
+      default:
+        setCols(1);
+    }
     setIsOpen(true);
   };
 
@@ -34,57 +63,143 @@ export const GrupoDatoElemento = () => {
       case "Telefono":
         return (
           <>
-          
             <Input
-              texto="Número de documento"
-              placeholder="Ingresa tu documento"
+              texto="Ingresa un numero de teléfono el cual permita comunicarse con el estudiante"
+              placeholder="Por favor escriba su número telefónico"
               name="telefono"
               tipo="text"
-              onChange={handleInputChange}
-              value={values.telefono}
             />
           </>
         );
       case "Responsable":
         return (
           <>
-            <p>Información del Responsable</p>
             <Input
-              texto="Nombre del responsable"
-              placeholder="Ingresa el nombre del responsable"
-              name="responsable"
+              texto="Nombre completo"
+              placeholder="Ingresa el nombre completo"
+              name="nombre"
               tipo="text"
-              onChange={handleInputChange}
-              value={values.responsable}
+            />
+            <Dropdown
+              name={"documento"}
+              label={"Tipo de documento"}
+              data={dataDoc}
+              onChange={(value) => handleDropdownChange("documento", value)}
+            />
+
+            <Input
+              texto="Número de documento"
+              placeholder="Ingresa el número documento"
+              name="ndocumento"
+              tipo="text"
+            />
+            <Input
+              texto="Teléfono"
+              placeholder="Ingresa el número de teléfono"
+              name="telefono"
+              tipo="text"
+            />
+            <Input
+              texto="Otro teléfono"
+              placeholder="Ingresa un segundo teléfono"
+              name="telefonodos"
+              tipo="text"
+            />
+
+            <Input
+              texto="Dirección"
+              placeholder="Ingresa la dirección"
+              name="direccion"
+              tipo="text"
+            />
+            <Input
+              texto="Empresa"
+              placeholder="Ingresa la empresa"
+              name="empresa"
+              tipo="text"
+            />
+            <Dropdown
+              name={"parentesco"}
+              label={"Tipo de parentesco"}
+              data={dataDoc}
+              onChange={(value) => handleDropdownChange("parentesco", value)}
             />
           </>
         );
-      case "CondicionMedica":
+      case "Condicion Medica":
         return (
           <>
-            <p>Información de la Condición Médica</p>
+            <Dropdown
+              name={"parentesco"}
+              label={"Tipo de parentesco"}
+              data={dataDoc}
+              onChange={(value) => handleDropdownChange("parentesco", value)}
+            />
+
             <Input
-              texto="Detalles de la condición"
-              placeholder="Ingresa los detalles de la condición"
-              name="condicionMedica"
+              texto="Lugar de atención"
+              placeholder="Ingresa el lugar de atención"
+              name="lugaratención"
               tipo="text"
               onChange={handleInputChange}
-              value={values.condicionMedica}
+              value={values.lugaratención}
+            />
+
+            <Dropdown
+              name={"rh"}
+              label={"RH"}
+              data={dataDoc}
+              onChange={(value) => handleDropdownChange("rh", value)}
+            />
+            <Input
+              texto="Estatura"
+              placeholder="Ingresa la estatura"
+              name="estatura"
+              tipo="text"
+              onChange={handleInputChange}
+              value={values.estatura}
+            />
+
+            <Input
+              texto="Peso"
+              placeholder="Ingresa el peso"
+              name="peso"
+              tipo="text"
+              onChange={handleInputChange}
+              value={values.peso}
             />
           </>
         );
-      case "HistoriaClinica":
+      case "Historia Clinica":
         return (
           <>
-            <p>Información de la Historia Clínica</p>
+           
             <Input
-              texto="Detalles de la historia clínica"
-              placeholder="Ingresa los detalles de la historia clínica"
-              name="historiaClinica"
+              texto="Diagnostico"
+              placeholder="Ingresa el diagnostico del estudiante"
+              name="diagnostico"
+              tipo="text"
+              onChange={handleInputChange}
+              value={values.diagnostico}
+            />
+           <Input
+              texto="Restricciones alimenticias"
+              placeholder="Ingresa las restrincciones alimenticias"
+              name="restrincciones"
               tipo="text"
               onChange={handleInputChange}
               value={values.historiaClinica}
             />
+             <Input
+              texto="Medicamentos"
+              placeholder="Ingresa los medicamentos que necesita"
+              name="medicamentos"
+              tipo="text"
+              onChange={handleInputChange}
+              value={values.medicamentos}
+            />
+            {/*Falta componente de observación*/}
+            <UploadFile/>
           </>
         );
       case "Informes":
@@ -109,15 +224,35 @@ export const GrupoDatoElemento = () => {
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
-        <DatoElemento icon={"fa-solid fa-phone"} texto={"Telefono(s)"} onClick={() => handleOpenModal("Telefono")} />
-        <DatoElemento icon={"fa-solid fa-user-group"} texto={"Responsable(s)"} onClick={() => handleOpenModal("Responsable")} />
-        <DatoElemento icon={"fa-solid fa-hospital"} texto={"Condicion medica"} onClick={() => handleOpenModal("CondicionMedica")} />
-        <DatoElemento icon={"fa-solid fa-address-card"} texto={"Historia clinica"} onClick={() => handleOpenModal("HistoriaClinica")} />
-        <DatoElemento icon={"fa-solid fa-user"} texto={"Informes"} onClick={() => handleOpenModal("Informes")} />
+        <DatoElemento
+          icon={"fa-solid fa-phone"}
+          texto={"Telefono(s)"}
+          onClick={() => handleOpenModal("Telefono")}
+        />
+        <DatoElemento
+          icon={"fa-solid fa-user-group"}
+          texto={"Responsable(s)"}
+          onClick={() => handleOpenModal("Responsable")}
+        />
+        <DatoElemento
+          icon={"fa-solid fa-hospital"}
+          texto={"Condicion medica"}
+          onClick={() => handleOpenModal("Condicion Medica")}
+        />
+        <DatoElemento
+          icon={"fa-solid fa-address-card"}
+          texto={"Historia clinica"}
+          onClick={() => handleOpenModal("Historia Clinica")}
+        />
+        <DatoElemento
+          icon={"fa-solid fa-user"}
+          texto={"Informes"}
+          onClick={() => handleOpenModal("Informes")}
+        />
       </div>
       <InformativeModal
         txtmodal={`Información de ${selectedContent}`}
-        cols={2}
+        cols={cols}
         isOpen={isOpen}
         onClose={handleCloseModal}
       >
@@ -125,4 +260,4 @@ export const GrupoDatoElemento = () => {
       </InformativeModal>
     </>
   );
-}
+};
