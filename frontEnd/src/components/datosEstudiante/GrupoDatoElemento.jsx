@@ -10,6 +10,7 @@ export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
   const [selectedContent, setSelectedContent] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+
   const [values, setValues] = useState({
     telefono: "",
     telefonodos: "",
@@ -24,6 +25,19 @@ export const GrupoDatoElemento = () => {
     direccion: "",
     empresa: "",
   });
+
+  const handleInputChange =(event)=>{
+    const {name,value } = event.target;
+    setValues({
+      ...values
+    })
+  }
+
+  const handleForm =(event)=>{
+    event.preventDefault();
+    console.log(values);
+    
+  }
 
   const handleOpenModal = (contentType) => {
     setSelectedContent(contentType);
@@ -54,9 +68,9 @@ export const GrupoDatoElemento = () => {
     setSelectedContent(null);
   };
 
-  const handleInputChange = (e) => {
+{/*  const handleInputChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  };*/}
 
   const getModalContent = () => {
     switch (selectedContent) {
@@ -124,11 +138,13 @@ export const GrupoDatoElemento = () => {
               data={dataDoc}
               onChange={(value) => handleDropdownChange("parentesco", value)}
             />
+            <button type="submit">enviar</button>
           </>
         );
       case "Condicion Medica":
         return (
           <>
+          <form action="" onSubmit={handleForm}>
             <Dropdown
               name={"parentesco"}
               label={"Tipo de parentesco"}
@@ -168,6 +184,8 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.peso}
             />
+              <button type="submit">enviar</button>
+            </form>
           </>
         );
       case "Historia Clinica":
