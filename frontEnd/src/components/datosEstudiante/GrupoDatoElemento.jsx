@@ -24,20 +24,34 @@ export const GrupoDatoElemento = () => {
     ndocumento: "",
     direccion: "",
     empresa: "",
+    lugaratención: "",
+    rh: "",
+    estatura: "",
+    peso: "",
+    diagnostico: "",
+    restricciones: "",
+    medicamentos: ""
   });
 
-  const handleInputChange =(event)=>{
-    const {name,value } = event.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
     setValues({
-      ...values
-    })
-  }
+      ...values,
+      [name]: value,
+    });
+  };
 
-  const handleForm =(event)=>{
+  const handleDropdownChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleForm = (event) => {
     event.preventDefault();
     console.log(values);
-    
-  }
+  };
 
   const handleOpenModal = (contentType) => {
     setSelectedContent(contentType);
@@ -68,22 +82,18 @@ export const GrupoDatoElemento = () => {
     setSelectedContent(null);
   };
 
-{/*  const handleInputChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };*/}
-
   const getModalContent = () => {
     switch (selectedContent) {
       case "Telefono":
         return (
-          <>
-            <Input
-              texto="Ingresa un numero de teléfono el cual permita comunicarse con el estudiante"
-              placeholder="Por favor escriba su número telefónico"
-              name="telefono"
-              tipo="text"
-            />
-          </>
+          <Input
+            texto="Ingresa un numero de teléfono el cual permita comunicarse con el estudiante"
+            placeholder="Por favor escriba su número telefónico"
+            name="telefono"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.telefono}
+          />
         );
       case "Responsable":
         return (
@@ -93,65 +103,76 @@ export const GrupoDatoElemento = () => {
               placeholder="Ingresa el nombre completo"
               name="nombre"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.nombre}
             />
             <Dropdown
               name={"documento"}
               label={"Tipo de documento"}
               data={dataDoc}
               onChange={(value) => handleDropdownChange("documento", value)}
+              value={values.documento}
             />
-
             <Input
               texto="Número de documento"
               placeholder="Ingresa el número documento"
               name="ndocumento"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.ndocumento}
             />
             <Input
               texto="Teléfono"
               placeholder="Ingresa el número de teléfono"
               name="telefono"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.telefono}
             />
             <Input
               texto="Otro teléfono"
               placeholder="Ingresa un segundo teléfono"
               name="telefonodos"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.telefonodos}
             />
-
             <Input
               texto="Dirección"
               placeholder="Ingresa la dirección"
               name="direccion"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.direccion}
             />
             <Input
               texto="Empresa"
               placeholder="Ingresa la empresa"
               name="empresa"
               tipo="text"
+              onChange={handleInputChange}
+              value={values.empresa}
             />
             <Dropdown
               name={"parentesco"}
               label={"Tipo de parentesco"}
               data={dataDoc}
               onChange={(value) => handleDropdownChange("parentesco", value)}
+              value={values.parentesco}
             />
-            <button type="submit">enviar</button>
+            <button type="submit">Enviar</button>
           </>
         );
       case "Condicion Medica":
         return (
-          <>
-          <form action="" onSubmit={handleForm}>
+          <form onSubmit={handleForm}>
             <Dropdown
               name={"parentesco"}
               label={"Tipo de parentesco"}
               data={dataDoc}
               onChange={(value) => handleDropdownChange("parentesco", value)}
+              value={values.parentesco}
             />
-
             <Input
               texto="Lugar de atención"
               placeholder="Ingresa el lugar de atención"
@@ -160,12 +181,12 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.lugaratención}
             />
-
             <Dropdown
               name={"rh"}
               label={"RH"}
               data={dataDoc}
               onChange={(value) => handleDropdownChange("rh", value)}
+              value={values.rh}
             />
             <Input
               texto="Estatura"
@@ -175,7 +196,6 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.estatura}
             />
-
             <Input
               texto="Peso"
               placeholder="Ingresa el peso"
@@ -184,14 +204,12 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.peso}
             />
-              <button type="submit">enviar</button>
-            </form>
-          </>
+            <button type="submit">Enviar</button>
+          </form>
         );
       case "Historia Clinica":
         return (
           <>
-           
             <Input
               texto="Diagnostico"
               placeholder="Ingresa el diagnostico del estudiante"
@@ -200,15 +218,15 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.diagnostico}
             />
-           <Input
+            <Input
               texto="Restricciones alimenticias"
-              placeholder="Ingresa las restrincciones alimenticias"
-              name="restrincciones"
+              placeholder="Ingresa las restricciones alimenticias"
+              name="restricciones"
               tipo="text"
               onChange={handleInputChange}
-              value={values.historiaClinica}
+              value={values.restricciones}
             />
-             <Input
+            <Input
               texto="Medicamentos"
               placeholder="Ingresa los medicamentos que necesita"
               name="medicamentos"
@@ -216,8 +234,7 @@ export const GrupoDatoElemento = () => {
               onChange={handleInputChange}
               value={values.medicamentos}
             />
-            {/*Falta componente de observación*/}
-            <UploadFile/>
+            <UploadFile />
           </>
         );
       case "Informes":
