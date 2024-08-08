@@ -11,7 +11,6 @@ export function InformativeModal({ txtmodal, cols, children, isOpen, onClose }) 
                 </div>
                 <div className="flex justify-center w-full mt-4">
                     <Button className="max-w-[400px] w-full" onClick={onClose}>
-                        
                         Cerrar
                     </Button>
                 </div>

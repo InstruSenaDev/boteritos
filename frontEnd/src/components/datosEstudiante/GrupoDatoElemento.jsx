@@ -98,6 +98,7 @@ export const GrupoDatoElemento = () => {
       case "Responsable":
         return (
           <>
+          
             <Input
               texto="Nombre completo"
               placeholder="Ingresa el nombre completo"
