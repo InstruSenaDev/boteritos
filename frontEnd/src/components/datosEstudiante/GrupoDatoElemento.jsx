@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DatoElemento } from "./DatoElemento";
-import { InformativeModal } from "../modales/InformativeModal";
+import { RegisterModal } from "../modales/RegisterModal";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { dataDoc } from "../../helper/objects/dropdownArray";
@@ -68,9 +68,7 @@ export const GrupoDatoElemento = () => {
       case "HistoriaClinica":
         setCols(1);
         break;
-      case "Informes":
-        setCols(1);
-        break;
+
       default:
         setCols(1);
     }
@@ -181,6 +179,7 @@ export const GrupoDatoElemento = () => {
               tipo="text"
               onChange={handleInputChange}
               value={values.lugaratención}
+              
             />
             <Dropdown
               name={"rh"}
@@ -238,20 +237,7 @@ export const GrupoDatoElemento = () => {
             <UploadFile />
           </>
         );
-      case "Informes":
-        return (
-          <>
-            <p>Información de Informes</p>
-            <Input
-              texto="Detalles del informe"
-              placeholder="Ingresa los detalles del informe"
-              name="informes"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.informes}
-            />
-          </>
-        );
+     
       default:
         return null;
     }
@@ -283,17 +269,17 @@ export const GrupoDatoElemento = () => {
         <DatoElemento
           icon={"fa-solid fa-user"}
           texto={"Informes"}
-          onClick={() => handleOpenModal("Informes")}
+          onClick={() => handleOpenModal("ESTO NO SERÁ UN MODAL")}
         />
       </div>
-      <InformativeModal
+      <RegisterModal
         txtmodal={`Información de ${selectedContent}`}
         cols={cols}
         isOpen={isOpen}
         onClose={handleCloseModal}
       >
         {getModalContent()}
-      </InformativeModal>
+      </RegisterModal>
     </>
   );
 };

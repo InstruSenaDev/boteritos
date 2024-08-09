@@ -10,11 +10,10 @@ export function Modal(props) {
       </Button>
 
       <Dialog open={isOpen} onClose={(val) => setIsOpen(val)} static={true}>
-
-        <DialogPanel className="flex flex-col gap-8 items-center lg:items-start max-w-[800px] w-full py-[40px] px-[30px]">
-          <h1 className="text-title text-darkBlue">{props.txtmodal}</h1>
-          <div className="w-full">
-            <div className={`grid grid-cols-1 lg:grid-cols-${props.cols} lg:gap-x-[30px] gap-y-[20px]`}>
+        <DialogPanel className="flex flex-col gap-8 items-center w-full py-[40px] px-[30px]">
+          <h1 className="text-title font-cocogooseRegular text-darkBlue">{props.txtmodal}</h1>
+          <div className="w-full flex justify-center">
+            <div className={`w-full grid grid-cols-1 lg:grid-cols-${props.cols} lg:gap-x-[30px] gap-y-[20px] items-center justify-items-center`}>
               {props.children}
             </div>
           </div>

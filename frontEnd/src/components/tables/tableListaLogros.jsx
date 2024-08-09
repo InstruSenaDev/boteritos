@@ -8,8 +8,30 @@ import { Modal } from "../modales/Modal";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { dataDoc } from "../../helper/objects/dropdownArray";
+import { Observacion } from "../forms/Observacion";
 
 export default function TableListaLogros() {
+  
+  const [values, setValues] = useState({
+    archievementsname:"",
+    observacion:""
+  })
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleDropdownChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
   const [openAcc, setOpenAcc] = useState(-1);
 
   const toogleRow = (index) => {
@@ -19,16 +41,15 @@ export default function TableListaLogros() {
   console.log(openAcc);
   return (
     <>
-      
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
         {/*Buscador*/}
         <div className="flex justify-between w-full pb-5">
           <Buscador />
           <Modal
-            txtboton="Abreme"
-            txtmodal="Agregar datos medicos"
-            txtbutton2="AGREGAR"
-            cols="2"
+            txtboton="Agregar logro"
+            txtmodal="Crear nuevo logro"
+            txtbutton2="Agregar"
+            cols="1"
           >
          
               <Input
@@ -36,6 +57,7 @@ export default function TableListaLogros() {
                 placeholder="Ingresa el nombre completo"
                 name="nombre"
                 tipo="text"
+                onChange={handleInputChange}
               />
               <Dropdown
                 name={"documento"}
@@ -43,45 +65,13 @@ export default function TableListaLogros() {
                 data={dataDoc}
                 onChange={(value) => handleDropdownChange("documento", value)}
               />
+            <Observacion
+             texto="Observación"
+             placeholder="Ingresa una observación"
+             name="observación">
 
-              <Input
-                texto="Número de documento"
-                placeholder="Ingresa el número documento"
-                name="ndocumento"
-                tipo="text"
-              />
-              <Input
-                texto="Teléfono"
-                placeholder="Ingresa el número de teléfono"
-                name="telefono"
-                tipo="text"
-              />
-              <Input
-                texto="Otro teléfono"
-                placeholder="Ingresa un segundo teléfono"
-                name="telefonodos"
-                tipo="text"
-              />
-
-              <Input
-                texto="Dirección"
-                placeholder="Ingresa la dirección"
-                name="direccion"
-                tipo="text"
-              />
-              <Input
-                texto="Empresa"
-                placeholder="Ingresa la empresa"
-                name="ndocumento"
-                tipo="text"
-              />
-              <Dropdown
-                name={"parentesco"}
-                label={"Tipo de parentesco"}
-                data={dataDoc}
-                onChange={(value) => handleDropdownChange("parentesco", value)}
-              />
- 
+            </Observacion>
+          
           </Modal>
         </div>
 
