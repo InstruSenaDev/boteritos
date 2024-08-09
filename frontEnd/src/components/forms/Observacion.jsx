@@ -8,8 +8,10 @@ export const Observacion = ({ texto, placeholder, name,value }) => {
                   id={name}
                   name={name}
                   placeholder={placeholder}
-                  className="h-10 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px]"
+                  className=" rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] resize-none	"
                   value={value}
+                  rows="5"
+                  
               />
           </div>
       </div>
