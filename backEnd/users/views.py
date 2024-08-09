@@ -2,7 +2,8 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Tipodocumento, Usuarios, Datosmedicos
-from .serializer import TipoDocumentoSerializer, UsuarioSerializer, DatosMedicosSerializer
+from .serializer import TipoDocumentoSerializer, UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
+from .middleware import validateIdUsuario
 
 # Create your views here.
 #CONSULTAS
@@ -152,3 +153,34 @@ def datosMedicosOne(request, idUsuario):
             {"message" : "Datos medicos encontrados" , "data" : datosMedicos.data},
             status=status.HTTP_200_OK
             )
+        
+@api_view(['POST', 'PUT'])       
+def historiaClinica(request):
+    idUsuario = request.data.get('idusuario')
+    
+    #Validar usuario
+    validateUser = validateIdUsuario(idUsuario)
+    if not validateUser['result'] :
+        return Response(validateUser['message'], status = validateUser['status'])
+            
+    if request.method == 'POST':
+        dataHistoria = HistoriaClinicaSerializer(data = request.data)
+        
+        if dataHistoria.is_valid():
+            dataHistoria.save()
+            return Response(
+                {"message": "Historia Clinica creada exitosamente", "data" : dataHistoria.data},
+                status=status.HTTP_201_CREATED)
+            
+        return Response(
+            {"message" : "Creacion sin exito", "error" : dataHistoria.errors},
+            status= status.HTTP_404_NOT_FOUND
+            )
+    
+    if request.method == 'PUT':
+        return
+
+@api_view(['GET'])
+def historiaClinicaOne(request):
+
+    return Response

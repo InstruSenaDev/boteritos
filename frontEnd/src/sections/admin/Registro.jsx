@@ -22,7 +22,7 @@ export const Registro = () => {
     barrio : "",
     correo : "",
     urlimg : "",
-    fechaingreso : "",
+    fechaingreso : "2000-01-01",
     fechanacimiento : "",
     edad : "",
     institutoprocedencia : "N/A", 

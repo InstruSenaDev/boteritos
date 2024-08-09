@@ -11,6 +11,7 @@ urlpatterns= [
     path('usuarios/<int:idUsuario>', views.userOne),
     path('login', views.login),
     path('datosmedicos', views.datosMedicos),
-    path('datosmedicos/<int:idUsuario>', views.datosMedicosOne)
+    path('datosmedicos/<int:idUsuario>', views.datosMedicosOne),
+    path('historiaclinica', views.historiaClinica)
     #path('docs/', include_docs_urls(title='Boteritos API'))
 ]
