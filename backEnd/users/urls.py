@@ -9,6 +9,8 @@ router = routers.DefaultRouter()
 urlpatterns= [
     path('usuarios', views.user),
     path('usuarios/<int:idUsuario>', views.userOne),
-    path('login', views.login)
+    path('login', views.login),
+    path('datosmedicos', views.datosMedicos),
+    path('datosmedicos/<int:idUsuario>', views.datosMedicosOne)
     #path('docs/', include_docs_urls(title='Boteritos API'))
 ]
