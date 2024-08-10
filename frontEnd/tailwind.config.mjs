@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import colors from 'tailwindcss/colors';
+import colors, { inherit } from 'tailwindcss/colors';
 
 
 export default {
@@ -31,8 +31,8 @@ export default {
 				tremor: {
 					brand: {
 						faint: colors.blue[50],
-						muted: colors.blue[200],
-						subtle: colors.blue[400],
+						muted: colors.transparent,
+						subtle: colors.transparent,
 						DEFAULT: colors.blue[500],
 						emphasis: colors.blue[700],
 						inverted: colors.white,
@@ -55,7 +55,9 @@ export default {
 						emphasis: colors.gray[700],
 						strong: colors.gray[900],
 						inverted: colors.white,
+						
 					},
+					
 				},
 				// dark mode
 				'dark-tremor': 'class'

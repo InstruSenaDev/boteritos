@@ -1,7 +1,7 @@
+import { getAllUser } from "../../api/get";
 import DataState from "./dataStates/DataState";
-import { objStudents } from "../../helper/objects/students";
 import { useEffect, useState } from "react";
-import { urlApi } from "../../helper/urls/apiUrl"
+
 
 export default function TableStudents() {
 
@@ -9,11 +9,8 @@ export default function TableStudents() {
 
   useEffect(()=>{
     const obtainData = async () =>{
-      const response  = await fetch(`${urlApi}personas`);
-      const data = await response.json();
-      console.log(data);
-      setDataStudents(data);
-
+      const dataApi = await getAllUser('usuarios')
+      setDataStudents(dataApi)
     };
     obtainData()
   },[])
@@ -51,8 +48,8 @@ export default function TableStudents() {
             <div className="grid grid-cols-1 sm:grid-cols-[50px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))_60px] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue" key={index}>
               
                 {/*Aqui se hace una conversion para añadir los ceros a la izquierda*/}
-                <p>{(data.idpersona + 1).toString().length == 2 ? index + 1 : `0${index + 1}`}</p>
-                <p className="underline">{`${data.nombre}`}</p>
+                <p>{(data.idusuario).toString().length == 2 ? data.idusuario : `0${data.idusuario}`}</p>
+                <p className="underline cursor-pointer" >{`${data.nombre}`}</p>
                 <p>{data.diagnosticoMental}</p>
                 <DataState state={data.datos} />
                 <DataState state={data.calificado} />
