@@ -1,8 +1,9 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Tipodocumento, Usuarios
-from .serializer import TipoDocumentoSerializer, UsuarioSerializer
+from .models import Tipodocumento, Usuarios, Datosmedicos
+from .serializer import TipoDocumentoSerializer, UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
+from .middleware import validateIdUsuario
 
 # Create your views here.
 #CONSULTAS
@@ -29,13 +30,16 @@ def user(request):
                 status=status.HTTP_200_OK
                 )
         
-        return Response(userSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"message" : "¡Algo ha fallado!" , "error" : userSerializer.errors}, 
+            status=status.HTTP_400_BAD_REQUEST
+            )
 
 @api_view(['GET', 'PUT'])
 def userOne(request, idUsuario):
     
     oneUser = Usuarios.objects.filter(idusuario = idUsuario).first()
-    #Validacion por si la persona no se encuentra
+    #Validacion por si el usaurio no se encuentra
     if not oneUser:
         return Response({'message' : 'No se encontró el usuario'}, status=status.HTTP_404_NOT_FOUND)
     
@@ -62,7 +66,7 @@ def login (request):
         contrasena = request.data.get('contrasena')
         
         oneUser = Usuarios.objects.filter(numerodocumento = numDocumento).first()
-        
+        #CONDICIONAL SI EL USUARIO NO FUE ENCONTRADO
         if not oneUser:
             return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
                
@@ -71,8 +75,112 @@ def login (request):
                 {"message" : "Login sin exito"}, 
                 status=status.HTTP_400_BAD_REQUEST
                 )
-
+        #SE RESUME LA INFORMACION PARA QUE EL FRONTEND NO RECIBA TODOS LOS DATOS DEL USUARIO
+        dataUser = UsuarioSerializer(oneUser)
+        
+        dataUserClean = {
+            "idUsuario" : dataUser.data.get('idusuario'),
+            "nombre" : dataUser.data.get('nombre'),
+            "urlImg" : dataUser.data.get('urlimg'),
+            "idrol" : dataUser.data.get('idrol')
+        }
+        
         return Response(
-            {"message": "Login con exito" , "Token" : "aqui debe ir mi token"}, 
+            {"message": "Login con exito" , "data" : dataUserClean, "token" : "aqui debe ir mi token"}, 
             status=status.HTTP_200_OK
             )
+        
+@api_view(['POST', 'PUT'])
+def datosMedicos(request):
+    print(request.data)
+
+    #Buscar el usuario
+    idUsuario = request.data.get('idusuario')
+    user = Usuarios.objects.filter(idusuario = idUsuario).first()
+    print(user)
+    #Validar que el usuario existe
+    if not user: 
+            return Response({"message": "No se encontró al usuario"},status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'POST':
+            
+        datosMedicos = DatosMedicosSerializer(data=request.data)
+        
+        if datosMedicos.is_valid():
+           datosMedicos.save()
+           return Response(
+               {"message": "¡Datos medicos registrados con exito!" , "data" : datosMedicos.data},
+               status=status.HTTP_201_CREATED
+               ) 
+        
+        return Response(
+            {"message" : "¡Algo ha fallado!" , "error" : datosMedicos.errors},
+            status=status.HTTP_400_BAD_REQUEST
+            )
+    
+    if request.method == 'PUT':
+        dataMedicos = Datosmedicos.objects.filter(idusuario = idUsuario).first()
+        data = DatosMedicosSerializer(dataMedicos, data=request.data)
+        
+        if data.is_valid():
+            data.save()
+            return Response(
+                {"message": "¡Datos medicos actualizados con exito!" , "data" : data.data},
+                status=status.HTTP_201_CREATED
+                ) 
+        
+        return Response(
+            {"message" : "¡Algo ha fallado!" , "error" : datosMedicos.errors},
+            status=status.HTTP_400_BAD_REQUEST
+            )
+
+@api_view(['GET'])
+def datosMedicosOne(request, idUsuario):
+    print(idUsuario)
+    #Buscar el usuario
+    oneUser = Datosmedicos.objects.filter(idusuario = idUsuario).first()
+    #Validar que el usuario existe
+    if not oneUser: 
+            return Response(
+                {"message": "No encontrado", "error" : "No se encontraron los datos medicos de este usuario"},
+                status=status.HTTP_404_NOT_FOUND
+                )
+    
+    if request.method == 'GET':
+        
+        datosMedicos = DatosMedicosSerializer(oneUser)
+        return Response(
+            {"message" : "Datos medicos encontrados" , "data" : datosMedicos.data},
+            status=status.HTTP_200_OK
+            )
+        
+@api_view(['POST', 'PUT'])       
+def historiaClinica(request):
+    idUsuario = request.data.get('idusuario')
+    
+    #Validar usuario
+    validateUser = validateIdUsuario(idUsuario)
+    if not validateUser['result'] :
+        return Response(validateUser['message'], status = validateUser['status'])
+            
+    if request.method == 'POST':
+        dataHistoria = HistoriaClinicaSerializer(data = request.data)
+        
+        if dataHistoria.is_valid():
+            dataHistoria.save()
+            return Response(
+                {"message": "Historia Clinica creada exitosamente", "data" : dataHistoria.data},
+                status=status.HTTP_201_CREATED)
+            
+        return Response(
+            {"message" : "Creacion sin exito", "error" : dataHistoria.errors},
+            status= status.HTTP_404_NOT_FOUND
+            )
+    
+    if request.method == 'PUT':
+        return
+
+@api_view(['GET'])
+def historiaClinicaOne(request):
+
+    return Response

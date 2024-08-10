@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tipodocumento, Usuarios
+from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
 
 class UsuarioSerializer(serializers.ModelSerializer):
     
@@ -120,4 +120,14 @@ class TipoDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
         model= Tipodocumento
         fields= '__all__'
+    
+    
+class DatosMedicosSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Datosmedicos
+        fields = '__all__'
         
+class HistoriaClinicaSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Historiaclinica
+        fields = '__all__'        

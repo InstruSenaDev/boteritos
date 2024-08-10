@@ -12,7 +12,8 @@ export const fetchFunction = async (method, body, header, url) =>{
         }
     })
 
+    
     const data = await response.json()
-
-    return data
+    const result = {status: response.status, data : data }
+    return result
 }
