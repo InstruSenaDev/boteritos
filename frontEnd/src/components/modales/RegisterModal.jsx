@@ -3,7 +3,7 @@ import { Button, Dialog, DialogPanel } from "@tremor/react";
 
 export function RegisterModal({ txtmodal, cols, children, isOpen, onClose, values }) {
     const verValor = () => {
-        
+
         console.log(values);
     }
     return (
@@ -12,8 +12,11 @@ export function RegisterModal({ txtmodal, cols, children, isOpen, onClose, value
                 className={`flex flex-col gap-8 items-center lg:items-start 
                             ${cols === 1 ? 'w-fit' : 'max-w-[800px] w-full'} py-[40px] px-[30px]`}>
 
-                <div className='w-full text-end cursor-pointer' onClick={onClose}> X</div>                
-
+                {/*<div className='w-full text-end cursor-pointer' onClick={onClose}> X</div>*/}
+                <div onClick={onClose} className='absolute top-2 right-2 p-2 rounded-full text-gray bg-white hover:bg-slate-200 hover:text-slate-500'>
+                <i class="fa-solid fa-x"></i>
+                </div>
+                
                 <div className={`w-full text-title text-darkBlue text-center ${cols === 1 ? 'text-center' : 'text-start'}`}>
 
                     <h1>{txtmodal}</h1>

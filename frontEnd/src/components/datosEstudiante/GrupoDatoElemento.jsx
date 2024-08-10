@@ -101,7 +101,8 @@ export const GrupoDatoElemento = () => {
         );
       case "Responsable":
         return (
-          <form onSubmit={handleForm}>
+          <>
+         
             <Input
               texto="Nombre completo"
               placeholder="Ingresa el nombre completo"
@@ -165,7 +166,8 @@ export const GrupoDatoElemento = () => {
               value={values.parentesco || ''}
             />
             <button type="submit">Enviar</button>
-          </form>
+       
+          </>
         );
       case "Condicion Medica":
         return (
