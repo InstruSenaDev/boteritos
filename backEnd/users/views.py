@@ -1,8 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Tipodocumento, Usuarios, Datosmedicos
-from .serializer import TipoDocumentoSerializer, UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
+from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
+from .serializer import UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
 from .middleware import validateIdUsuario
 
 # Create your views here.
@@ -97,7 +97,6 @@ def datosMedicos(request):
     #Buscar el usuario
     idUsuario = request.data.get('idusuario')
     user = Usuarios.objects.filter(idusuario = idUsuario).first()
-    print(user)
     #Validar que el usuario existe
     if not user: 
             return Response({"message": "No se encontró al usuario"},status=status.HTTP_404_NOT_FOUND)
@@ -140,6 +139,7 @@ def datosMedicosOne(request, idUsuario):
     #Buscar el usuario
     oneUser = Datosmedicos.objects.filter(idusuario = idUsuario).first()
     #Validar que el usuario existe
+    print(oneUser)
     if not oneUser: 
             return Response(
                 {"message": "No encontrado", "error" : "No se encontraron los datos medicos de este usuario"},
@@ -174,13 +174,43 @@ def historiaClinica(request):
             
         return Response(
             {"message" : "Creacion sin exito", "error" : dataHistoria.errors},
-            status= status.HTTP_404_NOT_FOUND
+            status= status.HTTP_400_BAD_REQUEST
             )
     
     if request.method == 'PUT':
-        return
+        historiaClinica = Historiaclinica.objects.filter(idusuario = idUsuario).first()
+        data = HistoriaClinicaSerializer(historiaClinica , data = request.data)
+        
+        if data.is_valid():
+           data.save()
+           return Response(
+               {"message": "Historia Clinica actualizada exitosamente", "data" : data.data},
+               status=status.HTTP_201_CREATED
+               )
+        return Response(
+            {"message" : "Historia clinica actualizada sin exito" , "error" : data.errors },
+            status= status.HTTP_400_BAD_REQUEST
+        )
 
 @api_view(['GET'])
-def historiaClinicaOne(request):
-
-    return Response
+def historiaClinicaOne(request, idUsuario):
+    
+    user = validateIdUsuario(idUsuario)
+    
+    if not user['result'] :
+        return Response(user['message'], status = user['status'])
+    
+    historiaClinica = Historiaclinica.objects.filter(idusuario = idUsuario).first()
+    
+    if not historiaClinica:
+        return Response(
+            {"message" : "No se encuentra" , "error" : "Historia Clinica del usuario no encontrada"},
+            status= status.HTTP_404_NOT_FOUND
+        )
+        
+    if request.method == 'GET' : 
+        historiaClinicaSeria = HistoriaClinicaSerializer(historiaClinica)
+        return Response (
+            {"message" : "Historia Clinica encontrada" , "data" : historiaClinicaSeria.data},
+            status= status.HTTP_200_OK
+        )

@@ -8,7 +8,9 @@ def validateIdUsuario(idUsuario):
     if not oneUser:
         return {
             "result" : False,
-            "message" : {"message": "No encontrado", "error" : "No se encontraron los datos medicos de este usuario"},
+            "message" : {"message": "No encontrado", "error" : "No se encontró al usuario"},
             "status" :  status.HTTP_404_NOT_FOUND
         }
-    return {"result" : True}
+    print(oneUser)
+    
+    return {"result" : True , "user" : oneUser}
