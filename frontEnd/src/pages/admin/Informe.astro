@@ -12,22 +12,28 @@ import { Observacion } from "../../components/informe/Observacion";
         <HeaderData client:visible />
         <GrupoDatoElemento/>
         <div class="w-full h-0 border-darkBlue border-2"></div>
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva} client:load>
             <Observacion client:visible/>
         </InformeIndividual>
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataVidaDiaria}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataVidaDiaria} client:load>
             <Observacion client:visible/>
         </InformeIndividual> 
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataTeatro}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataTeatro} client:load>
             <Observacion client:visible/>
         </InformeIndividual>
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataDanza}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataDanza} client:load>
             <Observacion client:visible/>
         </InformeIndividual>
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataMusica}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataMusica} client:load>
             <Observacion client:visible/>
         </InformeIndividual>
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura}>
+
+        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura} client:load>
             <Observacion client:visible/>
         </InformeIndividual>
     </div>
