@@ -12,29 +12,30 @@ import { Observacion } from "../../components/informe/Observacion";
         <HeaderData client:visible />
         <GrupoDatoElemento/>
         <div class="w-full h-0 border-darkBlue border-2"></div>
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual>
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataVidaDiaria} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual> 
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataTeatro} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual>
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataDanza} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual>
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataMusica} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual>
-
-        <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura} client:load>
-            <Observacion client:visible/>
-        </InformeIndividual>
+        <div class="gap-y-5">
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataVidaDiaria} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual> 
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataTeatro} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataDanza} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataMusica} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+        </div>
     </div>
 </LayoutGeneral>
