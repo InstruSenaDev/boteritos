@@ -3,18 +3,20 @@
 import React, { useState } from "react";
 import { DatoElemento } from "./DatoElemento"; 
 import { RegisterModal } from "../modales/RegisterModal"; 
-import { Input } from "../forms/Input"; 
-import { Dropdown } from "../forms/Dropdown";
-import { UploadFile } from "../forms/UploadFile";
-import { dataDoc } from "../../helper/objects/dropdownArray";
 import { defaultValues } from "../../helper/modales/objectsModal";
+import { ModalContent } from "../modales/ModalContent";
+import { getModalConfig } from "../modales/getModalConfig";
+
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
   const [selectedContent, setSelectedContent] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
 
+
+  
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,233 +34,43 @@ export const GrupoDatoElemento = () => {
     }));
   };
 
-  // Maneja el envío del formulario
   const handleForm = (event) => {
     event.preventDefault();
     console.log(values); // Imprime los valores del formulario
+    setValues({});
+   
+    setIsConfirm(true);
   };
+  
+  console.log(isConfirm);
+  
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
-    let initialValues = {};
-    let columns = 1;
-
-    switch (contentType) {
-      case "Telefono":
-        initialValues = defaultValues.telefono;
-        columns = 1;
-        break;
-      case "Responsable":
-        initialValues = defaultValues.responsable;
-        columns = 2;
-        break;
-      case "Condicion Medica":
-        initialValues = defaultValues.condicionMedica;
-        columns = 1;
-        break;
-      case "Historia Clinica":
-        initialValues = defaultValues.historiaClinica;
-        columns = 1;
-        break;
-      case "Informes":
-        initialValues = {}; // No hay valores predeterminados para "Informes"
-        columns = 1;
-        break;
-      default:
-        initialValues = {};
-        columns = 1;
-    }
+    const { initialValues, columns } = getModalConfig(contentType);
 
     setValues(initialValues); // Configura los valores iniciales del formulario
+
     setCols(columns);
+
     setSelectedContent(contentType);
+
     setIsOpen(true);
+    
+    setIsConfirm(false);// Reinicia el estado de confirmación al cerrar el modal
   };
 
   // Cierra el modal y resetea el contenido seleccionado
   const handleCloseModal = () => {
     setIsOpen(false);
     setSelectedContent(null);
-  };
-
-  // Devuelve el contenido del modal según el tipo de contenido seleccionado
-  const getModalContent = () => {
-    switch (selectedContent) {
-      case "Telefono":
-        return (
-          <form onSubmit={handleForm}>
-            <Input
-              texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
-              placeholder="Por favor escriba su número telefónico"
-              name="telefono"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.telefono || ''}
-            />
-          
-            <button type="submit">Enviar</button>
-          </form>
-        );
-      case "Responsable":
-        return (
-          <>
-         
-            <Input
-              texto="Nombre completo"
-              placeholder="Ingresa el nombre completo"
-              name="nombre"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.nombre || ''}
-            />
-            <Dropdown
-              name="documento"
-              label="Tipo de documento"
-              data={dataDoc}
-              onChange={(value) => handleDropdownChange("documento", value)}
-              value={values.documento || ''}
-            />
-            <Input
-              texto="Número de documento"
-              placeholder="Ingresa el número documento"
-              name="ndocumento"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.ndocumento || ''}
-            />
-            <Input
-              texto="Teléfono"
-              placeholder="Ingresa el número de teléfono"
-              name="telefono"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.telefono || ''}
-            />
-            <Input
-              texto="Otro teléfono"
-              placeholder="Ingresa un segundo teléfono"
-              name="telefonodos"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.telefonodos || ''}
-            />
-            <Input
-              texto="Dirección"
-              placeholder="Ingresa la dirección"
-              name="direccion"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.direccion || ''}
-            />
-            <Input
-              texto="Empresa"
-              placeholder="Ingresa la empresa"
-              name="empresa"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.empresa || ''}
-            />
-            <Dropdown
-              name="parentesco"
-              label="Tipo de parentesco"
-              data={dataDoc}
-              onChange={(value) => handleDropdownChange("parentesco", value)}
-              value={values.parentesco || ''}
-            />
-            <button type="submit">Enviar</button>
-       
-          </>
-        );
-      case "Condicion Medica":
-        return (
-          <form onSubmit={handleForm}>
-            <Dropdown
-              name="parentesco"
-              label="Tipo de parentesco"
-              data={dataDoc}
-              onChange={(value) => handleDropdownChange("parentesco", value)}
-              value={values.parentesco || ''}
-            />
-            <Input
-              texto="Lugar de atención"
-              placeholder="Ingresa el lugar de atención"
-              name="lugaratención"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.lugaratención || ''}
-            />
-            <Dropdown
-              name="rh"
-              label="RH"
-              data={dataDoc}
-              onChange={(value) => handleDropdownChange("rh", value)}
-              value={values.rh || ''}
-            />
-            <Input
-              texto="Estatura"
-              placeholder="Ingresa la estatura"
-              name="estatura"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.estatura || ''}
-            />
-            <Input
-              texto="Peso"
-              placeholder="Ingresa el peso"
-              name="peso"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.peso || ''}
-            />
-            <button type="submit">Enviar</button>
-          </form>
-        );
-      case "Historia Clinica":
-        return (
-          <form onSubmit={handleForm}>
-            <Input
-              texto="Diagnóstico"
-              placeholder="Ingresa el diagnóstico del estudiante"
-              name="diagnostico"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.diagnostico || ''}
-            />
-            <Input
-              texto="Restricciones alimenticias"
-              placeholder="Ingresa las restricciones alimenticias"
-              name="restricciones"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.restricciones || ''}
-            />
-            <Input
-              texto="Medicamentos"
-              placeholder="Ingresa los medicamentos que necesita"
-              name="medicamentos"
-              tipo="text"
-              onChange={handleInputChange}
-              value={values.medicamentos || ''}
-            />
-            <UploadFile />
-            <button type="submit">Enviar</button>
-          </form>
-        );
-      case "Informes":
-        return (
-          <div>
-            <h2>Informes</h2>
-            <p>Este es el contenido del modal para informes.</p>
-            <button onClick={handleCloseModal}>Cerrar</button>
-          </div>
-        );
-      default:
-        return null;
-    }
+    setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
   return (
     <>
+   
+    
       <div className="flex flex-wrap gap-y-3 justify-between">
         <DatoElemento
           icon={"fa-solid fa-phone"}
@@ -288,12 +100,20 @@ export const GrupoDatoElemento = () => {
       </div>
       <RegisterModal
         txtmodal={`Información de ${selectedContent}`} 
-        cols={cols} // Mantener 'cols' como nombre de propiedad
+        cols={cols} 
         isOpen={isOpen}
         onClose={handleCloseModal}
         values={values}
+        onSubmit={handleForm}
+        isConfirm={isConfirm}
       >
-        {getModalContent()}
+        <ModalContent
+          selectedContent={selectedContent}
+          values={values}
+          handleInputChange={handleInputChange}
+          handleDropdownChange={handleDropdownChange}
+        />
+
       </RegisterModal>
     </>
   );
