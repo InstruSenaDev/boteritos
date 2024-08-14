@@ -24,5 +24,6 @@ from rest_framework_simplejwt.views import (
 """
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v2/', include('users.urls'))
+    path('api/v2/', include('users.urls')),
+    path('api/v2/', include('dropdowns.urls'))
 ]
