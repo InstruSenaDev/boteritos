@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Dropdown } from "../../components/forms/Dropdown.jsx";
 import { Input } from "../../components/forms/Input.jsx";
 import { UploadFile } from "../../components/forms/UploadFile.jsx";
+import { DatePicker2 } from "../../components/forms/DatePicker.jsx";
 import {
   dataDoc,
   dataRol,
@@ -158,14 +159,7 @@ export const Registro = () => {
           onChange={handleInputChange}
           value={values.numerodocumento}
         />
-        <Input
-          name={"fechanacimiento"}
-          texto={"Fecha de nacimiento"}
-          placeholder={"Nacimiento del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.fechanacimiento}
-        />
+        <DatePicker2 name={"fecharegistro"} texto={"Fecha de nacimiento"}/>
         <Input
           name={"edad"}
           texto={"Edad"}
@@ -176,14 +170,7 @@ export const Registro = () => {
         />
         {
           selectedRole != 1 ? 
-          <Input
-            name={"fechaingreso"}
-            texto={"Fecha de ingreso"}
-            placeholder={"Ingreso del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.fechaingreso}
-          />
+          <DatePicker2 name={"fecharegistro"} texto={"Fecha de registro"}/>
           :
           null 
         }
@@ -226,6 +213,7 @@ export const Registro = () => {
           data={dataSexo}
           onChange={(value) => handleDropdownChange("idsexo", value)}
         />
+        
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
         {selectedRole !== "1" && selectedRole !== "2" ? (
           <Input
@@ -249,6 +237,7 @@ export const Registro = () => {
           onFileChange={(file) => handleFileChange("foto", file)} 
         />
       </div>
+      
       <div className="w-full flex justify-center">
         {/* Botón para confirmar el formulario */}
         <Boton text="Confirmar" type="blue" />
