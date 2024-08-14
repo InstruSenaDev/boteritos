@@ -1,7 +1,6 @@
 export const dataDoc = [
-    {"option":"Tarjeta de identidad", "value": "1"},
-    {"option":"Cedula de ciudadania", "value": "2"},
-    
+    {"option":"Cedula de ciudadania", "value": "1"},
+    {"option":"Tarjeta de identidad", "value": "2"}
 ]
 
 export const dataRol = [
