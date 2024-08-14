@@ -1,13 +1,15 @@
 import { Input } from "../components/forms/Input.jsx";
 import { Boton } from "../components/forms/Boton.jsx";
 import React, { useState } from 'react';
+import { postLogin } from "../api/post.js";
+import { defRol } from "../helper/functions/defRol.js";
 
 export const FormLogin = () => {
 
     // Estado para almacenar los valores de los inputs
     const [values, setValues] = useState({
-        ndocumento: "",
-        contraseña: "",
+        numerodocumento: "",
+        contrasena: "",
     });
 
     // Función para manejar cambios en los inputs de texto
@@ -20,9 +22,25 @@ export const FormLogin = () => {
     }
 
     // Función para manejar el envío del formulario
-    const handleFormLoginSubmit = (event) => {
+    const handleFormLoginSubmit = async (event) => {
         event.preventDefault();
         console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
+        let dataUser = {...values}
+
+        const response = await postLogin(dataUser, 'login')
+
+        if (response.status != 200) {
+            return 
+        }
+        //Establecemos datos en el localeStorage
+        localStorage.setItem('dataUser', JSON.stringify(response.data.data))
+        localStorage.setItem('token' , JSON.stringify(response.data.token))
+        //Obtencion de datos de la URL para la creacion de la redireccion
+        let rol = response.data.data.idrol
+        let url = window.location.href
+        //Redireccionamos a la vista principal segun el rol
+        window.location.href = `${url}${defRol(rol)}`
+
     }
 
     return (
@@ -32,13 +50,13 @@ export const FormLogin = () => {
                     <h1 className="text-title font-cocogooseRegular tracking-widest text-darkBlue">
                         Inicio de sesión
                     </h1>
-                    <Input texto="Número de documento" placeholder="Ingresa tu documento" name="ndocumento" tipo="text" onChange={handleInputChange} value={values.ndocumento} />
-                    <Input texto="Contraseña" placeholder="Ingresa tu contraseña" name="contraseña" tipo="password" onChange={handleInputChange} value={values.contraseña} />
+                    <Input texto="Número de documento" placeholder="Ingresa tu documento" name="numerodocumento" tipo="text" onChange={handleInputChange} value={values.numerodocumento} />
+                    <Input texto="Contraseña" placeholder="Ingresa tu contraseña" name="contrasena" tipo="password" onChange={handleInputChange} value={values.contrasena} />
                     <div className="flex flex-col lg:flex-row justify-between gap-y-2">
                         <div className="space-x-2">
                             <input type="checkbox" id="recordar" className="rounded-full" />
                             <label htmlFor="recordar" className="text-paragraph2 font-cocogooseLight">
-                                Recordarme
+                                Ver contraseña
                             </label>
                         </div>
                         <a className="text-paragraph2 font-cocogooseLight text-darkBlue">¿Olvidaste tu contraseña?</a>

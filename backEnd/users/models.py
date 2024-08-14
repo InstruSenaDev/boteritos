@@ -166,7 +166,7 @@ class Usuarios(models.Model):
     cambiocontrasena = models.TextField(db_column='cambioContrasena')  # Field name made lowercase.
     estado = models.TextField()
     idrol = models.IntegerField(db_column='idRol')  # Field name made lowercase.
-    idarea = models.TextField(db_column='idArea') 
+    idarea = models.TextField(db_column='idArea')  #Chancuco jsjsjs
 
     class Meta:
         managed = False

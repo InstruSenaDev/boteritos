@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Tipodocumento, Usuarios
+from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
+from .helpers import validateCantDocumento
 
 class UsuarioSerializer(serializers.ModelSerializer):
     
@@ -94,16 +95,51 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'El rol debe ser un número entero.'
         }
     )
+    numerodocumento = serializers.IntegerField(
+        error_messages = {
+            'required' : 'El numero de documento es obligatorio',
+            'invalid' : 'El numero de documento debe ser minimo 10 digitos'
+        }
+    )
     
     class Meta:
         model = Usuarios
         fields = '__all__'
         #extra_kwargs = {'contrasena': {'write_only': True}} (LA CONTRASEÑA NO SEA ENVIADA)
     
+    def validate_numerodocumento(self, value):
+
+        tipoDoc = self.initial_data.get('idtipodocumento')
+        validacion = validateCantDocumento(value, tipoDoc)
+        
+        if not validacion['result']:
+            raise serializers.ValidationError(
+                {"message" : "Creacion cancelada" , "error" : validacion['error']}
+            )
+            
+        return value
+    
+    #Funcion que evitará que se cree un usuario con el mismo numero de documento
+    def validarNumeroDocumento(self, value):
+        user = Usuarios.objects.filter(numerodocumento = value).count()
+        #Si encuentra usuarios con ese numero de documento, retornará la cantidad de estos, lo que significa que ese usuario ya existe
+        if user >= 1 :
+            return False
+        
+        return True
+    
     def create(self, validated_data):
+        #Validacion del numero de documento
+        numDocumento = validated_data.get('numerodocumento')
+        validacion = self.validarNumeroDocumento(numDocumento)
+        if not validacion :
+            raise serializers.ValidationError(
+                {"message" : "Creacion cancelada" , "error" : "Usuario ya existe"}
+                )
+        
         usuario = Usuarios(**validated_data)
         usuario.set_password(validated_data['contrasena'])
-        usuario.save()
+        #usuario.save()
         
         return usuario
     
@@ -115,9 +151,12 @@ class UsuarioSerializer(serializers.ModelSerializer):
             
         return super().update(instance, validated_data)
     
-
-class TipoDocumentoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Tipodocumento
-        fields= '__all__'
+class DatosMedicosSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Datosmedicos
+        fields = '__all__'
         
+class HistoriaClinicaSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Historiaclinica
+        fields = '__all__'        
