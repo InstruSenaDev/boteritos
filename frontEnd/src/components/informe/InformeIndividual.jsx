@@ -29,10 +29,10 @@ console.log("Ancho de la pantalla:", size.width);
     size.width <= 800 ? (
         
 
-      <div className="w-full divide-y-2 divide-placeholderBlue bg-white rounded-xl flex flex-col px-10 py-5 gap-y-4">
+      <div className="w-full divide-y-2 divide-placeholderBlue bg-white rounded-xl flex flex-col px-10 py-5 ">
         <p className="text-darkBlue font-cocogooseSemiLight text-subTitle">{tituloArea}</p>
         {data.map((dataKey) => (
-          <div key={dataKey.id} className="w-full pt-5 gap-y-2 flex flex-col justify-between">
+          <div key={dataKey.id} className="w-full py-5 gap-y-2 flex flex-col justify-between">
             <p className="font-cocogooseLight text-paragraph">{dataKey.logroTexto}</p>
             <div className="text-darkBlue flex font-cocogooseSemiLight text-subTitle max-w-[250px] w-full justify-between">
               <p>L.A</p>

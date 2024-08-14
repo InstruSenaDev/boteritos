@@ -8,11 +8,10 @@ import { Observacion } from "../../components/informe/Observacion";
 ---
 
 <LayoutGeneral title="InformeObservacion" titleHeader="Informe">
-    <div class="w-full space-y-7">
+    <div class="flex flex-col w-full gap-y-7">
         <HeaderData client:visible />
         <GrupoDatoElemento/>
-        <div class="w-full h-0 border-darkBlue border-2"></div>
-        <div class="gap-y-5">
+        <div class="w-full h-0 border-darkBlue border-2"></div> 
             <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva} client:load>
                 <Observacion client:visible/>
             </InformeIndividual>
@@ -36,6 +35,5 @@ import { Observacion } from "../../components/informe/Observacion";
             <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura} client:load>
                 <Observacion client:visible/>
             </InformeIndividual>
-        </div>
     </div>
 </LayoutGeneral>
