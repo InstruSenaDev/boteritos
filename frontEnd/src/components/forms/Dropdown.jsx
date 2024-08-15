@@ -1,7 +1,7 @@
 import { Select, SelectItem } from '@tremor/react';
 
 
-export function Dropdown({ label, name, data, onChange }) {
+export function Dropdown({ label, name, data, onChange , placeholder}) {
     // Función para manejar cambios en el dropdown
     const handleChange = (value) => {
         onChange(value);
@@ -14,7 +14,7 @@ export function Dropdown({ label, name, data, onChange }) {
             </div>
             <div className='text-paragraph3 font-cocogooseLight h-10'>
                 <Select
-                    placeholder="Selecciona un rol"
+                    placeholder={placeholder}
                     defaultValue=""
                     className="w-full h-full border-[1.5px] border-darkBlue rounded-xl focus:text-white focus:ring-0 focus:outline-none"
                     name={name}

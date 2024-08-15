@@ -23,7 +23,7 @@ export const Registro = () => {
     barrio : "",
     correo : "",
     urlimg : "",
-    fechaingreso : "2000-01-01",
+    fechaingreso : "",
     fechanacimiento : "",
     edad : "",
     institutoprocedencia : "N/A", 
@@ -67,7 +67,7 @@ export const Registro = () => {
         institutoprocedencia : values.institutoprocedencia.trim(), 
         direccion : values.direccion.trim(),
         contrasena : values.numerodocumento.trim(),
-        fecharegistro : getDate()
+      
      }
     console.log(dataUser);
     createUser(dataUser)
@@ -110,6 +110,7 @@ export const Registro = () => {
           label={"¿Qué deseas crear?"}
           data={dataRol}
           onChange={handleRoleChange}
+          placeholder={"Selecciona un rol"}
         />
         {/* Renderiza dropdowns adicionales según el rol seleccionado */}
         {selectedRole == "2" ? (
@@ -118,6 +119,7 @@ export const Registro = () => {
             label={"Area"}
             data={dataArea}
             onChange={(value) => handleDropdownChange("idarea", value)}
+            placeholder={"Selecciona un area"}
           />
         ) : selectedRole == "3" ? (
           <Dropdown
@@ -125,6 +127,7 @@ export const Registro = () => {
             label={"Tipo de matrícula"}
             data={dataMatricula}
             onChange={(value) => handleDropdownChange("matricula", value)}
+            placeholder={"Selecciona el tipo de matricula"}
           />
         ) : null}
 
@@ -150,6 +153,7 @@ export const Registro = () => {
           label={"Tipo de documento"}
           data={dataDoc}
           onChange={(value) => handleDropdownChange("idtipodocumento", value)}
+          placeholder={"Selecciona el tipo de documento"}
         />
         <Input
           name={"numerodocumento"}
@@ -159,7 +163,12 @@ export const Registro = () => {
           onChange={handleInputChange}
           value={values.numerodocumento}
         />
-        <DatePicker2 name={"fecharegistro"} texto={"Fecha de nacimiento"}/>
+        <DatePicker2
+          name={"fechanacimiento"}
+          texto={"Fecha de nacimiento"}
+          onChange={handleInputChange}
+          value={values.fechanacimiento}
+        />
         <Input
           name={"edad"}
           texto={"Edad"}
@@ -170,7 +179,12 @@ export const Registro = () => {
         />
         {
           selectedRole != 1 ? 
-          <DatePicker2 name={"fecharegistro"} texto={"Fecha de registro"}/>
+          <DatePicker2
+          name={"fecharegistro"}
+          texto={"Fecha de registro"}
+          onChange={handleInputChange}
+          value={values.fecharegistro}
+        />
           :
           null 
         }
@@ -212,6 +226,7 @@ export const Registro = () => {
           label={"Sexo"}
           data={dataSexo}
           onChange={(value) => handleDropdownChange("idsexo", value)}
+          placeholder={"Selecciona el sexo"}
         />
         
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
