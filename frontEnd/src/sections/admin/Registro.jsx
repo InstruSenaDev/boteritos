@@ -13,6 +13,7 @@ import {
 import { Boton } from "../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../api/post.js";
 import { getDate } from "../../helper/functions/getDate.js"
+import { format } from 'date-fns';
 export const Registro = () => {
   const [values, setValues] = useState({
 
@@ -53,22 +54,31 @@ export const Registro = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log("Inputs value:", values); // Mostrar los valores de los inputs en la consola
+    // Formatear las fechas a "año-mes-día"
+    const formattedValues = {
+      ...values,
+      fechaingreso: values.fechaingreso ? format(new Date(values.fechaingreso), 'yyyy-MM-dd') : null,
+      fechanacimiento: values.fechanacimiento ? format(new Date(values.fechanacimiento), 'yyyy-MM-dd') : null,
+  };
+
+  console.log("Inputs value:", formattedValues); // Mostrar los valores formateados de los inputs en la consola
+
     
     //FALTA TRIM
-    const dataUser = {...values,
-        nombre : `${values.nombre.trim()} ${values.apellido.trim()}`,
-        numerodocumento : values.numerodocumento.trim(),
-        comuna : values.comuna.trim(),
-        barrio : values.barrio.trim(),
-        correo : values.correo.trim(),
-        urlimg : `https://${values.urlimg}img.com`,
-        edad : values.edad.trim(),
-        institutoprocedencia : values.institutoprocedencia.trim(), 
-        direccion : values.direccion.trim(),
-        contrasena : values.numerodocumento.trim(),
-      
-     }
+    const dataUser = {
+        ...formattedValues,
+        nombre: `${formattedValues.nombre.trim()} ${formattedValues.apellido.trim()}`,
+        numerodocumento: formattedValues.numerodocumento.trim(),
+        comuna: formattedValues.comuna.trim(),
+        barrio: formattedValues.barrio.trim(),
+        correo: formattedValues.correo.trim(),
+        urlimg: `https://${formattedValues.urlimg}img.com`,
+        edad: formattedValues.edad.trim(),
+        institutoprocedencia: formattedValues.institutoprocedencia.trim(), 
+        direccion: formattedValues.direccion.trim(),
+        contrasena: formattedValues.numerodocumento.trim(),
+        fecharegistro : getDate()
+    };
     console.log(dataUser);
     createUser(dataUser)
     //const response = postUserStudent(dataUser)
@@ -166,8 +176,8 @@ export const Registro = () => {
         <DatePicker2
           name={"fechanacimiento"}
           texto={"Fecha de nacimiento"}
-          onChange={handleInputChange}
           value={values.fechanacimiento}
+          onChange={handleInputChange}
         />
         <Input
           name={"edad"}
@@ -180,11 +190,11 @@ export const Registro = () => {
         {
           selectedRole != 1 ? 
           <DatePicker2
-          name={"fecharegistro"}
-          texto={"Fecha de registro"}
-          onChange={handleInputChange}
-          value={values.fecharegistro}
-        />
+            name={"fechaingreso"}
+            texto={"Fecha de ingreso"}
+            value={values.fechaingreso}
+            onChange={handleInputChange}
+          />
           :
           null 
         }

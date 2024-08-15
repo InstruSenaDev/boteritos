@@ -1,9 +1,13 @@
 import { DatePicker } from '@tremor/react';
 import { es } from 'date-fns/locale';
 
-export function DatePicker2({ name, texto, onChange, value }) {
+export function DatePicker2({ name, texto, value, onChange }) {
+
+  // Manejador de cambio de fecha
   const handleDateChange = (date) => {
-    onChange({ target: { name, value: date } });
+    if (date) {
+      onChange({ target: { name, value: date } }); // Guardar la fecha directamente como objeto Date
+    }
   };
 
   return (
@@ -13,9 +17,9 @@ export function DatePicker2({ name, texto, onChange, value }) {
         <DatePicker
           locale={es}
           placeholder='Selecciona la fecha'
+          value={value ? new Date(value) : null} // Mostrar la fecha seleccionada
+          onValueChange={handleDateChange}
           className="w-full h-full"
-          value={value}
-          onChange={handleDateChange}
         />
       </div>
     </div>
