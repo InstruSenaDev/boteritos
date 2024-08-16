@@ -4,28 +4,48 @@ import TableCalificarEstudiante from '../../components/tables/tableCalificarEstu
 import HeaderData from '../../components/tables/headerData/HeaderData'
 import { Observacion } from '../../components/forms/Observacion'
 import { useState } from 'react'
-import { RegisterModal } from '../../components/modales/RegisterModal'
+import { ConfirmationModal } from '../../components/modales/ConfirmationModal'
+import { Button } from '@tremor/react'
+
 
 export const Calificar = () => {
+
+const [isOpen, setIsOpen]= useState(false);
   
+
+const handleOpenModal = () => {
+    setIsOpen(true);
+}
+const handleCloseModal = () => {
+    setIsOpen(false);
+}
     return (
         <>
             <main class="flex flex-col w-full gap-y-8">
                 <HeaderData/>
                 <TableCalificarEstudiante/>
 
-                <div class="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
+                <div className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
                     <Observacion texto={"Observaciones"} placeholder={"Ingresa una observación"}></Observacion>
                     {/*<Observacion title="Generar automaticamente" observacion="el estudiante cumple con todos los logros solicitados y es aplicado" />*/}
 
                 </div>
 
-                <div class="w full flex justify-end gap-x-3">
+                <div className="w full flex justify-end gap-x-3">
               
                     <Boton text="Guardar" type="white" />
-                    <Boton text="Enviar" type="blue" />
+                    <Button onClick={handleOpenModal} className='max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button text-white' >Enviar</Button>
+                   
+                   
                 </div>
+            <ConfirmationModal 
+             isOpen={isOpen}
+             onClose={handleCloseModal}
+             txtQuestion={"¿Está seguro de crear el informe?"}
+             txtWarning={"Despues de creado no podra revertir el cambio"}
+             >
 
+            </ConfirmationModal>
              
             </main>
 

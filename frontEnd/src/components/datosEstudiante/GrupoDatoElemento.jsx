@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { DatoElemento } from "./DatoElemento"; 
 import { RegisterModal } from "../modales/RegisterModal"; 
-import { defaultValues } from "../../helper/modales/objectsModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../modales/getModalConfig";
 

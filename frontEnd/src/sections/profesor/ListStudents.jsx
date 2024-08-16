@@ -2,7 +2,9 @@ import React from 'react'
 import HeaderData from '../../components/tables/headerData/HeaderData'
 import TableStudents from '../../components/tables/tableStudents'
 
-const ListStudents = () => {
+{/*posible archivo a borrar*/}
+
+export const ListStudents = () => {
   return (
     <main className="flex flex-col gap-8">
         <HeaderData />
@@ -11,5 +13,3 @@ const ListStudents = () => {
     </main>
   )
 }
-
-export default ListStudents

@@ -3,17 +3,15 @@ import { ObjLogrosCreados } from "../../helper/objects/ListaLogros";
 import Buscador from "../search/Buscador";
 import "../../../input.css";
 import { useState } from "react";
-import React from "react";
-import { Modal } from "../modales/Modal";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { dataDoc } from "../../helper/objects/dropdownArray";
 import { Observacion } from "../forms/Observacion";
 import { RegisterModal } from "../modales/RegisterModal";
-import { Boton } from "../forms/Boton";
 import { Button } from "@tremor/react";
 
 export default function TableListaLogros() {
+  
   // Estado para manejar el modal
   const [isOpen, setIsOpen] = useState(false);
 

@@ -29,7 +29,7 @@ export function RegisterModal({
                               cols === 1 ? "w-full" : "max-w-[800px] w-full"
                             } py-[40px] px-[30px]`}
         >
-          {/*<div className='w-full text-end cursor-pointer' onClick={onClose}> X</div>*/}
+        
           <div
             onClick={onClose}
             className="absolute top-2 right-2 p-2 rounded-full text-gray bg-white hover:bg-slate-200 hover:text-slate-500"
