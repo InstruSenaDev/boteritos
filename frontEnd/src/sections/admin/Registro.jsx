@@ -17,34 +17,73 @@ import { format } from 'date-fns';
 export const Registro = () => {
   const [values, setValues] = useState({
 
-    nombre : "",
-    apellido : "",
-    numerodocumento : "",
-    comuna : "",
-    barrio : "",
-    correo : "",
-    urlimg : "",
-    fechaingreso : "",
-    fechanacimiento : "",
-    edad : "",
-    institutoprocedencia : "N/A", 
-    direccion : "",
-    idtipodocumento : "",
-    idsexo : "",
-    contrasena : "",
-    cambiocontrasena : "0",
-    estado : "1",
-    idrol : "",
-    idarea : 'N/A'
-    
+    nombre: "",
+    apellido: "",
+    numerodocumento: "",
+    comuna: "",
+    barrio: "",
+    correo: "",
+    urlimg: "",
+    fechaingreso: "",
+    fechanacimiento: "",
+    edad: "",
+    institutoprocedencia: "N/A",
+    direccion: "",
+    idtipodocumento: "",
+    idsexo: "",
+    contrasena: "",
+    cambiocontrasena: "0",
+    estado: "1",
+    idrol: "",
+    idarea: 'N/A'
+
     //hojaDeVida: null,
   });
 
+  const [errors, setErrors] = useState({}); // Estado para los errores
+
+  const validateField = (name, value) => {
+    let error = "";
+    switch (name) {
+      case "nombre":
+        if (!value.trim()) {
+          error = "El nombre es obligatorio.";
+        } else if (/\d/.test(value)) {
+          error = "El nombre no puede contener números.";
+        }
+        break;
+      case "correo":
+        if (!value.trim()) {
+          error = "El correo es obligatorio.";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          error = "El correo no es válido.";
+        }
+        break;
+        case "apellido":
+        if (!value.trim()) {
+          error = "El apellido es obligatorio.";
+        } else if (/\d/.test(value)) {
+          error = "El apellido no puede contener números.";
+        }
+        break;
+    }
+    return error;
+  };
+
   const [selectedRole, setSelectedRole] = useState("");
+
+
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    const error = validateField(name, value); // Validar el campo específico 
+
+    setErrors({
+      ...errors,
+      [name]: error,
+    }); // Actualizar el estado de errores y valores
+
     setValues({
       ...values,
       [name]: value,
@@ -54,30 +93,46 @@ export const Registro = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
+
+    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = validateField(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    //if (Object.keys(newErrors).length > 0) { // Si hay errores, no enviar el formulario
+      //setErrors(newErrors);
+      //return;
+    //}
+
     // Formatear las fechas a "año-mes-día"
     const formattedValues = {
       ...values,
       fechaingreso: values.fechaingreso ? format(new Date(values.fechaingreso), 'yyyy-MM-dd') : null,
       fechanacimiento: values.fechanacimiento ? format(new Date(values.fechanacimiento), 'yyyy-MM-dd') : null,
-  };
+    };
 
-  console.log("Inputs value:", formattedValues); // Mostrar los valores formateados de los inputs en la consola
+    console.log("Inputs value:", formattedValues); // Mostrar los valores formateados de los inputs en la consola
 
-    
+
     //FALTA TRIM
     const dataUser = {
-        ...formattedValues,
-        nombre: `${formattedValues.nombre.trim()} ${formattedValues.apellido.trim()}`,
-        numerodocumento: formattedValues.numerodocumento.trim(),
-        comuna: formattedValues.comuna.trim(),
-        barrio: formattedValues.barrio.trim(),
-        correo: formattedValues.correo.trim(),
-        urlimg: `https://${formattedValues.urlimg}img.com`,
-        edad: formattedValues.edad.trim(),
-        institutoprocedencia: formattedValues.institutoprocedencia.trim(), 
-        direccion: formattedValues.direccion.trim(),
-        contrasena: formattedValues.numerodocumento.trim(),
-        fecharegistro : getDate()
+      ...formattedValues,
+      nombre: `${formattedValues.nombre.trim()} ${formattedValues.apellido.trim()}`,
+      numerodocumento: formattedValues.numerodocumento.trim(),
+      comuna: formattedValues.comuna.trim(),
+      barrio: formattedValues.barrio.trim(),
+      correo: formattedValues.correo.trim(),
+      urlimg: `https://${formattedValues.urlimg}img.com`,
+      edad: formattedValues.edad.trim(),
+      institutoprocedencia: formattedValues.institutoprocedencia.trim(),
+      direccion: formattedValues.direccion.trim(),
+      contrasena: formattedValues.numerodocumento.trim(),
+      fecharegistro: getDate()
     };
     console.log(dataUser);
     createUser(dataUser)
@@ -107,6 +162,7 @@ export const Registro = () => {
     const response = await postUserStudent(data, 'usuarios')
     console.log(response);
   }
+
 
   return (
     <form
@@ -148,6 +204,7 @@ export const Registro = () => {
           tipo={"text"}
           onChange={handleInputChange}
           value={values.nombre}
+          error={errors.nombre}
         />
         <Input
           name={"apellido"}
@@ -156,6 +213,7 @@ export const Registro = () => {
           tipo={"text"}
           onChange={handleInputChange}
           value={values.apellido}
+          error={errors.apellido}
         />
         {/* Dropdown para seleccionar el tipo de documento */}
         <Dropdown
@@ -172,6 +230,7 @@ export const Registro = () => {
           tipo={"number"}
           onChange={handleInputChange}
           value={values.numerodocumento}
+          error={errors.numerodocumento}
         />
         <DatePicker2
           name={"fechanacimiento"}
@@ -186,17 +245,18 @@ export const Registro = () => {
           tipo={"text"}
           onChange={handleInputChange}
           value={values.edad}
+          error={errors.edad}
         />
         {
-          selectedRole != 1 ? 
-          <DatePicker2
-            name={"fechaingreso"}
-            texto={"Fecha de ingreso"}
-            value={values.fechaingreso}
-            onChange={handleInputChange}
-          />
-          :
-          null 
+          selectedRole != 1 ?
+            <DatePicker2
+              name={"fechaingreso"}
+              texto={"Fecha de ingreso"}
+              value={values.fechaingreso}
+              onChange={handleInputChange}
+            />
+            :
+            null
         }
         <Input
           name={"barrio"}
@@ -205,6 +265,7 @@ export const Registro = () => {
           tipo={"text"}
           onChange={handleInputChange}
           value={values.barrio}
+          error={errors.barrio}
         />
         <Input
           name={"direccion"}
@@ -213,6 +274,7 @@ export const Registro = () => {
           tipo={"text"}
           onChange={handleInputChange}
           value={values.direccion}
+          error={errors.direccion}
         />
         <Input
           name={"comuna"}
@@ -221,6 +283,7 @@ export const Registro = () => {
           tipo={"number"}
           onChange={handleInputChange}
           value={values.comuna}
+          error={errors.comuna}
         />
         <Input
           name={"correo"}
@@ -229,6 +292,7 @@ export const Registro = () => {
           tipo={"email"}
           onChange={handleInputChange}
           value={values.correo}
+          error={errors.correo}
         />
         {/* Dropdown para seleccionar el sexo */}
         <Dropdown
@@ -238,7 +302,7 @@ export const Registro = () => {
           onChange={(value) => handleDropdownChange("idsexo", value)}
           placeholder={"Selecciona el sexo"}
         />
-        
+
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
         {selectedRole !== "1" && selectedRole !== "2" ? (
           <Input
@@ -248,21 +312,22 @@ export const Registro = () => {
             tipo={"text"}
             onChange={handleInputChange}
             value={values.instituto}
+            error={errors.institutoprocedencia}
           />
         ) : (
-          <UploadFile 
-            title={"Hoja de vida"} 
-            id="hojaDeVida" 
-            onFileChange={(file) => handleFileChange("hojaDeVida", file)} 
+          <UploadFile
+            title={"Hoja de vida"}
+            id="hojaDeVida"
+            onFileChange={(file) => handleFileChange("hojaDeVida", file)}
           />
         )}
-        <UploadFile 
-          title={"Foto"} 
-          id="foto" 
-          onFileChange={(file) => handleFileChange("foto", file)} 
+        <UploadFile
+          title={"Foto"}
+          id="foto"
+          onFileChange={(file) => handleFileChange("foto", file)}
         />
       </div>
-      
+
       <div className="w-full flex justify-center">
         {/* Botón para confirmar el formulario */}
         <Boton text="Confirmar" type="blue" />
