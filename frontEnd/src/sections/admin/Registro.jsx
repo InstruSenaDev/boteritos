@@ -16,7 +16,7 @@ import { getDate } from "../../helper/functions/getDate.js"
 import { format } from 'date-fns';
 export const Registro = () => {
   const [values, setValues] = useState({
-
+    matricula: "",
     nombre: "",
     apellido: "",
     numerodocumento: "",
@@ -72,14 +72,34 @@ export const Registro = () => {
           error = "La comuna es obligatoria.";
         }
         break;
+        case "matricula":
+        if (!value.trim()) {
+          error = "La matricula es obligatoria.";
+        }
+        break;
+        case "fechaingreso":
+        if (!value.trim()) {
+          error = "La fecha de ingreso es obligatoria.";
+        }
+        break;
+        case "direccion":
+          if (!value.trim()) {
+            error = "La dirección es obligatoria.";
+          }
+          break;
       case "Barrio":
         if (!value.trim()) {
           error = "El barrio es obligatoria.";
         }
         break;
-      case "Instituto":
-        if (!value.trim()) {
+      case "institutoprocedencia":
+        if (!value.trim() || value === "N/A") {
           error = "El instituto es obligatorio.";
+        }
+        break;
+        case "idarea":
+        if (!value.trim() || value === "N/A") {
+          error = "Selecciona el area.";
         }
         break;
       case "barrio":
@@ -87,6 +107,26 @@ export const Registro = () => {
           error = "El barrio es obligatorio.";
         }
         break;
+      case "fechanacimiento":
+        if (!value.trim()) {
+          error = "La fecha de nacimiento es obligatoria.";
+        }
+        break;
+      case "idrol":
+        if (!value.trim()) {
+          error = "Seleccione un rol.";
+        }
+        break;
+      case "idtipodocumento":
+        if (!value.trim()) {
+          error = "Seleccione el tipo de documento.";
+        }
+        break;
+        case "idsexo":
+          if (!value.trim()) {
+            error = "Seleccione el sexo.";
+          }
+          break;
       case "edad":
         const edad = Number(value);
         if (!value.trim()) {
@@ -217,6 +257,7 @@ export const Registro = () => {
           data={dataRol}
           onChange={handleRoleChange}
           placeholder={"Selecciona un rol"}
+          error={errors.idrol}
         />
         {/* Renderiza dropdowns adicionales según el rol seleccionado */}
         {selectedRole == "2" ? (
@@ -226,6 +267,7 @@ export const Registro = () => {
             data={dataArea}
             onChange={(value) => handleDropdownChange("idarea", value)}
             placeholder={"Selecciona un area"}
+            error={errors.idarea}
           />
         ) : selectedRole == "3" ? (
           <Dropdown
@@ -234,6 +276,7 @@ export const Registro = () => {
             data={dataMatricula}
             onChange={(value) => handleDropdownChange("matricula", value)}
             placeholder={"Selecciona el tipo de matricula"}
+            error={errors.matricula}
           />
         ) : null}
 
@@ -262,6 +305,7 @@ export const Registro = () => {
           data={dataDoc}
           onChange={(value) => handleDropdownChange("idtipodocumento", value)}
           placeholder={"Selecciona el tipo de documento"}
+          error={errors.idtipodocumento}
         />
         <Input
           name={"numerodocumento"}
@@ -277,6 +321,7 @@ export const Registro = () => {
           texto={"Fecha de nacimiento"}
           value={values.fechanacimiento}
           onChange={handleInputChange}
+          error={errors.fechanacimiento}
         />
         <Input
           name={"edad"}
@@ -294,6 +339,7 @@ export const Registro = () => {
               texto={"Fecha de ingreso"}
               value={values.fechaingreso}
               onChange={handleInputChange}
+              error={errors.fechaingreso}
             />
             :
             null
@@ -341,6 +387,7 @@ export const Registro = () => {
           data={dataSexo}
           onChange={(value) => handleDropdownChange("idsexo", value)}
           placeholder={"Selecciona el sexo"}
+          error={errors.idsexo}
         />
 
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
