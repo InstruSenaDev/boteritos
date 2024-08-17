@@ -42,6 +42,7 @@ export const Registro = () => {
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
+  // Validaciones
   const validateField = (name, value) => {
     let error = "";
     switch (name) {
@@ -59,13 +60,52 @@ export const Registro = () => {
           error = "El correo no es válido.";
         }
         break;
-        case "apellido":
+      case "apellido":
         if (!value.trim()) {
           error = "El apellido es obligatorio.";
         } else if (/\d/.test(value)) {
           error = "El apellido no puede contener números.";
         }
         break;
+      case "comuna":
+        if (!value.trim()) {
+          error = "La comuna es obligatoria.";
+        }
+        break;
+      case "Barrio":
+        if (!value.trim()) {
+          error = "El barrio es obligatoria.";
+        }
+        break;
+      case "Instituto":
+        if (!value.trim()) {
+          error = "El instituto es obligatorio.";
+        }
+        break;
+      case "barrio":
+        if (!value.trim()) {
+          error = "El barrio es obligatorio.";
+        }
+        break;
+      case "edad":
+        const edad = Number(value);
+        if (!value.trim()) {
+          error = "La edad es obligatoria.";
+        } else if (!Number.isInteger(edad) || edad <= 0) {
+          error = "Ingrese una edad valida.";
+        }
+        break;
+      case "numerodocumento":
+        if (!value.trim()) {
+          error = "El número de documento es obligatorio.";
+        } else if (value.length < 8 || value.length > 10) {
+          error = "El número de documento debe tener entre 8 y 10 dígitos.";
+        }
+        else if (!Number.isInteger(numerodocumento) || numerodocumento <= 0) {
+          error = "Ingrese un documento valido.";
+        }
+        break;
+
     }
     return error;
   };
@@ -104,10 +144,10 @@ export const Registro = () => {
       }
     }
 
-    //if (Object.keys(newErrors).length > 0) { // Si hay errores, no enviar el formulario
-      //setErrors(newErrors);
-      //return;
-    //}
+    if (Object.keys(newErrors).length > 0) { // Si hay errores, no enviar el formulario
+      setErrors(newErrors);
+      return;
+    }
 
     // Formatear las fechas a "año-mes-día"
     const formattedValues = {

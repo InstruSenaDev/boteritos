@@ -4,7 +4,6 @@ export const Input = ({ texto, placeholder, name, tipo, onChange, value, error})
             <label htmlFor={name} className="text-paragraph font-cocogooseLight text-black">{texto}</label>
             <div className="relative w-full flex">
                 <input
-                    required
                     type={tipo}
                     id={name}
                     name={name}
@@ -14,7 +13,7 @@ export const Input = ({ texto, placeholder, name, tipo, onChange, value, error})
                     value={value}
                 />
             </div>
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="font-cocogooseLight text-paragraph3 text-red-500">{error}</p>}
         </div>
     );
 };
