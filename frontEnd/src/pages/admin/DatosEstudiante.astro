@@ -3,16 +3,13 @@ import React from "react";
 import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
 import { GrupoDatos } from "../../components/datosEstudiante/GrupoDatos.jsx";
 import { Dato } from "../../components/datosEstudiante/Dato.jsx";
-import DatosHistoria from "../../components/datosEstudiante/DatosHistoria.astro";
+import {DatosHistoria} from "../../components/datosEstudiante/DatosHistoria";
 import { Boton } from "../../components/forms/Boton";
 import HeaderData from "../../components/tables/headerData/HeaderData";
 import GrupoDatoElemento from "../../components/datosEstudiante/GrupoDatoElemento.astro";
-import { datoInfo } from "../../helper/objects/dataStudentsArray";
+import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
 
 
-// Dividir los datos en dos grupos para las columnas
-const columnA = datoInfo.slice(0, Math.ceil(datoInfo.length / 2));
-const columnB = datoInfo.slice(Math.ceil(datoInfo.length / 2)); 
 ---
 <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
   <div class="w-full space-y-7">
@@ -20,51 +17,21 @@ const columnB = datoInfo.slice(Math.ceil(datoInfo.length / 2));
     <GrupoDatoElemento />
     <div class="w-full h-0 border-darkBlue border-2"></div>
     <div class="space-y-7">
-      <GrupoDatos titulo="Telefono(s)">
-        {{
-          columnaD: <Dato tituloDato="Primer telefono" dato="(+57) 3235287523" />,
-          columnaI: <Dato tituloDato="Segundo telefono" dato="(+57) 3235287523" />
-        }}
+      <GrupoDatos titulo={"Datos personales"}>
+        <Dato data={dataPersonal}/>
       </GrupoDatos>
-
-      {/*<GrupoDatos titulo={"Datos personales"}>
-        {columnA.map((infoKey) => (
-          <Dato  tituloDato={infoKey.tituloDato} dato={infoKey.dato} slot="columnaD" />
-        ))}
-        {columnB.map((infoKey) => (
-          <Dato  tituloDato={infoKey.tituloDato} dato={infoKey.dato} slot="columnaI" />
-        ))}
-      </GrupoDatos>*/}
-
-
-
-      {/*<GrupoDatos titulo={"Telefono(s)"}>
-        <Dato tituloDato={"Primer telefono"} dato={"(+57) 3235287523"} slot="columnaD" />
-        <Dato tituloDato={"Segundo telefono"} dato={"(+57) 3235287523"} slot="columnaI" />
+      <GrupoDatos titulo={"Datos personales"}>
+        <Dato data={dataTelefono}/>
       </GrupoDatos>
       <GrupoDatos titulo={"Responsable"}>
-        <Dato tituloDato={"Parentesco"} dato={"Madre"} slot="columnaD" />
-        <Dato tituloDato={"Nombre"} dato={"Graciela Hernandez Leal"} slot="columnaD" />
-        <Dato tituloDato={"Tipo de documento"} dato={"Cedula de ciudadania"} slot="columnaD" />
-        <Dato tituloDato={"Numero de documento"} dato={"66763391"} slot="columnaD" />
-        <Dato tituloDato={"Primer telefono"} dato={"3197081619"} slot="columnaI" />
-        <Dato tituloDato={"Segundo telefono"} dato={"3157053703"} slot="columnaI" />
-        <Dato tituloDato={"Dirección de residencia"} dato={"Cra 42B #52-08"} slot="columnaI" />
-        <Dato tituloDato={"Empresa"} dato={"Tesla"} slot="columnaI" />
+        <Dato data={dataResponsable}/>
       </GrupoDatos>
-      <GrupoDatos titulo={"Condición medica"}>
-        <Dato tituloDato={"EPS"} dato={"Emssanar"} slot="columnaD" />
-        <Dato tituloDato={"RH"} dato={"O+"} slot="columnaD" />
-        <Dato tituloDato={"Peso"} dato={"62 KG"} slot="columnaD" />
-        <Dato tituloDato={"Lugar de atención"} dato={"Clinica Palmira"} slot="columnaI" />
-        <Dato tituloDato={"Estatura"} dato={"180 CM"} slot="columnaI" />
+      <GrupoDatos titulo={"Condicion Medica"}>
+        <Dato data={dataCondicionMedica}/>
       </GrupoDatos>
       <DatosHistoria titulo={"Historia clinica"}>
-        <Dato tituloDato={"Medicamentos"} dato={"Loratadina"} />
-        <Dato tituloDato={"Diagnostico"} dato={"Lorem"} />
-        <Dato tituloDato={"Restricciones alimenticias"} dato={"Mantequilla de maní"} />
-        <Dato tituloDato={"Observaciones"} dato={"Lorem Lorem ipsum dolor sit amet. Et repudiandae molestiae est minima tempora aut deserunt blanditiis sit distinctio velit ad quae deleniti 33 rerum incidunt aut enim voluptas. Ea sint perferendis ex aliquam unde rem veniam debitis ex quidem voluptas. Aut sequi porro ad recusandae quia et voluptatem laboriosam ea dolores quia. A maiores aspernatur et perspiciatis tenetur ut impedit minima qui maiores earum sed voluptas eaque ex accusamus sint ut enim aperiam."} />
-      </DatosHistoria>*/}
+        <Dato data={dataHistoriaClinica} />
+      </DatosHistoria>
     </div>
     <div class="w-full flex justify-center">
       <Boton text="Confirmar" type="blue" />

@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import colors from 'tailwindcss/colors';
+import colors, { inherit } from 'tailwindcss/colors';
 
 
 export default {
@@ -55,6 +55,7 @@ export default {
 						emphasis: colors.gray[700],
 						strong: colors.gray[900],
 						inverted: colors.white,
+						
 					},
 					
 				},

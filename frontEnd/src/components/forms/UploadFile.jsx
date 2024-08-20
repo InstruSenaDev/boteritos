@@ -21,7 +21,7 @@ export const UploadFile = ({ title, onFileChange, id }) => {
         <div className="flex flex-col max-w-[400px] w-full gap-y-2">
             <p className="font-cocogooseLight text-paragraph">{title}</p>
             <div className="h-[68px] flex flex-col w-full rounded-xl border-orange border-[1.5px] justify-center items-center gap-y-1 cursor-pointer" onClick={handleClick}>
-                <div className="flex justify-center items-center gap-x-1">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-x-1">
                     <i className="fa-solid fa-file-arrow-up text-title text-orange"></i>
                     <p className="font-cocogooseLight text-paragraph3"><span className="text-orange">Click para subir</span> o arrastre y suelte</p>
                     <input type="file" accept=".pdf" onChange={handleFileChange} id={id} className="hidden"/> {/* Input oculto con ID único */}

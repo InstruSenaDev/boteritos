@@ -1,0 +1,39 @@
+---
+import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
+import HeaderData from "../../components/tables/headerData/HeaderData";
+import GrupoDatoElemento from "../../components/datosEstudiante/GrupoDatoElemento.astro";
+import {InformeIndividual} from "../../components/informe/InformeIndividual";
+import { dataSocioAfectiva, dataVidaDiaria, dataTeatro, dataDanza, dataMusica, dataPintura } from "../../helper/objects/dataInforme";
+import { Observacion } from "../../components/informe/Observacion";
+---
+
+<LayoutGeneral title="InformeObservacion" titleHeader="Informe">
+    <div class="flex flex-col w-full gap-y-7">
+        <HeaderData client:visible />
+        <GrupoDatoElemento/>
+        <div class="w-full h-0 border-darkBlue border-2"></div> 
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataSocioAfectiva} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataVidaDiaria} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual> 
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataTeatro} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataDanza} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataMusica} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    
+            <InformeIndividual tituloArea={"Area Socio - Afectiva"} data={dataPintura} client:load>
+                <Observacion client:visible/>
+            </InformeIndividual>
+    </div>
+</LayoutGeneral>
