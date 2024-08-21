@@ -107,7 +107,7 @@ export const Registro = () => {
 
     const dataUser = {
       ...values,
-      nombre: `${values.nombre.trim()} ${formattedValues.apellido.trim()}`,
+      nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
       numerodocumento: values.numerodocumento.trim(),
       comuna: values.comuna.trim(),
       barrio: values.barrio.trim(),

@@ -1,104 +1,125 @@
 from rest_framework import serializers
 from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
-from .helpers import validateCantDocumento
+from .helpers import validateCantDocumento, validateMinCaractEspecial
 
 class UsuarioSerializer(serializers.ModelSerializer):
     
+    nombre = serializers.CharField(
+        error_messages={
+            'required': 'El nombre es obligatorio.',
+            'blank' : 'El nombre es obligatorio.'
+        }
+    )
     comuna = serializers.CharField(
         error_messages={
-            'required': 'La comuna es obligatoria.'
+            'required': 'La comuna es obligatoria.',
+            'blank' : 'La comuna es obligatorio.'
         }
     )
     barrio = serializers.CharField(
         error_messages={
-            'required': 'El barrio es obligatorio.'
+            'required': 'El barrio es obligatorio.',
+            'blank': 'El barrio es obligatorio.'
         }
     )
     correo = serializers.EmailField(
         error_messages={
             'required': 'El correo es obligatorio.',
+            'blank': 'El barrio es obligatorio.',
             'invalid': 'El correo debe ser una dirección válida.'
         }
     )
     urlimg = serializers.URLField(
         error_messages={
             'required': 'La URL de la imagen es obligatoria.',
+            'blank': 'La URL de la imagen es obligatoria.',
             'invalid': 'La URL de la imagen debe ser válida.'
         }
     )
     fecharegistro = serializers.DateField(
         error_messages={
             'required': 'La fecha de registro es obligatoria.',
+            'blank': 'La fecha de registro es obligatoria.',
             'invalid': 'La fecha de registro debe ser una fecha válida.'
         }
     )
     fechaingreso = serializers.DateField(
         error_messages={
             'required': 'La fecha de ingreso es obligatoria.',
+            'blank': 'La fecha de ingreso es obligatoria.',
             'invalid': 'La fecha de ingreso debe ser una fecha válida.'
         }
     )
     fechanacimiento = serializers.DateField(
         error_messages={
             'required': 'La fecha de nacimiento es obligatoria.',
+            'blank': 'La fecha de nacimiento es obligatoria.',
             'invalid': 'La fecha de nacimiento debe ser una fecha válida.'
         }
     )
     edad = serializers.IntegerField(
         error_messages={
             'required': 'La edad es obligatoria.',
+            'blank': 'La edad es obligatoria.',
             'invalid': 'La edad debe ser un número entero.'
         }
     )
     institutoprocedencia = serializers.CharField(
         error_messages={
-            'required': 'El instituto de procedencia es obligatorio.'
+            'required': 'El instituto de procedencia es obligatorio.',
+            'blank': 'El instituto de procedencia es obligatorio.'
         }
     )
     direccion = serializers.CharField(
         error_messages={
-            'required': 'La dirección es obligatoria.'
+            'required': 'La dirección es obligatoria.',
+            'blank': 'La dirección es obligatoria.',
         }
     )
     idtipodocumento = serializers.IntegerField(
         error_messages={
             'required': 'El tipo de documento es obligatorio.',
+            'blank': 'El tipo de documento es obligatorio.',
             'invalid': 'El tipo de documento debe ser un número entero.'
         }
     )
     idsexo = serializers.IntegerField(
         error_messages={
             'required': 'El sexo es obligatorio.',
+            'blank': 'El sexo es obligatorio.',
             'invalid': 'El sexo debe ser un número entero.'
         }
     )
     contrasena = serializers.CharField(
-        min_length=8,
         error_messages={
             'required': 'La contraseña es obligatoria.',
-            'min_length': 'La contraseña debe tener al menos 8 caracteres.'
+            'blank': 'La contraseña es obligatoria.',
         }
     )
     cambiocontrasena = serializers.CharField(
         error_messages={
-            'required': 'El campo de cambio de contraseña es obligatorio.'
+            'required': 'El campo de cambio de contraseña es obligatorio.',
+            'blank': 'El campo de cambio de contraseña es obligatorio.'
         }
     )
     estado = serializers.CharField(
         error_messages={
-            'required': 'El estado es obligatorio.'
+            'required': 'El estado es obligatorio.',
+            'blank': 'El estado es obligatorio.'
         }
     )
     idrol = serializers.IntegerField(
         error_messages={
             'required': 'El rol es obligatorio.',
+            'blank': 'El rol es obligatorio.',
             'invalid': 'El rol debe ser un número entero.'
         }
     )
     numerodocumento = serializers.IntegerField(
         error_messages = {
             'required' : 'El numero de documento es obligatorio',
-            'invalid' : 'El numero de documento debe ser minimo 10 digitos'
+            'blank' : 'El numero de documento es obligatorio',
+            'invalid' : 'El numero de documento debe un número entero'
         }
     )
     
@@ -107,15 +128,20 @@ class UsuarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
         #extra_kwargs = {'contrasena': {'write_only': True}} (LA CONTRASEÑA NO SEA ENVIADA)
     
+    def validate_nombre(self, value):
+
+        regex = validateMinCaractEspecial(value, "nombre")
+        if not regex['result']:
+            raise serializers.ValidationError(regex['error'])
+        return value 
+
     def validate_numerodocumento(self, value):
 
-        tipoDoc = self.initial_data.get('idtipodocumento')
+        tipoDoc = str(self.initial_data.get('idtipodocumento'))
         validacion = validateCantDocumento(value, tipoDoc)
         
         if not validacion['result']:
-            raise serializers.ValidationError(
-                {"message" : "Creacion cancelada" , "error" : validacion['error']}
-            )
+            raise serializers.ValidationError([validacion['error']])
             
         return value
     
@@ -134,7 +160,12 @@ class UsuarioSerializer(serializers.ModelSerializer):
         validacion = self.validarNumeroDocumento(numDocumento)
         if not validacion :
             raise serializers.ValidationError(
-                {"message" : "Creacion cancelada" , "error" : "Usuario ya existe"}
+                {
+                "message" : "Creacion cancelada", 
+                "error" : {
+                    "numerodocumento" : ["Documento ya existe"]
+                    }
+                 }
                 )
         
         usuario = Usuarios(**validated_data)

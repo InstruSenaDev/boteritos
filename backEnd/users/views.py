@@ -22,7 +22,7 @@ def user(request):
     #Crear Persona y Usuario
     if request.method == 'POST':
         userSerializer = UsuarioSerializer(data = request.data)
-        
+        print("hola")
         if userSerializer.is_valid():
             userSerializer.save()
             return Response(
@@ -31,7 +31,7 @@ def user(request):
                 )
         
         return Response(
-            {"message" : "¡Algo ha fallado!" , "error" : userSerializer.errors}, 
+            {"message" : "Creacion cancelada" , "error" : userSerializer.errors}, 
             status=status.HTTP_400_BAD_REQUEST
             )
 
