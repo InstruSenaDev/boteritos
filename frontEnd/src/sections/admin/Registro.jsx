@@ -132,6 +132,13 @@ export const Registro = () => {
   const createUser = async (data) => {
     const response = await postUserStudent(data, "usuarios");
     console.log(response);
+
+    const dataError = await response.data.error
+    console.log(dataError);
+    
+    for(const key in dataError){
+      console.log(key);
+    }
   };
 
   return (
