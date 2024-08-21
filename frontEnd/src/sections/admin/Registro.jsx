@@ -12,11 +12,13 @@ import {
 } from "../../helper/objects/dropdownArray.js";
 import { Boton } from "../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../api/post.js";
-import { getDate } from "../../helper/functions/getDate.js"
-import { format } from 'date-fns';
+import { getDate } from "../../helper/functions/getDate.js";
+import { format } from "date-fns";
+import { validateField } from "../../helper/validators/register.js";
+
 export const Registro = () => {
   const [values, setValues] = useState({
-    matricula: "",
+    matricula: "N/A",
     nombre: "",
     apellido: "",
     numerodocumento: "",
@@ -24,7 +26,7 @@ export const Registro = () => {
     barrio: "",
     correo: "",
     urlimg: "",
-    fechaingreso: "",
+    fechaingreso: "2000-01-01",
     fechanacimiento: "",
     edad: "",
     institutoprocedencia: "N/A",
@@ -35,129 +37,19 @@ export const Registro = () => {
     cambiocontrasena: "0",
     estado: "1",
     idrol: "",
-    idarea: 'N/A'
-
+    idarea: "N/A",
     //hojaDeVida: null,
   });
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
-  // Validaciones
-  const validateField = (name, value) => {
-    let error = "";
-    switch (name) {
-      case "nombre":
-        if (!value.trim()) {
-          error = "El nombre es obligatorio.";
-        } else if (/\d/.test(value)) {
-          error = "El nombre no puede contener números.";
-        }
-        break;
-      case "correo":
-        if (!value.trim()) {
-          error = "El correo es obligatorio.";
-        } else if (!/\S+@\S+\.\S+/.test(value)) {
-          error = "El correo no es válido.";
-        }
-        break;
-      case "apellido":
-        if (!value.trim()) {
-          error = "El apellido es obligatorio.";
-        } else if (/\d/.test(value)) {
-          error = "El apellido no puede contener números.";
-        }
-        break;
-      case "comuna":
-        if (!value.trim()) {
-          error = "La comuna es obligatoria.";
-        }
-        break;
-        case "matricula":
-        if (!value.trim()) {
-          error = "La matricula es obligatoria.";
-        }
-        break;
-        case "fechaingreso":
-        if (!value.trim()) {
-          error = "La fecha de ingreso es obligatoria.";
-        }
-        break;
-        case "direccion":
-          if (!value.trim()) {
-            error = "La dirección es obligatoria.";
-          }
-          break;
-      case "Barrio":
-        if (!value.trim()) {
-          error = "El barrio es obligatoria.";
-        }
-        break;
-      case "institutoprocedencia":
-        if (!value.trim() || value === "N/A") {
-          error = "El instituto es obligatorio.";
-        }
-        break;
-        case "idarea":
-        if (!value.trim() || value === "N/A") {
-          error = "Selecciona el area.";
-        }
-        break;
-      case "barrio":
-        if (!value.trim()) {
-          error = "El barrio es obligatorio.";
-        }
-        break;
-      case "fechanacimiento":
-        if (!value.trim()) {
-          error = "La fecha de nacimiento es obligatoria.";
-        }
-        break;
-      case "idrol":
-        if (!value.trim()) {
-          error = "Seleccione un rol.";
-        }
-        break;
-      case "idtipodocumento":
-        if (!value.trim()) {
-          error = "Seleccione el tipo de documento.";
-        }
-        break;
-        case "idsexo":
-          if (!value.trim()) {
-            error = "Seleccione el sexo.";
-          }
-          break;
-      case "edad":
-        const edad = Number(value);
-        if (!value.trim()) {
-          error = "La edad es obligatoria.";
-        } else if (!Number.isInteger(edad) || edad <= 0) {
-          error = "Ingrese una edad valida.";
-        }
-        break;
-      case "numerodocumento":
-        if (!value.trim()) {
-          error = "El número de documento es obligatorio.";
-        } else if (value.length < 8 || value.length > 10) {
-          error = "El número de documento debe tener entre 8 y 10 dígitos.";
-        }
-        else if (!Number.isInteger(numerodocumento) || numerodocumento <= 0) {
-          error = "Ingrese un documento valido.";
-        }
-        break;
-
-    }
-    return error;
-  };
-
   const [selectedRole, setSelectedRole] = useState("");
-
-
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    const error = validateField(name, value); // Validar el campo específico 
+
+    const error = validateField(values.idrol, name, value); // Validar el campo específico
 
     setErrors({
       ...errors,
@@ -168,55 +60,6 @@ export const Registro = () => {
       ...values,
       [name]: value,
     });
-  };
-
-  // Maneja el envío del formulario
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    for (const key in values) {
-      if (Object.hasOwn(values, key)) {
-        const error = validateField(key, values[key]);
-        if (error) {
-          newErrors[key] = error;
-        }
-      }
-    }
-
-    if (Object.keys(newErrors).length > 0) { // Si hay errores, no enviar el formulario
-      setErrors(newErrors);
-      return;
-    }
-
-    // Formatear las fechas a "año-mes-día"
-    const formattedValues = {
-      ...values,
-      fechaingreso: values.fechaingreso ? format(new Date(values.fechaingreso), 'yyyy-MM-dd') : null,
-      fechanacimiento: values.fechanacimiento ? format(new Date(values.fechanacimiento), 'yyyy-MM-dd') : null,
-    };
-
-    console.log("Inputs value:", formattedValues); // Mostrar los valores formateados de los inputs en la consola
-
-
-    //FALTA TRIM
-    const dataUser = {
-      ...formattedValues,
-      nombre: `${formattedValues.nombre.trim()} ${formattedValues.apellido.trim()}`,
-      numerodocumento: formattedValues.numerodocumento.trim(),
-      comuna: formattedValues.comuna.trim(),
-      barrio: formattedValues.barrio.trim(),
-      correo: formattedValues.correo.trim(),
-      urlimg: `https://${formattedValues.urlimg}img.com`,
-      edad: formattedValues.edad.trim(),
-      institutoprocedencia: formattedValues.institutoprocedencia.trim(),
-      direccion: formattedValues.direccion.trim(),
-      contrasena: formattedValues.numerodocumento.trim(),
-      fecharegistro: getDate()
-    };
-    console.log(dataUser);
-    createUser(dataUser)
-    //const response = postUserStudent(dataUser)
   };
 
   // Maneja cambios en el dropdown de rol
@@ -238,11 +81,58 @@ export const Registro = () => {
     console.log(`${name} file:`, file); // Mostrar el archivo seleccionado en la consola
   };
 
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, 'usuarios')
-    console.log(response);
-  }
+  // Maneja el envío del formulario
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
 
+    console.log(values);
+
+    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = validateField(values.idrol, key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    console.log(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      // Si hay errores, no enviar el formulario
+      setErrors(newErrors);
+      return;
+    }
+
+    const dataUser = {
+      ...values,
+      nombre: `${values.nombre.trim()} ${formattedValues.apellido.trim()}`,
+      numerodocumento: values.numerodocumento.trim(),
+      comuna: values.comuna.trim(),
+      barrio: values.barrio.trim(),
+      correo: values.correo.trim(),
+      urlimg: `https://${values.urlimg}img.com`,
+      edad: values.edad.trim(),
+      institutoprocedencia: values.institutoprocedencia.trim(),
+      direccion: values.direccion.trim(),
+      contrasena: values.numerodocumento.trim(),
+      fechaingreso: values.fechaingreso
+        ? format(new Date(values.fechaingreso), "yyyy-MM-dd")
+        : null,
+      fechanacimiento: values.fechanacimiento
+        ? format(new Date(values.fechanacimiento), "yyyy-MM-dd")
+        : null,
+      fecharegistro: getDate(),
+    };
+    console.log(dataUser);
+    createUser(dataUser);
+  };
+
+  const createUser = async (data) => {
+    const response = await postUserStudent(data, "usuarios");
+    console.log(response);
+  };
 
   return (
     <form
@@ -332,18 +222,15 @@ export const Registro = () => {
           value={values.edad}
           error={errors.edad}
         />
-        {
-          selectedRole != 1 ?
-            <DatePicker2
-              name={"fechaingreso"}
-              texto={"Fecha de ingreso"}
-              value={values.fechaingreso}
-              onChange={handleInputChange}
-              error={errors.fechaingreso}
-            />
-            :
-            null
-        }
+        {selectedRole != 1 ? (
+          <DatePicker2
+            name={"fechaingreso"}
+            texto={"Fecha de ingreso"}
+            value={values.fechaingreso}
+            onChange={handleInputChange}
+            error={errors.fechaingreso}
+          />
+        ) : null}
         <Input
           name={"barrio"}
           texto={"Barrio"}
