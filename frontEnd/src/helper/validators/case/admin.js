@@ -47,13 +47,13 @@ export const caseAdmin = (name, value) => {
             */
 
     case "idtipodocumento":
-      if (!value.trim()) {
+      if (!value) {
         error = "Seleccione el tipo de documento.";
       }
       break;
 
     case "idsexo":
-      if (!value.trim()) {
+      if (!value) {
         error = "Seleccione el sexo.";
       }
       break;

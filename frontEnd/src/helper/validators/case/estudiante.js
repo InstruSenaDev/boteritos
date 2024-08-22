@@ -51,12 +51,6 @@ export const caseEstudiante = (name, value) =>{
         }
         break;
 
-      case "idarea":
-        if (!value.trim() || value === "N/A") {
-          error = "Selecciona el area.";
-        }
-        break;
-
       case "barrio":
         if (!value.trim()) {
           error = "El barrio es obligatorio.";
@@ -70,19 +64,19 @@ export const caseEstudiante = (name, value) =>{
           break;
             */
       case "idrol":
-        if (!value.trim()) {
+        if (!value) {
           error = "Seleccione un rol.";
         }
         break;
 
       case "idtipodocumento":
-        if (!value.trim()) {
+        if (!value) {
           error = "Seleccione el tipo de documento.";
         }
         break;
 
       case "idsexo":
-        if (!value.trim()) {
+        if (!value) {
           error = "Seleccione el sexo.";
         }
         break;

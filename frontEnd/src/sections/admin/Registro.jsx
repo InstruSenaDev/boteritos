@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "../../components/forms/Dropdown.jsx";
 import { Input } from "../../components/forms/Input.jsx";
 import { UploadFile } from "../../components/forms/UploadFile.jsx";
@@ -17,6 +17,14 @@ import { format } from "date-fns";
 import { validateField } from "../../helper/validators/register.js";
 
 export const Registro = () => {
+
+  const [dataDropdown, setDataDropdown] = useState({
+    "dropdownDocumento" : [],
+    "dropdownSexo" : [],
+    "dropdownArea" : [],
+    "dropdownRol" : []
+  });
+  
   const [values, setValues] = useState({
     matricula: "N/A",
     nombre: "",
@@ -40,6 +48,28 @@ export const Registro = () => {
     idarea: "N/A",
     //hojaDeVida: null,
   });
+
+  //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
+  useEffect(()=>{
+    const getDataDropdown = async ()=>{
+
+      const resultSexo = await dataSexo();
+      const resultDocumento = await dataDoc();
+      const resultArea = await dataArea();
+      const resultRol = await dataRol();
+
+      setDataDropdown({
+        ...dataDropdown, 
+        "dropdownSexo" : resultSexo,
+        "dropdownDocumento" : resultDocumento,
+        "dropdownArea" : resultArea,
+        "dropdownRol" : resultRol
+      })
+      
+    }
+
+    getDataDropdown();
+  },[])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -85,8 +115,6 @@ export const Registro = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    console.log(values);
-
     const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     for (const key in values) {
       if (Object.hasOwn(values, key)) {
@@ -96,8 +124,6 @@ export const Registro = () => {
         }
       }
     }
-
-    console.log(newErrors);
 
     if (Object.keys(newErrors).length > 0) {
       // Si hay errores, no enviar el formulario
@@ -133,12 +159,23 @@ export const Registro = () => {
     const response = await postUserStudent(data, "usuarios");
     console.log(response);
 
-    const dataError = await response.data.error
-    console.log(dataError);
-    
-    for(const key in dataError){
-      console.log(key);
+    if(!response.data.error){
+      console.log('Nada de errores, aqui se debe redireccionar al registro con detalle');
+      return 
     }
+
+    //Se presentaron errores (API):
+    const dataError = await response.data.error
+
+    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    Object.entries(dataError).forEach(([key, value]) => {
+      newErrors[key] = value[0]
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    }
+    
   };
 
   return (
@@ -151,22 +188,22 @@ export const Registro = () => {
         <Dropdown
           name={"idrol"}
           label={"¿Qué deseas crear?"}
-          data={dataRol}
+          data={dataDropdown.dropdownRol}
           onChange={handleRoleChange}
           placeholder={"Selecciona un rol"}
           error={errors.idrol}
         />
         {/* Renderiza dropdowns adicionales según el rol seleccionado */}
-        {selectedRole == "2" ? (
+        {selectedRole == 2 ? (
           <Dropdown
             name={"idarea"}
             label={"Area"}
-            data={dataArea}
+            data={dataDropdown.dropdownArea}
             onChange={(value) => handleDropdownChange("idarea", value)}
             placeholder={"Selecciona un area"}
             error={errors.idarea}
           />
-        ) : selectedRole == "3" ? (
+        ) : selectedRole == 3 ? (
           <Dropdown
             name={"matricula"}
             label={"Tipo de matrícula"}
@@ -199,7 +236,7 @@ export const Registro = () => {
         <Dropdown
           name={"idtipodocumento"}
           label={"Tipo de documento"}
-          data={dataDoc}
+          data={dataDropdown.dropdownDocumento}
           onChange={(value) => handleDropdownChange("idtipodocumento", value)}
           placeholder={"Selecciona el tipo de documento"}
           error={errors.idtipodocumento}
@@ -278,14 +315,14 @@ export const Registro = () => {
         <Dropdown
           name={"idsexo"}
           label={"Sexo"}
-          data={dataSexo}
+          data={dataDropdown.dropdownSexo}
           onChange={(value) => handleDropdownChange("idsexo", value)}
           placeholder={"Selecciona el sexo"}
           error={errors.idsexo}
         />
 
         {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
-        {selectedRole !== "1" && selectedRole !== "2" ? (
+        {selectedRole !== 1 && selectedRole !== 2 ? (
           <Input
             name={"institutoprocedencia"}
             texto={"Instituto"}

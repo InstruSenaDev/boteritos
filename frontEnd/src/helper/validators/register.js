@@ -17,15 +17,15 @@ export const validateField = (rol, name, value) => {
   }
 
   switch (rol) {
-    case "1":
+    case 1:
       error = caseAdmin(name, value);
       break;
 
-    case "2":
+    case 2:
       error = caseProfesor(name, value);
       break;
 
-    case "3":
+    case 3:
       error = caseEstudiante(name, value);
       break;
 

@@ -54,7 +54,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         error_messages={
             'required': 'La fecha de nacimiento es obligatoria.',
             'blank': 'La fecha de nacimiento es obligatoria.',
-            'invalid': 'La fecha de nacimiento debe ser una fecha válida.'
+            'invalid': 'La fecha de nacimiento debe ser una fecha válida.',
+            'null' : 'La fecha de nacimiento es obligatoria.'
         }
     )
     edad = serializers.IntegerField(

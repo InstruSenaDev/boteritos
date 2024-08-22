@@ -7,6 +7,10 @@ tiposDocumento = {
     },
     "2" : {
         "min" : 8,
+        "max" : 10
+    },
+    "3" : {
+        "min" : 6,
         "max" : 8
     }
 }

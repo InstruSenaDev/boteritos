@@ -49,3 +49,11 @@ class Tipoparentesco(models.Model):
     class Meta:
         managed = False
         db_table = 'tipoparentesco'
+        
+class Rol(models.Model):
+    idrol = models.AutoField(db_column='idRol', primary_key=True)  # Field name made lowercase.
+    rol = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'rol'
