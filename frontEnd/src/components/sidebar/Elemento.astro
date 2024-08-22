@@ -6,9 +6,12 @@ interface Props {
 
 const { icon, texto } = Astro.props;
 ---
-<div class="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white cursor-pointer sidebar-element">
+
+<div
+  class="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white cursor-pointer sidebar-element"
+>
   <div class="w-[60px] h-[44px] flex justify-center items-center">
     <i class={`text-xl ${icon}`}></i>
   </div>
-  <span class="font-cocogooseLight text-paragraph2 hidden">{texto}</span>
+  <a class="font-cocogooseLight text-paragraph2 hidden" href="">{texto}</a>
 </div>

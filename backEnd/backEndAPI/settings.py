@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'users',
-    'system'
+    'system',
+    'dropdowns'
     #'coreapi'
 ]
 
@@ -85,7 +86,7 @@ DATABASES = {
         'NAME' : 'boteritos',
         'USER' : 'root',
         'HOST' : 'localhost',
-        'PORT' : '3306'
+        'PORT' : '3300'
     }
 }
 
