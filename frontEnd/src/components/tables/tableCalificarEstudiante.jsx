@@ -67,21 +67,21 @@ export default function TableCalificarEstudiante(){
                     <label for="la" className="pr-5 text-darkBlue lg:hidden">
                     LA
                     </label>
-                    <input id="la" type="checkbox" className="w-4 h-4 "/>
+                    <input id="la" type="radio" className="w-4 h-4 "/>
                   </div> 
 
                   <div className=" w-full max-w-5 flex justify-center items-center">
                     <label for="lp" className="pr-5 text-darkBlue lg:hidden">
                     LP
                     </label>
-                    <input id="lp" type="checkbox" className="w-4 h-4 "/>
+                    <input id="lp" type="radio" className="w-4 h-4 "/>
                   </div> 
 
                   <div className=" w-full max-w-5 flex justify-center items-center">
                     <label for="ln" className="pr-5 text-darkBlue lg:hidden">
                     LN
                     </label>
-                    <input id="ln" type="checkbox" className="w-4 h-4 "/>
+                    <input id="ln" type="radio" className="w-4 h-4 "/>
                   </div> 
                   
                 </div>
