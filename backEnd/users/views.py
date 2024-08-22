@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
+from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica, Responsable
 from .serializer import UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
 from .middleware import validateIdUsuario
 
@@ -214,3 +214,29 @@ def historiaClinicaOne(request, idUsuario):
             {"message" : "Historia Clinica encontrada" , "data" : historiaClinicaSeria.data},
             status= status.HTTP_200_OK
         )
+
+@api_view(['POST', 'PUT'])
+def responsable(request):
+
+    if request.method == 'POST':
+        
+        return
+    
+"""
+class Responsable(models.Model):
+    idresponsable = models.AutoField(db_column='idResponsable', primary_key=True)  # Field name made lowercase.
+    nombre = models.TextField()
+    correo = models.TextField()
+    numerodocumento = models.TextField(db_column='numeroDocumento')  # Field name made lowercase.
+    telefono = models.TextField()
+    profesion = models.TextField()
+    ocupacion = models.TextField()
+    empresa = models.TextField()
+    idusuario = models.IntegerField(db_column='idUsuario')  # Field name made lowercase.
+    idparentesco = models.IntegerField(db_column='idParentesco')  # Field name made lowercase.
+    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'responsable'
+"""

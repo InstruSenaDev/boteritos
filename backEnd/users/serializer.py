@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica
+from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica, Responsable
 from .helpers import validateCantDocumento, validateMinCaractEspecial
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -191,4 +191,31 @@ class DatosMedicosSerializer(serializers.ModelSerializer):
 class HistoriaClinicaSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Historiaclinica
-        fields = '__all__'        
+        fields = '__all__'
+
+class ResponsableSerializer(serializers.ModelSerializer):
+
+    nombre = serializers.IntegerField(
+        error_messages = {
+            'required' : 'El nombre es obligatorio',
+            'blank' : 'El nombre es obligatorio',
+            'invalid' : 'El nombre de'
+        }
+    )
+
+    class Meta:
+        model = Responsable
+        fields = '__all__'
+
+"""
+    nombre = models.TextField()
+    correo = models.TextField()
+    numerodocumento = models.TextField(db_column='numeroDocumento')  # Field name made lowercase.
+    telefono = models.TextField()
+    profesion = models.TextField()
+    ocupacion = models.TextField()
+    empresa = models.TextField()
+    idusuario = models.IntegerField(db_column='idUsuario')  # Field name made lowercase.
+    idparentesco = models.IntegerField(db_column='idParentesco')  # Field name made lowercase.
+    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  # Field name made lowercase.
+"""
