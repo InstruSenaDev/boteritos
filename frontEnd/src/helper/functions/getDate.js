@@ -1,5 +1,4 @@
 export const getDate = ()=>{
-    
     // Obtener la fecha actual
     const fechaActual = new Date();
 

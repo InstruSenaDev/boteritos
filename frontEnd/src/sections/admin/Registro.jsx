@@ -15,16 +15,18 @@ import { postUserStudent } from "../../api/post.js";
 import { getDate } from "../../helper/functions/getDate.js";
 import { format } from "date-fns";
 import { validateField } from "../../helper/validators/register.js";
+import { CardLoader } from "../../components/loaders/CardLoader.jsx";
 
 export const Registro = () => {
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const [dataDropdown, setDataDropdown] = useState({
-    "dropdownDocumento" : [],
-    "dropdownSexo" : [],
-    "dropdownArea" : [],
-    "dropdownRol" : []
+    dropdownDocumento: [],
+    dropdownSexo: [],
+    dropdownArea: [],
+    dropdownRol: [],
   });
-  
+
   const [values, setValues] = useState({
     matricula: "N/A",
     nombre: "",
@@ -50,26 +52,24 @@ export const Registro = () => {
   });
 
   //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
-  useEffect(()=>{
-    const getDataDropdown = async ()=>{
-
+  useEffect(() => {
+    const getDataDropdown = async () => {
       const resultSexo = await dataSexo();
       const resultDocumento = await dataDoc();
       const resultArea = await dataArea();
       const resultRol = await dataRol();
 
       setDataDropdown({
-        ...dataDropdown, 
-        "dropdownSexo" : resultSexo,
-        "dropdownDocumento" : resultDocumento,
-        "dropdownArea" : resultArea,
-        "dropdownRol" : resultRol
-      })
-      
-    }
+        ...dataDropdown,
+        dropdownSexo: resultSexo,
+        dropdownDocumento: resultDocumento,
+        dropdownArea: resultArea,
+        dropdownRol: resultRol,
+      });
+    };
 
     getDataDropdown();
-  },[])
+  }, []);
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -159,197 +159,210 @@ export const Registro = () => {
     const response = await postUserStudent(data, "usuarios");
     console.log(response);
 
-    if(!response.data.error){
-      console.log('Nada de errores, aqui se debe redireccionar al registro con detalle');
-      return 
+    if (!response.data.error) {
+      setIsRegistering(true);
+      console.log(
+        "Nada de errores, aqui se debe redireccionar al registro con detalle"
+      );
+      return;
     }
 
     //Se presentaron errores (API):
-    const dataError = await response.data.error
+    const dataError = await response.data.error;
 
     const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     Object.entries(dataError).forEach(([key, value]) => {
-      newErrors[key] = value[0]
+      newErrors[key] = value[0];
     });
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     }
-    
   };
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
-        {/* Dropdown para seleccionar el rol */}
-        <Dropdown
-          name={"idrol"}
-          label={"¿Qué deseas crear?"}
-          data={dataDropdown.dropdownRol}
-          onChange={handleRoleChange}
-          placeholder={"Selecciona un rol"}
-          error={errors.idrol}
+    <>
+      {isRegistering ? (
+        <CardLoader
+          title="Registrando usuario"
+          text="Mucho textooooooooooooooooooooooo"
         />
-        {/* Renderiza dropdowns adicionales según el rol seleccionado */}
-        {selectedRole == 2 ? (
-          <Dropdown
-            name={"idarea"}
-            label={"Area"}
-            data={dataDropdown.dropdownArea}
-            onChange={(value) => handleDropdownChange("idarea", value)}
-            placeholder={"Selecciona un area"}
-            error={errors.idarea}
-          />
-        ) : selectedRole == 3 ? (
-          <Dropdown
-            name={"matricula"}
-            label={"Tipo de matrícula"}
-            data={dataMatricula}
-            onChange={(value) => handleDropdownChange("matricula", value)}
-            placeholder={"Selecciona el tipo de matricula"}
-            error={errors.matricula}
-          />
-        ) : null}
+      ) : (
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
+            {/* Dropdown para seleccionar el rol */}
+            <Dropdown
+              name={"idrol"}
+              label={"¿Qué deseas crear?"}
+              data={dataDropdown.dropdownRol}
+              onChange={handleRoleChange}
+              placeholder={"Selecciona un rol"}
+              error={errors.idrol}
+            />
+            {/* Renderiza dropdowns adicionales según el rol seleccionado */}
+            {selectedRole == 2 ? (
+              <Dropdown
+                name={"idarea"}
+                label={"Area"}
+                data={dataDropdown.dropdownArea}
+                onChange={(value) => handleDropdownChange("idarea", value)}
+                placeholder={"Selecciona un area"}
+                error={errors.idarea}
+              />
+            ) : selectedRole == 3 ? (
+              <Dropdown
+                name={"matricula"}
+                label={"Tipo de matrícula"}
+                data={dataMatricula}
+                onChange={(value) => handleDropdownChange("matricula", value)}
+                placeholder={"Selecciona el tipo de matricula"}
+                error={errors.matricula}
+              />
+            ) : null}
 
-        <Input
-          name={"nombre"}
-          texto={"Nombre"}
-          placeholder={"Nombre del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.nombre}
-          error={errors.nombre}
-        />
-        <Input
-          name={"apellido"}
-          texto={"Apellidos"}
-          placeholder={"Apellido del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.apellido}
-          error={errors.apellido}
-        />
-        {/* Dropdown para seleccionar el tipo de documento */}
-        <Dropdown
-          name={"idtipodocumento"}
-          label={"Tipo de documento"}
-          data={dataDropdown.dropdownDocumento}
-          onChange={(value) => handleDropdownChange("idtipodocumento", value)}
-          placeholder={"Selecciona el tipo de documento"}
-          error={errors.idtipodocumento}
-        />
-        <Input
-          name={"numerodocumento"}
-          texto={"Número de documento"}
-          placeholder={"Documento del usuario"}
-          tipo={"number"}
-          onChange={handleInputChange}
-          value={values.numerodocumento}
-          error={errors.numerodocumento}
-        />
-        <DatePicker2
-          name={"fechanacimiento"}
-          texto={"Fecha de nacimiento"}
-          value={values.fechanacimiento}
-          onChange={handleInputChange}
-          error={errors.fechanacimiento}
-        />
-        <Input
-          name={"edad"}
-          texto={"Edad"}
-          placeholder={"Edad del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.edad}
-          error={errors.edad}
-        />
-        {selectedRole != 1 ? (
-          <DatePicker2
-            name={"fechaingreso"}
-            texto={"Fecha de ingreso"}
-            value={values.fechaingreso}
-            onChange={handleInputChange}
-            error={errors.fechaingreso}
-          />
-        ) : null}
-        <Input
-          name={"barrio"}
-          texto={"Barrio"}
-          placeholder={"Barrio del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.barrio}
-          error={errors.barrio}
-        />
-        <Input
-          name={"direccion"}
-          texto={"Dirección"}
-          placeholder={"Dirección del usuario"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.direccion}
-          error={errors.direccion}
-        />
-        <Input
-          name={"comuna"}
-          texto={"Comuna"}
-          placeholder={"Comuna del usuario"}
-          tipo={"number"}
-          onChange={handleInputChange}
-          value={values.comuna}
-          error={errors.comuna}
-        />
-        <Input
-          name={"correo"}
-          texto={"Correo"}
-          placeholder={"Correo electrónico del usuario"}
-          tipo={"email"}
-          onChange={handleInputChange}
-          value={values.correo}
-          error={errors.correo}
-        />
-        {/* Dropdown para seleccionar el sexo */}
-        <Dropdown
-          name={"idsexo"}
-          label={"Sexo"}
-          data={dataDropdown.dropdownSexo}
-          onChange={(value) => handleDropdownChange("idsexo", value)}
-          placeholder={"Selecciona el sexo"}
-          error={errors.idsexo}
-        />
+            <Input
+              name={"nombre"}
+              texto={"Nombre"}
+              placeholder={"Nombre del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.nombre}
+              error={errors.nombre}
+            />
+            <Input
+              name={"apellido"}
+              texto={"Apellidos"}
+              placeholder={"Apellido del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.apellido}
+              error={errors.apellido}
+            />
+            {/* Dropdown para seleccionar el tipo de documento */}
+            <Dropdown
+              name={"idtipodocumento"}
+              label={"Tipo de documento"}
+              data={dataDropdown.dropdownDocumento}
+              onChange={(value) =>
+                handleDropdownChange("idtipodocumento", value)
+              }
+              placeholder={"Selecciona el tipo de documento"}
+              error={errors.idtipodocumento}
+            />
+            <Input
+              name={"numerodocumento"}
+              texto={"Número de documento"}
+              placeholder={"Documento del usuario"}
+              tipo={"number"}
+              onChange={handleInputChange}
+              value={values.numerodocumento}
+              error={errors.numerodocumento}
+            />
+            <DatePicker2
+              name={"fechanacimiento"}
+              texto={"Fecha de nacimiento"}
+              value={values.fechanacimiento}
+              onChange={handleInputChange}
+              error={errors.fechanacimiento}
+            />
+            <Input
+              name={"edad"}
+              texto={"Edad"}
+              placeholder={"Edad del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.edad}
+              error={errors.edad}
+            />
+            {selectedRole != 1 ? (
+              <DatePicker2
+                name={"fechaingreso"}
+                texto={"Fecha de ingreso"}
+                value={values.fechaingreso}
+                onChange={handleInputChange}
+                error={errors.fechaingreso}
+              />
+            ) : null}
+            <Input
+              name={"barrio"}
+              texto={"Barrio"}
+              placeholder={"Barrio del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.barrio}
+              error={errors.barrio}
+            />
+            <Input
+              name={"direccion"}
+              texto={"Dirección"}
+              placeholder={"Dirección del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.direccion}
+              error={errors.direccion}
+            />
+            <Input
+              name={"comuna"}
+              texto={"Comuna"}
+              placeholder={"Comuna del usuario"}
+              tipo={"number"}
+              onChange={handleInputChange}
+              value={values.comuna}
+              error={errors.comuna}
+            />
+            <Input
+              name={"correo"}
+              texto={"Correo"}
+              placeholder={"Correo electrónico del usuario"}
+              tipo={"email"}
+              onChange={handleInputChange}
+              value={values.correo}
+              error={errors.correo}
+            />
+            {/* Dropdown para seleccionar el sexo */}
+            <Dropdown
+              name={"idsexo"}
+              label={"Sexo"}
+              data={dataDropdown.dropdownSexo}
+              onChange={(value) => handleDropdownChange("idsexo", value)}
+              placeholder={"Selecciona el sexo"}
+              error={errors.idsexo}
+            />
 
-        {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
-        {selectedRole !== 1 && selectedRole !== 2 ? (
-          <Input
-            name={"institutoprocedencia"}
-            texto={"Instituto"}
-            placeholder={"Instituto del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.instituto}
-            error={errors.institutoprocedencia}
-          />
-        ) : (
-          <UploadFile
-            title={"Hoja de vida"}
-            id="hojaDeVida"
-            onFileChange={(file) => handleFileChange("hojaDeVida", file)}
-          />
-        )}
-        <UploadFile
-          title={"Foto"}
-          id="foto"
-          onFileChange={(file) => handleFileChange("foto", file)}
-        />
-      </div>
+            {/* Renderización condicional del campo "instituto" o "UploadFile" según el rol */}
+            {selectedRole !== 1 && selectedRole !== 2 ? (
+              <Input
+                name={"institutoprocedencia"}
+                texto={"Instituto"}
+                placeholder={"Instituto del usuario"}
+                tipo={"text"}
+                onChange={handleInputChange}
+                value={values.instituto}
+                error={errors.institutoprocedencia}
+              />
+            ) : (
+              <UploadFile
+                title={"Hoja de vida"}
+                id="hojaDeVida"
+                onFileChange={(file) => handleFileChange("hojaDeVida", file)}
+              />
+            )}
+            <UploadFile
+              title={"Foto"}
+              id="foto"
+              onFileChange={(file) => handleFileChange("foto", file)}
+            />
+          </div>
 
-      <div className="w-full flex justify-center">
-        {/* Botón para confirmar el formulario */}
-        <Boton text="Confirmar" type="blue" />
-      </div>
-    </form>
+          <div className="w-full flex justify-center">
+            {/* Botón para confirmar el formulario */}
+            <Boton text="Confirmar" type="blue" />
+          </div>
+        </form>
+      )}
+    </>
   );
 };
