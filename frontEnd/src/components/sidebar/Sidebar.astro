@@ -6,9 +6,10 @@ interface Props {
   img?: string,
   name?: string,
   profession?: string;
+  rol?: string;
 }
 
-const { img, name, profession } = Astro.props;
+const { img, name, profession, rol } = Astro.props;
 ---
 
 <div class="hidden xl:flex w-[95px] h-screen sticky top-0 z-50">
@@ -28,7 +29,7 @@ const { img, name, profession } = Astro.props;
       </div>
     </div>
     <div class="flex flex-col items-center gap-y-4 w-full px-4">
-      {sidebarsection.map((sidebarsections, index) => (
+      {sidebarsection[1].map((sidebarsections, index) => (
         <Elemento icon={sidebarsections.icon} texto={sidebarsections.texto} />
       ))}
       <div class="w-full border-darkBlue border-[1px]"></div>
