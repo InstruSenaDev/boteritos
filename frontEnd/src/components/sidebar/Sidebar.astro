@@ -29,7 +29,7 @@ const { img, name, profession, rol } = Astro.props;
       </div>
     </div>
     <div class="flex flex-col items-center gap-y-4 w-full px-4">
-      {sidebarsection[1].map((sidebarsections, index) => (
+      {sidebarsection[rol]?.map((sidebarsections, index) => (
         <Elemento icon={sidebarsections.icon} texto={sidebarsections.texto} />
       ))}
       <div class="w-full border-darkBlue border-[1px]"></div>
