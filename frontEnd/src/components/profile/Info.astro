@@ -1,0 +1,21 @@
+---
+interface Props{
+    title: string;
+    text: string;
+}
+
+const { title, text } = Astro.props;
+
+---
+
+<div class= {`flex flex-col w-full ${title === 'Correo' ? 'border-b-0' : 'border-b-2 border-b-placeholderBlue'} py-4`}>
+    <div class="flex justify-between">
+        <p class="text-subTitle2 font-Cocogoose-SemiLight text-darkBlue">
+        { title }
+        </p>
+        <p class="underline font-Cocogoose-SemiLight text-darkBlue">Editar</p>
+    </div>  
+    <p class="text-paragraph font-Cocogoose-Light">
+        { text } 
+    </p>
+</div>

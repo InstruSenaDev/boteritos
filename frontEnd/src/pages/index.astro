@@ -1,0 +1,17 @@
+---
+import Login from '../components/Login.astro';
+import Layout from '../layouts/Layout.astro';
+
+const isLogin = true
+
+---
+
+<Layout title="Boteritos">
+    <>
+        {
+            isLogin ? 
+            <Login /> :
+            <p>Hola</p>
+        }
+    </>
+</Layout>
