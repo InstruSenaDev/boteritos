@@ -2,6 +2,7 @@
 import Sidebar from "../components/sidebar/Sidebar.astro";
 import Layout from "./Layout.astro";
 import Header from "../components/header/header.astro";
+import getDataUser from "../helper/functions/getDataUser.js";
 
 
 interface props {
@@ -10,22 +11,17 @@ interface props {
 }
 const { title, titleHeader } = Astro.props;
 
-// Obtener el objeto del localStorage y parsearlo
-let sidebardata = {};
-if (typeof window !== "undefined") {
-  const storedData = localStorage.getItem("sidebardata");
-  if (storedData) {
-    sidebardata = JSON.parse(storedData);
-  }
-}
+// Obtener los datos de localStorage usando la función externa de JavaScript
+const sidebardata = getDataUser();
+
+  
 ---
 
 <Layout title={title}>
   <Sidebar
-    name={sidebardata.name}
-    profession={sidebardata.profession}
-    img={sidebardata.img}
-    rol={sidebardata.rol}
+    name={sidebardata.nombre}
+    img={sidebardata.urlImg}
+    rol={sidebardata.idrol}
   />
 
   <div class="w-full">
@@ -35,3 +31,6 @@ if (typeof window !== "undefined") {
     </div>
   </div>
 </Layout>
+<script>
+  
+</script>

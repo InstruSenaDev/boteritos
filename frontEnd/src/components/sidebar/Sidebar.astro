@@ -5,11 +5,10 @@ import { sidebarsection } from "../../helper/objects/sidebarElementsArray";
 interface Props {
   img?: string;
   name?: string;
-  profession?: string;
   rol?: string;
 }
 
-const { img, name, profession, rol } = Astro.props;
+const { img, name, rol } = Astro.props;
 ---
 
 <div class="hidden xl:flex w-[95px] h-screen sticky top-0 z-50">
@@ -32,7 +31,7 @@ const { img, name, profession, rol } = Astro.props;
         </div>
         <div class="font-cocogooseLight ml-2 hidden" id="sidebar-text">
           <p class="text-paragraph2">{name}</p>
-          <p class="text-paragraph3">{profession}</p>
+          <p class="text-paragraph3">{rol}</p>
         </div>
         <div
           class="w-[24px] h-[24px] rounded-full bg-white shadow-2xl text-sm text-black flex justify-center items-center absolute right-[-12px] cursor-pointer"
