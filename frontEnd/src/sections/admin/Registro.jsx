@@ -18,6 +18,11 @@ import { validateField } from "../../helper/validators/register.js";
 import { CardLoader } from "../../components/loaders/CardLoader.jsx";
 
 export const Registro = () => {
+  
+  const [errors, setErrors] = useState({}); // Estado para los errores
+
+  const [selectedRole, setSelectedRole] = useState("");
+  
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [dataDropdown, setDataDropdown] = useState({
@@ -70,10 +75,6 @@ export const Registro = () => {
 
     getDataDropdown();
   }, []);
-
-  const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [selectedRole, setSelectedRole] = useState("");
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -152,14 +153,23 @@ export const Registro = () => {
       fecharegistro: getDate(),
     };
     console.log(dataUser);
-    createUser(dataUser);
+    let formData = new FormData();
+
+    Object.entries(dataUser).forEach(([key, value]) => {
+      formData.append([key] , value)
+      
+    });
+
+    console.log(formData);
+    
+    createUser(formData);
   };
 
   const createUser = async (data) => {
     const response = await postUserStudent(data, "usuarios");
     console.log(response);
 
-    if (!response.data.error) {
+    if (response.status == 200 || response.status == 201) {
       setIsRegistering(true);
       console.log(
         "Nada de errores, aqui se debe redireccionar al registro con detalle"

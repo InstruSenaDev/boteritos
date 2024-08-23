@@ -1,5 +1,4 @@
 // src/components/GrupoDatoElemento.js
-
 import React, { useState } from "react";
 import { DatoElemento } from "./DatoElemento"; 
 import { RegisterModal } from "../modales/RegisterModal"; 
@@ -14,8 +13,6 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
 
-
-  
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -68,8 +65,6 @@ export const GrupoDatoElemento = () => {
 
   return (
     <>
-   
-    
       <div className="flex flex-wrap gap-y-3 justify-between">
         <DatoElemento
           icon={"fa-solid fa-phone"}

@@ -25,11 +25,10 @@ export function RegisterModal({
       >
         <DialogPanel
           className={`flex flex-col gap-8 items-center lg:items-start 
-                            ${
-                              cols === 1 ? "w-full" : "max-w-[800px] w-full"
-                            } py-[40px] px-[30px]`}
+            ${
+              cols === 1 ? "w-full" : "max-w-[800px] w-full"
+            } py-[40px] px-[30px]`}
         >
-        
           <div
             onClick={onClose}
             className="absolute top-2 right-2 p-2 rounded-full text-gray bg-white hover:bg-slate-200 hover:text-slate-500"
@@ -48,8 +47,7 @@ export function RegisterModal({
               </div>
 
               <div
-                className={`w-full grid grid-cols-1 lg:grid-cols-${cols} 
-                            lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify`}
+                className={`w-full grid grid-cols-1 lg:grid-cols-${cols} lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify`}
               >
                 {children}
               </div>
@@ -64,7 +62,9 @@ export function RegisterModal({
             <>
               <div className="w-full h-full flex items-center justify-center flex-col gap-10">
                 <img src="../../../public/img/zG59fyltWB.gif" alt=""></img>
-                <div className="font-cocogooseRegular text-darkBlue text-title"><h1>Datos registrados con éxito</h1></div>
+                <div className="font-cocogooseRegular text-darkBlue text-title">
+                  <h1>Datos registrados con éxito</h1>
+                </div>
                 <Button
                   className="max-w-[400px] w-full"
                   type="submit"

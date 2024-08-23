@@ -167,6 +167,8 @@ class Usuarios(models.Model):
     estado = models.TextField()
     idrol = models.IntegerField(db_column='idRol')  # Field name made lowercase.
     idarea = models.TextField(db_column='idArea')  #Chancuco jsjsjs
+    #ARCHIVOS:
+    #foto = models.ImageField(blank='', default='', upload_to='archivos/')
 
     class Meta:
         managed = False

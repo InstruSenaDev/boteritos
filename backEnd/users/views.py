@@ -1,14 +1,16 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica, Responsable
-from .serializer import UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer
+from .serializer import UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer, ResponsableSerializer
 from .middleware import validateIdUsuario
+from rest_framework.parsers import MultiPartParser , FormParser
 
 # Create your views here.
 #CONSULTAS
 
 @api_view(['GET','POST'])
+#@parser_classes([MultiPartParser, FormParser])
 def user(request):
     #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
     #el metodo http que se utilizó en la peticion
@@ -21,8 +23,10 @@ def user(request):
     
     #Crear Persona y Usuario
     if request.method == 'POST':
+        print(request.data)
+        
         userSerializer = UsuarioSerializer(data = request.data)
-        print("hola")
+
         if userSerializer.is_valid():
             userSerializer.save()
             return Response(
@@ -61,20 +65,53 @@ def userOne(request, idUsuario):
 def login (request):
     
     if request.method == 'POST':
-        #DATOS RECIBIDOS
+        #VALIDACIONES
+        if not request.data.get('numerodocumento'):
+            return Response(
+                {
+                "message":'Login sin exito' , 
+                "error" : {
+                     "numerodocumento" : ["El documento es obligatorio."]
+                     }
+                 }, 
+                status=status.HTTP_400_BAD_REQUEST)
+            
+        if not request.data.get('contrasena'):
+            return Response(
+                {
+                "message":'Login sin exito' , 
+                "error" : {
+                     "contrasena" : ["La contraseña es obligatoria."]
+                     }
+                 }, 
+                status=status.HTTP_400_BAD_REQUEST)
+        
         numDocumento = request.data.get('numerodocumento')
         contrasena = request.data.get('contrasena')
         
         oneUser = Usuarios.objects.filter(numerodocumento = numDocumento).first()
         #CONDICIONAL SI EL USUARIO NO FUE ENCONTRADO
         if not oneUser:
-            return Response('No se encontró el usuario', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                "message":'Login sin exito' , 
+                "error" : {
+                     "numerodocumento" : ["Usuario y contraseña no coinciden"],
+                     "contrasena" : ["Usuario y contraseña no coinciden"]
+                     }
+                 }, 
+                status=status.HTTP_400_BAD_REQUEST)
                
         if not oneUser.check_password(contrasena):
             return Response(
-                {"message" : "Login sin exito"}, 
-                status=status.HTTP_400_BAD_REQUEST
-                )
+                {
+                "message":'Login sin exito' , 
+                "error" : {
+                     "numerodocumento" : ["Usuario y contraseña no coinciden"],
+                     "contrasena" : ["Usuario y contraseña no coinciden"]
+                     }
+                }, 
+                status=status.HTTP_400_BAD_REQUEST)
         #SE RESUME LA INFORMACION PARA QUE EL FRONTEND NO RECIBA TODOS LOS DATOS DEL USUARIO
         dataUser = UsuarioSerializer(oneUser)
         
@@ -217,10 +254,29 @@ def historiaClinicaOne(request, idUsuario):
 
 @api_view(['POST', 'PUT'])
 def responsable(request):
-
+    
+    print(request.data)
+    idUsuario = request.data.get('idusuario')
+    print(f'ID USUARIO {idUsuario}')
+    #Validar usuario
+    validateUser = validateIdUsuario(idUsuario)
+    if not validateUser['result'] :
+        return Response(validateUser['message'], status = validateUser['status'])
+    
     if request.method == 'POST':
+        responsableData = ResponsableSerializer(data = request.data)
         
-        return
+        if responsableData.is_valid():
+            responsableData.save()
+            return Response(
+                {"message" : "¡Responsable creado con exito!", "data" : responsableData.data},
+                status=status.HTTP_201_CREATED
+            ) 
+            
+        return Response(
+            {"message" : "Creacion sin exito", "error" : responsableData.errors},
+            status= status.HTTP_400_BAD_REQUEST
+            )
     
 """
 class Responsable(models.Model):

@@ -11,6 +11,5 @@ def validateIdUsuario(idUsuario):
             "message" : {"message": "No encontrado", "error" : "No se encontró al usuario"},
             "status" :  status.HTTP_404_NOT_FOUND
         }
-    print(oneUser)
     
     return {"result" : True , "user" : oneUser}

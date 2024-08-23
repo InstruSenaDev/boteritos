@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica, Responsable
+from .models import  Usuarios, Datosmedicos, Historiaclinica, Responsable
 from .helpers import validateCantDocumento, validateMinCaractEspecial
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -195,27 +195,127 @@ class HistoriaClinicaSerializer(serializers.ModelSerializer):
 
 class ResponsableSerializer(serializers.ModelSerializer):
 
-    nombre = serializers.IntegerField(
-        error_messages = {
-            'required' : 'El nombre es obligatorio',
-            'blank' : 'El nombre es obligatorio',
-            'invalid' : 'El nombre de'
+    nombre = serializers.CharField(
+        error_messages={
+            'required': 'El nombre es obligatorio.',
+            'blank' : 'El nombre es obligatorio.'
         }
     )
+    
+    correo = serializers.EmailField(
+        error_messages={
+            'required': 'El correo es obligatorio',
+            'blank': 'El correo es obligatorio',
+            'invalid': 'El formato del correo es inválido'
+        }
+    )
+
+    numerodocumento = serializers.CharField(
+        error_messages={
+            'required': 'El número de documento es obligatorio',
+            'blank': 'El número de documento es obligatorio',
+            'invalid': 'El número de documento debe ser un valor válido'
+        }
+    )
+
+    telefono = serializers.CharField(
+        error_messages={
+            'required': 'El teléfono es obligatorio',
+            'blank': 'El teléfono es obligatorio',
+            'invalid': 'El teléfono debe ser un valor válido'
+        }
+    )
+
+    profesion = serializers.CharField(
+        error_messages={
+            'required': 'La profesión es obligatoria',
+            'blank': 'La profesión es obligatoria',
+            'invalid': 'La profesión debe ser un valor válido'
+        }
+    )
+
+    ocupacion = serializers.CharField(
+        error_messages={
+            'required': 'La ocupación es obligatoria',
+            'blank': 'La ocupación es obligatoria',
+            'invalid': 'La ocupación debe ser un valor válido'
+        }
+    )
+
+    empresa = serializers.CharField(
+        error_messages={
+            'required': 'La empresa es obligatoria',
+            'blank': 'La empresa es obligatoria',
+            'invalid': 'La empresa debe ser un valor válido'
+        }
+    )
+
+    idusuario = serializers.IntegerField(
+        error_messages={
+            'required': 'El ID de usuario es obligatorio',
+            'invalid': 'El ID de usuario debe ser un número entero válido'
+        }
+    )
+
+    idtipodocumento = serializers.IntegerField(
+        error_messages={
+            'required': 'El ID del tipo de documento es obligatorio',
+            'invalid': 'El ID del tipo de documento debe ser un número entero válido'
+        }
+    )
+    
+    idparentesco = serializers.IntegerField(
+    error_messages={
+        'required': 'El ID de parentesco es obligatorio',
+        'invalid': 'El ID de parentesco debe ser un número entero válido'
+    }
+)
 
     class Meta:
         model = Responsable
         fields = '__all__'
+    
+    #Funcion que evitará que se cree un usuario con el mismo numero de documento
+    def validarNumeroDocumento(self, value):
+        user = Responsable.objects.filter(numerodocumento = value).count()
+        #Si encuentra usuarios con ese numero de documento, retornará la cantidad de estos, lo que significa que ese usuario ya existe
+        print(user)
+        
+        if user >= 1 :
+            return False
+        
+        return True
+    
+    def validate_numerodocumento(self, value):
+
+        tipoDoc = str(self.initial_data.get('idtipodocumento'))
+        validacion = validateCantDocumento(value, tipoDoc)
+        
+        if not validacion['result']:
+            raise serializers.ValidationError([validacion['error']])
+            
+        return value
+    
+    
+    def create(self, validated_data):
+        #Validacion del numero de documento
+        numDocumento = validated_data.get('numerodocumento')
+        validacion = self.validarNumeroDocumento(numDocumento)
+        if not validacion :
+            raise serializers.ValidationError(
+                {
+                "message" : "Creacion cancelada", 
+                "error" : {
+                    "numerodocumento" : ["Documento ya existe"]
+                    }
+                 }
+                )
+        
+        responsable = Responsable(**validated_data)
+        #responsable.save()
+        
+        return responsable
 
 """
-    nombre = models.TextField()
-    correo = models.TextField()
-    numerodocumento = models.TextField(db_column='numeroDocumento')  # Field name made lowercase.
-    telefono = models.TextField()
-    profesion = models.TextField()
-    ocupacion = models.TextField()
-    empresa = models.TextField()
-    idusuario = models.IntegerField(db_column='idUsuario')  # Field name made lowercase.
-    idparentesco = models.IntegerField(db_column='idParentesco')  # Field name made lowercase.
-    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  # Field name made lowercase.
+    nombre, correo, numerodocumento, telefono ,profesion ,ocupacion ,empresa , idusuario ,idparentesco ,idtipodocumento 
 """

@@ -1,5 +1,4 @@
 //Configuración para la cantidad de columnas que se mostraran en los modales
-
 import { defaultValues } from "../../helper/modales/objectsModal";
 
 export const getModalConfig = (contentType) => {

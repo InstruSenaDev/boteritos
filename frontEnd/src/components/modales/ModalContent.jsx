@@ -1,28 +1,29 @@
-
 import React from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
 import { dataDoc } from "../../helper/objects/dropdownArray";
 
-
-  // Devuelve el contenido del modal según el tipo de contenido seleccionado
-  export const ModalContent = ({selectedContent, values, handleInputChange, handleDropdownChange}) => {
+// Devuelve el contenido del modal según el tipo de contenido seleccionado
+export const ModalContent = ({
+  selectedContent,
+  values,
+  handleInputChange,
+  handleDropdownChange,
+}) => {
   switch (selectedContent) {
     case "Telefono":
       return (
-      
-          <Input
-            texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
-            placeholder="Por favor escriba su número telefónico"
-            name="telefono"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.telefono || ''}
-          />
-        
-        
+        <Input
+          texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
+          placeholder="Por favor escriba su número telefónico"
+          name="telefono"
+          tipo="text"
+          onChange={handleInputChange}
+          value={values.telefono || ""}
+        />
       );
+    
     case "Responsable":
       return (
         <>
@@ -32,14 +33,14 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="nombre"
             tipo="text"
             onChange={handleInputChange}
-            value={values.nombre || ''}
+            value={values.nombre || ""}
           />
           <Dropdown
             name="documento"
             label="Tipo de documento"
             data={dataDoc}
             onChange={(value) => handleDropdownChange("documento", value)}
-            value={values.documento || ''}
+            value={values.documento || ""}
           />
           <Input
             texto="Número de documento"
@@ -47,7 +48,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="ndocumento"
             tipo="text"
             onChange={handleInputChange}
-            value={values.ndocumento || ''}
+            value={values.ndocumento || ""}
           />
           <Input
             texto="Teléfono"
@@ -55,7 +56,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="telefono"
             tipo="text"
             onChange={handleInputChange}
-            value={values.telefono || ''}
+            value={values.telefono || ""}
           />
           <Input
             texto="Otro teléfono"
@@ -63,7 +64,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="telefonodos"
             tipo="text"
             onChange={handleInputChange}
-            value={values.telefonodos || ''}
+            value={values.telefonodos || ""}
           />
           <Input
             texto="Dirección"
@@ -71,7 +72,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="direccion"
             tipo="text"
             onChange={handleInputChange}
-            value={values.direccion || ''}
+            value={values.direccion || ""}
           />
           <Input
             texto="Empresa"
@@ -79,14 +80,14 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="empresa"
             tipo="text"
             onChange={handleInputChange}
-            value={values.empresa || ''}
+            value={values.empresa || ""}
           />
           <Dropdown
             name="parentesco"
             label="Tipo de parentesco"
             data={dataDoc}
             onChange={(value) => handleDropdownChange("parentesco", value)}
-            value={values.parentesco || ''}
+            value={values.parentesco || ""}
           />
         </>
       );
@@ -98,7 +99,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             label="Tipo de parentesco"
             data={dataDoc}
             onChange={(value) => handleDropdownChange("parentesco", value)}
-            value={values.parentesco || ''}
+            value={values.parentesco || ""}
           />
           <Input
             texto="Lugar de atención"
@@ -106,14 +107,14 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="lugaratención"
             tipo="text"
             onChange={handleInputChange}
-            value={values.lugaratención || ''}
+            value={values.lugaratención || ""}
           />
           <Dropdown
             name="rh"
             label="RH"
             data={dataDoc}
             onChange={(value) => handleDropdownChange("rh", value)}
-            value={values.rh || ''}
+            value={values.rh || ""}
           />
           <Input
             texto="Estatura"
@@ -121,7 +122,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="estatura"
             tipo="text"
             onChange={handleInputChange}
-            value={values.estatura || ''}
+            value={values.estatura || ""}
           />
           <Input
             texto="Peso"
@@ -129,21 +130,20 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="peso"
             tipo="text"
             onChange={handleInputChange}
-            value={values.peso || ''}
+            value={values.peso || ""}
           />
-         
-          </>
+        </>
       );
     case "Historia Clinica":
       return (
-      <>
+        <>
           <Input
             texto="Diagnóstico"
             placeholder="Ingresa el diagnóstico del estudiante"
             name="diagnostico"
             tipo="text"
             onChange={handleInputChange}
-            value={values.diagnostico || ''}
+            value={values.diagnostico || ""}
           />
           <Input
             texto="Restricciones alimenticias"
@@ -151,7 +151,7 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="restricciones"
             tipo="text"
             onChange={handleInputChange}
-            value={values.restricciones || ''}
+            value={values.restricciones || ""}
           />
           <Input
             texto="Medicamentos"
@@ -159,18 +159,16 @@ import { dataDoc } from "../../helper/objects/dropdownArray";
             name="medicamentos"
             tipo="text"
             onChange={handleInputChange}
-            value={values.medicamentos || ''}
+            value={values.medicamentos || ""}
           />
           <UploadFile />
-        
-          </>
+        </>
       );
     case "Informes":
       return (
         <div>
           <h2>Informes</h2>
           <p>Esto NO será un modal.</p>
- 
         </div>
       );
     default:
