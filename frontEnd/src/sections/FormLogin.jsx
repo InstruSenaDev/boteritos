@@ -39,7 +39,7 @@ export const FormLogin = () => {
         let rol = response.data.data.idrol
         let url = window.location.href
         //Redireccionamos a la vista principal segun el rol
-        window.location.href = `${url}${defRol(rol)}`
+        window.location.href = `${url}${defRol(rol.toString())}`
 
     }
 
