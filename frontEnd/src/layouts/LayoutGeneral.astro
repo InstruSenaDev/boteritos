@@ -2,7 +2,7 @@
 import Sidebar from "../components/sidebar/Sidebar.astro";
 import Layout from "./Layout.astro";
 import Header from "../components/header/header.astro";
-import getDataUser from "../helper/functions/getDataUser.js";
+import { getDataUser } from "../helper/functions/getDataUser.js";
 
 
 interface props {
@@ -12,10 +12,18 @@ interface props {
 const { title, titleHeader } = Astro.props;
 
 // Obtener los datos de localStorage usando la función externa de JavaScript
-const sidebardata = getDataUser();
+let sidebardata = {
+  nombre: "",
+  urlImg: "",
+  idrol: ""
+};
 
-  
+if (typeof window !== "undefined") {
+  sidebardata = getDataUser();
+  console.log("Datos de la sidebar:", sidebardata);
+}
 ---
+
 
 <Layout title={title}>
   <Sidebar
