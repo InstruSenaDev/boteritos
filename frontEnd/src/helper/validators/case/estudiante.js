@@ -34,7 +34,7 @@ export const caseEstudiante = (name, value) =>{
         break;
 
       case "fechaingreso":
-        if (!value.trim()) {
+        if (!value) {
           error = "La fecha de ingreso es obligatoria.";
         }
         break;
