@@ -8,9 +8,9 @@ function App() {
 
   return (
     <>
-    <div className='bg-darkBlue h-10 w-10'>
+    <div className='bg-darkBlue h-[100px] w-[100px]'>
       <h1 className="text-3xl font-bold underline">
-      Hello world!
+      Subir rama para que el gay de brian vea
     </h1>
     </div>
     </>
