@@ -1,10 +1,17 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
-from .models import Tipodocumento, Usuarios, Datosmedicos, Historiaclinica, Responsable
-from .serializer import UsuarioSerializer, DatosMedicosSerializer, HistoriaClinicaSerializer, ResponsableSerializer
+from .models import Usuarios, Datosmedicos, Historiaclinica, Responsable
+
+from .serialzer.datosMedicosSerializer import DatosMedicosSerializer
+from .serialzer.historiaClinicaSerializer import HistoriaClinicaSerializer
+from .serialzer.responsableSerializer import ResponsableSerializer
+from .serialzer.usuarioSerializer import UsuarioSerializer
+from .querySql import querySql
+
 from .middleware import validateIdUsuario
 from rest_framework.parsers import MultiPartParser , FormParser
+
 
 # Create your views here.
 #CONSULTAS
@@ -255,9 +262,8 @@ def historiaClinicaOne(request, idUsuario):
 @api_view(['POST', 'PUT'])
 def responsable(request):
     
-    print(request.data)
     idUsuario = request.data.get('idusuario')
-    print(f'ID USUARIO {idUsuario}')
+    
     #Validar usuario
     validateUser = validateIdUsuario(idUsuario)
     if not validateUser['result'] :
@@ -277,22 +283,11 @@ def responsable(request):
             {"message" : "Creacion sin exito", "error" : responsableData.errors},
             status= status.HTTP_400_BAD_REQUEST
             )
-    
-"""
-class Responsable(models.Model):
-    idresponsable = models.AutoField(db_column='idResponsable', primary_key=True)  # Field name made lowercase.
-    nombre = models.TextField()
-    correo = models.TextField()
-    numerodocumento = models.TextField(db_column='numeroDocumento')  # Field name made lowercase.
-    telefono = models.TextField()
-    profesion = models.TextField()
-    ocupacion = models.TextField()
-    empresa = models.TextField()
-    idusuario = models.IntegerField(db_column='idUsuario')  # Field name made lowercase.
-    idparentesco = models.IntegerField(db_column='idParentesco')  # Field name made lowercase.
-    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  # Field name made lowercase.
 
-    class Meta:
-        managed = False
-        db_table = 'responsable'
-"""
+@api_view(['GET'])
+def endPointPruebas(request):
+    
+    if request.method == 'GET':
+        query = querySql("hola")
+        #print(query)
+        return Response('DADME EL DESCANSO ETERNO POR FAVOR')
