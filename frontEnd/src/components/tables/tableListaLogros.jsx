@@ -89,7 +89,7 @@ export default function TableListaLogros() {
               name="observación"
             />
           </RegisterModal>
-          <Button onClick={handleOpenModal} ><div className="flex gap-2 h-full w-full"><i class="fa-regular fa-circle-plus"></i>Hola mundo</div></Button>
+          <Button onClick={handleOpenModal} ><div className="flex gap-2 h-full w-full"><i className="fa-regular fa-circle-plus"></i>Hola mundo</div></Button>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">

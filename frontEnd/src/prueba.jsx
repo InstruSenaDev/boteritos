@@ -5,6 +5,7 @@ import './index.css'
 export function DateRangePickerHero() {
   return (
     <div className="mx-auto max-w-md space-y-3">
+      <p className='font-cocogooseSemiLight text-paragraph2'>HOLAAA holaaa Holaa</p>
       <p className="text-center font-mono text-sm text-slate-500">
         Date Picker
       </p>
