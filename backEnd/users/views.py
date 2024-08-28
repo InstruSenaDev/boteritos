@@ -288,6 +288,6 @@ def responsable(request):
 def endPointPruebas(request):
     
     if request.method == 'GET':
-        query = querySql("hola")
+        query = querySql("SELECT * FROM rh", None)
         #print(query)
-        return Response('DADME EL DESCANSO ETERNO POR FAVOR')
+        return Response(query)

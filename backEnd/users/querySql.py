@@ -1,22 +1,23 @@
 from django.db import connection
 
-def querySql(data):
+def querySql(consulta, data):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM usuarios")
+        cursor.execute(consulta, data)
         row = cursor.fetchall()
-        aña  = cursor.description
-        print(aña)
-        print("/////////////////////")
-        
-        columns = [col[0] for col in cursor.description]
-        print(columns)
-        
-        print("/////////////////////////////////////////////////")
-        print(row)
-         
-        print("/////////////////////////////////////////////////")
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
-        print(results)
-        print("/////////////////////////////////////////////////")
-        #row = cursor.fetchmany()
-    return row
+
+        #OBTENEMOS UNICAMENTA LAS COLUMNAS DE LA CONSULTA
+        columns = [col[0] for col in cursor.description] 
+        #ARRAY VACIO QUE CONTENDRÁ LOS OBJETOS 
+        arrayQuery = []
+        #ITERAMOS EN LAS FILAS (DATOS)
+        for item in row:
+            #OBJETO VACIO QUE CONTENDRÁ LOS DATOS
+            objQuery = {}
+            #ITERAMOS EN CADA VALOR ESPECIFICO DE LAS FILAS, PARA OBTENER LOS DATOS UNICOS
+            for i in range(len(item)):
+                #ASIGNAMOS ESOS VALORES UNICOS A SUS COLUMNAS RESPECTIVAS EN EL OBJETO
+                objQuery[columns[i].lower()] = item[i]
+            #AÑADIMOS EL OBJETO CON TODA LA INFORMACION DE ESA FILA EN UN ARRAY
+            arrayQuery.append(objQuery) 
+            
+    return arrayQuery
