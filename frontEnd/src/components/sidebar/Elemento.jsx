@@ -1,4 +1,4 @@
-export const Elemento = (icon, text) => {
+export const Elemento = ({icon, text}) => {
   return (
     <>
       <div className="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white cursor-pointer sidebar-element">

@@ -1,9 +1,8 @@
 import { Elemento } from "./Elemento";
 import { sidebarsection } from "../../helper/objects/sidebarElementsArray";
 
-export const Sidebar = (img, name, profession, rol) => {
+export const Sidebar = ({img, name, profession, rol}) => {
   return (
-    <>
       <div className="hidden xl:flex w-[95px] h-screen sticky top-0 z-50">
         <div className="w-[95px] hidden xl:flex h-screen sticky top-0">
           <div
@@ -30,7 +29,7 @@ export const Sidebar = (img, name, profession, rol) => {
               </div>
             </div>
             <div className="flex flex-col items-center gap-y-4 w-full px-4">
-              {sidebarsection[rol]?.map((sidebarsections, index) => (
+              {sidebarsection[rol]?.map((sidebarsections) => (
                 <Elemento
                   icon={sidebarsections.icon}
                   texto={sidebarsections.texto}
@@ -45,6 +44,5 @@ export const Sidebar = (img, name, profession, rol) => {
           </div>
         </div>
       </div>
-    </>
   );
 };

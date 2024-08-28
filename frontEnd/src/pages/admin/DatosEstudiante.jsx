@@ -1,5 +1,4 @@
 import React from "react";
-import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { GrupoDatos } from "../../components/datosEstudiante/GrupoDatos";
 import { Dato } from "../../components/datosEstudiante/Dato";
 import {DatosHistoria} from "../../components/datosEstudiante/DatosHistoria";
@@ -7,11 +6,12 @@ import { Boton } from "../../components/forms/Boton";
 import { HeaderData } from "../../components/tables/headerData/HeaderData.jsx";
 import {GrupoDatoElemento} from "../../components/datosEstudiante/GrupoDatoElemento";
 import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
+import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 
 export const DatosEstudiante = () => {
   return (
       <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
-        <div className="w-full space-y-7 grid gap-10">
+        <div className="w-full space-y-2 grid gap-10">
           <HeaderData/>
           <GrupoDatoElemento/>
           <div className="w-full h-0 border-darkBlue border-2"></div>

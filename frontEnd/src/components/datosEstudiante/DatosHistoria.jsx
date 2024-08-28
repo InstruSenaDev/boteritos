@@ -1,3 +1,5 @@
+import React from "react"
+
 export const DatosHistoria = ({titulo, children}) => {
     return (
         <div className="w-full bg-white p-6 rounded-xl flex flex-col gap-y-5">

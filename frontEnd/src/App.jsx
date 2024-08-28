@@ -1,8 +1,5 @@
-
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './index.css'
-import { DatosEstudiante } from './pages/admin/DatosEstudiante'
+import { DatosEstudiante } from './pages/admin/DatosEstudiante';
+import { DateRangePickerHero } from './prueba';
 
 function App() {
   return (
