@@ -9,7 +9,8 @@ router = routers.DefaultRouter()
 urlpatterns= [
     path('usuarios', views.UsuariosList.as_view() ),
     path('usuarios/create', views.UsuariosCreate.as_view() ),
-    path('usuarios/update/<int:idUsuario>', views.UsuarioUpdate.as_view() ),
+    path('usuarios/update/<int:pk>', views.UsuarioUpdate.as_view() ),   
+    
     path('login', views.login),
     path('datosmedicos', views.datosMedicos),
     path('datosmedicos/<int:idUsuario>', views.datosMedicosOne),

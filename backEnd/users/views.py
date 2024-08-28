@@ -36,17 +36,21 @@ class UsuariosCreate(generics.CreateAPIView):
 
 class UsuarioUpdate(generics.UpdateAPIView):
     serializer_class = UsuarioSerializer
-    
-    def get_queryset(self, idUsuario = None):
-        return self.get_queryset().Meta.model.objects.filter(idusuario = idUsuario)
+    #PK => PRIMARY KEY
+    def get_queryset(self, pk = None):
+        return self.get_queryset().Meta.model.objects.filter(idusuario = pk)
 
-    def put(self, request, idUsuario = None):
-        if self.get_queryset(idUsuario):
-            serializer = self.serializer_class(self.get_queryset(idUsuario), data = request.data)
+    def put(self, request, pk = None):
+        if self.get_queryset(pk):
+            serializer = self.serializer_class(self.get_queryset(pk), data = request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(
-                    
+                    {
+                        "message" : "¡Actualizacion exitosa!",
+                        "data" : serializer.data
+                    },
+                    status= status.HTTP_201_CREATED
                 )
         return 
     

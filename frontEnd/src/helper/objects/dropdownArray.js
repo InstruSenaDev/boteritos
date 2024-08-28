@@ -3,10 +3,10 @@ import { getDropdown } from '../../api/get'
 export const dataDoc = async () => {
 
   let dataDrop = []
-  const result = await getDropdown('tiposdocumento');
+  const result = await getDropdown('dropdowns/tiposdocumento');
 
   if (result.data) {
-    let arrayData = result.data.data
+    let arrayData = result.data
   
     dataDrop = arrayData.map((value)=> (
       {
@@ -23,10 +23,10 @@ export const dataDoc = async () => {
 export const dataRol = async () => {
 
   let dataDrop = []
-  const result = await getDropdown('roles');
-
+  const result = await getDropdown('dropdowns/roles');
+  
   if (result.data) {
-    let arrayData = result.data.data
+    let arrayData = result.data
   
     dataDrop = arrayData.map((value)=> (
       {
@@ -42,10 +42,11 @@ export const dataRol = async () => {
 export const dataSexo = async () => {
 
   let dataDrop = []
-  const result = await getDropdown('sexo')
+  const result = await getDropdown('dropdowns/sexo')
 
   if (result.data) {
-    let arrayData = result.data.data
+    
+    let arrayData = result.data
   
     dataDrop = arrayData.map((value)=> (
       {
@@ -68,10 +69,29 @@ export const dataMatricula =[
 export const dataArea = async ()=> {
 
   let dataDrop = []
-  const result = await getDropdown('areas');
+  const result = await getDropdown('dropdowns/areas');
 
   if (result.data) {
-    let arrayData = result.data.data
+    let arrayData = result.data
+  
+    dataDrop = arrayData.map((value)=> (
+      {
+        "option" : value.nombre,
+        "value" : value.idareas
+      })
+    )
+  }
+
+  return dataDrop
+}
+
+export const dataEps = async () =>{
+
+  let dataDrop = []
+  const result = await getDropdown('dropdowns/eps');
+
+  if (result.data) {
+    let arrayData = result.data
   
     dataDrop = arrayData.map((value)=> (
       {
