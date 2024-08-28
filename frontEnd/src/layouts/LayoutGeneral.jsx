@@ -6,16 +6,14 @@ import React from "react";
 
 export const LayoutGeneral = ({titleHeader, children }) => {
   return (
-    <>
       <Layout>
         <Sidebar />
         <div className="w-full">
           <Header title={titleHeader} />
           <div className="px-5 sm:px-10 py-5 min-w-screen">
-            {children}
+            {Children}
           </div>
         </div>
       </Layout>
-    </>
   );
 };
