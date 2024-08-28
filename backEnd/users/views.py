@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from .models import Usuarios, Datosmedicos, Historiaclinica, Responsable
@@ -8,16 +8,34 @@ from .serialzer.historiaClinicaSerializer import HistoriaClinicaSerializer
 from .serialzer.responsableSerializer import ResponsableSerializer
 from .serialzer.usuarioSerializer import UsuarioSerializer
 from .querySql import querySql
+from .generalApi import  GeneralListApiView
 
 from .middleware import validateIdUsuario
-from rest_framework.parsers import MultiPartParser , FormParser
 
 
-# Create your views here.
-#CONSULTAS
+class UsuariosList(GeneralListApiView):
+    serializer_class = UsuarioSerializer
+
+class UsuariosCreate(generics.CreateAPIView):
+    serializer_class = UsuarioSerializer
+    
+    def post(self, request):
+        serializer = self.serializer_class(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            
+            return Response(
+                {"message" : "Usuario creado" , "data" : serializer.data }, 
+                status=status.HTTP_201_CREATED
+                )
+            
+        return Response(
+            {"message" : "Creacion cancelada" , "error" : serializer.errors}, 
+            status=status.HTTP_400_BAD_REQUEST
+            ) 
 
 @api_view(['GET','POST'])
-#@parser_classes([MultiPartParser, FormParser])
+
 def user(request):
     #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
     #el metodo http que se utilizó en la peticion
@@ -30,7 +48,7 @@ def user(request):
     
     #Crear Persona y Usuario
     if request.method == 'POST':
-        print(request.data)
+        #print(request.data)
         
         userSerializer = UsuarioSerializer(data = request.data)
 

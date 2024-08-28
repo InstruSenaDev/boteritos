@@ -5,10 +5,10 @@ from dropdowns import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('tiposdocumento', views.getTiposDocumento),
-    path('eps', views.getEps),
-    path('rh', views.getRh),
-    path('sexo', views.getSexo),
-    path('areas', views.getAreas),
-    path('roles' , views.getRoles)
+    path('tiposdocumento', views.TiposDocumentoList.as_view()),
+    path('eps', views.EpsList.as_view()),
+    path('rh', views.RhList.as_view()),
+    path('sexo', views.SexoList.as_view()),
+    path('areas', views.AreasList.as_view()),
+    path('roles' , views.RolesList.as_view())
 ]

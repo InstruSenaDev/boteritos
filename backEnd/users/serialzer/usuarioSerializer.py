@@ -16,12 +16,14 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'blank' : 'La comuna es obligatorio.'
         }
     )
+    
     barrio = serializers.CharField(
         error_messages={
             'required': 'El barrio es obligatorio.',
             'blank': 'El barrio es obligatorio.'
         }
     )
+    
     correo = serializers.EmailField(
         error_messages={
             'required': 'El correo es obligatorio.',
@@ -29,6 +31,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'El correo debe ser una dirección válida.'
         }
     )
+    
     urlimg = serializers.URLField(
         error_messages={
             'required': 'La URL de la imagen es obligatoria.',
@@ -36,6 +39,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'La URL de la imagen debe ser válida.'
         }
     )
+    
     fecharegistro = serializers.DateField(
         error_messages={
             'required': 'La fecha de registro es obligatoria.',
@@ -43,6 +47,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'La fecha de registro debe ser una fecha válida.'
         }
     )
+    
     fechaingreso = serializers.DateField(
         error_messages={
             'required': 'La fecha de ingreso es obligatoria.',
@@ -50,6 +55,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'La fecha de ingreso debe ser una fecha válida.'
         }
     )
+    
     fechanacimiento = serializers.DateField(
         error_messages={
             'required': 'La fecha de nacimiento es obligatoria.',
@@ -58,6 +64,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'null' : 'La fecha de nacimiento es obligatoria.'
         }
     )
+    
     edad = serializers.IntegerField(
         error_messages={
             'required': 'La edad es obligatoria.',
@@ -65,57 +72,42 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'invalid': 'La edad debe ser un número entero.'
         }
     )
+    
     institutoprocedencia = serializers.CharField(
         error_messages={
             'required': 'El instituto de procedencia es obligatorio.',
             'blank': 'El instituto de procedencia es obligatorio.'
         }
     )
+    
     direccion = serializers.CharField(
         error_messages={
             'required': 'La dirección es obligatoria.',
             'blank': 'La dirección es obligatoria.',
         }
     )
-    idtipodocumento = serializers.IntegerField(
-        error_messages={
-            'required': 'El tipo de documento es obligatorio.',
-            'blank': 'El tipo de documento es obligatorio.',
-            'invalid': 'El tipo de documento debe ser un número entero.'
-        }
-    )
-    idsexo = serializers.IntegerField(
-        error_messages={
-            'required': 'El sexo es obligatorio.',
-            'blank': 'El sexo es obligatorio.',
-            'invalid': 'El sexo debe ser un número entero.'
-        }
-    )
+
     contrasena = serializers.CharField(
         error_messages={
             'required': 'La contraseña es obligatoria.',
             'blank': 'La contraseña es obligatoria.',
         }
     )
+    
     cambiocontrasena = serializers.CharField(
         error_messages={
             'required': 'El campo de cambio de contraseña es obligatorio.',
             'blank': 'El campo de cambio de contraseña es obligatorio.'
         }
     )
+    
     estado = serializers.CharField(
         error_messages={
             'required': 'El estado es obligatorio.',
             'blank': 'El estado es obligatorio.'
         }
     )
-    idrol = serializers.IntegerField(
-        error_messages={
-            'required': 'El rol es obligatorio.',
-            'blank': 'El rol es obligatorio.',
-            'invalid': 'El rol debe ser un número entero.'
-        }
-    )
+
     numerodocumento = serializers.IntegerField(
         error_messages = {
             'required' : 'El numero de documento es obligatorio',
@@ -124,10 +116,60 @@ class UsuarioSerializer(serializers.ModelSerializer):
         }
     )
     
+    #LLAVES FORANEAS:
+    idtipodocumento = serializers.IntegerField(
+        error_messages={
+            'required': 'El tipo de documento es obligatorio.',
+            'blank': 'El tipo de documento es obligatorio.',
+            'invalid': 'El tipo de documento debe ser un número entero.'
+        }
+    )
+    
+    idsexo = serializers.IntegerField(
+        error_messages={
+            'required': 'El sexo es obligatorio.',
+            'blank': 'El sexo es obligatorio.',
+            'invalid': 'El sexo debe ser un número entero.'
+        }
+    )
+    
+    idrol = serializers.IntegerField(
+        error_messages={
+            'required': 'El rol es obligatorio.',
+            'blank': 'El rol es obligatorio.',
+            'invalid': 'El rol debe ser un número entero.'
+        }
+    )
+    
     class Meta:
         model = Usuarios
         fields = '__all__'
         #extra_kwargs = {'contrasena': {'write_only': True}} (LA CONTRASEÑA NO SEA ENVIADA)
+        
+    """
+    def to_representation(self, instance):
+        return {
+            "idusuario": instance.idusuario,
+            "nombre": instance.nombre,
+            "comuna": instance.comuna,
+            "barrio": instance.barrio,
+            "correo": instance.correo,
+            "urlimg": instance.urlimg,
+            "fecharegistro": instance.fecharegistro,
+            "fechaingreso": instance.fechaingreso,
+            "fechanacimiento": instance.fechanacimiento,
+            "edad": instance.edad,
+            "institutoprocedencia": instance.institutoprocedencia,
+            "direccion": instance.direccion,
+            "cambiocontrasena": instance.cambiocontrasena,
+            "estado": instance.estado,
+            "numerodocumento": instance.numerodocumento,
+            "idtipodocumento": instance.idtipodocumento.tipodocumento,
+            "idsexo": instance.idsexo.sexo,
+            "idrol": instance.idrol.rol,
+            "idarea": instance.idarea
+        }
+    """ 
     
     def validate_nombre(self, value):
 

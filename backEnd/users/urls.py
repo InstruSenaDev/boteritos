@@ -7,7 +7,8 @@ router = routers.DefaultRouter()
 #ENDPOINTS
 
 urlpatterns= [
-    path('usuarios', views.user),
+    path('usuarios', views.UsuariosList.as_view() ),
+    path('usuarios/create', views.UsuariosCreate.as_view() ),
     path('usuarios/<int:idUsuario>', views.userOne),
     path('login', views.login),
     path('datosmedicos', views.datosMedicos),

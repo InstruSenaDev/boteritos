@@ -111,6 +111,9 @@ class Rol(models.Model):
     class Meta:
         managed = False
         db_table = 'rol'
+    
+    def __str__(self) :
+        return self.rol
 
 class Sexo(models.Model):
     idsexo = models.AutoField(db_column='idSexo', primary_key=True)  # Field name made lowercase.
@@ -119,6 +122,9 @@ class Sexo(models.Model):
     class Meta:
         managed = False
         db_table = 'sexo'
+    
+    def __str__(self):
+        return self.sexo
 
 class Telefono(models.Model):
     idtelefono = models.AutoField(db_column='idTelefono', primary_key=True)  # Field name made lowercase.
@@ -137,6 +143,10 @@ class Tipodocumento(models.Model):
     class Meta:
         managed = False
         db_table = 'tipodocumento'
+    
+    def __str__(self):
+        return self.tipodocumento
+    
 
 class Tipoparentesco(models.Model):
     idparentesco = models.AutoField(db_column='idParentesco', primary_key=True)  # Field name made lowercase.
@@ -160,13 +170,20 @@ class Usuarios(models.Model):
     edad = models.TextField()
     institutoprocedencia = models.TextField(db_column='institutoProcedencia', blank=True, null=True)  # Field name made lowercase.
     direccion = models.TextField()
-    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  # Field name made lowercase.
-    idsexo = models.IntegerField(db_column='idSexo')  # Field name made lowercase.
     contrasena = models.TextField()
     cambiocontrasena = models.TextField(db_column='cambioContrasena')  # Field name made lowercase.
     estado = models.TextField()
-    idrol = models.IntegerField(db_column='idRol')  # Field name made lowercase.
     idarea = models.TextField(db_column='idArea')  #Chancuco jsjsjs
+    
+    #LLAVER FORANEAS
+    idrol = models.IntegerField(db_column='idRol')  
+    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')  
+    idsexo = models.IntegerField(db_column='idSexo')
+    #LLAVES FORANEAS (POSIBLE USO EN EL FUTURO)
+    #idrol = models.ForeignKey(Rol, on_delete=models.CASCADE, db_column='idRol')  
+    #idtipodocumento = models.ForeignKey(Tipodocumento, on_delete=models.CASCADE, db_column='idTipoDocumento')  
+    #idsexo = models.ForeignKey(Sexo, on_delete=models.CASCADE, db_column='idSexo')
+    
     #ARCHIVOS:
     #foto = models.ImageField(blank='', default='', upload_to='archivos/')
 
