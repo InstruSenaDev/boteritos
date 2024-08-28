@@ -11,7 +11,7 @@ export const LayoutGeneral = ({titleHeader, children }) => {
         <div className="w-full">
           <Header title={titleHeader} />
           <div className="px-5 sm:px-10 py-5 min-w-screen">
-            {Children}
+            {children}
           </div>
         </div>
       </Layout>
