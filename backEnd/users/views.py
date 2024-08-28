@@ -34,36 +34,22 @@ class UsuariosCreate(generics.CreateAPIView):
             status=status.HTTP_400_BAD_REQUEST
             ) 
 
-@api_view(['GET','POST'])
-
-def user(request):
-    #request es un objeto que contiene muchos atributos, uno de esos es method, que me retorna
-    #el metodo http que se utilizó en la peticion
+class UsuarioUpdate(generics.UpdateAPIView):
+    serializer_class = UsuarioSerializer
     
-    #OBTENER TODOS LOS USUARIOS
-    if request.method == 'GET':
-        user = Usuarios.objects.all()
-        userSerializer = UsuarioSerializer(user, many = True)
-        return Response(userSerializer.data,status=status.HTTP_200_OK) 
-    
-    #Crear Persona y Usuario
-    if request.method == 'POST':
-        #print(request.data)
-        
-        userSerializer = UsuarioSerializer(data = request.data)
+    def get_queryset(self, idUsuario = None):
+        return self.get_queryset().Meta.model.objects.filter(idusuario = idUsuario)
 
-        if userSerializer.is_valid():
-            userSerializer.save()
-            return Response(
-                {"message" : "Usuario creado" , "Usuario" : userSerializer.data }, 
-                status=status.HTTP_200_OK
+    def put(self, request, idUsuario = None):
+        if self.get_queryset(idUsuario):
+            serializer = self.serializer_class(self.get_queryset(idUsuario), data = request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(
+                    
                 )
-        
-        return Response(
-            {"message" : "Creacion cancelada" , "error" : userSerializer.errors}, 
-            status=status.HTTP_400_BAD_REQUEST
-            )
-
+        return 
+    
 @api_view(['GET', 'PUT'])
 def userOne(request, idUsuario):
     
