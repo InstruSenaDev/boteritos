@@ -10,7 +10,7 @@ import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataH
 
 export const DatosEstudiante = () => {
   return (
-      <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
+      <LayoutGeneral titleHeader="Estudiantes">
         <div className="w-full space-y-7 grid gap-10">
           <HeaderData/>
           <GrupoDatoElemento/>
