@@ -4,7 +4,7 @@ import TableStudents from '../../components/tables/tableStudents'
 
 {/*posible archivo a borrar*/}
 
-export const ListStudents = () => {
+export const ListStudentsSection = () => {
   return (
     <main className="flex flex-col gap-8">
         <HeaderData />

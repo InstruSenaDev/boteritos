@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderData from "../components/tables/headerData/HeaderData";
-import TableStudents from "../components/tables/tableStudents";
+import HeaderData from "../../components/tables/headerData/HeaderData";
+import TableStudents from "../../components/tables/tableStudents";
 
 export const DataStudent = () => {
   return (

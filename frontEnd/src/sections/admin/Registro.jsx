@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { validateField } from "../../helper/validators/register.js";
 import { CardLoader } from "../../components/loaders/CardLoader.jsx";
 
-export const Registro = () => {
+export const RegistroSection = () => {
   
   const [errors, setErrors] = useState({}); // Estado para los errores
 
