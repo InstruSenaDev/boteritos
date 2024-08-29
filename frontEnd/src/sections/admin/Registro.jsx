@@ -17,7 +17,7 @@ import { format } from "date-fns";
 import { validateField } from "../../helper/validators/register.js";
 import { CardLoader } from "../../components/loaders/CardLoader.jsx";
 
-export const RegistroSection = () => {
+export const Registro = () => {
   
   const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -63,6 +63,11 @@ export const RegistroSection = () => {
       const resultDocumento = await dataDoc();
       const resultArea = await dataArea();
       const resultRol = await dataRol();
+
+      console.log(resultSexo);
+      console.log(resultDocumento);
+      console.log(resultArea);
+      console.log(resultRol);
 
       setDataDropdown({
         ...dataDropdown,
@@ -153,16 +158,17 @@ export const RegistroSection = () => {
       fecharegistro: getDate(),
     };
     console.log(dataUser);
-    let formData = new FormData();
 
-    Object.entries(dataUser).forEach(([key, value]) => {
+    //let formData = new FormData();
+
+    /*Object.entries(dataUser).forEach(([key, value]) => {
       formData.append([key] , value)
       
     });
 
-    console.log(formData);
+    console.log(formData);*/
     
-    createUser(formData);
+    createUser(dataUser);
   };
 
   const createUser = async (data) => {
@@ -207,6 +213,7 @@ export const RegistroSection = () => {
             <Dropdown
               name={"idrol"}
               label={"¿Qué deseas crear?"}
+              //data={dataMatricula}
               data={dataDropdown.dropdownRol}
               onChange={handleRoleChange}
               placeholder={"Selecciona un rol"}
@@ -217,6 +224,7 @@ export const RegistroSection = () => {
               <Dropdown
                 name={"idarea"}
                 label={"Area"}
+                //data={dataMatricula}
                 data={dataDropdown.dropdownArea}
                 onChange={(value) => handleDropdownChange("idarea", value)}
                 placeholder={"Selecciona un area"}
@@ -255,6 +263,7 @@ export const RegistroSection = () => {
             <Dropdown
               name={"idtipodocumento"}
               label={"Tipo de documento"}
+              //data={dataMatricula}
               data={dataDropdown.dropdownDocumento}
               onChange={(value) =>
                 handleDropdownChange("idtipodocumento", value)
@@ -336,6 +345,7 @@ export const RegistroSection = () => {
             <Dropdown
               name={"idsexo"}
               label={"Sexo"}
+              //data={dataMatricula}
               data={dataDropdown.dropdownSexo}
               onChange={(value) => handleDropdownChange("idsexo", value)}
               placeholder={"Selecciona el sexo"}

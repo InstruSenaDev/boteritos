@@ -1,6 +1,6 @@
 import React from 'react';
 import { LayoutGeneral } from '../../layouts/LayoutGeneral';
-import { RegistroSection } from '../../sections/admin/Registro';
+import { Registro as RegistroSection } from '../../sections/admin/Registro';
 
 export const Registro = () => {
   return (
