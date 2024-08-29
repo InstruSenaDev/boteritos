@@ -10,7 +10,7 @@ export const LayoutGeneral = ({titleHeader, children }) => {
    const user = JSON.parse(localStorage.getItem('dataUser'));
    const rol = user?.idrol;
   // Seleccionar la sección del sidebar que corresponde al rol
-   const selectedSection = sidebarsection[rol];
+   const selectedSection = sidebarsection[rol] || [];
   return (
       <Layout>
         <Sidebar name={user?.nombre || "Usuario"} 

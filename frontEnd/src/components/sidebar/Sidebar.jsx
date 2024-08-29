@@ -1,7 +1,7 @@
 import { Elemento } from "./Elemento";
 import { useState } from "react";
 
-export const Sidebar = ({ img, name, rol, sidebarSection }) => {
+export const Sidebar = ({ img, name, rol, sidebarSection = [] }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleSidebar = () => {
