@@ -11,6 +11,7 @@ import { ListStudents } from './pages/profesor/ListStudents';
 import { PassworHelp } from './pages/general/PasswordHelp';
 import { ForgotPassword } from './pages/general/ForgotPassword';
 import { CambiarContrasena } from './pages/general/CambiarContrasena';
+import { FormLogin } from './sections/FormLogin';
 
 function App() {
   return (
