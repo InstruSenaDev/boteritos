@@ -12,7 +12,6 @@ export const ModalContent = ({
   handleDropdownChange,
 }) => {
 
-  const [errors, setErrors]=useState({})
 
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
@@ -31,6 +30,12 @@ export const ModalContent = ({
     
     getDataDropdown();
   }, []);
+
+
+  const dataFetch = {
+    ...values,
+
+  }
 
 
   
