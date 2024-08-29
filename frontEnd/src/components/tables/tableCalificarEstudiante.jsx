@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ObjLogros } from "../../helper/objects/logrosCalificar"
 import Buscador from "../search/Buscador"
-import "../../../input.css"
+
 
 export default function TableCalificarEstudiante(){
 

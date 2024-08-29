@@ -24,7 +24,6 @@ const useWindowSize = () => {
 
 export const InformeIndividual = ({ tituloArea, data, children }) => {
   const size = useWindowSize();
-console.log("Ancho de la pantalla:", size.width);
   return (
     size.width <= 800 ? (
         

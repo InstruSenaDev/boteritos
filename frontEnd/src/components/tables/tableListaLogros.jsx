@@ -1,7 +1,6 @@
 import DataState from "./dataStates/DataState";
 import { ObjLogrosCreados } from "../../helper/objects/ListaLogros";
 import Buscador from "../search/Buscador";
-import "../../../input.css";
 import { useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
@@ -89,7 +88,7 @@ export default function TableListaLogros() {
               name="observación"
             />
           </RegisterModal>
-          <Button onClick={handleOpenModal} ><div className="flex gap-2 h-full w-full"><i class="fa-regular fa-circle-plus"></i>Hola mundo</div></Button>
+          <Button onClick={handleOpenModal} ><div className="flex gap-2 h-full w-full"><i className="fa-regular fa-circle-plus"></i>Hola mundo</div></Button>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">

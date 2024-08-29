@@ -21,7 +21,7 @@ const handleCloseModal = () => {
 }
     return (
         <>
-            <main class="flex flex-col w-full gap-y-8">
+            <main className="flex flex-col w-full gap-y-8">
                 <HeaderData/>
                 <TableCalificarEstudiante/>
 

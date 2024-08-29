@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import GraphicPie from "../../../components/graphics/GraphicPie"
 
-const HeaderData = () => {
+export const HeaderData = () => {
   const logros = [
     {
       name: 'LA',
