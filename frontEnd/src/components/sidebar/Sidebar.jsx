@@ -34,15 +34,14 @@ export const Sidebar = ({ img, name, rol, sidebarSection }) => {
             </div>
           </div>
           <div className="flex flex-col items-center gap-y-4 w-full px-4">
-            {/*esto se comento ya que la sidebar no estaba funcionando correctamente, probablemente por el .map*/}
-            {/* {sidebarSection.map((section) => (
+            {sidebarSection.map((section) => (
               <Elemento
                 key={section.texto}
                 icon={section.icon}
                 text={section.texto}
                 isExpanded={isExpanded}
               />
-            ))} */}
+            ))}
             <div className="w-full border-darkBlue border-[1px]"></div>
             <Elemento
               icon="fa-solid fa-arrow-right-from-bracket"
