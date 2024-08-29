@@ -10,7 +10,7 @@ export const Sidebar = ({ img, name, rol }) => {
   };
 
   return (
-    <div className={`hidden xl:flex  h-screen sticky top-0 z-50`}>
+    <div className={`hidden xl:flex w-[95px]  h-screen sticky top-0 z-50`}>
       <div className="w-full h-screen sticky top-0">
         <div
           className={`absolute sidebar h-screen bg-white flex-col items-center flex-shrink-0 transition-all duration-300 ${isExpanded ? 'w-[300px]' : 'w-[95px]'}`}
