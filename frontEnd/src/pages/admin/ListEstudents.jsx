@@ -4,7 +4,7 @@ import { DataStudent } from "../../sections/admin/DataStudent";
 
 export const ListEstudiantes = () => {
   return (
-    <LayoutGeneral title="Estudiantes">
+    <LayoutGeneral titleHeader="Estudiantes">
       <DataStudent />
     </LayoutGeneral>
   );

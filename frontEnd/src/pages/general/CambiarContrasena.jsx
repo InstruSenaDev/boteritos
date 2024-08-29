@@ -1,11 +1,13 @@
----
-import LayoutGeneral from "../../layouts/LayoutGeneral.astro";
-import RecomendacionContrasena from "../../components/changePassword/RecomendacionContrasena.astro";
-import Boton from "../../components/Boton.astro";
-import Input from "../../components/forms/Input.astro";
----
 
-<LayoutGeneral title="Cambiar contraseña" titleHeader="Cambiar Contraseña">
+import {LayoutGeneral} from "../../layouts/LayoutGeneral.jsx";
+import { Boton } from "../../components/forms/Boton.jsx";
+import {Input} from "../../components/forms/Input.jsx";
+
+import React from 'react'
+
+export const CambiarContrasena = () => {
+  return (
+    <LayoutGeneral title="Cambiar contraseña" titleHeader="Cambiar Contraseña">
     <main class="w-full flex items-center justify-center">
         <div class="sm:max-w-[920px] grid sm:grid-cols-[1fr_1fr] gap-10 bg-white rounded-xl py-5 px-10 ">
             <div class="flex flex-col gap-5">
@@ -29,7 +31,7 @@ import Input from "../../components/forms/Input.astro";
                 <Input texto="Nueva contraseña" placeholder="Ingrese nueva contraseña" icon=""/>
                 <Input texto="Confirmar contraseña" placeholder="confirme nueva contraseña" icon=""/>
                 <div class="flex gap-3">
-                    <input type="checkbox">
+                    <input type="checkbox"/>
                     <p>Mostrar contraseña</p>
                 </div>
                 <Boton text="Guardar" type="blue"/>
@@ -38,3 +40,6 @@ import Input from "../../components/forms/Input.astro";
         </div>
     </main>
 </LayoutGeneral>
+  )
+}
+

@@ -4,7 +4,7 @@ import {ListStudentsSection } from '../../sections/profesor/ListStudentsSection'
 
 export const ListStudents = () => {
   return (
-    <LayoutGeneral title="Estudiantes">
+    <LayoutGeneral titleHeader="Estudiantes">
       <ListStudentsSection/>
     </LayoutGeneral>
   );

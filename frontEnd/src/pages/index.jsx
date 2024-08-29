@@ -1,12 +1,15 @@
----
+
 import Login from '../components/Login.astro';
-import Layout from '../layouts/Layout.astro';
+import {Layout} from '../layouts/Layout.jsx';
 
 const isLogin = true
 
----
 
-<Layout title="Boteritos">
+import React from 'react'
+
+export const index = () => {
+  return (
+    <Layout titleHeader="Boteritos">
     <>
         {
             isLogin ? 
@@ -15,3 +18,6 @@ const isLogin = true
         }
     </>
 </Layout>
+  )
+}
+

@@ -1,10 +1,11 @@
----
-import {Boton} from "../../components/forms/Boton";
-import Input from "../../components/forms/Input.astro";
-import ForgotLayout from "../../layouts/ForgotLayout.astro";
-import {ShowPassword} from "../../components/forms/ShowPassword";
----
 
+import {Boton} from "../../components/forms/Boton";
+import {Input} from "../../components/forms/Input.jsx";
+import {ForgotLayout} from "../../layouts/ForgotLayout.jsx";
+import {ShowPassword} from "../../components/forms/ShowPassword";
+
+export const ForgotPassword = () =>{
+  return(
 <ForgotLayout title="¿Olvidó su contraseña?" titulo="Recuperar contraseña">
   <Input
   texto="Nueva contraseña"
@@ -19,7 +20,6 @@ import {ShowPassword} from "../../components/forms/ShowPassword";
   slot="inputs"
   />
 
-
   <ShowPassword slot="footer"/>
 
 
@@ -31,4 +31,6 @@ import {ShowPassword} from "../../components/forms/ShowPassword";
     slot="imagen"
   />
   <a href="" slot="return" class="text-paragraph2 font-cocogooseLight text-darkBlue">Volver al inicio de sesión</a>
-</FoLayout>
+</ForgotLayout>
+  )
+}

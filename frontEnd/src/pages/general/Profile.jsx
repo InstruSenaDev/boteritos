@@ -4,7 +4,7 @@ import { Info } from "../../components/profile/Info";
 
 export const Profile = () => {
   return (
-    <LayoutGeneral title="Perfil">
+    <LayoutGeneral titleHeader="Perfil">
       <div class="px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl">
         <h1 class="text-title2 font-Cocogoose-SemiLight text-darkBlue">
           Información personal
