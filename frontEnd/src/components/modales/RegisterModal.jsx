@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogPanel } from "@tremor/react";
-
+import { postUserStudent } from "../../api/post"; // Asegúrate de tener esta función en el archivo adecuado
+import { modales } from "../../helper/validators/modales";
 export function RegisterModal({
   txtmodal,
   cols,
@@ -11,23 +12,74 @@ export function RegisterModal({
   onSubmit, // Recibe la función handleForm como prop
   isConfirm,
 }) {
-  {
-    /* const [isConfirm, setIsConfirm] = useState(false);*/
+  const [loading, setLoading] = useState(false); // Para manejar el estado de carga
+  const [errors, setErrors] = useState({}); // Para mostrar errores
+// Dentro de RegisterModal.jsx
+
+const handleFormSubmit = async (event) => {
+  event.preventDefault();
+
+  const newErrors = {};
+  for (const key in values) {
+    if (Object.hasOwn(values, key)) {
+      const error = modales(values.idrol, key, values[key]);
+      if (error) {
+        newErrors[key] = error;
+      }
+    }
   }
+
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+
+  const dataUser = {
+    telefono: {
+      telefono: values.telefono.trim(),
+      telefonodos: values.telefonodos.trim(),
+    },
+    responsable: {
+      nombre: `${values.nombre.trim()}`,
+      documento: values.documento.trim(),
+      ndocumento: values.ndocumento.trim(),
+      telefono: values.telefono.trim(),
+      telefonodos: values.telefonodos.trim(),
+      direccion: values.direccion.trim(),
+      empresa: values.empresa.trim(),
+      parentesco: values.parentesco.trim(),
+    },
+    condicionMedica: {
+      parentesco: values.parentesco.trim(),
+      lugaratencion: values.lugaratencion.trim(),
+      rh: values.rh.trim(),
+      estatura: values.estatura.trim(),
+      peso: values.peso.trim(),
+    },
+    historiaClinica: {
+      diagnostico: values.diagnostico.trim(),
+      restricciones: values.restricciones.trim(),
+      medicamentos: values.medicamentos.trim(),
+    }
+  };
+
+  console.log(dataUser);
+
+  // Aquí llamarías a la función para enviar los datos
+  createUser(dataUser);
+};
+
 
   return (
     <Dialog open={isOpen} onClose={onClose} static={true}>
       <form
-        onSubmit={onSubmit}
-        className="w-full flex items-ce
-        
-        nter justify-center"
+        onSubmit={handleFormSubmit}
+        className="w-full flex items-center justify-center"
       >
         <DialogPanel
-          className={`flex flex-col gap-8 items-center lg:items-start 
-            ${
-              cols === 1 ? "w-full" : "max-w-[800px] w-full"
-            } py-[40px] px-[30px]`}
+          className={`flex flex-col gap-8 items-center lg:items-start ${
+            cols === 1 ? "w-full" : "max-w-[800px] w-full"
+          } py-[40px] px-[30px]`}
         >
           <div
             onClick={onClose}
@@ -53,21 +105,30 @@ export function RegisterModal({
               </div>
 
               <div className="flex justify-center w-full mt-4">
-                <Button className="max-w-[400px] w-full" type="submit">
-                  Agregar
+                <Button className="max-w-[400px] w-full" type="submit" disabled={loading}>
+                  {loading ? "Cargando..." : "Agregar"}
                 </Button>
               </div>
+
+              {/* Mostrar errores */}
+              {Object.keys(errors).length > 0 && (
+                <div className="text-red-500 mt-4">
+                  {Object.values(errors).map((error, index) => (
+                    <p key={index}>{error}</p>
+                  ))}
+                </div>
+              )}
             </>
           ) : (
             <>
               <div className="w-full h-full flex items-center justify-center flex-col gap-10">
-                <img src="../../../public/img/zG59fyltWB.gif" alt=""></img>
+                <img src="../../../public/img/zG59fyltWB.gif" alt="Success" />
                 <div className="font-cocogooseRegular text-darkBlue text-title">
                   <h1>Datos registrados con éxito</h1>
                 </div>
                 <Button
                   className="max-w-[400px] w-full"
-                  type="submit"
+                  type="button"
                   onClick={onClose}
                 >
                   Cerrar

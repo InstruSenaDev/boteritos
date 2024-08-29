@@ -1,7 +1,7 @@
-import { caseHistoriaClinica } from "./case/caseHistoriaClinica";
-import { caseCondicionMedica } from "./case/caseCondicionMedica"
-import { caseTelefono } from "./case/caseTelefono"
-import { caseResponsable } from "./case/caseResponsable"
+import { caseHistoriaClinica } from "./case/historiaClinica";
+import { caseCondicionMedica } from "./case/condicionMedica"
+import { caseTelefono } from "./case/Telefono";
+import { caseResponsable } from "./case/responsable"
 
 export const modales = (content, name, value) => {
     let error;
