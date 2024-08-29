@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogPanel } from "@tremor/react";
-import {handleFormSubmit} from "../../components/modales/ModalContent"
+
 export function RegisterModal({
   txtmodal,
   cols,
