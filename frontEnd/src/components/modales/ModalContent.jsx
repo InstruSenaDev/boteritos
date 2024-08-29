@@ -32,45 +32,8 @@ export const ModalContent = ({
     getDataDropdown();
   }, []);
 
-//NO FUNCIONÓ
-// const handleFormSubmit = (event) =>{
-//   event.preventDefault();
 
-//   const dataTel={
-//     ...values,
-//     telefono: values.telefono.trim()
-
-//   };
-//   console.log(dataTel);
   
-//   createTel(dataTel);
-// }
-
-// const createTel = async (data) => {
-//   const response = await postUserStudent(data, "usuarios");
-//   console.log(response);
-
-//   if (response.status == 200 || response.status == 201) {
-//     setIsRegistering(true);
-//     console.log(
-//       "Nada de errores, aqui se debe redireccionar al registro con detalle"
-//     );
-//     return;
-//   }
-
-//   //Se presentaron errores (API):
-//   const dataError = await response.data.error;
-
-//   const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-//   Object.entries(dataError).forEach(([key, value]) => {
-//     newErrors[key] = value[0];
-//   });
-
-//   if (Object.keys(newErrors).length > 0) {
-//     setErrors(newErrors);
-//   }
-// };
-
   switch (selectedContent) {
     case "Telefono":
       return (
@@ -145,7 +108,7 @@ export const ModalContent = ({
           <Dropdown
             name="parentesco"
             label="Tipo de parentesco"
-            data={dataDoc}
+            data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("parentesco", value)}
             value={values.parentesco || ""}
           />
