@@ -15,7 +15,7 @@ import { CambiarContrasena } from './pages/general/CambiarContrasena';
 function App() {
   return (
     <>
-      <ForgotPassword/>
+      <DatosEstudiante/>
     </>
   )
 }
