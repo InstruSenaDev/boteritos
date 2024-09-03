@@ -1,29 +1,29 @@
 //Configuración para la cantidad de columnas que se mostraran en los modales
-import { defaultValues } from "../../helper/modales/objectsModal";
+import { defaultValues } from "./objectsModal";
 
 export const getModalConfig = (contentType) => {
   let initialValues = {};
   let columns = 1;
 
   switch (contentType) {
-    case "Telefono":
+    case "telefono":
       initialValues = defaultValues.telefono;
       columns = 1;
       break;
-    case "Responsable":
+    case "responsable":
       initialValues = defaultValues.responsable;
       columns = 2;
       break;
-    case "Condicion Medica":
+    case "condicionmedica":
       initialValues = defaultValues.condicionMedica;
       columns = 1;
       break;
-    case "Historia Clinica":
+    case "historiaclinica":
       initialValues = defaultValues.historiaClinica;
       columns = 1;
       break;
     case "Informes":
-      initialValues = {}; 
+      initialValues = {};
       columns = 1;
       break;
     default:
