@@ -1,12 +1,11 @@
 export const defaultValues = {
   telefono: {
     telefono: "",
-    telefonodos: "",
   },
   responsable: {
     nombre: "",
     documento: "",
-    numerodocumento: "",
+    numeroDocumento: "",
     telefono: "",
     telefonodos: "",
     direccion: "",

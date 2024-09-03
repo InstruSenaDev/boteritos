@@ -1,46 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
 import { dataDoc } from "../../helper/objects/dropdownArray";
 
-// Devuelve el contenido del modal según el tipo de contenido seleccionado
 export const ModalContent = ({
   selectedContent,
   values,
   handleInputChange,
   handleDropdownChange,
 }) => {
-
-
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
   });
 
-
-  useEffect(()=>{
-    const getDataDropdown = async () =>{
+  useEffect(() => {
+    const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
-
-      setDataDropdown({
-        ...dataDropdown,
-        dropdownDocumento: resultDocumento
-      });
+      setDataDropdown({ dropdownDocumento: resultDocumento });
     };
-    
+
     getDataDropdown();
   }, []);
 
-
-  const dataFetch = {
-    ...values,
-
-  }
-
-
-  
   switch (selectedContent) {
-    case "Telefono":
+    case "telefono":
       return (
         <Input
           texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
@@ -51,8 +35,8 @@ export const ModalContent = ({
           value={values.telefono || ""}
         />
       );
-    
-    case "Responsable":
+
+    case "responsable":
       return (
         <>
           <Input
@@ -73,10 +57,10 @@ export const ModalContent = ({
           <Input
             texto="Número de documento"
             placeholder="Ingresa el número documento"
-            name="ndocumento"
+            name="numeroDocumento"
             tipo="text"
             onChange={handleInputChange}
-            value={values.ndocumento || ""}
+            value={values.numeroDocumento || ""}
           />
           <Input
             texto="Teléfono"
@@ -119,7 +103,10 @@ export const ModalContent = ({
           />
         </>
       );
-    case "Condicion Medica":
+
+    // Similar para los otros casos
+
+    case "condicionmedica":
       return (
         <>
           <Dropdown
@@ -132,10 +119,10 @@ export const ModalContent = ({
           <Input
             texto="Lugar de atención"
             placeholder="Ingresa el lugar de atención"
-            name="lugaratención"
+            name="lugaratencion"
             tipo="text"
             onChange={handleInputChange}
-            value={values.lugaratención || ""}
+            value={values.lugaratencion || ""}
           />
           <Dropdown
             name="rh"
@@ -162,7 +149,8 @@ export const ModalContent = ({
           />
         </>
       );
-    case "Historia Clinica":
+
+    case "historiaclinica":
       return (
         <>
           <Input
@@ -192,6 +180,7 @@ export const ModalContent = ({
           <UploadFile />
         </>
       );
+
     case "Informes":
       return (
         <div>
@@ -199,6 +188,7 @@ export const ModalContent = ({
           <p>Esto NO será un modal.</p>
         </div>
       );
+
     default:
       return null;
   }

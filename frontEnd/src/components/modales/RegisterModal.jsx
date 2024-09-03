@@ -19,9 +19,7 @@ export function RegisterModal({
     <Dialog open={isOpen} onClose={onClose} static={true}>
       <form
         onSubmit={onSubmit}
-        className="w-full flex items-ce
-        
-        nter justify-center"
+        className="w-full flex items-center justify-center"
       >
         <DialogPanel
           className={`flex flex-col gap-8 items-center lg:items-start 

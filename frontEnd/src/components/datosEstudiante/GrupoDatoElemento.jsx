@@ -1,5 +1,5 @@
 // src/components/GrupoDatoElemento.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DatoElemento } from "./DatoElemento";
 import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
@@ -11,7 +11,6 @@ export const GrupoDatoElemento = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
-  const [dataModal, setDataModal] = useState({});
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -32,19 +31,34 @@ export const GrupoDatoElemento = () => {
 
   const handleForm = (event) => {
     event.preventDefault();
-    console.log(values); // Imprime los valores del formulario
-    setValues({});
 
+    // Recorrer y aplicar .trim() a cada valor del objeto
+    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+      acc[key] = typeof value === "string" ? value.trim() : value;
+      return acc;
+    }, {});
+
+    console.log("Valores después de aplicar .trim():", trimmedValues); // Imprime los valores del formulario
+
+    // Verificar si hay algún valor vacío después de aplicar .trim()
+    const hasEmptyFields = Object.values(trimmedValues).some(
+      (value) => value === ""
+    );
+
+    if (hasEmptyFields) {
+      console.error(
+        "Error: Existen campos vacíos después de recortar los espacios en blanco."
+      );
+      return; // Detiene el proceso si se encuentran campos vacíos
+    }
+
+    // Si no hay campos vacíos, continuar con el proceso
+    setValues(trimmedValues);
+
+    // Aquí puedes proceder con el envío de los datos
     setIsConfirm(true);
-  };
-
-  console.log(isConfirm);
-
-  const objetosModal = (contentType) => {
-    const { initialValues } = getModalConfig(contentType);
-    setDataModal(initialValues);
-
-    console.log(initialValues);
+    console.log(isConfirm);
+    console.log("Valores actualizados:", values);
   };
 
   // Abre el modal con valores iniciales según el tipo de contenido
@@ -62,6 +76,11 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
+  useEffect(() => {
+    if (selectedContent) {
+    }
+  }, [values, selectedContent]);
+
   // Cierra el modal y resetea el contenido seleccionado
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -75,12 +94,12 @@ export const GrupoDatoElemento = () => {
         <DatoElemento
           icon={"fa-solid fa-phone"}
           texto={"Telefono(s)"}
-          onClick={() => handleOpenModal("Telefono")}
+          onClick={() => handleOpenModal("telefono")}
         />
         <DatoElemento
           icon={"fa-solid fa-user-group"}
           texto={"Responsable(s)"}
-          onClick={() => handleOpenModal("Responsable")}
+          onClick={() => handleOpenModal("responsable")}
         />
         <DatoElemento
           icon={"fa-solid fa-hospital"}
@@ -90,7 +109,7 @@ export const GrupoDatoElemento = () => {
         <DatoElemento
           icon={"fa-solid fa-address-card"}
           texto={"Historia clinica"}
-          onClick={() => handleOpenModal("Historia Clinica")}
+          onClick={() => handleOpenModal("historiaclinica")}
         />
         <DatoElemento
           icon={"fa-solid fa-user"}
