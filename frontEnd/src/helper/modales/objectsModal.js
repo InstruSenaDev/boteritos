@@ -15,7 +15,7 @@ export const defaultValues = {
     },
     condicionMedica: {
       parentesco: "",
-      lugaratención: "",
+      lugaratencion: "",
       rh: "",
       estatura: "",
       peso: "",

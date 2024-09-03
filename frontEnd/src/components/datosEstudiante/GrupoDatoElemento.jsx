@@ -1,10 +1,9 @@
 // src/components/GrupoDatoElemento.js
 import React, { useState } from "react";
-import { DatoElemento } from "./DatoElemento"; 
-import { RegisterModal } from "../modales/RegisterModal"; 
+import { DatoElemento } from "./DatoElemento";
+import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../modales/getModalConfig";
-
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -34,12 +33,11 @@ export const GrupoDatoElemento = () => {
     event.preventDefault();
     console.log(values); // Imprime los valores del formulario
     setValues({});
-   
+
     setIsConfirm(true);
   };
-  
+
   console.log(isConfirm);
-  
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
@@ -52,8 +50,8 @@ export const GrupoDatoElemento = () => {
     setSelectedContent(contentType);
 
     setIsOpen(true);
-    
-    setIsConfirm(false);// Reinicia el estado de confirmación al cerrar el modal
+
+    setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
   // Cierra el modal y resetea el contenido seleccionado
@@ -93,22 +91,22 @@ export const GrupoDatoElemento = () => {
         />
       </div>
       <RegisterModal
-        txtmodal={`Información de ${selectedContent}`} 
-        cols={cols} 
-        isOpen={isOpen}
-        onClose={handleCloseModal}
-        values={values}
-        onSubmit={handleForm}
-        isConfirm={isConfirm}
-      >
-        <ModalContent
-          selectedContent={selectedContent}
-          values={values}
-          handleInputChange={handleInputChange}
-          handleDropdownChange={handleDropdownChange}
-        />
-
-      </RegisterModal>
+  txtmodal={`Información de ${selectedContent}`} 
+  cols={cols} 
+  isOpen={isOpen}
+  onClose={handleCloseModal}
+  values={values}
+  onSubmit={handleForm}
+  isConfirm={isConfirm}
+  selectedContent={selectedContent}  
+>
+  <ModalContent
+    selectedContent={selectedContent}
+    values={values}
+    handleInputChange={handleInputChange}
+    handleDropdownChange={handleDropdownChange}
+  />
+</RegisterModal>
     </>
   );
 };
