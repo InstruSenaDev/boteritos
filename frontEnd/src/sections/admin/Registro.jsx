@@ -16,13 +16,13 @@ import { getDate } from "../../helper/functions/getDate.js";
 import { format } from "date-fns";
 import { validateField } from "../../helper/validators/register.js";
 import { CardLoader } from "../../components/loaders/CardLoader.jsx";
+import { Link } from "react-router-dom";
 
 export const Registro = () => {
-  
   const [errors, setErrors] = useState({}); // Estado para los errores
 
   const [selectedRole, setSelectedRole] = useState("");
-  
+
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [dataDropdown, setDataDropdown] = useState({
@@ -167,7 +167,7 @@ export const Registro = () => {
     });
 
     console.log(formData);*/
-    
+
     createUser(dataUser);
   };
 

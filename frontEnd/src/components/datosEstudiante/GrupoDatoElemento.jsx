@@ -4,6 +4,7 @@ import { DatoElemento } from "./DatoElemento";
 import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
+import { postModales } from "../../api/post";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -53,12 +54,40 @@ export const GrupoDatoElemento = () => {
     }
 
     // Si no hay campos vacíos, continuar con el proceso
-    setValues(trimmedValues);
+    // setValues(trimmedValues);
 
     // Aquí puedes proceder con el envío de los datos
     setIsConfirm(true);
     console.log(isConfirm);
     console.log("Valores actualizados:", values);
+
+    console.log("valores de trimmed", trimmedValues);
+    fetchModal(trimmedValues);
+  };
+
+  const fetchModal = async (data) => {
+    const response = await postModales(data, "responsable");
+    console.log(response);
+
+    if (response.status == 200 || response.status == 201) {
+      setIsRegistering(true);
+      console.log(
+        "Nada de errores, aqui se debe redireccionar al registro con detalle"
+      );
+      return;
+    }
+
+    //Se presentaron errores (API):
+    const dataError = await response.data.error;
+
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // Object.entries(dataError).forEach(([key, value]) => {
+    //   newErrors[key] = value[0];
+    // });
+
+    // if (Object.keys(newErrors).length > 0) {
+    //   setErrors(newErrors);
+    // }
   };
 
   // Abre el modal con valores iniciales según el tipo de contenido
