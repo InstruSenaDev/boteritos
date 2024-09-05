@@ -5,6 +5,7 @@ import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
 import { postModales } from "../../api/post";
+import { modales } from "../../helper/validators/modales";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -12,10 +13,27 @@ export const GrupoDatoElemento = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
+    const error = modales(selectedContent, name, value);
+
+    setErrors((prevErrors) => {
+      // Si no hay error, eliminamos el error previo
+      if (!error) {
+        const { [name]: removedError, ...restErrors } = prevErrors;
+        return restErrors;
+      }
+      // Si hay error, lo actualizamos
+      return {
+        ...prevErrors,
+        [name]: error,
+      };
+    });
+
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -26,13 +44,22 @@ export const GrupoDatoElemento = () => {
   const handleDropdownChange = (name, value) => {
     setValues((prevValues) => ({
       ...prevValues,
-      [name]: value,
+      [name]: value
+    }));
+  
+    // Validar el cambio de valor
+    const error = modales(selectedContent, name, value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error
     }));
   };
+  
 
   const handleForm = (event) => {
     event.preventDefault();
 
+    
     // Recorrer y aplicar .trim() a cada valor del objeto
     const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
       acc[key] = typeof value === "string" ? value.trim() : value;
@@ -45,6 +72,22 @@ export const GrupoDatoElemento = () => {
     const hasEmptyFields = Object.values(trimmedValues).some(
       (value) => value === ""
     );
+
+    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = modales(selectedContent, key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      // Si hay errores, no enviar el formulario
+      setErrors(newErrors);
+      return;
+    }
 
     if (hasEmptyFields) {
       console.error(
@@ -115,6 +158,8 @@ export const GrupoDatoElemento = () => {
     setIsOpen(false);
     setSelectedContent(null);
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
+    setErrors({}); // Limpia los errores al cerrar el modal
+    setValues({});
   };
 
   return (
@@ -161,6 +206,7 @@ export const GrupoDatoElemento = () => {
           values={values}
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
+          errors={errors}
         />
       </RegisterModal>
     </>

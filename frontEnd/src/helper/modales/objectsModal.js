@@ -5,7 +5,7 @@ export const defaultValues = {
   responsable: {
     nombre: "",
     documento: "",
-    numeroDocumento: "",
+    numerodocumento: "",
     telefono: "",
     telefonodos: "",
     direccion: "",

@@ -8,16 +8,16 @@ export const modales = (content, name, value) => {
     console.log(`Validando: Content=${content}, Name=${name}, Value=${value}`); // Añadido
 
     switch (content) {
-        case "Telefono":
+        case "telefono":
             error = caseTelefono(name, value);
             break;
-        case "Responsable":
+        case "responsable":
             error = caseResponsable(name, value);
             break;
-        case "Condicion Medica":
+        case "condicionmedica":
             error = caseCondicionMedica(name, value);
             break;
-        case "Historia Clinica":
+        case "historiaclinica":
             error = caseHistoriaClinica(name, value);
             break;
         default:
