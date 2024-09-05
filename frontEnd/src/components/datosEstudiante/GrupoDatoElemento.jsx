@@ -79,7 +79,7 @@ export const GrupoDatoElemento = () => {
 
   const fetchModal = async (data) => {
     console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, "responsable");
+    const response = await postModales(data, "historiaclinica");
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
@@ -108,7 +108,7 @@ export const GrupoDatoElemento = () => {
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
 
-    if (contentType === "responsable") {
+    if (contentType === "responsable" || "historiaclinica") {
       // Agrega el ID del estudiante al nuevo campo idusuario en responsable
       initialValues.idusuario = parseInt(id);
       // Convertir idparentesco e idtipodocumento a enteros si existen

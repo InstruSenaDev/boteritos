@@ -19,14 +19,13 @@ export const ModalContent = ({
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
       setDataDropdown({ dropdownDocumento: resultDocumento });
-      
+
       const resultParentesco = await dataParentesco();
       setDataDropdown({ dropdownDocumento: resultParentesco });
     };
 
     getDataDropdown();
   }, []);
-  
 
   switch (selectedContent) {
     case "telefono":
@@ -193,10 +192,10 @@ export const ModalContent = ({
           <Input
             texto="Restricciones alimenticias"
             placeholder="Ingresa las restricciones alimenticias"
-            name="restricciones"
+            name="restriccionesalimenticias"
             tipo="text"
             onChange={handleInputChange}
-            value={values.restricciones || ""}
+            value={values.restriccionesalimenticias || ""}
           />
           <Input
             texto="Medicamentos"
@@ -205,6 +204,22 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.medicamentos || ""}
+          />
+          <Input
+            texto="Cantidad de medicamentos"
+            placeholder="Ingresa la cantidad de medicamentos que necesita"
+            name="cantidadmedicamentos"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.cantidadmedicamentos || ""}
+          />
+          <Input
+            texto="Observaciones"
+            placeholder="Ingresa alguna observación sobre el estudiante"
+            name="observaciones"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.observaciones || ""}
           />
           <UploadFile />
         </>

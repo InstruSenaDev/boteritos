@@ -23,7 +23,12 @@ export const defaultValues = {
   },
   historiaClinica: {
     diagnostico: "",
-    restricciones: "",
+    restriccionesalimenticias: "prueba",
     medicamentos: "",
+    cantidadmedicamentos: "",
+    idusuario: "",
+    observaciones: "",
+    archivo: "prueba",
+
   },
 };
