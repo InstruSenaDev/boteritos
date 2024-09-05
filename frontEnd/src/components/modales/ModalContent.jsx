@@ -12,16 +12,12 @@ export const ModalContent = ({
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
-    dropdownParentesco: [],
   });
 
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
       setDataDropdown({ dropdownDocumento: resultDocumento });
-
-      const resultParentesco = await dataParentesco();
-      setDataDropdown({ dropdownDocumento: resultParentesco });
     };
 
     getDataDropdown();

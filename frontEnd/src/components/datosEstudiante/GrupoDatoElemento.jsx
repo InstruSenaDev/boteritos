@@ -74,12 +74,12 @@ export const GrupoDatoElemento = () => {
     console.log("Valores actualizados:", values);
 
     console.log("valores de trimmed", trimmedValues);
-    fetchModal(trimmedValues);
+    fetchModal(trimmedValues, selectedContent);
   };
 
-  const fetchModal = async (data) => {
+  const fetchModal = async (data, modalType) => {
     console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, "historiaclinica");
+    const response = await postModales(data, modalType);
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
