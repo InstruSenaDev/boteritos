@@ -1,9 +1,9 @@
-from .models import Usuarios
+from .models import Usuario
 from rest_framework.response import Response
 from rest_framework import status
 
 def validateIdUsuario(idUsuario):
-    oneUser = Usuarios.objects.filter(idusuario = idUsuario).first()
+    oneUser = Usuario.objects.filter(idusuario = idUsuario).first()
     #Validar que el usuario existe
     if not oneUser:
         return {

@@ -11,3 +11,4 @@ export const postLogin = async (body, url) =>{
     const data = await fetchFunction('POST', body, null, url)
     return data
 }
+

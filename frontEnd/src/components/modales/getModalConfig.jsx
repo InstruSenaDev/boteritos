@@ -15,11 +15,11 @@ export const getModalConfig = (contentType) => {
       columns = 2;
       break;
     case "Condicion Medica":
-      initialValues = defaultValues.condicionMedica;
+      initialValues = defaultValues.condicionmedica;
       columns = 1;
       break;
     case "Historia Clinica":
-      initialValues = defaultValues.historiaClinica;
+      initialValues = defaultValues.historiaclinica;
       columns = 1;
       break;
     case "Informes":

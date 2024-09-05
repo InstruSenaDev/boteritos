@@ -6,24 +6,23 @@ export const defaultValues = {
     responsable: {
       nombre: "",
       documento: "",
-      ndocumento: "",
+      numerodocumento: "",
       telefono: "",
       telefonodos: "",
       direccion: "",
       empresa: "",
       parentesco: "",
     },
-    condicionMedica: {
+    condicionmedica: {
       parentesco: "",
       lugaratención: "",
       rh: "",
       estatura: "",
       peso: "",
     },
-    historiaClinica: {
+    historiaclinica: {
       diagnostico: "",
       restricciones: "",
       medicamentos: "",
     }
-  };
-  
+  };  
