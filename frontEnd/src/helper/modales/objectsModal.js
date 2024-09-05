@@ -8,9 +8,11 @@ export const defaultValues = {
     direccion: "",
     empresa: "",
     idusuario: "",
-    correo: "prueba",
-    ocupacion: "prueba",
-    profesion: "prueba"
+    correo: "",
+    ocupacion: "",
+    profesion: "",
+    idtipodocumento: "",
+    idparentesco: ""
   },
   condicionMedica: {
     parentesco: "",

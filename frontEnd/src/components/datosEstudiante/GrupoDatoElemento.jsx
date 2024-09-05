@@ -56,6 +56,15 @@ export const GrupoDatoElemento = () => {
       return; // Detiene el proceso si se encuentran campos vacíos
     }
 
+    // Convertir idtipodocumento e idparentesco a enteros si existen
+  if (trimmedValues.idtipodocumento) {
+    trimmedValues.idtipodocumento = parseInt(trimmedValues.idtipodocumento);
+  }
+
+  if (trimmedValues.idparentesco) {
+    trimmedValues.idparentesco = parseInt(trimmedValues.idparentesco);
+  }
+
     // Si no hay campos vacíos, continuar con el proceso
     // setValues(trimmedValues);
 
@@ -74,7 +83,6 @@ export const GrupoDatoElemento = () => {
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
       console.log(
         "Nada de errores, aqui se debe redireccionar al registro con detalle"
       );
@@ -103,7 +111,17 @@ export const GrupoDatoElemento = () => {
     if (contentType === "responsable") {
       // Agrega el ID del estudiante al nuevo campo idusuario en responsable
       initialValues.idusuario = parseInt(id);
+      // Convertir idparentesco e idtipodocumento a enteros si existen
+    if (initialValues.idparentesco) {
+      initialValues.idparentesco = parseInt(initialValues.idparentesco);
+    }
+
+    if (initialValues.idtipodocumento) {
+      initialValues.idtipodocumento = parseInt(initialValues.idtipodocumento);
+    }
+
       
+
       console.log("ID usuario:", initialValues.idusuario);
     }
 

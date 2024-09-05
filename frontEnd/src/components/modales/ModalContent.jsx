@@ -12,16 +12,21 @@ export const ModalContent = ({
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
+    dropdownParentesco: [],
   });
 
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
       setDataDropdown({ dropdownDocumento: resultDocumento });
+      
+      const resultParentesco = await dataParentesco();
+      setDataDropdown({ dropdownDocumento: resultParentesco });
     };
 
     getDataDropdown();
   }, []);
+  
 
   switch (selectedContent) {
     case "telefono":
@@ -48,11 +53,11 @@ export const ModalContent = ({
             value={values.nombre || ""}
           />
           <Dropdown
-            name="documento"
+            name="idtipodocumento"
             label="Tipo de documento"
             data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("documento", value)}
-            value={values.documento || ""}
+            onChange={(value) => handleDropdownChange("idtipodocumento", value)}
+            value={values.idtipodocumento || ""}
           />
           <Input
             texto="Número de documento"
@@ -87,6 +92,30 @@ export const ModalContent = ({
             value={values.direccion || ""}
           />
           <Input
+            texto="Correo electronico"
+            placeholder="Ingresa el correo electronico"
+            name="correo"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.correo || ""}
+          />
+          <Input
+            texto="Ocupación"
+            placeholder="Ingresa la ocupación"
+            name="ocupacion"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.ocupacion || ""}
+          />
+          <Input
+            texto="Profesión"
+            placeholder="Ingresa la profesión"
+            name="profesion"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.profesion || ""}
+          />
+          <Input
             texto="Empresa"
             placeholder="Ingresa la empresa"
             name="empresa"
@@ -95,11 +124,11 @@ export const ModalContent = ({
             value={values.empresa || ""}
           />
           <Dropdown
-            name="parentesco"
+            name="idparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("parentesco", value)}
-            value={values.parentesco || ""}
+            onChange={(value) => handleDropdownChange("idparentesco", value)}
+            value={values.idparentesco || ""}
           />
         </>
       );
