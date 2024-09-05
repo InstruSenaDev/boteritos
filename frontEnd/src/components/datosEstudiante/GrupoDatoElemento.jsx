@@ -162,11 +162,11 @@ export const GrupoDatoElemento = () => {
           texto={"Responsable(s)"}
           onClick={() => handleOpenModal("responsable")}
         />
-        <DatoElemento
+        {/* <DatoElemento
           icon={"fa-solid fa-hospital"}
           texto={"Condicion medica"}
           onClick={() => handleOpenModal("condicionmedica")}
-        />
+        /> */}
         <DatoElemento
           icon={"fa-solid fa-address-card"}
           texto={"Historia clinica"}
