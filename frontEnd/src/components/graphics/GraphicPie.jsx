@@ -14,7 +14,7 @@ export default function GraphicPie({data}) {
         <Legend
           categories={['Alcanzado', 'En proceso', 'No alcanzado']}
           colors={['green', 'yellow', 'red']}
-          className="max-w-36 z-10"
+          className="max-w-[150px] z-10"
         />
       </div>
     </>
