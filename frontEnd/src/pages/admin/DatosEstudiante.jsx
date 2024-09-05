@@ -7,8 +7,10 @@ import { HeaderData } from "../../components/tables/headerData/HeaderData.jsx";
 import {GrupoDatoElemento} from "../../components/datosEstudiante/GrupoDatoElemento";
 import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
+import { useParams } from "react-router-dom";
 
 export const DatosEstudiante = () => {
+  const { id } = useParams();
   return (
       <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
         <div className="w-full space-y-2 grid gap-10">

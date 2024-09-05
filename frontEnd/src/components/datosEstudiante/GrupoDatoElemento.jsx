@@ -5,6 +5,8 @@ import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
 import { postModales } from "../../api/post";
+import { defaultValues } from "../../helper/modales/objectsModal";
+import { useParams } from "react-router-dom";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -12,6 +14,7 @@ export const GrupoDatoElemento = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
+  const { id } = useParams();
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -66,6 +69,7 @@ export const GrupoDatoElemento = () => {
   };
 
   const fetchModal = async (data) => {
+    console.log("Datos que se enviarán a la API:", data);
     const response = await postModales(data, "responsable");
     console.log(response);
 
@@ -90,9 +94,18 @@ export const GrupoDatoElemento = () => {
     // }
   };
 
+  
+
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
+
+    if (contentType === "responsable") {
+      // Agrega el ID del estudiante al nuevo campo idusuario en responsable
+      initialValues.idusuario = parseInt(id);
+      
+      console.log("ID usuario:", initialValues.idusuario);
+    }
 
     setValues(initialValues); // Configura los valores iniciales del formulario
 
@@ -117,6 +130,7 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
+  
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">

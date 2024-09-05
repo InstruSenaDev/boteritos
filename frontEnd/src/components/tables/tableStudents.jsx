@@ -1,6 +1,7 @@
 import { getAllUser } from "../../api/get";
 import DataState from "./dataStates/DataState";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function TableStudents() {
@@ -49,7 +50,9 @@ export default function TableStudents() {
               
                 {/*Aqui se hace una conversion para añadir los ceros a la izquierda*/}
                 <p>{(data.idusuario).toString().length == 2 ? data.idusuario : `0${data.idusuario}`}</p>
-                <p className="underline cursor-pointer" >{`${data.nombre}`}</p>
+                <Link to={`/datoestudiante/${data.idusuario}`}>
+                  <p className="underline cursor-pointer" >{`${data.nombre}`}</p>
+                </Link>
                 <p>{data.diagnosticoMental}</p>
                 <DataState state={data.datos} />
                 <DataState state={data.calificado} />

@@ -3,14 +3,14 @@ export const defaultValues = {
     telefono: "",
   },
   responsable: {
-    nombre: "",
-    documento: "",
-    numeroDocumento: "",
+    nombre: "", 
     telefono: "",
-    telefonodos: "",
     direccion: "",
     empresa: "",
-    parentesco: "",
+    idusuario: "",
+    correo: "prueba",
+    ocupacion: "prueba",
+    profesion: "prueba"
   },
   condicionMedica: {
     parentesco: "",

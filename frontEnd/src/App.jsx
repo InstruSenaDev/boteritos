@@ -22,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<FormLogin />} />
-          <Route path="/datoestudiante" element={<DatosEstudiante />} />
+          <Route path="/datoestudiante/:id" element={<DatosEstudiante />} />
           <Route path="/listestudents" element={<ListEstudiantes/>}/>
           <Route />
         </Routes>

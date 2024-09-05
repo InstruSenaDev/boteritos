@@ -57,10 +57,10 @@ export const ModalContent = ({
           <Input
             texto="Número de documento"
             placeholder="Ingresa el número documento"
-            name="numeroDocumento"
+            name="numerodocumento"
             tipo="text"
             onChange={handleInputChange}
-            value={values.numeroDocumento || ""}
+            value={values.numerodocumento || ""}
           />
           <Input
             texto="Teléfono"
