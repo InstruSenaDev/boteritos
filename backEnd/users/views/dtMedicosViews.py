@@ -17,4 +17,9 @@ class DatosMedicosViewSet(viewsets.ModelViewSet):
                 "message" : "¡Datos medicos creados con exito!",
                 "data" : serializer.data
             })
+            
+        return Response({
+            "message" : "Creacion cancelada",
+            "error" : serializer.errors
+        })
     

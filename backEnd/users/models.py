@@ -75,6 +75,9 @@ class Eps(models.Model):
     class Meta:
         managed = False
         db_table = 'eps'
+        
+    def __str__(self) -> str:
+        return self.eps
 
 class Estudiante(models.Model):
     idestudiante = models.AutoField(db_column='idEstudiante', primary_key=True)  # Field name made lowercase.
@@ -174,6 +177,9 @@ class Rh(models.Model):
     class Meta:
         managed = False
         db_table = 'rh'
+    
+    def __str__(self) -> str:
+        return self.rh
 
 class Rol(models.Model):
     idrol = models.AutoField(db_column='idRol', primary_key=True)  # Field name made lowercase.
