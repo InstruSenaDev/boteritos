@@ -59,26 +59,7 @@ class ResponsableSerializer(serializers.ModelSerializer):
         }
     )
 
-    idusuario = serializers.IntegerField(
-        error_messages={
-            'required': 'El ID de usuario es obligatorio',
-            'invalid': 'El ID de usuario debe ser un número entero válido'
-        }
-    )
 
-    idtipodocumento = serializers.IntegerField(
-        error_messages={
-            'required': 'El ID del tipo de documento es obligatorio',
-            'invalid': 'El ID del tipo de documento debe ser un número entero válido'
-        }
-    )
-    
-    idparentesco = serializers.IntegerField(
-    error_messages={
-        'required': 'El ID de parentesco es obligatorio',
-        'invalid': 'El ID de parentesco debe ser un número entero válido'
-    }
-)
 
     class Meta:
         model = Responsable

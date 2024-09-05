@@ -17,6 +17,9 @@ class Areas(models.Model):
     class Meta:
         managed = False
         db_table = 'areas'
+    
+    def __str__(self) -> str:
+        return self.area
 
 class Condicion(models.Model):
     idcondicion = models.AutoField(db_column='idCondicion', primary_key=True)  # Field name made lowercase.
@@ -142,6 +145,9 @@ class Matriculas(models.Model):
     class Meta:
         managed = False
         db_table = 'matriculas'
+        
+    def __str__(self) -> str:
+        return self.matricula
 
 class Profesor(models.Model):
     idprofesor = models.AutoField(db_column='idProfesor', primary_key=True)  # Field name made lowercase.
@@ -161,6 +167,9 @@ class Responsable(models.Model):
     correo = models.TextField()
     numerodocumento = models.TextField(db_column='numeroDocumento')  # Field name made lowercase.
     telefono = models.TextField()
+    profesion = models.TextField()
+    ocupacion = models.TextField()
+    empresa = models.TextField()
     idestudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='idEstudiante')  # Field name made lowercase.
     idtipodocumento = models.ForeignKey('Tipodocumento', models.DO_NOTHING, db_column='idTipoDocumento')  # Field name made lowercase.
     idsexo = models.ForeignKey('Sexo', models.DO_NOTHING, db_column='idSexo')  # Field name made lowercase.

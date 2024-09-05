@@ -22,4 +22,26 @@ class DatosMedicosViewSet(viewsets.ModelViewSet):
             "message" : "Creacion cancelada",
             "error" : serializer.errors
         })
+        
+    def update(self, request, pk):
+        try:
+            instance = self.get_queryset().get(pk=pk)
+            
+        except Datosmedicos.DoesNotExist:
+            return Response({
+                "message" : "Actualizacion cancelada", 
+                "error" : "¡Datos medicos no encontrados!"
+            }, status= status.HTTP_400_BAD_REQUEST)
+        
+                # Creamos el serializer con la instancia y los nuevos datos
+        serializer = self.serializer_class(instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "¡Actualización exitosa!",
+                "data": serializer.data
+            }, status=status.HTTP_200_OK)
+        
+        return Response({"message": "Actualización cancelada", "error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        
     

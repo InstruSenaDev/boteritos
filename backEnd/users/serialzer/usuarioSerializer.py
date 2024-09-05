@@ -63,21 +63,3 @@ class UsuarioSerializer(serializers.ModelSerializer):
             validated_data.pop('contrasena', None)
             
         return super().update(instance, validated_data)
-
-class EstudianteSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Estudiante
-        fields = '__all__'
-
-class ProfesorSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = Profesor
-        fields = '__all__'
-        
-class AdminSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = Admin
-        fields = '__all__'
