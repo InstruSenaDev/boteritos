@@ -1,1 +1,1 @@
-export const urlApi = 'http://localhost:8000/api/v2/'
+export const urlApi = 'http://localhost:8000/api/v3/'

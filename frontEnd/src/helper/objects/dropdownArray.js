@@ -104,10 +104,10 @@ export const dataEps = async () =>{
   return dataDrop
 }
 
-export const dataParentesco = async () =>{
+export const dataTipoParentesco = async () =>{
 
   let dataDrop = []
-  const result = await getDropdown('dropdowns/tipoparentesco');
+  const result = await getDropdown('dropdowns/sexo');
 
   if (result.data) {
     let arrayData = result.data
@@ -115,7 +115,7 @@ export const dataParentesco = async () =>{
     dataDrop = arrayData.map((value)=> (
       {
         "option" : value.parentesco,
-        "value" : value.idparentesco
+        "value" : value.idtipoparentesco
       })
     )
   }

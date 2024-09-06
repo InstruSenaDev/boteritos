@@ -4,15 +4,17 @@ export const defaultValues = {
   },
   responsable: {
     nombre: "", 
+    apellido: "",
     telefono: "",
     direccion: "",
     empresa: "",
-    idusuario: "",
+    idestudiante: "",
     correo: "",
     ocupacion: "",
     profesion: "",
     idtipodocumento: "",
-    idparentesco: ""
+    idtipoparentesco: "",
+    idsexo: "",
   },
   condicionMedica: {
     parentesco: "",
@@ -26,8 +28,8 @@ export const defaultValues = {
     restriccionesalimenticias: "prueba",
     medicamentos: "",
     cantidadmedicamentos: "",
-    idusuario: "",
-    observaciones: "",
+    idestudiante: "",
+    observacion: "",
     archivo: "prueba",
 
   },

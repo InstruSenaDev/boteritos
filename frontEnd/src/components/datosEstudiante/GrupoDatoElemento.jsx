@@ -61,8 +61,12 @@ export const GrupoDatoElemento = () => {
     trimmedValues.idtipodocumento = parseInt(trimmedValues.idtipodocumento);
   }
 
-  if (trimmedValues.idparentesco) {
-    trimmedValues.idparentesco = parseInt(trimmedValues.idparentesco);
+  if (trimmedValues.idtipoparentesco) {
+    trimmedValues.idtipoparentesco = parseInt(trimmedValues.idtipoparentesco);
+  }
+
+  if (trimmedValues.idsexo) {
+    trimmedValues.idsexo = parseInt(trimmedValues.idsexo);
   }
 
     // Si no hay campos vacíos, continuar con el proceso
@@ -79,7 +83,7 @@ export const GrupoDatoElemento = () => {
 
   const fetchModal = async (data, modalType) => {
     console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, modalType);
+    const response = await postModales(data, `usuarios/${modalType}/`);
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
@@ -102,27 +106,28 @@ export const GrupoDatoElemento = () => {
     // }
   };
 
-  
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
 
     if (contentType === "responsable" || "historiaclinica") {
-      // Agrega el ID del estudiante al nuevo campo idusuario en responsable
-      initialValues.idusuario = parseInt(id);
+      // Agrega el ID del estudiante al nuevo campo idestudiante en responsable
+      initialValues.idestudiante = parseInt(id);
       // Convertir idparentesco e idtipodocumento a enteros si existen
-    if (initialValues.idparentesco) {
-      initialValues.idparentesco = parseInt(initialValues.idparentesco);
+    if (initialValues.idtipoparentesco) {
+      initialValues.idtipoparentesco = parseInt(initialValues.idtipoparentesco);
     }
 
     if (initialValues.idtipodocumento) {
       initialValues.idtipodocumento = parseInt(initialValues.idtipodocumento);
     }
 
-      
+    if (initialValues.idsexo) {
+      initialValues.idsexo = parseInt(initialValues.idsexo);
+    }
 
-      console.log("ID usuario:", initialValues.idusuario);
+      console.log("ID estudiante:", initialValues.idestudiante);
     }
 
     setValues(initialValues); // Configura los valores iniciales del formulario
@@ -152,11 +157,11 @@ export const GrupoDatoElemento = () => {
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
-        <DatoElemento
+        {/* <DatoElemento
           icon={"fa-solid fa-phone"}
           texto={"Telefono(s)"}
           onClick={() => handleOpenModal("telefono")}
-        />
+        /> */}
         <DatoElemento
           icon={"fa-solid fa-user-group"}
           texto={"Responsable(s)"}

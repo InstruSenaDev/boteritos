@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
-import { dataDoc } from "../../helper/objects/dropdownArray";
+import { dataDoc, dataSexo } from "../../helper/objects/dropdownArray";
 
 export const ModalContent = ({
   selectedContent,
@@ -12,40 +12,53 @@ export const ModalContent = ({
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
+    dropdownSexo : []
   });
 
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
-      setDataDropdown({ dropdownDocumento: resultDocumento });
+      const resultSexo = await dataSexo();
+      setDataDropdown({ 
+        dropdownDocumento : resultDocumento,
+        dropdownSexo : resultSexo
+      });
     };
 
     getDataDropdown();
   }, []);
 
   switch (selectedContent) {
-    case "telefono":
-      return (
-        <Input
-          texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
-          placeholder="Por favor escriba su número telefónico"
-          name="telefono"
-          tipo="text"
-          onChange={handleInputChange}
-          value={values.telefono || ""}
-        />
-      );
+    // case "telefono":
+    //   return (
+    //     <Input
+    //       texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
+    //       placeholder="Por favor escriba su número telefónico"
+    //       name="telefono"
+    //       tipo="text"
+    //       onChange={handleInputChange}
+    //       value={values.telefono || ""}
+    //     />
+    //   );
 
     case "responsable":
       return (
         <>
           <Input
-            texto="Nombre completo"
-            placeholder="Ingresa el nombre completo"
+            texto="Nombre"
+            placeholder="Ingresa el nombre"
             name="nombre"
             tipo="text"
             onChange={handleInputChange}
             value={values.nombre || ""}
+          />
+           <Input
+            texto="Apellido"
+            placeholder="Ingresa el apellido"
+            name="apellido"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.apellido || ""}
           />
           <Dropdown
             name="idtipodocumento"
@@ -53,6 +66,7 @@ export const ModalContent = ({
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
             value={values.idtipodocumento || ""}
+            placeholder={"Seleccione el tipo de documento"}
           />
           <Input
             texto="Número de documento"
@@ -119,11 +133,20 @@ export const ModalContent = ({
             value={values.empresa || ""}
           />
           <Dropdown
-            name="idparentesco"
+            name="idsexo"
+            label="Sexo"
+            data={dataDropdown.dropdownSexo}
+            onChange={(value) => handleDropdownChange("idsexo", value)}
+            value={values.idsexo || ""}
+            placeholder={"Seleccione el sexo"}
+          />
+          <Dropdown
+            name="idtipoparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("idparentesco", value)}
-            value={values.idparentesco || ""}
+            onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
+            value={values.idtipoparentesco || ""}
+            placeholder={"Seleccione el parentesco"}
           />
         </>
       );
@@ -210,12 +233,12 @@ export const ModalContent = ({
             value={values.cantidadmedicamentos || ""}
           />
           <Input
-            texto="Observaciones"
+            texto="Observacion"
             placeholder="Ingresa alguna observación sobre el estudiante"
-            name="observaciones"
+            name="observacion"
             tipo="text"
             onChange={handleInputChange}
-            value={values.observaciones || ""}
+            value={values.observacion || ""}
           />
           <UploadFile />
         </>
