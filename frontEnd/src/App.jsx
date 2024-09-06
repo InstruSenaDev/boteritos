@@ -3,7 +3,6 @@ import { DateRangePickerHero } from "./prueba";
 import { Notificaciones } from "./pages/admin/Notificaciones";
 import { Index } from "./pages/admin/Index";
 import { Informe } from "./pages/admin/Informe";
-import { Registro } from "./pages/admin/Registro";
 import { Calificar } from "./pages/profesor/Calificar";
 import { CrearLogros } from "./pages/profesor/CrearLogros";
 import { ListStudents } from "./pages/profesor/ListStudents";
@@ -15,7 +14,9 @@ import { Profile } from "./pages/general/Profile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { ListEstudiantes } from "./pages/admin/ListEstudents";
-import { MultiStepRegister } from "./pages/admin/MultiStepRegister"; 
+import { Registro } from "./pages/admin/Registro"; 
+import { GeneralRegister } from "./sections/admin/GeneralRegister/GeneralRegister";
+import { Admin } from "./pages/admin/Admin";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path="/" element={<FormLogin />} />
           <Route path="/datoestudiante/:id" element={<DatosEstudiante />} />
           <Route path="/listestudents" element={<ListEstudiantes/>}/>
-          <Route path="/MultiStepRegister" element={<MultiStepRegister/>} />
+          <Route path="/registro" element={<Registro/>} />
+          <Route path="/registro/admin" element={<Admin/>}/>
           <Route />
         </Routes>
       </BrowserRouter>
