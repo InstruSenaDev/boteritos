@@ -20,9 +20,9 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
         // Pasar la sección seleccionada
         sidebarSection={selectedSection}
       />
-      <div className="w-full">
+      <div className="w-full h-full">
         <Header title={titleHeader} />
-        <div className="px-5 sm:px-10 py-5 min-w-screen">{children}</div>
+        <div className="px-5 sm:px-10 py-5 min-w-screen h-full">{children}</div>
       </div>
     </Layout>
   );

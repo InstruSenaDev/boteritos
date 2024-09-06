@@ -15,6 +15,7 @@ import { Profile } from "./pages/general/Profile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { ListEstudiantes } from "./pages/admin/ListEstudents";
+import { MultiStepRegister } from "./pages/admin/MultiStepRegister"; 
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<FormLogin />} />
           <Route path="/datoestudiante/:id" element={<DatosEstudiante />} />
           <Route path="/listestudents" element={<ListEstudiantes/>}/>
+          <Route path="/MultiStepRegister" element={<MultiStepRegister/>} />
           <Route />
         </Routes>
       </BrowserRouter>
