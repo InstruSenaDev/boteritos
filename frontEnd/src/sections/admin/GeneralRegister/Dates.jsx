@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { DatePicker2 } from "../../components/forms/DatePicker.jsx";
-import { Boton } from "../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../api/post.js";
-import { getDate } from "../../helper/functions/getDate.js";
+import { DatePicker2 } from "../../../components/forms/DatePicker.jsx";
+import { Boton } from "../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../api/post.js";
+import { getDate } from "../../../helper/functions/getDate.js";
 import { format } from "date-fns";
-import { validateField } from "../../helper/validators/register.js";
+import { validateField } from "../../../helper/validators/register.js";
 
 import { Link } from "react-router-dom";
 

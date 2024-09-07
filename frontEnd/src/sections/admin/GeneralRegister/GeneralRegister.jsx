@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Dropdown } from "../../../components/forms/Dropdown.jsx";
 import { Input } from "../../../components/forms/Input.jsx";
 import { UploadFile } from "../../../components/forms/UploadFile.jsx";
-import { DatePicker2 } from "../../../components/forms/DatePicker.jsx";
 import {
     dataDoc,
-    dataRol,
     dataSexo,
-    dataMatricula,
-    dataArea,
 } from "../../../helper/objects/dropdownArray.js";
 import { Boton } from "../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../api/post.js";
