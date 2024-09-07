@@ -62,6 +62,22 @@ export const DatesSection = () => {
 
     createUser(dataUser);
   };
+  // Maneja cambios en los inputs de texto
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    const error = validateField(values.idrol, name, value); // Validar el campo específico
+
+    setErrors({
+      ...errors,
+      [name]: error,
+    }); // Actualizar el estado de errores y valores
+
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
 
   const createUser = async (data) => {
     const response = await postUserStudent(data, "usuarios");

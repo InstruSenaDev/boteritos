@@ -8,13 +8,15 @@ import {
 } from "../../../helper/objects/dropdownArray.js";
 import { Boton } from "../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../api/post.js";
-import { getDate } from "../../../helper/functions/getDate.js";
-import { format } from "date-fns";
 import { validateField } from "../../../helper/validators/register.js";
-import { CardLoader } from "../../../components/loaders/CardLoader.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 export const GeneralRegister = () => {
+    const [dispatch] = useRegFormContext();
+    
+    const navigate = useNavigate
+
     const [errors, setErrors] = useState({}); // Estado para los errores
 
     const [selectedRole, setSelectedRole] = useState("");
@@ -107,6 +109,7 @@ export const GeneralRegister = () => {
         if (Object.keys(newErrors).length > 0) {
             // Si hay errores, no enviar el formulario
             setErrors(newErrors);
+            dispatch({type:'SET_COMMON_DATA', data: values})
             return;
         }
 
@@ -129,6 +132,7 @@ export const GeneralRegister = () => {
         });
     
         console.log(formData);*/
+        navigate('/registro/admin/address')
 
         createUser(dataUser);
     };
