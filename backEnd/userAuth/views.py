@@ -1,21 +1,33 @@
-from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-# Create your views here.
-#Serializer_class => recibe 2 parametros( username y password)
+from .models import Usuario
+from datetime import datetime, timedelta
 
-class Login(ObtainAuthToken):
+@api_view(['POST'])
+def Login(request):
     
-    def post(self,request, *arg, **kwargs):
+    if request.method == 'POST':
         
-        dataLogin = {
-            "username" : request.data['documento'],
-            "password" : request.data['contrasena']
+        payload = {
+            'idusuario': "" ,
+            'nombre': "" ,
+            'apellido' : "",
+            'exp':  "", #timedelta(seconds=settings.JWT_EXPIRATION_TIME),
+            'iat': datetime.utcnow(),
         }
+        pass
+
+"""
+class LoginView(APIView):
+    
+    def post(self,request):
+        documento = request.data['documento']
+        contrasena = request.data['contrasena']
         
-        login_serializer = self.serializer_class(data = dataLogin, context = {'request' : request})
+        usuario = Usuario.objects.filter(documento = documento).first()
+        print(usuario)
         
-        if login_serializer.is_valid():
-            print("PASÓ VALIDACION")
-            return Response('PASOOOOOOOO')
-        return Response('GOLAAAAAAAAAAZOOOOOOOOOOO')
+        return Response('KONICHIWAAAAAAA')
+"""
