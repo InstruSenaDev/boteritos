@@ -41,8 +41,8 @@ const handleCloseModal = () => {
             <ConfirmationModal 
              isOpen={isOpen}
              onClose={handleCloseModal}
-             txtQuestion={"¿Está seguro de crear el informe?"}
-             txtWarning={"Despues de creado no podra revertir el cambio"}
+             txtQuestion={"¿Está seguro de enviarlo?"}
+             txtWarning={"Una vez enviada, no podrás modificar esta calificación. Por favor,  asegúrate de que toda la información es correcta antes de continuar."}
              >
 
             </ConfirmationModal>

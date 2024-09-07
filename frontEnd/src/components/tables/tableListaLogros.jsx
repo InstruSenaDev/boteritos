@@ -1,25 +1,48 @@
 import DataState from "./dataStates/DataState";
 import { ObjLogrosCreados } from "../../helper/objects/ListaLogros";
 import Buscador from "../search/Buscador";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { dataDoc } from "../../helper/objects/dropdownArray";
-import { Observacion } from "../forms/Observacion";
-import { RegisterModal } from "../modales/RegisterModal";
+
+import { LogrosModal } from "../modales/LogrosModal";
 import { Button } from "@tremor/react";
 
 export default function TableListaLogros() {
-  
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [values, setValues] = useState({
+    logro:"",
+    tipo:""
+  });
+
+  const handleForm = (event) => {
+    event.preventDefault();
+    console.log(values);
+     setValues({
+    logro: "",
+    tipo: ""
+  });
+    setIsConfirm(true);
+  };
+
+
   // Estado para manejar el modal
   const [isOpen, setIsOpen] = useState(false);
 
-  // Estado para manejar los valores del formulario
-  const [values, setValues] = useState({
-    archievementsname: "",
-    observacion: ""
-  });
+  const[dataDropdown, setDataDropdown] = useState({
+    dropdownTipo:[]
+  })
 
+  useEffect(()=>{
+    const getDataDropdown = async () => {
+      const resultTipo = await dataDoc();
+      setDataDropdown({
+        dropdownTipo : resultTipo
+      });
+    };
+    getDataDropdown();
+  })
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
 
@@ -32,28 +55,28 @@ export default function TableListaLogros() {
     });
   };
 
-  // Maneja el cambio en los menús desplegables
   const handleDropdownChange = (name, value) => {
-    setValues({
-      ...values,
+    setValues((prevValues) => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
   };
 
+  const handleOpenModal=()=>{
+    setIsOpen(true)
+    setIsConfirm(false); 
+  }
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setIsConfirm(false); 
+  };
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  // Abre el modal
-  const handleOpenModal = () => {
-    setIsOpen(true);
-  };
-
-  // Cierra el modal
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
+ 
 
   return (
     <>
@@ -61,50 +84,23 @@ export default function TableListaLogros() {
         {/* Buscador */}
         <div className="flex justify-between w-full pb-5">
           <Buscador />
-
-          {/* Modal para registro */}
-          <RegisterModal
-            txtmodal={`Información de instructor`}
-            cols={1}
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-          >
-           <Input
-              texto="Nombre completo"
-              placeholder="Ingresa el nombre completo"
-              name="nombre"
-              tipo="text"
-              onChange={handleInputChange}
-            />
-            <Dropdown
-              name={"documento"}
-              label={"Tipo de documento"}
-              data={dataDoc}
-              onChange={(value) => handleDropdownChange("documento", value)}
-            />
-            <Observacion
-              texto="Descripción"
-              placeholder="Ingresa una descripción"
-              name="observación"
-            />
-          </RegisterModal>
-          <Button onClick={handleOpenModal} ><div className="flex gap-2 h-full w-full"><i className="fa-regular fa-circle-plus"></i>Hola mundo</div></Button>
+          <Button onClick={handleOpenModal}><div className="flex gap-2"><i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i> Agregar logro</div></Button>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">
           {/* HEADER TABLA */}
-          <div className="sticky hidden top-0 bg-white lg:grid grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
+          <div className="sticky hidden top-0 bg-white lg:grid grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Fecha</p>
             <p>Estado</p>
-            <p className="sm:justify-self-center">Tipo</p>
+            <p>Tipo</p>
           </div>
 
           {/* CUERPO DE LA TABLA */}
           {ObjLogrosCreados.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[50px_minmax(550px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(250px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
                 openAcc === index ? "open" : "close"
               }`}
               key={index}
@@ -144,7 +140,7 @@ export default function TableListaLogros() {
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0 acc-body sm:justify-self-center">
+              <div className="flex gap-2 lg:gap-0 acc-body">
                 <p className="text-darkBlue lg:hidden">Tipo:</p>
                 <div>
                   <p>{`${data.type}`}</p>
@@ -154,6 +150,31 @@ export default function TableListaLogros() {
           ))}
         </section>
       </main>
+      <LogrosModal
+      txtmodal={'Crear nuevo logro'}
+      isOpen={isOpen}
+      onClose={handleCloseModal}
+      onSubmit={handleForm}
+      isConfirm={isConfirm}
+      >
+      <Dropdown
+       label="Selecciona una opción"
+       name="tipo"
+       data={dataDropdown.dropdownTipo}  
+       onChange={(value) => handleDropdownChange("tipo",value)}
+      placeholder={"Seleccione el tipo de logro"}
+      value={values.tipo}
+      />
+
+       <Input
+       texto={'Nombre del logro'}
+       placeholder={'Ingresa el nombre del logro'}
+       name={'logro'}
+       tipo={'text'}
+       onChange={handleInputChange}
+       value={values.logro}
+       />
+      </LogrosModal>
     </>
   );
 }

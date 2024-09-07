@@ -28,7 +28,9 @@ function App() {
           <Route path="/listestudents" element={<ListEstudiantes/>}/>
           <Route path="/registro" element={<Registro/>} />
           <Route path="/registro/admin" element={<Admin/>}/>
-          <Route />
+          <Route path="/calificar/profesor" element={<Calificar/>}/>
+          <Route path="/crearlogro/profesor" element={<CrearLogros/>}/>
+          
         </Routes>
       </BrowserRouter>
     </>

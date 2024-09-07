@@ -5,19 +5,19 @@ import { Info } from "../../components/profile/Info";
 export const Profile = () => {
   return (
     <LayoutGeneral titleHeader="Perfil">
-      <div class="px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl">
-        <h1 class="text-title2 font-Cocogoose-SemiLight text-darkBlue">
+      <div className="px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl">
+        <h1 className="text-title2 font-Cocogoose-SemiLight text-darkBlue">
           Información personal
         </h1>
-        <div class="sm:justify-items-center sm:flex sm:flex-row border-b-2 border-b-placeholderBlue py-7 gap-7">
+        <div className="sm:justify-items-center sm:flex sm:flex-row border-b-2 border-b-placeholderBlue py-7 gap-7">
           <img
             src="../../public/img/perfil.png"
             alt=""
             slot="imagen"
-            class="h-[158px]"
+            className="h-[158px]"
           />
 
-          <div class="flex flex-col w-full">
+          <div className="flex flex-col w-full">
             <Info
               title="Nombre completo"
               text="Sebastian Rodriguez"

@@ -138,7 +138,7 @@ export const GrupoDatoElemento = () => {
 
     setIsOpen(true);
 
-    setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
+    setIsConfirm(false); 
   };
 
   useEffect(() => {
