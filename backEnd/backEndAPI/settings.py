@@ -46,10 +46,12 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-JWT_SECRET_KEY = "2CEqW>I.d^Nzww>>mKP=R8UvaoG|wEMw"
+#DATA ABOUT TOKEN
+JWT_ACCESS_SECRET_KEY = "2CEqW>I.d^Nzww>>mKP=R8UvaoG|wEMw"
 JWT_REFRESH_SECRET_KEY = "7znz.,XQbr=]'s==KGz,-x$zx,maX`df"
 JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION_TIME = 3600  # Expiración en segundos (1 hora en este caso)
+JWT_ACCESS_EXPIRATION_TIME = 3600  # Expiración en segundos (1 hora en este caso)
+JWT_REFRESH_EXPIRATION_TIME = 86400 # Expiracion en segundos (1 dia en este caso)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

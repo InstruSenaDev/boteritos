@@ -1,6 +1,13 @@
-export const defRol = (idRol) =>{
+import { jwtDecode } from 'jwt-decode';
+
+export const defRol = () =>{
+
+    const access_token = JSON.parse(localStorage.getItem('access_token'));
+    const token = jwtDecode(access_token);
+        
     let rol;
-    switch (idRol) {
+
+    switch (token.rol.toString()) {
         case "1":
             rol = "admin"
             break;

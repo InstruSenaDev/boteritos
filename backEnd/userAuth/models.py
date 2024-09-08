@@ -3,14 +3,6 @@ import bcrypt
 
 # Create your models here.
 
-class Rol(models.Model):
-    idrol = models.AutoField(db_column='idRol', primary_key=True)  # Field name made lowercase.
-    rol = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'rol'
-
 class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)  # Field name made lowercase.
     nombre = models.TextField()
@@ -21,7 +13,7 @@ class Usuario(models.Model):
     documento = models.TextField(unique=True)
     estado = models.TextField()
     edad = models.TextField()
-    idrol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='idRol')  # Field name made lowercase.
+    idrol = models.IntegerField(db_column='idRol')  # Field name made lowercase.
     
     class Meta:
         managed = False

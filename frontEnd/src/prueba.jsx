@@ -1,8 +1,9 @@
-import { DatePicker, DateRangePicker } from "@tremor/react";
 import React from "react";
+import { DatePicker, DateRangePicker } from "@tremor/react";
 import { LayoutGeneral } from "./layouts/LayoutGeneral";
+import bobito from "../public/img/perfil.png"
 
-export function DateRangePickerHero() {
+const DateRangePickerHero = () => {
   return (
     <LayoutGeneral>
       <div className="mx-auto max-w-md space-y-3">
@@ -17,7 +18,10 @@ export function DateRangePickerHero() {
           Date Range Picker
         </p>
         <DateRangePicker className="mx-auto max-w-md" />
+        <img src={bobito} alt="" />
       </div>
     </LayoutGeneral>
   );
 }
+
+export default DateRangePickerHero;
