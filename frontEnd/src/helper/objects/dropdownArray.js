@@ -192,3 +192,22 @@ export const dataTipoParentesco = async () =>{
 
   return dataDrop
 }
+
+export const dataTipoParentesco = async () =>{
+
+  let dataDrop = []
+  const result = await getDropdown('dropdowns/sexo');
+
+  if (result.data) {
+    let arrayData = result.data
+  
+    dataDrop = arrayData.map((value)=> (
+      {
+        "option" : value.parentesco,
+        "value" : value.idtipoparentesco
+      })
+    )
+  }
+
+  return dataDrop
+}

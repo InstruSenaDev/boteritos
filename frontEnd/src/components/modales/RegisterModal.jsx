@@ -19,15 +19,13 @@ export function RegisterModal({
     <Dialog open={isOpen} onClose={onClose} static={true}>
       <form
         onSubmit={onSubmit}
-        className="w-full flex items-ce
-        
-        nter justify-center"
+        className="w-full flex items-center justify-center"
       >
         <DialogPanel
           className={`flex flex-col gap-8 items-center lg:items-start 
-            ${
-              cols === 1 ? "w-full" : "max-w-[800px] w-full"
-            } py-[40px] px-[30px]`}
+                            ${
+                              cols === 1 ? "w-full" : "max-w-[800px] w-full"
+                            } py-[40px] px-[30px]`}
         >
           <div
             onClick={onClose}
@@ -47,7 +45,8 @@ export function RegisterModal({
               </div>
 
               <div
-                className={`w-full grid grid-cols-1 lg:grid-cols-${cols} lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify`}
+                className={`w-full grid grid-cols-1 lg:grid-cols-${cols} 
+                            lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify`}
               >
                 {children}
               </div>

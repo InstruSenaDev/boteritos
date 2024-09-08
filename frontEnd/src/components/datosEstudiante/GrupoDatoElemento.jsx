@@ -1,10 +1,12 @@
 // src/components/GrupoDatoElemento.js
-import React, { useState } from "react";
-import { DatoElemento } from "./DatoElemento"; 
-import { RegisterModal } from "../modales/RegisterModal"; 
+import React, { useState, useEffect } from "react";
+import { DatoElemento } from "./DatoElemento";
+import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
-import { getModalConfig } from "../modales/getModalConfig";
-
+import { getModalConfig } from "../../helper/modales/getModalConfig";
+import { postModales } from "../../api/post";
+import { defaultValues } from "../../helper/modales/objectsModal";
+import { useParams } from "react-router-dom";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -12,6 +14,7 @@ export const GrupoDatoElemento = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
+  const { id } = useParams();
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -32,18 +35,100 @@ export const GrupoDatoElemento = () => {
 
   const handleForm = (event) => {
     event.preventDefault();
-    console.log(values); // Imprime los valores del formulario
-    setValues({});
-   
+
+    // Recorrer y aplicar .trim() a cada valor del objeto
+    const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
+      acc[key] = typeof value === "string" ? value.trim() : value;
+      return acc;
+    }, {});
+
+    console.log("Valores después de aplicar .trim():", trimmedValues); // Imprime los valores del formulario
+
+    // Verificar si hay algún valor vacío después de aplicar .trim()
+    const hasEmptyFields = Object.values(trimmedValues).some(
+      (value) => value === ""
+    );
+
+    if (hasEmptyFields) {
+      console.error(
+        "Error: Existen campos vacíos después de recortar los espacios en blanco."
+      );
+      return; // Detiene el proceso si se encuentran campos vacíos
+    }
+
+    // Convertir idtipodocumento e idparentesco a enteros si existen
+  if (trimmedValues.idtipodocumento) {
+    trimmedValues.idtipodocumento = parseInt(trimmedValues.idtipodocumento);
+  }
+
+  if (trimmedValues.idtipoparentesco) {
+    trimmedValues.idtipoparentesco = parseInt(trimmedValues.idtipoparentesco);
+  }
+
+  if (trimmedValues.idsexo) {
+    trimmedValues.idsexo = parseInt(trimmedValues.idsexo);
+  }
+
+    // Si no hay campos vacíos, continuar con el proceso
+    // setValues(trimmedValues);
+
+    // Aquí puedes proceder con el envío de los datos
     setIsConfirm(true);
+    console.log(isConfirm);
+    console.log("Valores actualizados:", values);
+
+    console.log("valores de trimmed", trimmedValues);
+    fetchModal(trimmedValues, selectedContent);
   };
-  
-  console.log(isConfirm);
-  
+
+  const fetchModal = async (data, modalType) => {
+    console.log("Datos que se enviarán a la API:", data);
+    const response = await postModales(data, `usuarios/${modalType}/`);
+    console.log(response);
+
+    if (response.status == 200 || response.status == 201) {
+      console.log(
+        "Nada de errores, aqui se debe redireccionar al registro con detalle"
+      );
+      return;
+    }
+
+    //Se presentaron errores (API):
+    const dataError = await response.data.error;
+
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // Object.entries(dataError).forEach(([key, value]) => {
+    //   newErrors[key] = value[0];
+    // });
+
+    // if (Object.keys(newErrors).length > 0) {
+    //   setErrors(newErrors);
+    // }
+  };
+
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
+
+    if (contentType === "responsable" || "historiaclinica") {
+      // Agrega el ID del estudiante al nuevo campo idestudiante en responsable
+      initialValues.idestudiante = parseInt(id);
+      // Convertir idparentesco e idtipodocumento a enteros si existen
+    if (initialValues.idtipoparentesco) {
+      initialValues.idtipoparentesco = parseInt(initialValues.idtipoparentesco);
+    }
+
+    if (initialValues.idtipodocumento) {
+      initialValues.idtipodocumento = parseInt(initialValues.idtipodocumento);
+    }
+
+    if (initialValues.idsexo) {
+      initialValues.idsexo = parseInt(initialValues.idsexo);
+    }
+
+      console.log("ID estudiante:", initialValues.idestudiante);
+    }
 
     setValues(initialValues); // Configura los valores iniciales del formulario
 
@@ -52,9 +137,14 @@ export const GrupoDatoElemento = () => {
     setSelectedContent(contentType);
 
     setIsOpen(true);
-    
-    setIsConfirm(false);// Reinicia el estado de confirmación al cerrar el modal
+
+    setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
+
+  useEffect(() => {
+    if (selectedContent) {
+    }
+  }, [values, selectedContent]);
 
   // Cierra el modal y resetea el contenido seleccionado
   const handleCloseModal = () => {
@@ -63,28 +153,29 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
+  
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
-        <DatoElemento
+        {/* <DatoElemento
           icon={"fa-solid fa-phone"}
           texto={"Telefono(s)"}
-          onClick={() => handleOpenModal("Telefono")}
-        />
+          onClick={() => handleOpenModal("telefono")}
+        /> */}
         <DatoElemento
           icon={"fa-solid fa-user-group"}
           texto={"Responsable(s)"}
-          onClick={() => handleOpenModal("Responsable")}
+          onClick={() => handleOpenModal("responsable")}
         />
-        <DatoElemento
+        {/* <DatoElemento
           icon={"fa-solid fa-hospital"}
           texto={"Condicion medica"}
-          onClick={() => handleOpenModal("Condicion Medica")}
-        />
+          onClick={() => handleOpenModal("condicionmedica")}
+        /> */}
         <DatoElemento
           icon={"fa-solid fa-address-card"}
           texto={"Historia clinica"}
-          onClick={() => handleOpenModal("Historia Clinica")}
+          onClick={() => handleOpenModal("historiaclinica")}
         />
         <DatoElemento
           icon={"fa-solid fa-user"}
@@ -93,13 +184,14 @@ export const GrupoDatoElemento = () => {
         />
       </div>
       <RegisterModal
-        txtmodal={`Información de ${selectedContent}`} 
-        cols={cols} 
+        txtmodal={`Información de ${selectedContent}`}
+        cols={cols}
         isOpen={isOpen}
         onClose={handleCloseModal}
         values={values}
         onSubmit={handleForm}
         isConfirm={isConfirm}
+        selectedContent={selectedContent}
       >
         <ModalContent
           selectedContent={selectedContent}
@@ -107,7 +199,6 @@ export const GrupoDatoElemento = () => {
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
         />
-
       </RegisterModal>
     </>
   );

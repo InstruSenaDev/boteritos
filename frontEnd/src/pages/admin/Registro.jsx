@@ -1,18 +1,19 @@
 import React from 'react';
+import { RegisterOption } from '../../components/buttons/RegisterOption';
 import { LayoutGeneral } from '../../layouts/LayoutGeneral';
-import { Registro as RegistroSection } from '../../sections/admin/Registro';
+import { Link } from 'react-router-dom';
 
 export const Registro = () => {
   return (
-    <div>
-        <LayoutGeneral titleHeader="Registro de usuarios" title="Registro">
-  <div class="flex w-full h-full items-center justify-center">
-    <div class="flex flex-col max-w-[910px] bg-white  w-full p-10 rounded-xl "> 
-      <RegistroSection />
-    </div>
-  </div>
-</LayoutGeneral>
-
-    </div>
+    <LayoutGeneral titleHeader={"Registro"}>
+        <div className='h-full flex flex-col flex-wrap justify-center gap-y-5'>
+            <p className='font-cocogooseLight text-title text-center text-darkBlue'>¿Que desea crear?</p>
+            <div className='flex flex-col xl:flex-row justify-between gap-y-7'>
+                <RegisterOption text={"Estudiante"} icon={"fa-solid fa-graduation-cap"} />
+                <RegisterOption text={"Profesor"} icon={"fa-solid fa-user-tie"} />
+                <RegisterOption text={"Administrador"} icon={"fa-solid fa-star"} link={"registro/admin"} />
+            </div>
+        </div>
+    </LayoutGeneral>
   )
 }

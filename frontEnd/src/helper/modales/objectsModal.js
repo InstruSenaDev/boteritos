@@ -1,28 +1,36 @@
 export const defaultValues = {
-    telefono: {
-      telefono: "",
-      telefonodos: "",
-    },
-    responsable: {
-      nombre: "",
-      documento: "",
-      numerodocumento: "",
-      telefono: "",
-      telefonodos: "",
-      direccion: "",
-      empresa: "",
-      parentesco: "",
-    },
-    condicionmedica: {
-      parentesco: "",
-      lugaratención: "",
-      rh: "",
-      estatura: "",
-      peso: "",
-    },
-    historiaclinica: {
-      diagnostico: "",
-      restricciones: "",
-      medicamentos: "",
-    }
-  };  
+  telefono: {
+    telefono: "",
+  },
+  responsable: {
+    nombre: "", 
+    apellido: "",
+    telefono: "",
+    direccion: "",
+    empresa: "",
+    idestudiante: "",
+    correo: "",
+    ocupacion: "",
+    profesion: "",
+    idtipodocumento: "",
+    idtipoparentesco: "",
+    idsexo: "",
+  },
+  condicionMedica: {
+    parentesco: "",
+    lugaratencion: "",
+    rh: "",
+    estatura: "",
+    peso: "",
+  },
+  historiaClinica: {
+    diagnostico: "",
+    restriccionesalimenticias: "prueba",
+    medicamentos: "",
+    cantidadmedicamentos: "",
+    idestudiante: "",
+    observacion: "",
+    archivo: "prueba",
+
+  },
+};

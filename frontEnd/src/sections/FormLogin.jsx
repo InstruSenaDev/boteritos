@@ -3,6 +3,7 @@ import { Boton } from "../components/forms/Boton.jsx";
 import React, { useState } from "react";
 import { postLogin } from "../api/post.js";
 import { defRol } from "../helper/functions/defRol.js";
+import { Link } from "react-router-dom";
 
 export const FormLogin = () => {
   // Estado para almacenar los valores de los inputs
@@ -104,6 +105,7 @@ export const FormLogin = () => {
               ¿Olvidaste tu contraseña?
             </a>
           </div>
+
           <Boton text="Iniciar Sesión" type="blue" />
         </div>
         <div className="max-h-96 max-w-[520px] w-full md:block hidden">

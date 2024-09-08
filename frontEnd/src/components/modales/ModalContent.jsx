@@ -1,114 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
-import { dataDoc } from "../../helper/objects/dropdownArray";
+import { dataDoc, dataSexo } from "../../helper/objects/dropdownArray";
 
-// Devuelve el contenido del modal según el tipo de contenido seleccionado
 export const ModalContent = ({
   selectedContent,
   values,
   handleInputChange,
   handleDropdownChange,
 }) => {
-
-  const [errors, setErrors]=useState({})
-
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
+    dropdownSexo : []
   });
 
-
-  useEffect(()=>{
-    const getDataDropdown = async () =>{
+  useEffect(() => {
+    const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
-
-      setDataDropdown({
-        ...dataDropdown,
-        dropdownDocumento: resultDocumento
+      const resultSexo = await dataSexo();
+      setDataDropdown({ 
+        dropdownDocumento : resultDocumento,
+        dropdownSexo : resultSexo
       });
     };
-    
+
     getDataDropdown();
   }, []);
 
-//NO FUNCIONÓ
-// const handleFormSubmit = (event) =>{
-//   event.preventDefault();
-
-//   const dataTel={
-//     ...values,
-//     telefono: values.telefono.trim()
-
-//   };
-//   console.log(dataTel);
-  
-//   createTel(dataTel);
-// }
-
-// const createTel = async (data) => {
-//   const response = await postUserStudent(data, "usuarios");
-//   console.log(response);
-
-//   if (response.status == 200 || response.status == 201) {
-//     setIsRegistering(true);
-//     console.log(
-//       "Nada de errores, aqui se debe redireccionar al registro con detalle"
-//     );
-//     return;
-//   }
-
-//   //Se presentaron errores (API):
-//   const dataError = await response.data.error;
-
-//   const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-//   Object.entries(dataError).forEach(([key, value]) => {
-//     newErrors[key] = value[0];
-//   });
-
-//   if (Object.keys(newErrors).length > 0) {
-//     setErrors(newErrors);
-//   }
-// };
-
   switch (selectedContent) {
-    case "Telefono":
-      return (
-        <Input
-          texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
-          placeholder="Por favor escriba su número telefónico"
-          name="telefono"
-          tipo="text"
-          onChange={handleInputChange}
-          value={values.telefono || ""}
-        />
-      );
-    
-    case "Responsable":
+    // case "telefono":
+    //   return (
+    //     <Input
+    //       texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
+    //       placeholder="Por favor escriba su número telefónico"
+    //       name="telefono"
+    //       tipo="text"
+    //       onChange={handleInputChange}
+    //       value={values.telefono || ""}
+    //     />
+    //   );
+
+    case "responsable":
       return (
         <>
           <Input
-            texto="Nombre completo"
-            placeholder="Ingresa el nombre completo"
+            texto="Nombre"
+            placeholder="Ingresa el nombre"
             name="nombre"
             tipo="text"
             onChange={handleInputChange}
             value={values.nombre || ""}
           />
+           <Input
+            texto="Apellido"
+            placeholder="Ingresa el apellido"
+            name="apellido"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.apellido || ""}
+          />
           <Dropdown
-            name="documento"
+            name="idtipodocumento"
             label="Tipo de documento"
             data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("documento", value)}
-            value={values.documento || ""}
+            onChange={(value) => handleDropdownChange("idtipodocumento", value)}
+            value={values.idtipodocumento || ""}
+            placeholder={"Seleccione el tipo de documento"}
           />
           <Input
             texto="Número de documento"
             placeholder="Ingresa el número documento"
-            name="ndocumento"
+            name="numerodocumento"
             tipo="text"
             onChange={handleInputChange}
-            value={values.ndocumento || ""}
+            value={values.numerodocumento || ""}
           />
           <Input
             texto="Teléfono"
@@ -135,6 +101,30 @@ export const ModalContent = ({
             value={values.direccion || ""}
           />
           <Input
+            texto="Correo electronico"
+            placeholder="Ingresa el correo electronico"
+            name="correo"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.correo || ""}
+          />
+          <Input
+            texto="Ocupación"
+            placeholder="Ingresa la ocupación"
+            name="ocupacion"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.ocupacion || ""}
+          />
+          <Input
+            texto="Profesión"
+            placeholder="Ingresa la profesión"
+            name="profesion"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.profesion || ""}
+          />
+          <Input
             texto="Empresa"
             placeholder="Ingresa la empresa"
             name="empresa"
@@ -143,15 +133,27 @@ export const ModalContent = ({
             value={values.empresa || ""}
           />
           <Dropdown
-            name="parentesco"
+            name="idsexo"
+            label="Sexo"
+            data={dataDropdown.dropdownSexo}
+            onChange={(value) => handleDropdownChange("idsexo", value)}
+            value={values.idsexo || ""}
+            placeholder={"Seleccione el sexo"}
+          />
+          <Dropdown
+            name="idtipoparentesco"
             label="Tipo de parentesco"
-            data={dataDoc}
-            onChange={(value) => handleDropdownChange("parentesco", value)}
-            value={values.parentesco || ""}
+            data={dataDropdown.dropdownDocumento}
+            onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
+            value={values.idtipoparentesco || ""}
+            placeholder={"Seleccione el parentesco"}
           />
         </>
       );
-    case "Condicion Medica":
+
+    // Similar para los otros casos
+
+    case "condicionmedica":
       return (
         <>
           <Dropdown
@@ -164,10 +166,10 @@ export const ModalContent = ({
           <Input
             texto="Lugar de atención"
             placeholder="Ingresa el lugar de atención"
-            name="lugaratención"
+            name="lugaratencion"
             tipo="text"
             onChange={handleInputChange}
-            value={values.lugaratención || ""}
+            value={values.lugaratencion || ""}
           />
           <Dropdown
             name="rh"
@@ -194,7 +196,8 @@ export const ModalContent = ({
           />
         </>
       );
-    case "Historia Clinica":
+
+    case "historiaclinica":
       return (
         <>
           <Input
@@ -208,10 +211,10 @@ export const ModalContent = ({
           <Input
             texto="Restricciones alimenticias"
             placeholder="Ingresa las restricciones alimenticias"
-            name="restricciones"
+            name="restriccionesalimenticias"
             tipo="text"
             onChange={handleInputChange}
-            value={values.restricciones || ""}
+            value={values.restriccionesalimenticias || ""}
           />
           <Input
             texto="Medicamentos"
@@ -221,9 +224,26 @@ export const ModalContent = ({
             onChange={handleInputChange}
             value={values.medicamentos || ""}
           />
+          <Input
+            texto="Cantidad de medicamentos"
+            placeholder="Ingresa la cantidad de medicamentos que necesita"
+            name="cantidadmedicamentos"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.cantidadmedicamentos || ""}
+          />
+          <Input
+            texto="Observacion"
+            placeholder="Ingresa alguna observación sobre el estudiante"
+            name="observacion"
+            tipo="text"
+            onChange={handleInputChange}
+            value={values.observacion || ""}
+          />
           <UploadFile />
         </>
       );
+
     case "Informes":
       return (
         <div>
@@ -231,6 +251,7 @@ export const ModalContent = ({
           <p>Esto NO será un modal.</p>
         </div>
       );
+
     default:
       return null;
   }

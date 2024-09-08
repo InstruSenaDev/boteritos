@@ -2,6 +2,7 @@ import { caseEstudiante } from "./case/estudiante";
 import { caseAdmin } from "./case/admin";
 import { caseProfesor } from "./case/profesor";
 
+
 /*
 1 => ADMINISTRADOR
 2 => PROFESOR

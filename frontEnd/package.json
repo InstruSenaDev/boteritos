@@ -14,7 +14,9 @@
     "@headlessui/tailwindcss": "^0.2.1",
     "@tremor/react": "^3.17.4",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
