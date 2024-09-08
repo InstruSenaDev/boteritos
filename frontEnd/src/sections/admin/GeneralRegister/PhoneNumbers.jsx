@@ -65,9 +65,8 @@ export const PhoneNumberSection = () => {
 
     const dataUser = {
       ...values,
-      lugaratencion: values.lugaratencion.trim(),
-      peso: values.peso.trim(),
-      altura: values.altura.trim(),
+      telefono1: values.telefono1.trim(),
+      telefono2: values.telefono2.trim(),
     };
     console.log(dataUser);
 
@@ -117,21 +116,21 @@ export const PhoneNumberSection = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
             <Input
-              name={"lugaratencion"}
-              texto={"Lugar de atención"}
-              placeholder={"Lugar de atención del usuario"}
+              name={"telefono1"}
+              texto={"Primer telefono"}
+              placeholder={"telefono del usuario"}
               tipo={"text"}
               onChange={handleInputChange}
-              value={values.lugaratencion}
+              value={values.telefono1}
               //error={errors.barrio}
             />
             <Input
-              name={"peso"}
-              texto={"Peso"}
-              placeholder={"Peso del usuario"}
+              name={"telefono2"}
+              texto={"Segundo telefono"}
+              placeholder={"Telefono de respaldo del usuario"}
               tipo={"text"}
               onChange={handleInputChange}
-              value={values.peso}
+              value={values.telefono2}
               //error={errors.numero}
             />
           </div>

@@ -12,7 +12,7 @@ export const MedicalInfoSection = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
-    dispatch({type: 'CHANGE_PERCENT', data: 100})
+    dispatch({type: 'CHANGE_PERCENT', data: 83})
   }, [])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -82,7 +82,7 @@ export const MedicalInfoSection = () => {
 
     console.log(formData);*/
 
-    navigate('/registro/admin/medicalinfo')
+    navigate('/registro/admin/phonenumber')
 
     // createUser(dataUser);
   };

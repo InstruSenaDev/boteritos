@@ -1,11 +1,13 @@
 import { Elemento } from "./Elemento";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const Sidebar = ({ img, name, rol, sidebarSection = [] }) => {
+export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleSidebar = () => {
-    setIsExpanded(!isExpanded);
+    const newExpandedState = !isExpanded;
+    setIsExpanded(newExpandedState);
+    onToggle(newExpandedState); // Notifica a LayoutGeneral el estado de expansión
   };
 
   return (

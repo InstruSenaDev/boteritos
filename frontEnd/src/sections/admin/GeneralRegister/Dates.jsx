@@ -13,7 +13,7 @@ export const DatesSection = () => {
   const [, dispatch] = useRegFormContext();
 
   useEffect(()=>{
-    dispatch({type: 'CHANGE_PERCENT', data: 75})
+    dispatch({type: 'CHANGE_PERCENT', data: 67})
   }, [])
     
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { PhoneNumberSection } from '../../sections/admin/GeneralRegister/PhoneNu
 import { ProgressBarD } from '../../components/forms/ProgressBar'
 import { RegFormProvider } from '../../hooks/RegFormProvider'
 
-export const Addres = () => {
+export const PhoneNumber = () => {
   return (
     <div>
       <LayoutGeneral titleHeader="Registro de usuarios (Administrador)" title="Registro">
