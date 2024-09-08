@@ -3,19 +3,19 @@ import React from "react";
 export const Info = ({ title, text }) => {
   return (
     <div
-      class={`flex flex-col w-full ${
+      className={`flex flex-col w-full ${
         title === "Correo"
           ? "border-b-0"
           : "border-b-2 border-b-placeholderBlue"
       } py-4`}
     >
-      <div class="flex justify-between">
-        <p class="text-subTitle2 font-Cocogoose-SemiLight text-darkBlue">
+      <div className="flex justify-between">
+        <p className="text-subTitle2 font-Cocogoose-SemiLight text-darkBlue">
           {title}
         </p>
-        <p class="underline font-Cocogoose-SemiLight text-darkBlue">Editar</p>
+        <p className="underline font-Cocogoose-SemiLight text-darkBlue">Editar</p>
       </div>
-      <p class="text-paragraph font-Cocogoose-Light">{text}</p>
+      <p className="text-paragraph font-Cocogoose-Light">{text}</p>
     </div>
   );
 };

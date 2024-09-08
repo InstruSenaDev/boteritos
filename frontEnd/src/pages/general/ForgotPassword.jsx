@@ -27,10 +27,10 @@ export const ForgotPassword = () =>{
   <img
     src="../../../public/img/Forgotimg.png"
     alt="Forgot password"
-    class="object-contain w-full h-full"
+    className="object-contain w-full h-full"
     slot="imagen"
   />
-  <a href="" slot="return" class="text-paragraph2 font-cocogooseLight text-darkBlue">Volver al inicio de sesión</a>
+  <a href="" slot="return" className="text-paragraph2 font-cocogooseLight text-darkBlue">Volver al inicio de sesión</a>
 </ForgotLayout>
   )
 }

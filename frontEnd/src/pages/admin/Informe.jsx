@@ -16,10 +16,10 @@ import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 export const Informe = () => {
   return (
     <LayoutGeneral title="InformeObservacion" titleHeader="Informe">
-      <div class="w-full space-y-7">
+      <div className="w-full space-y-7">
         <HeaderData />
         <GrupoDatoElemento />
-        <div class="w-full h-0 border-darkBlue border-2"></div>
+        <div className="w-full h-0 border-darkBlue border-2"></div>
 
         <InformeIndividual
           tituloArea={"Area Socio - Afectiva"}

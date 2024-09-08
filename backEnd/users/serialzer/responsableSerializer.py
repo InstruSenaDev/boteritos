@@ -70,7 +70,6 @@ class ResponsableSerializer(serializers.ModelSerializer):
         user = Responsable.objects.filter(numerodocumento = value).count()
         #Si encuentra usuarios con ese numero de documento, retornará la cantidad de estos, lo que significa que ese usuario ya existe
         print(user)
-        
         if user >= 1 :
             return False
         

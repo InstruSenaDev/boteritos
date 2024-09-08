@@ -7,9 +7,9 @@ import  Buscador  from "../../components/search/Buscador";
 export const Notificaciones = () => {
   return (
     <LayoutGeneral title="Notificaciones" titleHeader="Notificaciones">
-      <div class="flex flex-col w-full bg-white sm:p-10 p-2 rounded-xl gap-y-3">
+      <div className="flex flex-col w-full bg-white sm:p-10 p-2 rounded-xl gap-y-3">
         <Buscador />
-        <div class="divide-y divide-ligthBlue">
+        <div className="divide-y divide-ligthBlue">
           {datosnoti.map((datonoti) => (
             <Notificacion
               img={datonoti.img}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { RegisterOption } from '../../components/buttons/RegisterOption';
 import { LayoutGeneral } from '../../layouts/LayoutGeneral';
-import { Link } from 'react-router-dom';
 
-export const Registro = () => {
+
+const Registro = () => {
   return (
     <LayoutGeneral titleHeader={"Registro"}>
         <div className='h-full flex flex-col flex-wrap justify-center gap-y-5'>
@@ -17,3 +17,5 @@ export const Registro = () => {
     </LayoutGeneral>
   )
 }
+
+export default Registro;

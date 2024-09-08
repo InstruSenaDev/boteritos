@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'rest_framework_simplejwt',
+    'userAuth',
     'users',
     'logros',
     'dropdowns'
@@ -45,6 +45,13 @@ INSTALLED_APPS = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+#DATA ABOUT TOKEN
+JWT_ACCESS_SECRET_KEY = "2CEqW>I.d^Nzww>>mKP=R8UvaoG|wEMw"
+JWT_REFRESH_SECRET_KEY = "7znz.,XQbr=]'s==KGz,-x$zx,maX`df"
+JWT_ALGORITHM = "HS256"
+JWT_ACCESS_EXPIRATION_TIME = 3600  # Expiración en segundos (1 hora en este caso)
+JWT_REFRESH_EXPIRATION_TIME = 86400 # Expiracion en segundos (1 dia en este caso)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,11 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Que servidores se podrán conectar con nuestro backend
 CORS_ALLOWED_ORIGINS = []
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
+REST_FRAMEWORK = {}
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',

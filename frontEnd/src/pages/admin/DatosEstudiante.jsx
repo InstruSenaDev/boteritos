@@ -9,7 +9,7 @@ import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataH
 import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 import { useParams } from "react-router-dom";
 
-export const DatosEstudiante = () => {
+const DatosEstudiante = () => {
   const { id } = useParams();
   return (
       <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
@@ -41,3 +41,5 @@ export const DatosEstudiante = () => {
       </LayoutGeneral>
   );
 };
+
+export default DatosEstudiante;
