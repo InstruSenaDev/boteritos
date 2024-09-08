@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 import bcrypt
 
 # Create your models here.
@@ -12,7 +11,7 @@ class Rol(models.Model):
         managed = False
         db_table = 'rol'
 
-class Usuario(AbstractUser):
+class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)  # Field name made lowercase.
     nombre = models.TextField()
     apellido = models.TextField()

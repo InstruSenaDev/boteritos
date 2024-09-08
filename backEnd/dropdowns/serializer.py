@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Tipodocumento, Eps, Rh, Sexo, Areas,Tipoparentesco, Rol
+from .models import Tipodocumento, Eps, Rh, Sexo, Areas,Rol,Diagnostico,Discapacidad,Matriculas,Tipologro, Tipoparentesco
 
 class TiposDocumentoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +29,29 @@ class AreasSerializer(serializers.ModelSerializer):
 class RolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rol
+        fields = '__all__'
+        
+class DiagnosticoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diagnostico
+        fields = '__all__'
+
+class DiscapacidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discapacidad
+        fields = '__all__'
+
+class MatriculasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Matriculas
+        fields = '__all__'
+
+class TipologroSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tipologro
+        fields = '__all__'
+
+class TipoparentescoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tipoparentesco
         fields = '__all__'
