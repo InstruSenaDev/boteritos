@@ -42,7 +42,7 @@ export default function TableListaLogros() {
       });
     };
     getDataDropdown();
-  })
+  }, [])
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
 
@@ -163,7 +163,7 @@ export default function TableListaLogros() {
        data={dataDropdown.dropdownTipo}  
        onChange={(value) => handleDropdownChange("tipo",value)}
       placeholder={"Seleccione el tipo de logro"}
-      value={values.tipo}
+      value={values.tipo || ""}
       />
 
        <Input
@@ -172,7 +172,7 @@ export default function TableListaLogros() {
        name={'logro'}
        tipo={'text'}
        onChange={handleInputChange}
-       value={values.logro}
+       value={values.logro || ""}
        />
       </LogrosModal>
     </>
