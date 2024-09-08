@@ -8,13 +8,24 @@ export default function TableStudents() {
 
   const [dataStudents, setDataStudents] = useState([]);
 
-  useEffect(()=>{
-    const obtainData = async () =>{
-      const dataApi = await getAllUser('usuarios')
-      setDataStudents(dataApi.data)
+  useEffect(() => {
+    const obtainData = async () => {
+      try {
+        const dataApi = await getAllUser('usuarios');
+       
+        if (Array.isArray(dataApi.data)) {
+          setDataStudents(dataApi.data);
+        } else {
+          console.error('Los datos recibidos no son un array', dataApi.data);
+          setDataStudents([]); 
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos', error);
+        setDataStudents([]); 
+      }
     };
-    obtainData()
-  },[])
+    obtainData();
+  }, []);
 
   return (
     <>

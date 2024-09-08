@@ -1,11 +1,25 @@
 import { useState } from "react"
 import { ObjLogros } from "../../helper/objects/logrosCalificar"
 import Buscador from "../search/Buscador"
+import { useParams } from "react-router-dom";
 
 
-export default function TableCalificarEstudiante() {
-
+export default function TableCalificarEstudiante({setSelectedLogros}) {
+  const { id } = useParams();
   const [openAcc, setOpenAcc] = useState(-1);
+  const [selectedLogros, setLocalSelectedLogros] = useState({});
+
+  const handleRadioChange = (idLogro, resultado) => {
+    const date = new Date().toISOString().split('T')[0]; 
+    const newSelection = {
+      ...selectedLogros,
+      [idLogro]: { idEstudiante: id, idLogroEstudiante: idLogro, resultado, fecha: date },
+    };
+
+    setLocalSelectedLogros(newSelection);
+    setSelectedLogros(newSelection); //para actualizar en el componente padre(calificar)
+    console.log("Selecciones actualizadas:", newSelection);
+  };
 
   const toogleRow = (index) => {
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
@@ -54,7 +68,7 @@ export default function TableCalificarEstudiante() {
               <div className="flex gap-2 lg:gap-0 acc-body lg:justify-center">
                 <p className="text-darkBlue lg:hidden">Fecha</p>
                 <div className="flex justify-self-center">
-                  <p>{`${data.date}`}</p>
+                  <p>{`${data.fecha}`}</p>
                 </div>
               </div>
 
@@ -64,17 +78,20 @@ export default function TableCalificarEstudiante() {
                     <label htmlFor={`la-${index}`} className="pr-5 text-darkBlue lg:hidden">
                       LA
                     </label>
-                    <input id={`la-${index}`} name={`logro-${index}`} type="radio" className="w-4 h-4" />
+                    <input id={`la-${index}`} name={`logro-${data.idLogroEstudiante}`} type="radio" className="w-4 h-4" 
+                    onChange={()=>handleRadioChange(data.idLogroEstudiante,"LA")}/>
 
                     <label htmlFor={`lp-${index}`} className="pr-5 text-darkBlue lg:hidden">
                       LP
                     </label>
-                    <input id={`lp-${index}`} name={`logro-${index}`} type="radio" className="w-4 h-4" />
+                    <input id={`lp-${index}`} name={`logro-${data.idLogroEstudiante}`} type="radio" className="w-4 h-4"
+                    onChange={()=>handleRadioChange(data.idLogroEstudiante,"LP")} />
 
                     <label htmlFor={`ln-${index}`} className="pr-5 text-darkBlue lg:hidden">
                       LN
                     </label>
-                    <input id={`ln-${index}`} name={`logro-${index}`} type="radio" className="w-4 h-4" />
+                    <input id={`ln-${index}`} name={`logro-${data.idLogroEstudiante}`} type="radio" className="w-4 h-4"
+                    onChange={()=>handleRadioChange(data.idLogroEstudiante,"LN")} />
                   </div>
                 </div>
               </div>
@@ -84,6 +101,9 @@ export default function TableCalificarEstudiante() {
 
         </section>
       </main>
+
+
+      
     </>
   );
 }

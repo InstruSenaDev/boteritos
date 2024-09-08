@@ -17,6 +17,7 @@ const ListEstudiantes = lazy(() => import("./pages/admin/ListEstudents.jsx"));
 const Registro = lazy(() => import("./pages/admin/Registro.jsx"));
 const AdminMain = lazy(() => import("./pages/admin/AdminMain.jsx"));
 const DateRangePickerHero = lazy(()=> import("./prueba.jsx"));
+const Calificar = lazy(()=> import("./pages/profesor/Calificar.jsx"))
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       { path: "registro", element: <Registro /> },
       { path: "registro/admin", element: <Admin /> },
+      { path: "calificar/:id", element: <Calificar/>},
     ],
   },
   {
