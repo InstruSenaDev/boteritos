@@ -9,13 +9,13 @@ import {
 import { Boton } from "../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 export const GeneralRegister = () => {
-    const [dispatch] = useRegFormContext();
+    const [, dispatch] = useRegFormContext();
     
-    const navigate = useNavigate
+    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -73,15 +73,15 @@ export const GeneralRegister = () => {
 
         const error = validateField(name, value); // Validar el campo específico
 
-        setErrors({
-            ...errors,
-            [name]: error,
-        }); // Actualizar el estado de errores y valores
+         setErrors({
+             ...errors,
+             [name]: error,
+         }); // Actualizar el estado de errores y valores
 
-        setValues({
-            ...values,
-            [name]: value,
-        });
+         setValues({
+             ...values,
+             [name]: value,
+         });
     };
 
 
@@ -95,23 +95,24 @@ export const GeneralRegister = () => {
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();
+        dispatch({type:'SET_COMMON_DATA', data: values})
 
-        const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-        for (const key in values) {
-            if (Object.hasOwn(values, key)) {
-                const error = validateField(key, values[key]);
-                if (error) {
-                    newErrors[key] = error;
-                }
-            }
-        }
+        //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+        // for (const key in values) {
+        //     if (Object.hasOwn(values, key)) {
+        //         const error = validateField(key, values[key]);
+        //         if (error) {
+        //             newErrors[key] = error;
+        //         }
+        //     }
+        // }
 
-        if (Object.keys(newErrors).length > 0) {
-            // Si hay errores, no enviar el formulario
-            setErrors(newErrors);
-            dispatch({type:'SET_COMMON_DATA', data: values})
-            return;
-        }
+        // if (Object.keys(newErrors).length > 0) {
+        //     // Si hay errores, no enviar el formulario
+        //     setErrors(newErrors);
+            
+        //     return;
+        // }
 
         const dataUser = {
             ...values,
@@ -134,7 +135,7 @@ export const GeneralRegister = () => {
         console.log(formData);*/
         navigate('/registro/admin/address')
 
-        createUser(dataUser);
+        // createUser(dataUser);
     };
 
     const createUser = async (data) => {
@@ -152,14 +153,14 @@ export const GeneralRegister = () => {
         //Se presentaron errores (API):
         const dataError = await response.data.error;
 
-        const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-        Object.entries(dataError).forEach(([key, value]) => {
-            newErrors[key] = value[0];
-        });
+        // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+        // Object.entries(dataError).forEach(([key, value]) => {
+        //     newErrors[key] = value[0];
+        // });
 
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-        }
+        // if (Object.keys(newErrors).length > 0) {
+        //     setErrors(newErrors);
+        // }
     };
 
     return (
@@ -177,7 +178,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.nombre}
-                        error={errors.nombre}
+                        //error={errors.nombre}
                     />
                     <Input
                         name={"apellido"}
@@ -186,7 +187,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.apellido}
-                        error={errors.apellido}
+                        //error={errors.apellido}
                     />
                     {/* Dropdown para seleccionar el tipo de documento */}
                     <Dropdown
@@ -198,7 +199,7 @@ export const GeneralRegister = () => {
                             handleDropdownChange("idtipodocumento", value)
                         }
                         placeholder={"Selecciona el tipo de documento"}
-                        error={errors.idtipodocumento}
+                        //error={errors.idtipodocumento}
                     />
                     <Input
                         name={"numerodocumento"}
@@ -207,7 +208,7 @@ export const GeneralRegister = () => {
                         tipo={"number"}
                         onChange={handleInputChange}
                         value={values.numerodocumento}
-                        error={errors.numerodocumento}
+                        //error={errors.numerodocumento}
                     />
                     <Input
                         name={"edad"}
@@ -216,7 +217,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.edad}
-                        error={errors.edad}
+                        //error={errors.edad}
                     />
                     <Input
                         name={"correo"}
@@ -225,7 +226,7 @@ export const GeneralRegister = () => {
                         tipo={"email"}
                         onChange={handleInputChange}
                         value={values.correo}
-                        error={errors.correo}
+                        //error={errors.correo}
                     />
                     {/* Dropdown para seleccionar el sexo */}
                     <Dropdown
@@ -235,7 +236,7 @@ export const GeneralRegister = () => {
                         data={dataDropdown.dropdownSexo}
                         onChange={(value) => handleDropdownChange("idsexo", value)}
                         placeholder={"Selecciona el sexo"}
-                        error={errors.idsexo}
+                        //error={errors.idsexo}
                     />
                     <UploadFile
                         title={"Foto"}

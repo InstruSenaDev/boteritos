@@ -6,13 +6,13 @@ import { validateField } from "../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 import { useNavigate } from "react-router-dom";
 
-export const AdressSection = () => {
+export const PhoneNumberSection = () => {
   const [, dispatch] = useRegFormContext();
 
   const navigate = useNavigate();
 
   useEffect(()=>{
-    dispatch({type: 'CHANGE_PERCENT', data: 50})
+    dispatch({type: 'CHANGE_PERCENT', data: 100})
   }, [])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -20,9 +20,8 @@ export const AdressSection = () => {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [values, setValues] = useState({
-    comuna: "",
-    barrio: "",
-    numero: "",
+    telefono1: "",
+    telefono2: "",
     //hojaDeVida: null,
   });
 
@@ -46,7 +45,7 @@ export const AdressSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({type:'SET_ADDRESS_DATA', data: values})
+    dispatch({type:'SET_PHONE_DATA', data: values})
 
     // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     // for (const key in values) {
@@ -66,9 +65,9 @@ export const AdressSection = () => {
 
     const dataUser = {
       ...values,
-      comuna: values.comuna.trim(),
-      barrio: values.barrio.trim(),
-      numero: values.numero.trim(),
+      lugaratencion: values.lugaratencion.trim(),
+      peso: values.peso.trim(),
+      altura: values.altura.trim(),
     };
     console.log(dataUser);
 
@@ -81,7 +80,6 @@ export const AdressSection = () => {
     });
 
     console.log(formData);*/
-    navigate('/registro/admin/dates')
 
     // createUser(dataUser);
   };
@@ -119,31 +117,22 @@ export const AdressSection = () => {
         >
           <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
             <Input
-              name={"barrio"}
-              texto={"Barrio"}
-              placeholder={"Barrio del usuario"}
+              name={"lugaratencion"}
+              texto={"Lugar de atención"}
+              placeholder={"Lugar de atención del usuario"}
               tipo={"text"}
               onChange={handleInputChange}
-              value={values.barrio}
+              value={values.lugaratencion}
               //error={errors.barrio}
             />
             <Input
-              name={"numero"}
-              texto={"Dirección"}
-              placeholder={"Dirección del usuario"}
+              name={"peso"}
+              texto={"Peso"}
+              placeholder={"Peso del usuario"}
               tipo={"text"}
               onChange={handleInputChange}
-              value={values.numero}
+              value={values.peso}
               //error={errors.numero}
-            />
-            <Input
-              name={"comuna"}
-              texto={"Comuna"}
-              placeholder={"Comuna del usuario"}
-              tipo={"number"}
-              onChange={handleInputChange}
-              value={values.comuna}
-              //error={errors.comuna}
             />
           </div>
           <div className="w-full flex justify-center">

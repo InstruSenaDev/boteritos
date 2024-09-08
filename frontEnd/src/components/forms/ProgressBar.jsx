@@ -1,15 +1,13 @@
 import {
-    Card,
-    CategoryBar,
-    DeltaBar,
-    MarkerBar,
     ProgressBar,
 } from '@tremor/react';
+import { useRegFormContext } from '../../hooks/RegFormProvider';
 
-export const ProgressBarD = () => (
-    <div className="flex justify-center">
-        <Card className="w-full">
-            <ProgressBar value={72} />
-        </Card>
-    </div>
-);
+export const ProgressBarD = () => {
+    const [state] = useRegFormContext();
+    return(
+        <div className="flex justify-center">
+            <ProgressBar className='font-cocogooseLight text-paragraph' value={state.percent} showAnimation={true} color={'darkBlue'} label={`${state.percent}%`} />
+        </div>
+    )
+};
