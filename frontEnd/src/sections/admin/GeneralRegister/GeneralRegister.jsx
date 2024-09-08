@@ -133,7 +133,7 @@ export const GeneralRegister = () => {
         });
     
         console.log(formData);*/
-        navigate('/registro/admin/address')
+        navigate('/admin/registro/registroadmin/direcciones')
 
         // createUser(dataUser);
     };

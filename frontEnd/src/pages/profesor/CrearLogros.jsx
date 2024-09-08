@@ -2,7 +2,7 @@
 import TableListaLogros from "../../components/tables/tableListaLogros";
 import {LayoutGeneral} from "../../layouts/LayoutGeneral.jsx";
 
-export const CrearLogros = () => {
+const CrearLogros = () => {
   return (
     <LayoutGeneral titleHeader="Logros">
       <main className="flex flex-col w-full gap-y-8">
@@ -11,3 +11,5 @@ export const CrearLogros = () => {
     </LayoutGeneral>
   );
 };
+
+export default CrearLogros;

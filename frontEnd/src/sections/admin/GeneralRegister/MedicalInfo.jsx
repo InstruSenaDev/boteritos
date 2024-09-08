@@ -82,7 +82,7 @@ export const MedicalInfoSection = () => {
 
     console.log(formData);*/
 
-    navigate('/registro/admin/phonenumber')
+    navigate('/admin/registro/registroadmin/telefonos')
 
     // createUser(dataUser);
   };

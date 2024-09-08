@@ -11,7 +11,7 @@ const Registro = () => {
             <div className='flex flex-col xl:flex-row justify-between gap-y-7'>
                 <RegisterOption text={"Estudiante"} icon={"fa-solid fa-graduation-cap"} />
                 <RegisterOption text={"Profesor"} icon={"fa-solid fa-user-tie"} />
-                <RegisterOption text={"Administrador"} icon={"fa-solid fa-star"} link={"registro/admin"} />
+                <RegisterOption text={"Administrador"} icon={"fa-solid fa-star"} link={"admin/registro/registroadmin"} />
             </div>
         </div>
     </LayoutGeneral>

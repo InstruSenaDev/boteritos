@@ -69,7 +69,7 @@ export const DatesSection = () => {
     });
 
     console.log(formData);*/
-    navigate('/registro/admin/medicalinfo')
+    navigate('/admin/registro/registroadmin/datosmedicos')
 
     // createUser(dataUser);
   };

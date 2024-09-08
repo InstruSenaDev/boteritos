@@ -81,7 +81,7 @@ export const AdressSection = () => {
     });
 
     console.log(formData);*/
-    navigate('/registro/admin/dates')
+    navigate('/admin/registro/registroadmin/fechas')
 
     // createUser(dataUser);
   };
