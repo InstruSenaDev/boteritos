@@ -16,9 +16,9 @@ class FechasViewSet(viewsets.ModelViewSet):
             return Response({
                 "message" : "Fechas creadas con exito!",
                 "data" : serializer.data
-            })
+            }, status=status.HTTP_201_CREATED)
             
         return Response({
             "message" : "Creacion cancelada",
             "error" : serializer.errors
-        })
+        }, status= status.HTTP_400_BAD_REQUEST)

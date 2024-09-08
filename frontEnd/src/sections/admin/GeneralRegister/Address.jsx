@@ -3,9 +3,18 @@ import { Input } from "../../../components/forms/Input.jsx";
 import { Boton } from "../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
-import { Link } from "react-router-dom";
+import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const AdressSection = () => {
+  const [, dispatch] = useRegFormContext();
+
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    dispatch({type: 'CHANGE_PERCENT', data: 50})
+  }, [])
+
   const [errors, setErrors] = useState({}); // Estado para los errores
 
   const [isRegistering, setIsRegistering] = useState(false);
@@ -37,22 +46,23 @@ export const AdressSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    dispatch({type:'SET_ADDRESS_DATA', data: values})
 
-    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    for (const key in values) {
-      if (Object.hasOwn(values, key)) {
-        const error = validateField(key, values[key]);
-        if (error) {
-          newErrors[key] = error;
-        }
-      }
-    }
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // for (const key in values) {
+    //   if (Object.hasOwn(values, key)) {
+    //     const error = validateField(key, values[key]);
+    //     if (error) {
+    //       newErrors[key] = error;
+    //     }
+    //   }
+    // }
 
-    if (Object.keys(newErrors).length > 0) {
-      // Si hay errores, no enviar el formulario
-      setErrors(newErrors);
-      return;
-    }
+    // if (Object.keys(newErrors).length > 0) {
+    //   // Si hay errores, no enviar el formulario
+    //   setErrors(newErrors);
+    //   return;
+    // }
 
     const dataUser = {
       ...values,
@@ -62,6 +72,7 @@ export const AdressSection = () => {
     };
     console.log(dataUser);
 
+
     //let formData = new FormData();
 
     /*Object.entries(dataUser).forEach(([key, value]) => {
@@ -70,8 +81,9 @@ export const AdressSection = () => {
     });
 
     console.log(formData);*/
+    navigate('/registro/admin/dates')
 
-    createUser(dataUser);
+    // createUser(dataUser);
   };
 
   const createUser = async (data) => {
@@ -89,56 +101,56 @@ export const AdressSection = () => {
     //Se presentaron errores (API):
     const dataError = await response.data.error;
 
-    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    Object.entries(dataError).forEach(([key, value]) => {
-      newErrors[key] = value[0];
-    });
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // Object.entries(dataError).forEach(([key, value]) => {
+    //   newErrors[key] = value[0];
+    // });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    }
+    // if (Object.keys(newErrors).length > 0) {
+    //   setErrors(newErrors);
+    // }
   };
 
   return (
     <>
-      <form
-        onSubmit={handleFormSubmit}
-        className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
-          <Input
-            name={"barrio"}
-            texto={"Barrio"}
-            placeholder={"Barrio del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.barrio}
-            error={errors.barrio}
-          />
-          <Input
-            name={"numero"}
-            texto={"Dirección"}
-            placeholder={"Dirección del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.numero}
-            error={errors.numero}
-          />
-          <Input
-            name={"comuna"}
-            texto={"Comuna"}
-            placeholder={"Comuna del usuario"}
-            tipo={"number"}
-            onChange={handleInputChange}
-            value={values.comuna}
-            error={errors.comuna}
-          />
-        </div>
-        <div className="w-full flex justify-center">
-          {/* Botón para confirmar el formulario */}
-          <Boton text="Confirmar" type="blue" />
-        </div>
-      </form>
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
+            <Input
+              name={"barrio"}
+              texto={"Barrio"}
+              placeholder={"Barrio del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.barrio}
+              //error={errors.barrio}
+            />
+            <Input
+              name={"numero"}
+              texto={"Dirección"}
+              placeholder={"Dirección del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.numero}
+              //error={errors.numero}
+            />
+            <Input
+              name={"comuna"}
+              texto={"Comuna"}
+              placeholder={"Comuna del usuario"}
+              tipo={"number"}
+              onChange={handleInputChange}
+              value={values.comuna}
+              //error={errors.comuna}
+            />
+          </div>
+          <div className="w-full flex justify-center">
+            {/* Botón para confirmar el formulario */}
+            <Boton text="Confirmar" type="blue" />
+          </div>
+        </form>
     </>
   );
 };

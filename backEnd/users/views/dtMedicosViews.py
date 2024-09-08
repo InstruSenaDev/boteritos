@@ -16,12 +16,12 @@ class DatosMedicosViewSet(viewsets.ModelViewSet):
             return Response({
                 "message" : "¡Datos medicos creados con exito!",
                 "data" : serializer.data
-            })
+            }, status=status.HTTP_201_CREATED)
             
         return Response({
             "message" : "Creacion cancelada",
             "error" : serializer.errors
-        })
+        }, status=status.HTTP_400_BAD_REQUEST)
         
     def update(self, request, pk):
         try:
@@ -42,6 +42,8 @@ class DatosMedicosViewSet(viewsets.ModelViewSet):
                 "data": serializer.data
             }, status=status.HTTP_200_OK)
         
-        return Response({"message": "Actualización cancelada", "error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Actualización cancelada", "error": serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
         
     

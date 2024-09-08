@@ -5,10 +5,19 @@ import { postUserStudent } from "../../../api/post.js";
 import { getDate } from "../../../helper/functions/getDate.js";
 import { format } from "date-fns";
 import { validateField } from "../../../helper/validators/register.js";
+import { useNavigate } from "react-router-dom";
+import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
-import { Link } from "react-router-dom";
 
 export const DatesSection = () => {
+  const [, dispatch] = useRegFormContext();
+
+  useEffect(()=>{
+    dispatch({type: 'CHANGE_PERCENT', data: 75})
+  }, [])
+    
+  const navigate = useNavigate();
+
   const [errors, setErrors] = useState({}); // Estado para los errores
 
   const [isRegistering, setIsRegistering] = useState(false);
@@ -22,22 +31,23 @@ export const DatesSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    dispatch({type:'SET_DATE_DATA', data: values})
 
-    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    for (const key in values) {
-      if (Object.hasOwn(values, key)) {
-        const error = validateField(key, values[key]);
-        if (error) {
-          newErrors[key] = error;
-        }
-      }
-    }
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // for (const key in values) {
+    //   if (Object.hasOwn(values, key)) {
+    //     const error = validateField(key, values[key]);
+    //     if (error) {
+    //       newErrors[key] = error;
+    //     }
+    //   }
+    // }
 
-    if (Object.keys(newErrors).length > 0) {
-      // Si hay errores, no enviar el formulario
-      setErrors(newErrors);
-      return;
-    }
+    // if (Object.keys(newErrors).length > 0) {
+    //   // Si hay errores, no enviar el formulario
+    //   setErrors(newErrors);
+    //   return;
+    // }
 
     const dataUser = {
       ...values,
@@ -59,8 +69,25 @@ export const DatesSection = () => {
     });
 
     console.log(formData);*/
+    navigate('/registro/admin/medicalinfo')
 
-    createUser(dataUser);
+    // createUser(dataUser);
+  };
+  // Maneja cambios en los inputs de texto
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    const error = validateField(values.idrol, name, value); // Validar el campo específico
+
+    setErrors({
+      ...errors,
+      [name]: error,
+    }); // Actualizar el estado de errores y valores
+
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
   const createUser = async (data) => {
@@ -78,38 +105,38 @@ export const DatesSection = () => {
     //Se presentaron errores (API):
     const dataError = await response.data.error;
 
-    const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    Object.entries(dataError).forEach(([key, value]) => {
-      newErrors[key] = value[0];
-    });
+    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
+    // Object.entries(dataError).forEach(([key, value]) => {
+    //   newErrors[key] = value[0];
+    // });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-    }
+    // if (Object.keys(newErrors).length > 0) {
+    //   setErrors(newErrors);
+    // }
   };
 
   return (
     <>
-      <form
-        onSubmit={handleFormSubmit}
-        className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
-          <DatePicker2
-            name={"fechanacimiento"}
-            texto={"Fecha de nacimiento"}
-            value={values.fechanacimiento}
-            onChange={handleInputChange}
-            error={errors.fechanacimiento}
-          />
-          <DatePicker2
-            name={"fechaingreso"}
-            texto={"Fecha de ingreso"}
-            value={values.fechaingreso}
-            onChange={handleInputChange}
-            error={errors.fechaingreso}
-          />
-        </div>
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
+            <DatePicker2
+              name={"fechanacimiento"}
+              texto={"Fecha de nacimiento"}
+              value={values.fechanacimiento}
+              onChange={handleInputChange}
+              // error={errors.fechanacimiento}
+            />
+              <DatePicker2
+                name={"fechaingreso"}
+                texto={"Fecha de ingreso"}
+                value={values.fechaingreso}
+                onChange={handleInputChange}
+                // error={errors.fechaingreso}
+              />
+          </div>
 
         <div className="w-full flex justify-center">
           {/* Botón para confirmar el formulario */}

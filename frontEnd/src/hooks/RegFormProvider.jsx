@@ -18,6 +18,12 @@ const reducer = (state, action) => {
         case 'SET_ADDRESS_DATA':{
             return{...state, address: {...action.data}};
         }
+        case 'SET_MEDICAL_DATA':{
+            return{...state, percent: action.data};
+        }
+        case 'SET_PHONE_DATA':{
+            return{...state, percent: action.data};
+        }
         case 'CHANGE_PERCENT':{
             return{...state, percent: action.data};
         }

@@ -1,25 +1,52 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import { Admin } from './pages/admin/Admin.jsx'
-import { Addres } from './pages/admin/Addres.jsx'
-import { Dates } from './pages/admin/Dates.jsx'
-import './index.css'
-import { createBrowserRouter } from 'react-router-dom'
+import React, { Suspense, lazy } from "react";
+import { RouterProvider } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter } from "react-router-dom";
+
+import "./index.css";
+import App from "./App.jsx";
+import Loading from "./components/loaders/loading.jsx";
+
+const Admin = lazy(() => import("./pages/admin/Admin.jsx"));
+const FormLogin = lazy(() => import("./sections/FormLogin.jsx"));
+const Addres = lazy(() => import("./pages/admin/Addres.jsx"));
+const Dates = lazy(() => import("./pages/admin/Dates.jsx"));
+const MedicalInfo = lazy(() => import("./pages/admin/MedicalInfo.jsx"));
+const DatosEstudiante = lazy(() => import("./pages/admin/DatosEstudiante.jsx"));
+const ListEstudiantes = lazy(() => import("./pages/admin/ListEstudents.jsx"));
+const Registro = lazy(() => import("./pages/admin/Registro.jsx"));
+const AdminMain = lazy(() => import("./pages/admin/AdminMain.jsx"));
+const DateRangePickerHero = lazy(()=> import("./prueba.jsx"));
 
 const router = createBrowserRouter([
   {
-    path: '', element: <App />, children: [
-      {path: '', element: <Admin />},
-      {path: 'address', element: <Addres />},
-      {path: 'dates', element: <Dates />}
+    path: "",
+    element: <App />,
+    children: [
+      { path: "", element: <FormLogin /> },
+      { path: "registro/admin/address", element: <Addres /> },
+      { path: "registro/admin/dates", element: <Dates /> },
+      { path: "registro/admin/medicalinfo", element: <MedicalInfo /> },
+      { path: "datoestudiante/:id", element: <DatosEstudiante /> },
+      { path: "listaestudiantes", element: <ListEstudiantes /> },
+      { path: "registro", element: <Registro /> },
+      { path: "registro/admin", element: <Admin /> },
+    ],
+  },
+  {
+    path: "admin",
+    element: <App />,
+    children : [
+      {path : '' , element :<AdminMain />},
+      { path: 'prueba' , element : <DateRangePickerHero />}
     ]
+  },
+]);
 
-  }
-])
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+createRoot(document.getElementById("root")).render(
+  <Suspense fallback={<Loading />}>
+    <RouterProvider router={router}>
+      <App />
+    </RouterProvider>
+  </Suspense>
+);

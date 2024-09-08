@@ -2,10 +2,12 @@ import React from "react";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { DataStudent } from "../../sections/admin/DataStudent";
 
-export const ListEstudiantes = () => {
+const ListEstudiantes = () => {
   return (
     <LayoutGeneral titleHeader="Estudiantes">
       <DataStudent />
     </LayoutGeneral>
   );
 };
+
+export default ListEstudiantes;
