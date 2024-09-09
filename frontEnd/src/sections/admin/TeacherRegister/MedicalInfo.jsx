@@ -6,13 +6,13 @@ import { validateField } from "../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
-export const PhoneNumberSection = () => {
+export const MedicalInfoSection = () => {
   const [, dispatch] = useRegFormContext();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 100 })
+    dispatch({ type: 'CHANGE_PERCENT', data: 70 })
   }, [])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -20,8 +20,9 @@ export const PhoneNumberSection = () => {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [values, setValues] = useState({
-    telefono1: "",
-    telefono2: "",
+    lugaratencion: "",
+    peso: "",
+    altura: "",
     //hojaDeVida: null,
   });
 
@@ -45,7 +46,7 @@ export const PhoneNumberSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PHONE_DATA', data: values })
+    dispatch({ type: 'SET_MEDICAL_TEACHER_DATA', data: values })
 
     // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     // for (const key in values) {
@@ -65,8 +66,9 @@ export const PhoneNumberSection = () => {
 
     const dataUser = {
       ...values,
-      telefono1: values.telefono1.trim(),
-      telefono2: values.telefono2.trim(),
+      lugaratencion: values.lugaratencion.trim(),
+      peso: values.peso.trim(),
+      altura: values.altura.trim(),
     };
     console.log(dataUser);
 
@@ -79,6 +81,8 @@ export const PhoneNumberSection = () => {
     });
 
     console.log(formData);*/
+
+    navigate('/admin/registro/registroprofesor/telefonos')
 
     // createUser(dataUser);
   };
@@ -116,29 +120,38 @@ export const PhoneNumberSection = () => {
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
           <Input
-            name={"telefono1"}
-            texto={"Primer telefono"}
-            placeholder={"telefono del usuario"}
+            name={"lugaratencion"}
+            texto={"Lugar de atención"}
+            placeholder={"Lugar de atención del usuario"}
             tipo={"text"}
             onChange={handleInputChange}
-            value={values.telefono1}
+            value={values.lugaratencion}
           //error={errors.barrio}
           />
           <Input
-            name={"telefono2"}
-            texto={"Segundo telefono"}
-            placeholder={"Telefono de respaldo del usuario"}
+            name={"peso"}
+            texto={"Peso"}
+            placeholder={"Peso del usuario"}
             tipo={"text"}
             onChange={handleInputChange}
-            value={values.telefono2}
+            value={values.peso}
           //error={errors.numero}
+          />
+          <Input
+            name={"altura"}
+            texto={"Altura"}
+            placeholder={"Altura del usuario"}
+            tipo={"number"}
+            onChange={handleInputChange}
+            value={values.altura}
+          //error={errors.comuna}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
           {/* Botón para confirmar el formulario */}
           <Boton text="Confirmar" type="blue" />
 
-          <Link to={"/admin/registro/registroadmin/datosmedicos"} className="max-w-[400px] w-full">
+          <Link to={"/admin/registro/registroprofesor/fechas"} className="max-w-[400px] w-full">
             <Boton text="Atras" type="blue" />
           </Link>
         </div>

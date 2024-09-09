@@ -1,8 +1,8 @@
 import React from 'react'
-import { LayoutGeneral } from '../../layouts/LayoutGeneral'
-import { AdressSection } from '../../sections/admin/GeneralRegister/Address'
-import { ProgressBarD } from '../../components/forms/ProgressBar'
-import { RegFormProvider } from '../../hooks/RegFormProvider'
+import { LayoutGeneral } from '../../../layouts/LayoutGeneral'
+import { AdressSection } from '../../../sections/admin/GeneralRegister/Address'
+import { ProgressBarD } from '../../../components/forms/ProgressBar'
+import { RegFormProvider } from '../../../hooks/RegFormProvider'
 
 const Addres = () => {
   return (

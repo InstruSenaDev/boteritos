@@ -1,10 +1,10 @@
-import React from 'react'
-import { LayoutGeneral } from '../../layouts/LayoutGeneral'
-import { MedicalInfoSection } from '../../sections/admin/GeneralRegister/MedicalInfo'
-import { ProgressBarD } from '../../components/forms/ProgressBar'
-import { RegFormProvider } from '../../hooks/RegFormProvider'
+import React from "react";
+import { LayoutGeneral } from "../../../layouts/LayoutGeneral";
+import { GeneralRegister } from "../../../sections/admin/GeneralRegister/GeneralRegister";
+import { ProgressBarD } from "../../../components/forms/ProgressBar";
+import { RegFormProvider } from "../../../hooks/RegFormProvider";
 
-export const MedicalInfo = () => {
+const Admin = () => {
   return (
     <div>
       <LayoutGeneral titleHeader="Registro de usuarios (Administrador)" title="Registro">
@@ -12,13 +12,13 @@ export const MedicalInfo = () => {
           <div className="flex flex-col max-w-[910px] bg-white w-full p-10 rounded-xl gap-y-7">
             <RegFormProvider>
               <ProgressBarD/>
-              <MedicalInfoSection />
+              <GeneralRegister />
             </RegFormProvider>
           </div>
         </div>
       </LayoutGeneral>
     </div>
-  )
-}
+  );
+};
 
-export default MedicalInfo;
+export default Admin;

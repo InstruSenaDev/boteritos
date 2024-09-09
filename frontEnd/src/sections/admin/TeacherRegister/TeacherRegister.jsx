@@ -5,6 +5,7 @@ import { UploadFile } from "../../../components/forms/UploadFile.jsx";
 import {
     dataDoc,
     dataSexo,
+    dataArea
 } from "../../../helper/objects/dropdownArray.js";
 import { Boton } from "../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../api/post.js";
@@ -12,10 +13,14 @@ import { validateField } from "../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
-export const GeneralRegister = () => {
+export const TeacherRegister = () => {
     const [, dispatch] = useRegFormContext();
 
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        dispatch({type: 'CHANGE_PERCENT', data: 100})
+      }, [])
 
     const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -24,28 +29,13 @@ export const GeneralRegister = () => {
     const [isRegistering, setIsRegistering] = useState(false);
 
     const [dataDropdown, setDataDropdown] = useState({
-        dropdownDocumento: [],
-        dropdownSexo: [],
         dropdownArea: [],
-        dropdownRol: [],
     });
 
     const [values, setValues] = useState({
-        nombre: "",
-        apellido: "",
-        numerodocumento: "",
-        correo: "",
-        urlimg: "",
-        edad: "",
-        idtipodocumento: "",
-        idsexo: "",
-        contrasena: "",
-        cambiocontrasena: "0",
-        estado: "1",
-        idsexo: "",
-        token: "",
-        refreshToken: ""
-        //hojaDeVida: null,
+        titulo: "",
+        idArea: "N/A",
+        hojaDeVida: null,
     });
 
     //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
@@ -53,6 +43,7 @@ export const GeneralRegister = () => {
         const getDataDropdown = async () => {
             const resultSexo = await dataSexo();
             const resultDocumento = await dataDoc();
+            const resultArea = await dataArea();
 
             console.log(resultSexo);
             console.log(resultDocumento);
@@ -61,6 +52,7 @@ export const GeneralRegister = () => {
                 ...dataDropdown,
                 dropdownSexo: resultSexo,
                 dropdownDocumento: resultDocumento,
+                dropdownArea: resultArea,
             });
         };
 
@@ -95,7 +87,7 @@ export const GeneralRegister = () => {
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        dispatch({ type: 'SET_COMMON_DATA', data: values })
+        dispatch({ type: 'SET_PROFESSION_DATA', data: values })
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
         // for (const key in values) {
@@ -117,11 +109,6 @@ export const GeneralRegister = () => {
         const dataUser = {
             ...values,
             nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
-            numerodocumento: values.numerodocumento.trim(),
-            correo: values.correo.trim(),
-            urlimg: `https://${values.urlimg}img.com`,
-            edad: values.edad.trim(),
-            contrasena: values.numerodocumento.trim(),
         };
         console.log(dataUser);
 
@@ -133,7 +120,7 @@ export const GeneralRegister = () => {
         });
     
         console.log(formData);*/
-        navigate('/admin/registro/registroadmin/direcciones')
+        
 
         // createUser(dataUser);
     };
@@ -172,83 +159,34 @@ export const GeneralRegister = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
                     {/* Renderiza dropdowns adicionales según el rol seleccionado */}
                     <Input
-                        name={"nombre"}
-                        texto={"Nombre"}
-                        placeholder={"Nombre del usuario"}
+                        name={"titulo"}
+                        texto={"Titulo"}
+                        placeholder={"Titulación del usuario"}
                         tipo={"text"}
                         onChange={handleInputChange}
-                        value={values.nombre}
+                        value={values.titulo}
                     //error={errors.nombre}
                     />
-                    <Input
-                        name={"apellido"}
-                        texto={"Apellidos"}
-                        placeholder={"Apellido del usuario"}
-                        tipo={"text"}
-                        onChange={handleInputChange}
-                        value={values.apellido}
-                    //error={errors.apellido}
-                    />
-                    {/* Dropdown para seleccionar el tipo de documento */}
                     <Dropdown
-                        name={"idtipodocumento"}
-                        label={"Tipo de documento"}
+                        name={"idarea"}
+                        label={"Area"}
                         //data={dataMatricula}
-                        data={dataDropdown.dropdownDocumento}
-                        onChange={(value) =>
-                            handleDropdownChange("idtipodocumento", value)
-                        }
-                        placeholder={"Selecciona el tipo de documento"}
-                    //error={errors.idtipodocumento}
-                    />
-                    <Input
-                        name={"numerodocumento"}
-                        texto={"Número de documento"}
-                        placeholder={"Documento del usuario"}
-                        tipo={"number"}
-                        onChange={handleInputChange}
-                        value={values.numerodocumento}
-                    //error={errors.numerodocumento}
-                    />
-                    <Input
-                        name={"edad"}
-                        texto={"Edad"}
-                        placeholder={"Edad del usuario"}
-                        tipo={"text"}
-                        onChange={handleInputChange}
-                        value={values.edad}
-                    //error={errors.edad}
-                    />
-                    <Input
-                        name={"correo"}
-                        texto={"Correo"}
-                        placeholder={"Correo electrónico del usuario"}
-                        tipo={"email"}
-                        onChange={handleInputChange}
-                        value={values.correo}
-                    //error={errors.correo}
-                    />
-                    {/* Dropdown para seleccionar el sexo */}
-                    <Dropdown
-                        name={"idsexo"}
-                        label={"Sexo"}
-                        //data={dataMatricula}
-                        data={dataDropdown.dropdownSexo}
-                        onChange={(value) => handleDropdownChange("idsexo", value)}
-                        placeholder={"Selecciona el sexo"}
-                    //error={errors.idsexo}
+                        data={dataDropdown.dropdownArea}
+                        onChange={(value) => handleDropdownChange("idarea", value)}
+                        placeholder={"Selecciona un area"}
+                    //error={errors.idarea}
                     />
                     <UploadFile
-                        title={"Foto"}
-                        id="foto"
-                        onFileChange={(file) => handleFileChange("foto", file)}
+                        title={"Hoja de vida"}
+                        id="hojaDeVida"
+                        onFileChange={(file) => handleFileChange("hojaDeVida", file)}
                     />
                 </div>
                 <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
                     {/* Botón para confirmar el formulario */}
                     <Boton text="Confirmar" type="blue" />
 
-                    <Link to={"/admin/registro"} className="max-w-[400px] w-full">
+                    <Link to={"/admin/registro/registroprofesor/telefonos"} className="max-w-[400px] w-full">
                         <Boton text="Atras" type="blue" />
                     </Link>
                 </div>

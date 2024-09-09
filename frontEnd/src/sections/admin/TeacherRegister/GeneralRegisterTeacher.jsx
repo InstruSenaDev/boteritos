@@ -12,7 +12,7 @@ import { validateField } from "../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
-export const GeneralRegister = () => {
+export const GeneralRegisterTeacher = () => {
     const [, dispatch] = useRegFormContext();
 
     const navigate = useNavigate();
@@ -73,15 +73,15 @@ export const GeneralRegister = () => {
 
         const error = validateField(name, value); // Validar el campo específico
 
-        setErrors({
-            ...errors,
-            [name]: error,
-        }); // Actualizar el estado de errores y valores
+         setErrors({
+             ...errors,
+             [name]: error,
+         }); // Actualizar el estado de errores y valores
 
-        setValues({
-            ...values,
-            [name]: value,
-        });
+         setValues({
+             ...values,
+             [name]: value,
+         });
     };
 
 
@@ -95,7 +95,7 @@ export const GeneralRegister = () => {
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        dispatch({ type: 'SET_COMMON_DATA', data: values })
+        dispatch({type:'SET_TEACHER_DATA', data: values})
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
         // for (const key in values) {
@@ -110,7 +110,7 @@ export const GeneralRegister = () => {
         // if (Object.keys(newErrors).length > 0) {
         //     // Si hay errores, no enviar el formulario
         //     setErrors(newErrors);
-
+            
         //     return;
         // }
 
@@ -133,7 +133,7 @@ export const GeneralRegister = () => {
         });
     
         console.log(formData);*/
-        navigate('/admin/registro/registroadmin/direcciones')
+        navigate('/admin/registro/registroprofesor/direcciones')
 
         // createUser(dataUser);
     };
@@ -178,7 +178,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.nombre}
-                    //error={errors.nombre}
+                        //error={errors.nombre}
                     />
                     <Input
                         name={"apellido"}
@@ -187,7 +187,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.apellido}
-                    //error={errors.apellido}
+                        //error={errors.apellido}
                     />
                     {/* Dropdown para seleccionar el tipo de documento */}
                     <Dropdown
@@ -199,7 +199,7 @@ export const GeneralRegister = () => {
                             handleDropdownChange("idtipodocumento", value)
                         }
                         placeholder={"Selecciona el tipo de documento"}
-                    //error={errors.idtipodocumento}
+                        //error={errors.idtipodocumento}
                     />
                     <Input
                         name={"numerodocumento"}
@@ -208,7 +208,7 @@ export const GeneralRegister = () => {
                         tipo={"number"}
                         onChange={handleInputChange}
                         value={values.numerodocumento}
-                    //error={errors.numerodocumento}
+                        //error={errors.numerodocumento}
                     />
                     <Input
                         name={"edad"}
@@ -217,7 +217,7 @@ export const GeneralRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.edad}
-                    //error={errors.edad}
+                        //error={errors.edad}
                     />
                     <Input
                         name={"correo"}
@@ -226,7 +226,7 @@ export const GeneralRegister = () => {
                         tipo={"email"}
                         onChange={handleInputChange}
                         value={values.correo}
-                    //error={errors.correo}
+                        //error={errors.correo}
                     />
                     {/* Dropdown para seleccionar el sexo */}
                     <Dropdown
@@ -236,7 +236,7 @@ export const GeneralRegister = () => {
                         data={dataDropdown.dropdownSexo}
                         onChange={(value) => handleDropdownChange("idsexo", value)}
                         placeholder={"Selecciona el sexo"}
-                    //error={errors.idsexo}
+                        //error={errors.idsexo}
                     />
                     <UploadFile
                         title={"Foto"}

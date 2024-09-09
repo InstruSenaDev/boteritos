@@ -45,7 +45,7 @@ export const PhoneNumberSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PHONE_DATA', data: values })
+    dispatch({ type: 'SET_PHONE_STUDENT_DATA', data: values })
 
     // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     // for (const key in values) {
@@ -138,7 +138,7 @@ export const PhoneNumberSection = () => {
           {/* Botón para confirmar el formulario */}
           <Boton text="Confirmar" type="blue" />
 
-          <Link to={"/admin/registro/registroadmin/datosmedicos"} className="max-w-[400px] w-full">
+          <Link to={"/admin/registro/registroestudiante/datosmedicos"} className="max-w-[400px] w-full">
             <Boton text="Atras" type="blue" />
           </Link>
         </div>

@@ -1,10 +1,10 @@
-import React from "react";
-import { LayoutGeneral } from "../../layouts/LayoutGeneral";
-import { GeneralRegister } from "../../sections/admin/GeneralRegister/GeneralRegister";
-import { ProgressBarD } from "../../components/forms/ProgressBar";
-import { RegFormProvider } from "../../hooks/RegFormProvider";
+import React from 'react'
+import { LayoutGeneral } from '../../../layouts/LayoutGeneral'
+import { PhoneNumberSection } from '../../../sections/admin/GeneralRegister/PhoneNumbers'
+import { ProgressBarD } from '../../../components/forms/ProgressBar'
+import { RegFormProvider } from '../../../hooks/RegFormProvider'
 
-const Admin = () => {
+const PhoneNumber = () => {
   return (
     <div>
       <LayoutGeneral titleHeader="Registro de usuarios (Administrador)" title="Registro">
@@ -12,13 +12,13 @@ const Admin = () => {
           <div className="flex flex-col max-w-[910px] bg-white w-full p-10 rounded-xl gap-y-7">
             <RegFormProvider>
               <ProgressBarD/>
-              <GeneralRegister />
+              <PhoneNumberSection />
             </RegFormProvider>
           </div>
         </div>
       </LayoutGeneral>
     </div>
-  );
-};
+  )
+}
 
-export default Admin;
+export default PhoneNumber;

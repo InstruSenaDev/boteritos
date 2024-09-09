@@ -12,7 +12,7 @@ export const PhoneNumberSection = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 100 })
+    dispatch({ type: 'CHANGE_PERCENT', data: 90 })
   }, [])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -45,7 +45,7 @@ export const PhoneNumberSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PHONE_DATA', data: values })
+    dispatch({ type: 'SET_PHONE_TEACHER_DATA', data: values })
 
     // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     // for (const key in values) {
@@ -79,6 +79,7 @@ export const PhoneNumberSection = () => {
     });
 
     console.log(formData);*/
+    navigate('/admin/registro/registroprofesor/cargo')
 
     // createUser(dataUser);
   };
@@ -138,7 +139,7 @@ export const PhoneNumberSection = () => {
           {/* Botón para confirmar el formulario */}
           <Boton text="Confirmar" type="blue" />
 
-          <Link to={"/admin/registro/registroadmin/datosmedicos"} className="max-w-[400px] w-full">
+          <Link to={"/admin/registro/registroprofesor/datosmedicos"} className="max-w-[400px] w-full">
             <Boton text="Atras" type="blue" />
           </Link>
         </div>
