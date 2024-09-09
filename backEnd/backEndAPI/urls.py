@@ -9,8 +9,8 @@ urlpatterns = [
         
     path('api/v3/auth/', include('userAuth.urls')),
     path('api/v3/dropdowns/', include('dropdowns.urls')),
-    path('api/v3/usuarios/', include('users.routers'))
-    
+    path('api/v3/usuarios/', include('users.routers')),
+    path('api/v3/sql/', include('users.urls'))
 ] 
 
 urlpatterns += [

@@ -10,7 +10,7 @@ export default function TableStudents() {
 
   useEffect(()=>{
     const obtainData = async () =>{
-      const dataApi = await getAllUser('usuarios')
+      const dataApi = await getAllUser('sql/estudiantes/tabla')
       setDataStudents(dataApi.data)
     };
     obtainData()
@@ -39,7 +39,6 @@ export default function TableStudents() {
               <p>No°</p>
               <p>Nombre</p>
               <p>Diagnóstico</p>
-              <p>Datos</p>
               <p>Calificación</p>
             <p className="justify-self-center">Acción</p>
             </div>
@@ -51,10 +50,9 @@ export default function TableStudents() {
                 {/*Aqui se hace una conversion para añadir los ceros a la izquierda*/}
                 <p>{(data.idestudiante).toString().length == 2 ? data.idestudiante : `0${data.idestudiante}`}</p>
                 <Link to={`/datoestudiante/${data.idestudiante}`}>
-                  <p className="underline cursor-pointer" >{`${data.nombre}`}</p>
+                  <p className="underline cursor-pointer" >{`${data.nombre} ${data.apellido}`}</p>
                 </Link>
-                <p>{data.diagnosticoMental}</p>
-                <DataState state={data.datos} />
+                <p>{data.diagnostico}</p>
                 <DataState state={data.calificado} />
                 <div className="justify-self-center flex gap-3">
                   <i className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"></i>
