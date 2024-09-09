@@ -184,11 +184,11 @@ export const TeacherRegister = () => {
                 </div>
                 <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
                     {/* Botón para confirmar el formulario */}
-                    <Boton text="Confirmar" type="blue" />
-
                     <Link to={"/admin/registro/registroprofesor/telefonos"} className="max-w-[400px] w-full">
                         <Boton text="Atras" type="blue" />
                     </Link>
+                    <Boton text="Confirmar" type="blue" />
+
                 </div>
             </form>
         </>
