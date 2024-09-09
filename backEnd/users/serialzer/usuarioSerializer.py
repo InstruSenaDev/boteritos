@@ -8,7 +8,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = '__all__'
         #extra_kwargs = {'contrasena': {'write_only': True}} (LA CONTRASEÑA NO SEA ENVIADA)
-    
+            
     #Funcion que evitará que se cree un usuario con el mismo numero de documento
     def validarDocumento(self, value):
         user = Usuario.objects.filter(documento = value).count()

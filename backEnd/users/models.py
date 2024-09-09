@@ -260,6 +260,7 @@ class Usuario(models.Model):
     documento = models.TextField()
     estado = models.TextField()
     edad = models.TextField()
+    imagen = models.ImageField(upload_to='imagenes/', max_length=255)
     idrol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='idRol')  # Field name made lowercase.
     idsexo = models.ForeignKey(Sexo, models.DO_NOTHING, db_column='idSexo')  # Field name made lowercase.
     idtipodocumento = models.ForeignKey(Tipodocumento, models.DO_NOTHING, db_column='idTipoDocumento')  # Field name made lowercase.
