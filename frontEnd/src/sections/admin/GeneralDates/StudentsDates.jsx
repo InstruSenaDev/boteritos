@@ -18,7 +18,7 @@ import { Input } from "../../../components/forms/Input";
 
 const StudentsDates = () => {
   const [selectedSection, setSelectedSection] = useState(null);
-  const [sectionData, setSectionData] = useState(null);//para almacenar los datos de cada sección
+  const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { id } = useParams();
@@ -32,25 +32,48 @@ const StudentsDates = () => {
   const closeModal = () => {
     setModalOpen(false);
     setSelectedSection(null);
-    setSectionData(null)
+    setSectionData(null);
   };
 
-  const handleSave = () =>{
+  const handleSave = () => {
     const newData = {
       section: selectedSection,
       data: sectionData,
     };
-    console.log('Datos guardados', newData);
+    console.log("Datos guardados", newData);
     closeModal();
-  }
+  };
 
   const handleInputChange = (e, key) => {
+    
     setSectionData({
       ...sectionData,
       [key]: e.target.value,
     });
   };
 
+  const filterData = (data) => {
+    // Filtra los campos que contienen IDs (asumiendo que todos los IDs tienen 'id' en su nombre)
+    return Object.keys(data)
+      .filter((key) => !key.toLowerCase().includes("id"))
+      .reduce((obj, key) => {
+        obj[key] = data[key];
+        return obj;
+      }, {});
+  };
+
+  const formatLabel = (key) => {
+    // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
+    return key
+      .replace(/([A-Z])/g, " $1") // Agrega un espacio antes de cada mayúscula.
+      .replace(/^./, (str) => str.toUpperCase()); // Convierte la primera letra a mayúscula.
+  };
+
+  const isFieldEditable = (key) => {
+    // Determina si el campo es editable o no
+    const nonEditableKeys = ["tipoDeDocumento", "numeroDeDocumento"];
+    return !nonEditableKeys.includes(key);
+  };
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -121,7 +144,10 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Teléfonos */}
-        <GrupoDatos titulo={"Teléfonos"} update={() => update("Teléfonos", dataTelefono[0])}>
+        <GrupoDatos
+          titulo={"Teléfonos"}
+          update={() => update("Teléfonos", dataTelefono[0])}
+        >
           {dataTelefono.map((dataKey) => (
             <div
               key={dataKey.idTelefono}
@@ -148,7 +174,10 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Responsable */}
-        <GrupoDatos titulo={"Responsable"} update={() => update("Responsable", dataResponsable[0])}>
+        <GrupoDatos
+          titulo={"Responsable"}
+          update={() => update("Responsable", dataResponsable[0])}
+        >
           {dataResponsable.map((dataKey) => (
             <div
               key={dataKey.idResponsable}
@@ -326,20 +355,32 @@ const StudentsDates = () => {
         <Boton text="Confirmar" type="blue" />
       </div>
 
-      <UpdateModal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave}>
-        <h2>Editando sección: {selectedSection}</h2>
+      <UpdateModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={handleSave}
+      >
+        <h2 className="text-paragraph font-cocogooseLight">
+          Editando sección: {selectedSection}
+        </h2>
         {sectionData && (
           <div>
-            {Object.keys(sectionData).map((key) => (
-              <div key={key}>
-                <label className="block text-darkBlue">{key}:</label>
+            {Object.keys(filterData(sectionData)).map((key) => (
+              <div key={key} className="mb-4">
+                <label className="blocktext-paragraph font-cocogooseLight text-darkBlue">
+                  {formatLabel(key)}:
+                </label>
                 <input
                   type="text"
                   value={sectionData[key]}
-                  onChange={(e) => handleInputChange(e, key)}
-                  className="w-full p-2 border rounded"
+                  onChange={(e) =>
+                    isFieldEditable(key) && handleInputChange(e, key)
+                  }
+                  className={`p-2 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] focus:ring focus:selection focus:outline-none ${
+                    isFieldEditable(key) ? "" : "bg-gray-200 cursor-not-allowed"
+                  }`}
+                  disabled={!isFieldEditable(key)}
                 />
-
               </div>
             ))}
           </div>
