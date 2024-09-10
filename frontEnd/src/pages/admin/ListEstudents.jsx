@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { DataStudent } from "../../sections/admin/DataStudent";
 

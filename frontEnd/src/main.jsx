@@ -79,7 +79,7 @@ const router = createBrowserRouter([
       { path: "registro/registroestudiante/telefonos", element: <PhoneNumberStudent /> },
 
       { path: "listaestudiantes", element: <ListEstudiantes /> },
-      { path: "datoestudiante/:id", element: <DatosEstudiante /> },
+      { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
     ]
   },
   {
