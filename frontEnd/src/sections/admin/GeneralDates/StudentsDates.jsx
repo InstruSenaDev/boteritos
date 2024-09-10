@@ -14,22 +14,41 @@ import {
 } from "../../../helper/objects/dataStudentsArray";
 import { useParams } from "react-router-dom";
 import { UpdateModal } from "../../../components/modales/UpdateModal";
+import { Input } from "../../../components/forms/Input";
 
 const StudentsDates = () => {
   const [selectedSection, setSelectedSection] = useState(null);
-
+  const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { id } = useParams();
 
-  const update = (sectionId) => {
+  const update = (sectionId, data) => {
     console.log(id);
     setSelectedSection(sectionId);
+    setSectionData(data); //para establecer los datos de la sección
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
     setSelectedSection(null);
+    setSectionData(null);
+  };
+
+  const handleSave = () => {
+    const newData = {
+      section: selectedSection,
+      data: sectionData,
+    };
+    console.log("Datos guardados", newData);
+    closeModal();
+  };
+
+  const handleInputChange = (e, key) => {
+    setSectionData({
+      ...sectionData,
+      [key]: e.target.value,
+    });
   };
 
   return (
@@ -41,7 +60,7 @@ const StudentsDates = () => {
         {/* Datos Personales */}
         <GrupoDatos
           titulo={"Datos personales"}
-          update={() => update("datosPersonales")}
+          update={() => update("Datos personales", dataPersonal[0])}
         >
           {dataPersonal.map((dataKey) => (
             <div
@@ -101,7 +120,10 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Teléfonos */}
-        <GrupoDatos titulo={"Teléfonos"} update={() => update("telefonos")}>
+        <GrupoDatos
+          titulo={"Teléfonos"}
+          update={() => update("Telefonos", dataTelefono[0])}
+        >
           {dataTelefono.map((dataKey) => (
             <div
               key={dataKey.idTelefono}
@@ -128,7 +150,10 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Responsable */}
-        <GrupoDatos titulo={"Responsable"} update={() => update("responsable")}>
+        <GrupoDatos
+          titulo={"Responsable"}
+          update={() => update("Responsable", dataResponsable[0])}
+        >
           {dataResponsable.map((dataKey) => (
             <div
               key={dataKey.idResponsable}
@@ -205,7 +230,7 @@ const StudentsDates = () => {
         {/* Condición Médica */}
         <GrupoDatos
           titulo={"Condición Médica"}
-          update={() => update("condicionmedica")}
+          update={() => update("Condición medica", dataCondicionMedica[0])}
         >
           {dataCondicionMedica.map((dataKey) => (
             <div
@@ -259,7 +284,7 @@ const StudentsDates = () => {
         {/* Historia Clínica */}
         <DatosHistoria
           titulo={"Historia Clínica"}
-          update={() => update("historiaClinica")}
+          update={() => update("Historia clinica", dataHistoriaClinica[0])}
         >
           {dataHistoriaClinica.map((dataKey) => (
             <div
@@ -305,11 +330,29 @@ const StudentsDates = () => {
       <div className="w-full flex justify-center">
         <Boton text="Confirmar" type="blue" />
       </div>
-      <UpdateModal isOpen={isModalOpen} onClose={closeModal}>
+
+      <UpdateModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={handleSave}
+      >
         <h2>Editando sección: {selectedSection}</h2>
-        <div>
-          <input type="text" placeholder={`Editando ${selectedSection}`} />
-        </div>
+        {sectionData && (
+          <div>
+            {Object.keys(sectionData).map((key) => (
+              <div key={key}>
+                <Input
+                  texto={key}
+                  type={"text"}
+                  name={key}
+                  placeholder={sectionData[key] || ""}
+                  onChange={(e) => handleInputChange(e, key)}
+                  value={sectionData[key] || ""}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </UpdateModal>
     </div>
   );
