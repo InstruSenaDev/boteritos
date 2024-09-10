@@ -18,7 +18,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
             isExpanded ? "w-[300px]" : "w-[95px]"
           }`}
         >
-          <div className="bg-darkBlue px-5 h-[100px] w-full flex items-center mb-6 relative justify-center text-white">
+          <div className="bg-darkBlue px-5 h-[100px] w-full flex items-center mb-6 relative  text-white">
             <div className="w-[60px] min-w-[60px] h-[60px] rounded-full bg-white flex items-center justify-center">
               <img
                 src={img || ""}
@@ -50,6 +50,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
                 key={section.texto}
                 icon={section.icon}
                 text={section.texto}
+                link={section.link}
                 isExpanded={isExpanded}
               />
             ))}
@@ -57,6 +58,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
             <Elemento
               icon="fa-solid fa-arrow-right-from-bracket"
               text="Salir"
+              link={""}
               isExpanded={isExpanded}
             />
           </div>

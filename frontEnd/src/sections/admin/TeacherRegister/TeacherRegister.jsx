@@ -12,17 +12,20 @@ import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { caseProfesor } from "../../../helper/validators/case/profesor.js";
 
 export const TeacherRegister = () => {
-    const [, dispatch] = useRegFormContext();
+    const [state, dispatch] = useRegFormContext();
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        dispatch({type: 'CHANGE_PERCENT', data: 100})
-      }, [])
+    useEffect(() => {
+        dispatch({ type: 'CHANGE_PERCENT', data: 100 })
+    }, [])
 
     const [errors, setErrors] = useState({}); // Estado para los errores
+
+    const [file, setFile] = useState(null); // Estado para el archivo
 
     const [selectedRole, setSelectedRole] = useState("");
 
@@ -34,8 +37,8 @@ export const TeacherRegister = () => {
 
     const [values, setValues] = useState({
         titulo: "",
-        idArea: "N/A",
-        hojaDeVida: null,
+        hojaDeVida: "",
+        idarea: ""
     });
 
     //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
@@ -63,7 +66,7 @@ export const TeacherRegister = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
 
-        const error = validateField(name, value); // Validar el campo específico
+        const error = caseProfesor(name, value); // Validar el campo específico
 
         setErrors({
             ...errors,
@@ -83,11 +86,70 @@ export const TeacherRegister = () => {
         console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
     };
 
+    // Maneja cambios en el archivo seleccionado
+    const handleFileChange = (name, file) => {
+        setFile(file); // Guarda el archivo en el estado
+    };
 
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();
         dispatch({ type: 'SET_PROFESSION_DATA', data: values })
+
+        // Validar todos los campos antes de enviar
+        const newErrors = {};
+        for (const key in values) {
+            if (Object.hasOwn(values, key)) {
+                const error = caseProfesor(key, values[key]);
+                if (error) {
+                    newErrors[key] = error;
+                }
+            }
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
+        const data = {
+            commonTeacher: state.commonTeacher,
+            addressTeacher: state.addressTeacher,
+            datesTeacher: state.datesTeacher,
+            medicalTeacher: state.medicalTeacher,
+            phoneTeacher: state.phoneTeacher,
+            professionTeacher: values
+        }
+
+        const formData = new FormData();
+
+        // Añadir datos de cada sección al FormData
+        for (const [sectionKey, sectionValues] of Object.entries(data)) {
+            for (const [key, value] of Object.entries(sectionValues)) {
+                formData.append(`${sectionKey}.${key}`, value); // Usar el nombre de la sección como prefijo
+            }
+        }
+
+        // Añadir archivo (si existe)
+        if (file) {
+            formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
+        }
+
+        // Construir un objeto para agrupar los datos por secciones
+        const groupedData = {};
+
+        for (let [key, value] of formData.entries()) {
+            const [section, field] = key.split('.'); // Separar la sección y la llave
+            if (!groupedData[section]) {
+                groupedData[section] = {}; // Inicializar la sección si no existe
+            }
+            groupedData[section][field] = value; // Añadir los valores a la sección correspondiente
+        }
+
+        // Imprimir el objeto agrupado
+        console.log(groupedData); //No afecta al formData real, solo es para ver como se está estructurando
+
+        // Mostrar todos los datos almacenados
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
         // for (const key in values) {
@@ -120,7 +182,7 @@ export const TeacherRegister = () => {
         });
     
         console.log(formData);*/
-        
+
 
         // createUser(dataUser);
     };
@@ -165,7 +227,7 @@ export const TeacherRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.titulo}
-                    //error={errors.nombre}
+                        error={errors.titulo}
                     />
                     <Dropdown
                         name={"idarea"}
@@ -174,7 +236,7 @@ export const TeacherRegister = () => {
                         data={dataDropdown.dropdownArea}
                         onChange={(value) => handleDropdownChange("idarea", value)}
                         placeholder={"Selecciona un area"}
-                    //error={errors.idarea}
+                        error={errors.idarea}
                     />
                     <UploadFile
                         title={"Hoja de vida"}

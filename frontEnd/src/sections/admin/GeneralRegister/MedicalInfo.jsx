@@ -5,6 +5,7 @@ import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
+import { caseCondicionMedica } from "../../../helper/validators/case/condicionMedica.js";
 
 export const MedicalInfoSection = () => {
   const [state, dispatch] = useRegFormContext();
@@ -22,7 +23,7 @@ export const MedicalInfoSection = () => {
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
-    altura: "",
+    estatura: "",
     //hojaDeVida: null,
   });
 
@@ -30,7 +31,7 @@ export const MedicalInfoSection = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    const error = validateField(name, value); // Validar el campo específico
+    const error = caseCondicionMedica(name, value); // Validar el campo específico
 
     setErrors({
       ...errors,
@@ -48,27 +49,27 @@ export const MedicalInfoSection = () => {
     event.preventDefault();
     dispatch({ type: 'SET_MEDICAL_DATA', data: values })
 
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // for (const key in values) {
-    //   if (Object.hasOwn(values, key)) {
-    //     const error = validateField(key, values[key]);
-    //     if (error) {
-    //       newErrors[key] = error;
-    //     }
-    //   }
-    // }
+    // Validar todos los campos antes de enviar
+    const newErrors = {};
+    for (const key in values) {
+        if (Object.hasOwn(values, key)) {
+            const error = caseCondicionMedica(key, values[key]);
+            if (error) {
+                newErrors[key] = error;
+            }
+        }
+    }
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   // Si hay errores, no enviar el formulario
-    //   setErrors(newErrors);
-    //   return;
-    // }
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+    }
 
     const dataUser = {
       ...values,
       lugaratencion: values.lugaratencion.trim(),
       peso: values.peso.trim(),
-      altura: values.altura.trim(),
+      estatura: values.estatura.trim(),
     };
     console.log(dataUser);
 
@@ -126,7 +127,7 @@ export const MedicalInfoSection = () => {
             tipo={"text"}
             onChange={handleInputChange}
             value={values.lugaratencion}
-          //error={errors.barrio}
+            error={errors.lugaratencion}
           />
           <Input
             name={"peso"}
@@ -135,16 +136,16 @@ export const MedicalInfoSection = () => {
             tipo={"text"}
             onChange={handleInputChange}
             value={values.peso}
-          //error={errors.numero}
+            error={errors.peso}
           />
           <Input
-            name={"altura"}
-            texto={"Altura"}
-            placeholder={"Altura del usuario"}
+            name={"estatura"}
+            texto={"Estatura"}
+            placeholder={"Estatura del usuario"}
             tipo={"number"}
             onChange={handleInputChange}
-            value={values.altura}
-          //error={errors.comuna}
+            value={values.estatura}
+            error={errors.estatura}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

@@ -5,9 +5,10 @@ import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
+import { caseTelefono } from "../../../helper/validators/case/telefono.js";
 
 export const PhoneNumberSection = () => {
-  const [, dispatch] = useRegFormContext();
+  const [state, dispatch] = useRegFormContext();
 
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ export const PhoneNumberSection = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    const error = validateField(name, value); // Validar el campo específico
+    const error = caseTelefono(name, value); // Validar el campo específico
 
     setErrors({
       ...errors,
@@ -47,21 +48,22 @@ export const PhoneNumberSection = () => {
     event.preventDefault();
     dispatch({ type: 'SET_PHONE_TEACHER_DATA', data: values })
 
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // for (const key in values) {
-    //   if (Object.hasOwn(values, key)) {
-    //     const error = validateField(key, values[key]);
-    //     if (error) {
-    //       newErrors[key] = error;
-    //     }
-    //   }
-    // }
+    // Validar todos los campos antes de enviar
+    const newErrors = {};
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = caseTelefono(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   // Si hay errores, no enviar el formulario
-    //   setErrors(newErrors);
-    //   return;
-    // }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
 
     const dataUser = {
       ...values,
@@ -123,7 +125,7 @@ export const PhoneNumberSection = () => {
             tipo={"text"}
             onChange={handleInputChange}
             value={values.telefono1}
-          //error={errors.barrio}
+            error={errors.telefono1}
           />
           <Input
             name={"telefono2"}
@@ -132,7 +134,7 @@ export const PhoneNumberSection = () => {
             tipo={"text"}
             onChange={handleInputChange}
             value={values.telefono2}
-          //error={errors.numero}
+            error={errors.telefono2}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

@@ -1,11 +1,13 @@
 
-import {LayoutGeneral} from "../../layouts/LayoutGeneral.jsx";
+import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 
-export const Registro = () => {
+const Index = () => {
     return (
-<LayoutGeneral>
-    <p>VISTA ESTUDIANTEEEEEEEEEEEEEEEEEEEE</p>
-    <p>T</p>
-</LayoutGeneral>
+        <LayoutGeneral titleHeader={"Estudiante"}>
+            <div className='flex justify-center'>
+                <p className='font-cocogooseSemiLight text-darkBlue text-title'>¡Bienvenido estudiante!</p>
+            </div>
+        </LayoutGeneral>
     )
 }
+export default Index;

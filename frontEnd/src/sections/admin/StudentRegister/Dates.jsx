@@ -7,10 +7,11 @@ import { format } from "date-fns";
 import { validateField } from "../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { caseEstudiante } from "../../../helper/validators/case/estudiante.js";
 
 
 export const DatesSection = () => {
-  const [, dispatch] = useRegFormContext();
+  const [state, dispatch] = useRegFormContext();
 
   useEffect(() => {
     dispatch({ type: 'CHANGE_PERCENT', data: 67 })
@@ -23,8 +24,8 @@ export const DatesSection = () => {
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [values, setValues] = useState({
-    fechaingreso: "2000-01-01",
-    fechanacimiento: "",
+    fechaingreso: "",
+    fechanacimiento: "2000-01-01",
     //hojaDeVida: null,
   });
 
@@ -33,21 +34,21 @@ export const DatesSection = () => {
     event.preventDefault();
     dispatch({ type: 'SET_DATE_STUDENT_DATA', data: values })
 
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // for (const key in values) {
-    //   if (Object.hasOwn(values, key)) {
-    //     const error = validateField(key, values[key]);
-    //     if (error) {
-    //       newErrors[key] = error;
-    //     }
-    //   }
-    // }
+    // Validar todos los campos antes de enviar
+    const newErrors = {};
+    for (const key in values) {
+        if (Object.hasOwn(values, key)) {
+            const error = caseEstudiante(key, values[key]);
+            if (error) {
+                newErrors[key] = error;
+            }
+        }
+    }
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   // Si hay errores, no enviar el formulario
-    //   setErrors(newErrors);
-    //   return;
-    // }
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+    }
 
     const dataUser = {
       ...values,
@@ -77,7 +78,8 @@ export const DatesSection = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    const error = validateField(values.idrol, name, value); // Validar el campo específico
+    // Validar el campo específico
+    const error = caseEstudiante(name, value);
 
     setErrors({
       ...errors,
@@ -104,15 +106,6 @@ export const DatesSection = () => {
 
     //Se presentaron errores (API):
     const dataError = await response.data.error;
-
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
   };
 
   return (
@@ -127,14 +120,14 @@ export const DatesSection = () => {
             texto={"Fecha de nacimiento"}
             value={values.fechanacimiento}
             onChange={handleInputChange}
-          // error={errors.fechanacimiento}
+            error={errors.fechanacimiento}
           />
           <DatePicker2
             name={"fechaingreso"}
             texto={"Fecha de ingreso"}
             value={values.fechaingreso}
             onChange={handleInputChange}
-          // error={errors.fechaingreso}
+            error={errors.fechaingreso}
           />
         </div>
 

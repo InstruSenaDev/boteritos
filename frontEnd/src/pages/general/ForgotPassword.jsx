@@ -4,7 +4,7 @@ import {Input} from "../../components/forms/Input.jsx";
 import {ForgotLayout} from "../../layouts/ForgotLayout.jsx";
 import {ShowPassword} from "../../components/forms/ShowPassword";
 
-export const ForgotPassword = () =>{
+const ForgotPassword = () =>{
   return(
 <ForgotLayout title="¿Olvidó su contraseña?" titulo="Recuperar contraseña">
   <Input
@@ -34,3 +34,5 @@ export const ForgotPassword = () =>{
 </ForgotLayout>
   )
 }
+
+export default ForgotPassword;
