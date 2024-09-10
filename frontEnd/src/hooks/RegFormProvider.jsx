@@ -10,11 +10,19 @@ export const useRegFormContext = () => {
 
 // Estado inicial
 const initialState = {
+    //ADMIN
     dataCommon: {},
     dataAddress: {},
     dataDates: {},
     dataPhone: {},
     dataMedical: {},
+    //ESTUDIANTE
+    commonStudent: {},
+    addressStudent: {},
+    datesStudent: {},
+    phoneStudent: {},
+    medicalStudent: {},
+    
     percent: 0 //progress bar
 };
 
@@ -54,19 +62,19 @@ const reducer = (state, action) => {
         }
         //ESTUDIANTE
         case 'SET_STUDENT_DATA': {
-            return { ...state, common: { ...action.data } };
+            return { ...state, commonStudent: { ...action.data } };
         }
         case 'SET_DATE_STUDENT_DATA': {
-            return { ...state, date: { ...action.data } };
+            return { ...state, datesStudent: { ...action.data } };
         }
         case 'SET_ADDRESS_STUDENT_DATA': {
-            return { ...state, address: { ...action.data } };
+            return { ...state, addressStudent: { ...action.data } };
         }
         case 'SET_MEDICAL_STUDENT_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, medicalStudent: action.data };
         }
         case 'SET_PHONE_STUDENT_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, phoneStudent: action.data };
         }
 
         // PROGRESS BAR
