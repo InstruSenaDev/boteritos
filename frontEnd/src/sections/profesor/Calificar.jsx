@@ -1,5 +1,5 @@
 import { Boton } from "../../components/forms/Boton";
-import TableCalificarEstudiante from "../../components/tables/tableCalificarEstudiante";
+import TableCalificarEstudiante from "../../components/tables/TableCalificarEstudiante";
 import HeaderData from "../../components/tables/headerData/HeaderData";
 import { Observacion } from "../../components/forms/Observacion";
 import { useState } from "react";

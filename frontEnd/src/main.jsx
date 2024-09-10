@@ -10,6 +10,7 @@ import Loading from "./components/loaders/loading.jsx";
 //ADMINISTRADOR
 const Admin = lazy(() => import("./pages/admin/AdminRegister/AdminRegister.jsx"));
 const FormLogin = lazy(() => import("./sections/FormLogin.jsx"));
+const Trimestres = lazy (()=> import("./pages/admin/Trimestres.jsx"))
 //REGISTRO DE ADMINISTRADORES
 const Registro = lazy(() => import("./pages/admin/Registro.jsx"));
 const Addres = lazy(() => import("./pages/admin/AdminRegister/Addres.jsx"));
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
 
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
+      { path: "crearTrimestres", element: <Trimestres/>},
     ]
   },
   {
