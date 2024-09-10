@@ -10,6 +10,7 @@ const Calificar = () => {
 
     )
 }
+export default Calificar;
 
 export default Calificar;
 

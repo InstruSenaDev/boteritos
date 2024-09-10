@@ -11,4 +11,5 @@ const CrearLogros = () => {
     </LayoutGeneral>
   );
 };
+
 export default CrearLogros;
