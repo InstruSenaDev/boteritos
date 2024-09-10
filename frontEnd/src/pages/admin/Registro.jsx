@@ -1,6 +1,8 @@
 import React from 'react';
 import { RegisterOption } from '../../components/buttons/RegisterOption';
 import { LayoutGeneral } from '../../layouts/LayoutGeneral';
+import { Link } from 'react-router-dom';
+import { MedicalInfoSection } from '../../sections/admin/GeneralRegister/MedicalInfo';
 
 
 const Registro = () => {
