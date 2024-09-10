@@ -10,6 +10,13 @@ import Loading from "./components/loaders/loading.jsx";
 //ADMINISTRADOR
 const Admin = lazy(() => import("./pages/admin/AdminRegister/AdminRegister.jsx"));
 const FormLogin = lazy(() => import("./sections/FormLogin.jsx"));
+const DatosEstudiante = lazy(() => import("./pages/admin/DatosEstudiante.jsx"));
+const ListEstudiantes = lazy(() => import("./pages/admin/ListEstudents.jsx"));
+const AdminMain = lazy(() => import("./pages/admin/AdminMain.jsx"));
+//GENERAL
+const Perfil = lazy(() => import("./pages/general/Profile.jsx"));
+const PasswordHelp = lazy(() => import("./pages/general/PasswordHelp.jsx"));
+const ForgotPassword = lazy(() => import("./pages/general/ForgotPassword.jsx"));
 //REGISTRO DE ADMINISTRADORES
 const Registro = lazy(() => import("./pages/admin/Registro.jsx"));
 const Addres = lazy(() => import("./pages/admin/AdminRegister/Addres.jsx"));
@@ -23,20 +30,20 @@ const AddressTeacher = lazy(() => import("./pages/admin/TeacherRegister/Addres.j
 const DatesTeacher = lazy(() => import("./pages/admin/TeacherRegister/Dates.jsx"));
 const MedicalInfoTeacher = lazy(() => import("./pages/admin/TeacherRegister/MedicalInfo.jsx"));
 const PhoneNumberTeacher = lazy(() => import("./pages/admin/TeacherRegister/PhoneNumber.jsx"));
-
-const DatosEstudiante = lazy(() => import("./pages/admin/DatosEstudiante.jsx"));
-const ListEstudiantes = lazy(() => import("./pages/admin/ListEstudents.jsx"));
-const AdminMain = lazy(() => import("./pages/admin/AdminMain.jsx"));
-//PROFESOR
-const Calificar = lazy(() => import("./pages/profesor/Calificar.jsx"));
-const CrearLogros = lazy(() => import("./pages/profesor/CrearLogros.jsx"));
-const ListEstudents = lazy(() => import("./pages/profesor/ListStudents.jsx"));
-//ESTUDIANTE
+//REGISTRO DE ESTUDIANTE
 const StudentRegister = lazy(() => import("./pages/admin/StudenRegister/StudentRegister.jsx"));
 const AddressStudent = lazy(() => import("./pages/admin/StudenRegister/Addres.jsx"));
 const DatesStudent = lazy(() => import("./pages/admin/StudenRegister/Dates.jsx"));
 const MedicalInfoStudent = lazy(() => import("./pages/admin/StudenRegister/MedicalInfo.jsx"));
 const PhoneNumberStudent = lazy(() => import("./pages/admin/StudenRegister/PhoneNumber.jsx"));
+//PROFESOR
+const Calificar = lazy(() => import("./pages/profesor/Calificar.jsx"));
+const CrearLogros = lazy(() => import("./pages/profesor/CrearLogros.jsx"));
+const ListEstudents = lazy(() => import("./pages/profesor/ListStudents.jsx"));
+const TeacherMain = lazy(() => import("./pages/profesor/index.jsx"));
+//ESTUDIANTE
+const StudentMain = lazy(() => import("./pages/estudiante/index.jsx"));
+
 
 const router = createBrowserRouter([
   {
@@ -51,7 +58,12 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <AdminMain /> },
+      { path: "perfil", element: <Perfil/>},
+      { path: "ayudacontrasena", element: <PasswordHelp/>},
+      { path: "recuperarcontrasena", element: <ForgotPassword/> },
       { path: "registro", element: <Registro /> },
+      { path: "listaestudiantes", element: <ListEstudiantes /> },
+      { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
       {
         path: "registro",
         element: <RegFormLayout />,
@@ -78,20 +90,31 @@ const router = createBrowserRouter([
         ],
       },
 
-      { path: "listaestudiantes", element: <ListEstudiantes /> },
-      { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
     ]
   },
   {
     path: "profesor",
     element: <App />,
     children: [
-      { path: '', element: "" },
+      { path: '', element: <TeacherMain/> },
       { path: "calificarestudiante", element: <Calificar /> },
       { path: "crearlogro", element: <CrearLogros /> },
       { path: "listaestudiantes", element: <ListEstudents /> },
+      { path: "perfil", element: <Perfil /> },
+      { path: "ayudacontrasena", element: <PasswordHelp/>},
+      { path: "recuperarcontrasena", element: <ForgotPassword/> },
     ]
   },
+  {
+    path: "estudiante",
+    element: <App />,
+    children: [
+      { path: '', element: <StudentMain/> },
+      { path: "perfil", element: <Perfil/>},
+      { path: "ayudacontrasena", element: <PasswordHelp/>},
+      { path: "recuperarcontrasena", element: <ForgotPassword/> },
+    ]
+  }
 
 ]);
 

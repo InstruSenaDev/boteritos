@@ -1,10 +1,13 @@
+import React from "react";
+import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 
-import LayoutGeneral from "../../layouts/LayoutGeneral.jsx";
-
-export const Index = () => {
+const Index = () => {
     return (
-<LayoutGeneral>
-    <h1>HOLAAAAAAAAAAAAAAAA INICIO DEL PROFESOR</h1>
-</LayoutGeneral>
+        <LayoutGeneral titleHeader={"Profesor"}>
+            <div className='flex justify-center'>
+                <p className='font-cocogooseSemiLight text-darkBlue text-title'>¡Bienvenido profesor!</p>
+            </div>
+        </LayoutGeneral>
     )
 }
+export default Index;

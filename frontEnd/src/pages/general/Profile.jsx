@@ -2,7 +2,7 @@ import React from "react";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { Info } from "../../components/profile/Info";
 
-export const Profile = () => {
+const Profile = () => {
   return (
     <LayoutGeneral titleHeader="Perfil">
       <div className="px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl">
@@ -68,3 +68,4 @@ export const Profile = () => {
     </LayoutGeneral>
   );
 };
+export default Profile;

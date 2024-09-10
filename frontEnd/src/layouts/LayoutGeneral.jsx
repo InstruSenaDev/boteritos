@@ -3,13 +3,16 @@ import { Layout } from "./Layout";
 import { sidebarsection } from "../helper/objects/sidebarElementsArray";
 import { Header } from "../components/header/Header";
 import React, { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export const LayoutGeneral = ({ titleHeader, children }) => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false); // Estado de expansión de la sidebar
 
-  // Obtener el rol del usuario desde el localStorage y parsearlo
-  const user = JSON.parse(localStorage.getItem("dataUser"));
-  const rol = user?.idrol;
+  
+  // Obtener el token del localStorage y decodificarlo para extraer el rol
+  const access_token = JSON.parse(localStorage.getItem('access_token'));
+  const decodedToken = jwtDecode(access_token);
+  const rol = decodedToken.rol;
   
   // Seleccionar la sección del sidebar que corresponde al rol
   const selectedSection = sidebarsection[rol] || [];
@@ -18,7 +21,7 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
     <Layout>
       {/* Sidebar */}
       <Sidebar
-        name={user?.nombre || "Usuario"}
+        name={decodedToken.nombre || "Usuario"}
         rol={
           rol === 1 ? "Administrador" : rol === 2 ? "Profesor" : "Estudiante"
         }
