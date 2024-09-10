@@ -14,7 +14,7 @@ const DatosEstudiante = () => {
   return (
       <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
         <div className="w-full space-y-2 grid gap-10">
-          <HeaderData/>
+          <HeaderData id={id} />
           <GrupoDatoElemento/>
           <div className="w-full h-0 border-darkBlue border-2"></div>
           <div className="space-y-7">
