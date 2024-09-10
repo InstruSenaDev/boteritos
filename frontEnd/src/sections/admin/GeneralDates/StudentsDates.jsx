@@ -69,11 +69,7 @@ const StudentsDates = () => {
       .replace(/^./, (str) => str.toUpperCase()); // Convierte la primera letra a mayúscula.
   };
 
-  const isFieldEditable = (key) => {
-    // Determina si el campo es editable o no
-    const nonEditableKeys = ["tipoDeDocumento", "numeroDeDocumento"];
-    return !nonEditableKeys.includes(key);
-  };
+
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -351,9 +347,6 @@ const StudentsDates = () => {
           ))}
         </DatosHistoria>
       </div>
-      <div className="w-full flex justify-center">
-        <Boton text="Confirmar" type="blue" />
-      </div>
 
       <UpdateModal
         isOpen={isModalOpen}
@@ -374,12 +367,9 @@ const StudentsDates = () => {
                   type="text"
                   value={sectionData[key]}
                   onChange={(e) =>
-                    isFieldEditable(key) && handleInputChange(e, key)
+                   handleInputChange(e, key)
                   }
-                  className={`p-2 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] focus:ring focus:selection focus:outline-none ${
-                    isFieldEditable(key) ? "" : "bg-gray-200 cursor-not-allowed"
-                  }`}
-                  disabled={!isFieldEditable(key)}
+                  className="p-2 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] focus:ring focus:selection focus:outline-none"
                 />
               </div>
             ))}

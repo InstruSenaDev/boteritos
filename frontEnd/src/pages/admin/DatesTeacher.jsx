@@ -5,7 +5,7 @@ import {DatosHistoria} from "../../components/datosEstudiante/DatosHistoria";
 import { Boton } from "../../components/forms/Boton";
 import { HeaderData } from "../../components/tables/headerData/HeaderData.jsx";
 import {GrupoDatoElemento} from "../../components/datosEstudiante/GrupoDatoElemento";
-import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
+import { dataPersonal, dataTelefono, dataHistoriaClinica } from "../../helper/objects/dataStudentsArray";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 import { useParams } from "react-router-dom";
 
