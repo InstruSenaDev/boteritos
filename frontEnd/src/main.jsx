@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter } from "react-router-dom";
+import RegFormLayout from "./hooks/ContextLayout.jsx";
 
 import "./index.css";
 import App from "./App.jsx";
@@ -48,28 +49,34 @@ const router = createBrowserRouter([
   {
     path: "admin",
     element: <App />,
-    children : [
-      {path : '' , element :<AdminMain />},
+    children: [
+      { path: '', element: <AdminMain /> },
       { path: "registro", element: <Registro /> },
-      //RUTAS REGISTRO DE ADMIN
-      { path: "registro/registroadmin", element: <Admin /> },
-      { path: "registro/registroadmin/direcciones", element: <Addres /> },
-      { path: "registro/registroadmin/fechas", element: <Dates /> },
-      { path: "registro/registroadmin/datosmedicos", element: <MedicalInfo /> },
-      { path: "registro/registroadmin/telefonos", element: <PhoneNumber/> },
+      {
+        path: "registro",
+        element: <RegFormLayout />,
+        children: [
+          //RUTAS REGISTRO DE ADMIN
+          { path: "registroadmin", element: <Admin /> },
+          { path: "registroadmin/direcciones", element: <Addres /> },
+          { path: "registroadmin/fechas", element: <Dates /> },
+          { path: "registroadmin/datosmedicos", element: <MedicalInfo /> },
+          { path: "registroadmin/telefonos", element: <PhoneNumber /> },
+        ],
+      },
       //RUTAS REGISTRO DE PROFESOR
-      { path: "registro/registroprofesor", element: <TeacherRegister/> },
-      { path: "registro/registroprofesor/direcciones", element:<AddressTeacher />},
-      { path: "registro/registroprofesor/fechas", element: <DatesTeacher/> },
-      { path: "registro/registroprofesor/datosmedicos", element: <MedicalInfoTeacher/> },
-      { path: "registro/registroprofesor/telefonos", element: <PhoneNumberTeacher/> },
-      { path: "registro/registroprofesor/cargo", element: <ProfessionTeacher/> },
+      { path: "registro/registroprofesor", element: <TeacherRegister /> },
+      { path: "registro/registroprofesor/direcciones", element: <AddressTeacher /> },
+      { path: "registro/registroprofesor/fechas", element: <DatesTeacher /> },
+      { path: "registro/registroprofesor/datosmedicos", element: <MedicalInfoTeacher /> },
+      { path: "registro/registroprofesor/telefonos", element: <PhoneNumberTeacher /> },
+      { path: "registro/registroprofesor/cargo", element: <ProfessionTeacher /> },
       //RUTAS REGISTRO DE ESTUDIANTE
-      { path: "registro/registroestudiante", element: <StudentRegister/>},
-      { path: "registro/registroestudiante/direcciones", element: <AddressStudent/>},
-      { path: "registro/registroestudiante/fechas", element: <DatesStudent/>},
-      { path: "registro/registroestudiante/datosmedicos", element: <MedicalInfoStudent/>},
-      { path: "registro/registroestudiante/telefonos", element: <PhoneNumberStudent/>},
+      { path: "registro/registroestudiante", element: <StudentRegister /> },
+      { path: "registro/registroestudiante/direcciones", element: <AddressStudent /> },
+      { path: "registro/registroestudiante/fechas", element: <DatesStudent /> },
+      { path: "registro/registroestudiante/datosmedicos", element: <MedicalInfoStudent /> },
+      { path: "registro/registroestudiante/telefonos", element: <PhoneNumberStudent /> },
 
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       { path: "datoestudiante/:id", element: <DatosEstudiante /> },
@@ -78,14 +85,14 @@ const router = createBrowserRouter([
   {
     path: "profesor",
     element: <App />,
-    children : [
-      {path : '' , element :""},
+    children: [
+      { path: '', element: "" },
       { path: "calificarestudiante", element: <Calificar /> },
       { path: "crearlogro", element: <CrearLogros /> },
       { path: "listaestudiantes", element: <ListEstudents /> },
     ]
   },
-  
+
 ]);
 
 createRoot(document.getElementById("root")).render(

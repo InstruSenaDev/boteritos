@@ -10,7 +10,7 @@ import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 
 export const DatesSection = () => {
-  const [, dispatch] = useRegFormContext();
+  const [state, dispatch] = useRegFormContext();
 
   useEffect(() => {
     dispatch({ type: 'CHANGE_PERCENT', data: 67 })
@@ -143,7 +143,7 @@ export const DatesSection = () => {
           <Link to={"/admin/registro/registroadmin/direcciones"} className="max-w-[400px] w-full">
             <Boton text="Atras" type="blue" />
           </Link>
-          <Boton text="Confirmar" type="blue" />
+          <Boton text="Siguiente" type="blue" />
 
         </div>
       </form>

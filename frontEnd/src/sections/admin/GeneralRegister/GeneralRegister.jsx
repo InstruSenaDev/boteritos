@@ -13,7 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 export const GeneralRegister = () => {
-    const [, dispatch] = useRegFormContext();
+    const [state, dispatch] = useRegFormContext();
 
     const navigate = useNavigate();
 
@@ -249,7 +249,7 @@ export const GeneralRegister = () => {
                     <Link to={"/admin/registro"} className="max-w-[400px] w-full">
                         <Boton text="Atras" type="blue" />
                     </Link>
-                    <Boton text="Confirmar" type="blue" />
+                    <Boton text="Siguiente" type="blue" />
 
                 </div>
             </form>
