@@ -13,7 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 export const GeneralRegisterStudent = () => {
-    const [, dispatch] = useRegFormContext();
+    const [state, dispatch] = useRegFormContext();
     
     const navigate = useNavigate();
 

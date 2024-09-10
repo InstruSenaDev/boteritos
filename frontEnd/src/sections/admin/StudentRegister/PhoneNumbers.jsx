@@ -7,7 +7,7 @@ import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
 export const PhoneNumberSection = () => {
-  const [, dispatch] = useRegFormContext();
+  const [state, dispatch] = useRegFormContext();
 
   const navigate = useNavigate();
 
@@ -46,6 +46,17 @@ export const PhoneNumberSection = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     dispatch({ type: 'SET_PHONE_STUDENT_DATA', data: values })
+
+    const data = {
+      commonStudent: state.commonStudent,
+      addressStudent: state.addressStudent,
+      datesStudent: state.datesStudent,
+      medicalStudent: state.medicalStudent,
+      phoneStudent: values
+    }
+
+    // Mostrar todos los datos almacenados
+    console.log(data);
 
     // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
     // for (const key in values) {

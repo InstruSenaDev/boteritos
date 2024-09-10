@@ -14,7 +14,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 export const TeacherRegister = () => {
-    const [, dispatch] = useRegFormContext();
+    const [state, dispatch] = useRegFormContext();
 
     const navigate = useNavigate();
 
@@ -34,7 +34,6 @@ export const TeacherRegister = () => {
 
     const [values, setValues] = useState({
         titulo: "",
-        idArea: "N/A",
         hojaDeVida: null,
     });
 
@@ -88,6 +87,18 @@ export const TeacherRegister = () => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         dispatch({ type: 'SET_PROFESSION_DATA', data: values })
+
+        const data = {
+            commonTeacher: state.commonTeacher,
+            addressTeacher: state.addressTeacher,
+            datesTeacher: state.datesTeacher,
+            medicalTeacher: state.medicalTeacher,
+            phoneTeacher: state.phoneTeacher,
+            professionTeacher: values
+          }
+      
+          // Mostrar todos los datos almacenados
+          console.log(data);
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
         // for (const key in values) {

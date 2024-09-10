@@ -10,7 +10,7 @@ import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
 
 
 export const DatesSection = () => {
-  const [, dispatch] = useRegFormContext();
+  const [state, dispatch] = useRegFormContext();
 
   useEffect(() => {
     dispatch({ type: 'CHANGE_PERCENT', data: 60 })
