@@ -57,17 +57,17 @@ export const GrupoDatoElemento = () => {
     }
 
     // Convertir idtipodocumento e idparentesco a enteros si existen
-  if (trimmedValues.idtipodocumento) {
-    trimmedValues.idtipodocumento = parseInt(trimmedValues.idtipodocumento);
-  }
+    if (trimmedValues.idtipodocumento) {
+      trimmedValues.idtipodocumento = parseInt(trimmedValues.idtipodocumento);
+    }
 
-  if (trimmedValues.idtipoparentesco) {
-    trimmedValues.idtipoparentesco = parseInt(trimmedValues.idtipoparentesco);
-  }
+    if (trimmedValues.idtipoparentesco) {
+      trimmedValues.idtipoparentesco = parseInt(trimmedValues.idtipoparentesco);
+    }
 
-  if (trimmedValues.idsexo) {
-    trimmedValues.idsexo = parseInt(trimmedValues.idsexo);
-  }
+    if (trimmedValues.idsexo) {
+      trimmedValues.idsexo = parseInt(trimmedValues.idsexo);
+    }
 
     // Si no hay campos vacíos, continuar con el proceso
     // setValues(trimmedValues);
@@ -106,7 +106,6 @@ export const GrupoDatoElemento = () => {
     // }
   };
 
-
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
@@ -115,17 +114,19 @@ export const GrupoDatoElemento = () => {
       // Agrega el ID del estudiante al nuevo campo idestudiante en responsable
       initialValues.idestudiante = parseInt(id);
       // Convertir idparentesco e idtipodocumento a enteros si existen
-    if (initialValues.idtipoparentesco) {
-      initialValues.idtipoparentesco = parseInt(initialValues.idtipoparentesco);
-    }
+      if (initialValues.idtipoparentesco) {
+        initialValues.idtipoparentesco = parseInt(
+          initialValues.idtipoparentesco
+        );
+      }
 
-    if (initialValues.idtipodocumento) {
-      initialValues.idtipodocumento = parseInt(initialValues.idtipodocumento);
-    }
+      if (initialValues.idtipodocumento) {
+        initialValues.idtipodocumento = parseInt(initialValues.idtipodocumento);
+      }
 
-    if (initialValues.idsexo) {
-      initialValues.idsexo = parseInt(initialValues.idsexo);
-    }
+      if (initialValues.idsexo) {
+        initialValues.idsexo = parseInt(initialValues.idsexo);
+      }
 
       console.log("ID estudiante:", initialValues.idestudiante);
     }
@@ -138,7 +139,7 @@ export const GrupoDatoElemento = () => {
 
     setIsOpen(true);
 
-    setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
+    setIsConfirm(false);
   };
 
   useEffect(() => {
@@ -153,7 +154,6 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
   };
 
-  
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
