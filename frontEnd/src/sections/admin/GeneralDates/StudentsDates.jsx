@@ -18,7 +18,7 @@ import { Input } from "../../../components/forms/Input";
 
 const StudentsDates = () => {
   const [selectedSection, setSelectedSection] = useState(null);
-  const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
+  const [sectionData, setSectionData] = useState(null);//para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
 
   const { id } = useParams();
@@ -32,17 +32,17 @@ const StudentsDates = () => {
   const closeModal = () => {
     setModalOpen(false);
     setSelectedSection(null);
-    setSectionData(null);
+    setSectionData(null)
   };
 
-  const handleSave = () => {
+  const handleSave = () =>{
     const newData = {
       section: selectedSection,
       data: sectionData,
     };
-    console.log("Datos guardados", newData);
+    console.log('Datos guardados', newData);
     closeModal();
-  };
+  }
 
   const handleInputChange = (e, key) => {
     setSectionData({
@@ -50,6 +50,7 @@ const StudentsDates = () => {
       [key]: e.target.value,
     });
   };
+
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -120,10 +121,7 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Teléfonos */}
-        <GrupoDatos
-          titulo={"Teléfonos"}
-          update={() => update("Telefonos", dataTelefono[0])}
-        >
+        <GrupoDatos titulo={"Teléfonos"} update={() => update("Teléfonos", dataTelefono[0])}>
           {dataTelefono.map((dataKey) => (
             <div
               key={dataKey.idTelefono}
@@ -150,10 +148,7 @@ const StudentsDates = () => {
         </GrupoDatos>
 
         {/* Responsable */}
-        <GrupoDatos
-          titulo={"Responsable"}
-          update={() => update("Responsable", dataResponsable[0])}
-        >
+        <GrupoDatos titulo={"Responsable"} update={() => update("Responsable", dataResponsable[0])}>
           {dataResponsable.map((dataKey) => (
             <div
               key={dataKey.idResponsable}
@@ -230,7 +225,7 @@ const StudentsDates = () => {
         {/* Condición Médica */}
         <GrupoDatos
           titulo={"Condición Médica"}
-          update={() => update("Condición medica", dataCondicionMedica[0])}
+          update={() => update("condición medica", dataCondicionMedica[0])}
         >
           {dataCondicionMedica.map((dataKey) => (
             <div
@@ -331,24 +326,20 @@ const StudentsDates = () => {
         <Boton text="Confirmar" type="blue" />
       </div>
 
-      <UpdateModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSave}
-      >
+      <UpdateModal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave}>
         <h2>Editando sección: {selectedSection}</h2>
         {sectionData && (
           <div>
             {Object.keys(sectionData).map((key) => (
               <div key={key}>
-                <Input
-                  texto={key}
-                  type={"text"}
-                  name={key}
-                  placeholder={sectionData[key] || ""}
+                <label className="block text-darkBlue">{key}:</label>
+                <input
+                  type="text"
+                  value={sectionData[key]}
                   onChange={(e) => handleInputChange(e, key)}
-                  value={sectionData[key] || ""}
+                  className="w-full p-2 border rounded"
                 />
+
               </div>
             ))}
           </div>
