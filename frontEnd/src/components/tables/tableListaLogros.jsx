@@ -82,9 +82,9 @@ export default function TableListaLogros() {
     <>
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
         {/* Buscador */}
-        <div className="flex justify-between w-full pb-5">
+        <div className="flex gap-2 justify-between w-full pb-5">
           <Buscador />
-          <Button onClick={handleOpenModal}><div className="flex gap-2"><i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i> Agregar logro</div></Button>
+          <Button onClick={handleOpenModal}><div className="flex gap-2 w-fit"><i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i> <span className="hidden sm:block">Agregar logro</span></div></Button>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">

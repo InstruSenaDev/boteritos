@@ -9,10 +9,10 @@ import { dataPersonal, dataTelefono, dataResponsable, dataCondicionMedica, dataH
 import { LayoutGeneral } from "../../layouts/LayoutGeneral.jsx";
 import { useParams } from "react-router-dom";
 
-const DatosEstudiante = () => {
+const DatesTeacher = () => {
   const { id } = useParams();
   return (
-      <LayoutGeneral title="DatosAdicionales" titleHeader="Estudiantes">
+      <LayoutGeneral title="DatosAdicionales" titleHeader="Profesores">
         <div className="w-full space-y-2 grid gap-10">
           <HeaderData/>
           <GrupoDatoElemento/>
@@ -21,15 +21,11 @@ const DatosEstudiante = () => {
             <GrupoDatos titulo={"Datos personales"}>
               <Dato data={dataPersonal} />
             </GrupoDatos>
+
             <GrupoDatos titulo={"Datos personales"}>
               <Dato data={dataTelefono} />
             </GrupoDatos>
-            <GrupoDatos titulo={"Responsable"}>
-              <Dato data={dataResponsable} />
-            </GrupoDatos>
-            <GrupoDatos titulo={"Condicion Medica"}>
-              <Dato data={dataCondicionMedica} />
-            </GrupoDatos>
+
             <DatosHistoria titulo={"Historia clinica"}>
               <Dato data={dataHistoriaClinica} />
             </DatosHistoria>
@@ -42,4 +38,4 @@ const DatosEstudiante = () => {
   );
 };
 
-export default DatosEstudiante;
+export default DatesTeacher;
