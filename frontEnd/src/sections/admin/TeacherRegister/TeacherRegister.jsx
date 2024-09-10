@@ -12,6 +12,7 @@ import { postUserStudent } from "../../../api/post.js";
 import { validateField } from "../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { caseProfesor } from "../../../helper/validators/case/profesor.js";
 
 export const TeacherRegister = () => {
     const [state, dispatch] = useRegFormContext();
@@ -37,6 +38,7 @@ export const TeacherRegister = () => {
     const [values, setValues] = useState({
         titulo: "",
         hojaDeVida: "",
+        idarea: ""
     });
 
     //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
@@ -64,7 +66,7 @@ export const TeacherRegister = () => {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
 
-        const error = validateField(name, value); // Validar el campo específico
+        const error = caseProfesor(name, value); // Validar el campo específico
 
         setErrors({
             ...errors,
@@ -93,6 +95,22 @@ export const TeacherRegister = () => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         dispatch({ type: 'SET_PROFESSION_DATA', data: values })
+
+        // Validar todos los campos antes de enviar
+        const newErrors = {};
+        for (const key in values) {
+            if (Object.hasOwn(values, key)) {
+                const error = caseProfesor(key, values[key]);
+                if (error) {
+                    newErrors[key] = error;
+                }
+            }
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         const data = {
             commonTeacher: state.commonTeacher,
@@ -209,7 +227,7 @@ export const TeacherRegister = () => {
                         tipo={"text"}
                         onChange={handleInputChange}
                         value={values.titulo}
-                    //error={errors.nombre}
+                        error={errors.titulo}
                     />
                     <Dropdown
                         name={"idarea"}
@@ -218,7 +236,7 @@ export const TeacherRegister = () => {
                         data={dataDropdown.dropdownArea}
                         onChange={(value) => handleDropdownChange("idarea", value)}
                         placeholder={"Selecciona un area"}
-                    //error={errors.idarea}
+                        error={errors.idarea}
                     />
                     <UploadFile
                         title={"Hoja de vida"}
