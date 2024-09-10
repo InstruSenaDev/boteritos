@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
 import GraphicPie from "../../../components/graphics/GraphicPie";
 import { getOneUser } from "../../../api/get";
+import { useNavigate } from "react-router-dom";
+
+const logros = [
+  {
+    name: "LA",
+    value: 2,
+  },
+  {
+    name: "LP",
+    value: 2,
+  },
+  {
+    name: "LN",
+    value: 2,
+  },
+];
 
 export const HeaderData = ({ id }) => {
   const [dataCard1, setDataCard1] = useState({});
   const [dataCard2, setDataCard2] = useState({});
+  const navigate = useNavigate();
 
   //OBTENCION DE LOS DATOS
   useEffect(() => {
@@ -19,22 +36,12 @@ export const HeaderData = ({ id }) => {
     getData();
   }, [id]);
 
-  console.log(dataCard1);
-
-  const logros = [
-    {
-      name: "LA",
-      value: 2,
-    },
-    {
-      name: "LP",
-      value: 2,
-    },
-    {
-      name: "LN",
-      value: 2,
-    },
-  ];
+  const linkTo = (id)=>{
+    if (id) {
+      navigate(`datoestudiante/${id}`)
+    }
+    
+  }
 
   return (
     <div className="flex gap-3 text-black font-cocogooseLight sm:flex-row flex-col">
@@ -107,7 +114,7 @@ export const HeaderData = ({ id }) => {
       </div>
 
       {/*BOTON VER */}
-      <div className="min-h-[130px] grow bg-gray rounded-xl max-w-[100px] p-4 text-white flex flex-col items-center justify-center gap-3">
+      <div className={`min-h-[130px] grow ${id ? 'bg-darkBlue cursor-pointer' : 'bg-gray'} rounded-xl max-w-[100px] p-4 text-white flex flex-col items-center justify-center gap-3`} onClick={ ()=> linkTo(id) }>
         <i className="fa-regular fa-eye text-5xl"></i>
         <p className="text-paragraph2">Ver</p>
       </div>

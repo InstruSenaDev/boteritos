@@ -43,7 +43,7 @@ const router = createBrowserRouter([
       { path: "registro/registroadmin/datosmedicos", element: <MedicalInfo /> },
       { path: "registro/registroadmin/telefonos", element: <PhoneNumber/> },
       { path: "listaestudiantes", element: <ListEstudiantes /> },
-      { path: "datoestudiante/:id", element: <DatosEstudiante /> },
+      { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
     ]
   },
   {
