@@ -8,9 +8,9 @@ export const GrupoDatos = ({ titulo, children}) => {
         <p className="font-cocogooseSemiLight text-subTitle2 underline">Editar</p>
       </div>
       <div className="flex flex-col xl:flex-row px-5 justify-between gap-y-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+        
           {children}
-        </div>
+       
       </div>
     </div>
   );
