@@ -18,11 +18,13 @@ export const TeacherRegister = () => {
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        dispatch({type: 'CHANGE_PERCENT', data: 100})
-      }, [])
+    useEffect(() => {
+        dispatch({ type: 'CHANGE_PERCENT', data: 100 })
+    }, [])
 
     const [errors, setErrors] = useState({}); // Estado para los errores
+
+    const [file, setFile] = useState(null); // Estado para el archivo
 
     const [selectedRole, setSelectedRole] = useState("");
 
@@ -34,7 +36,7 @@ export const TeacherRegister = () => {
 
     const [values, setValues] = useState({
         titulo: "",
-        hojaDeVida: null,
+        hojaDeVida: "",
     });
 
     //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
@@ -82,6 +84,10 @@ export const TeacherRegister = () => {
         console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
     };
 
+    // Maneja cambios en el archivo seleccionado
+    const handleFileChange = (name, file) => {
+        setFile(file); // Guarda el archivo en el estado
+    };
 
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
@@ -95,10 +101,37 @@ export const TeacherRegister = () => {
             medicalTeacher: state.medicalTeacher,
             phoneTeacher: state.phoneTeacher,
             professionTeacher: values
-          }
-      
-          // Mostrar todos los datos almacenados
-          console.log(data);
+        }
+
+        const formData = new FormData();
+
+        // Añadir datos de cada sección al FormData
+        for (const [sectionKey, sectionValues] of Object.entries(data)) {
+            for (const [key, value] of Object.entries(sectionValues)) {
+                formData.append(`${sectionKey}.${key}`, value); // Usar el nombre de la sección como prefijo
+            }
+        }
+
+        // Añadir archivo (si existe)
+        if (file) {
+            formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
+        }
+
+        // Construir un objeto para agrupar los datos por secciones
+        const groupedData = {};
+
+        for (let [key, value] of formData.entries()) {
+            const [section, field] = key.split('.'); // Separar la sección y la llave
+            if (!groupedData[section]) {
+                groupedData[section] = {}; // Inicializar la sección si no existe
+            }
+            groupedData[section][field] = value; // Añadir los valores a la sección correspondiente
+        }
+
+        // Imprimir el objeto agrupado
+        console.log(groupedData); //No afecta al formData real, solo es para ver como se está estructurando
+
+        // Mostrar todos los datos almacenados
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
         // for (const key in values) {
@@ -131,7 +164,7 @@ export const TeacherRegister = () => {
         });
     
         console.log(formData);*/
-        
+
 
         // createUser(dataUser);
     };

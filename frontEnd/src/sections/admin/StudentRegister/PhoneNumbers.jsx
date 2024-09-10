@@ -55,6 +55,14 @@ export const PhoneNumberSection = () => {
       phoneStudent: values
     }
 
+    const formData = new FormData();
+
+    // Añadir datos de cada sección al FormData
+    for (const [sectionKey, sectionValues] of Object.entries(data)) {
+      for (const [key, value] of Object.entries(sectionValues)) {
+        formData.append(`${sectionKey}.${key}`, value); // Usar el nombre de la sección como prefijo
+      }
+    }
     // Mostrar todos los datos almacenados
     console.log(data);
 
