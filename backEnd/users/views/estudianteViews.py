@@ -37,7 +37,7 @@ def EstudianteHeaderAdmin(request,id):
     
     if request.method == "GET":
                 
-        query = querySql("SELECT `responsable`.`nombre` AS `nombreresponsable`,`responsable`.`apellido` AS `apellidoresponsable`, `tipoparentesco`.`tipoParentesco`, `usuario`.`nombre` AS `nombreestudiante`, `usuario`.`apellido` AS `apellidoestudiante`, `usuario`.`documento` AS `documentoestudiante`, `usuario`.`edad` AS `edadestudiante`, `usuario`.`imagen` AS `imagenestudiante` FROM `estudiante` LEFT JOIN `responsable` ON `responsable`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idEstudiante` = %s;",[id])
+        query = querySql("SELECT CONCAT(`responsable`.`nombre`, ' ',`responsable`.`apellido` ) AS `responsable`,`tipoparentesco`.`tipoParentesco`, CONCAT(`usuario`.`nombre` , ' ', `usuario`.`apellido`) AS `estudiante`, `usuario`.`documento` AS `documentoestudiante`, `usuario`.`edad` AS `edadestudiante`, `usuario`.`imagen` AS `imagenestudiante`, `estudiante`.`idestudiante` FROM `estudiante` LEFT JOIN `responsable` ON `responsable`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idEstudiante` = %s;",[id])
         
         if len(query) == 0:
             return Response({
@@ -57,14 +57,24 @@ def EstudianteHeaderAdmin(request,id):
                 
             arrayResponsable.append(objVacio)
         
+        arrayModif = []
+        for values in arrayResponsable:
+            objVacio = {}
+            objVacio ={
+                "name" : values['tipoparentesco'] ,
+                "value" : values['responsable']
+            }
+            arrayModif.append(objVacio)
+                    
         dataHead = {
             'dataEstudiante' : {
-                "nombre" : f"{infoEstudiante['nombreestudiante']} {infoEstudiante['apellidoestudiante']}",
+                "id" : infoEstudiante['idestudiante'],
+                "nombre" : infoEstudiante['estudiante'],
                 "imagen" : f"http://localhost:8000/media/{infoEstudiante['imagenestudiante']}",
-                "documento" : f"{infoEstudiante['documentoestudiante']}",
-                "edad" : f"{infoEstudiante['edadestudiante']}"
+                "documento" : infoEstudiante['documentoestudiante'],
+                "edad" : infoEstudiante['edadestudiante']
             },
-            'dataResponsable' : arrayResponsable
+            'dataResponsable' : arrayModif
         }
    
         return Response({
