@@ -14,7 +14,7 @@ import React from "react";
 // } from "../../helper/objects/dataStudentsArray";
 import { LayoutGeneral } from "../../../layouts/LayoutGeneral.jsx";
 import { useParams } from "react-router-dom";
-import StudentsDates from "../../sections/admin/GeneralDates/StudentsDates.jsx";
+import StudentsDates from "../../../sections/admin/registro/GeneralDates/StudentsDates.jsx";
 
 const DatosEstudiante = () => {
   const { id } = useParams();
