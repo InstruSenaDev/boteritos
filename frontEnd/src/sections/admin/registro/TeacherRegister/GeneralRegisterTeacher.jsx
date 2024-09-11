@@ -74,15 +74,15 @@ export const GeneralRegisterTeacher = () => {
 
         const error = caseProfesor(name, value); // Validar el campo específico
 
-         setErrors({
-             ...errors,
-             [name]: error,
-         }); // Actualizar el estado de errores y valores
+        setErrors({
+            ...errors,
+            [name]: error,
+        }); // Actualizar el estado de errores y valores
 
-         setValues({
-             ...values,
-             [name]: value,
-         });
+        setValues({
+            ...values,
+            [name]: value,
+        });
     };
 
 
@@ -96,7 +96,16 @@ export const GeneralRegisterTeacher = () => {
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        dispatch({type:'SET_TEACHER_DATA', data: values})
+        dispatch({ type: 'SET_TEACHER_DATA', data: values })
+
+        // Crear el FormData y agregar los valores de esta sección
+        const formData = new FormData();
+        Object.entries(values).forEach(([key, value]) => {
+            formData.append(key, value);
+        });
+
+        
+
 
         // Validar todos los campos antes de enviar
         const newErrors = {};
@@ -122,7 +131,6 @@ export const GeneralRegisterTeacher = () => {
             edad: values.edad.trim(),
             contrasena: values.numerodocumento.trim(),
         };
-        console.log(dataUser);
 
         //let formData = new FormData();
 
