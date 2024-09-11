@@ -135,20 +135,6 @@ export const TeacherRegister = () => {
             formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
         }
 
-        // Construir un objeto para agrupar los datos por secciones
-        const groupedData = {};
-
-        for (let [key, value] of formData.entries()) {
-            const [section, field] = key.split('.'); // Separar la sección y la llave
-            if (!groupedData[section]) {
-                groupedData[section] = {}; // Inicializar la sección si no existe
-            }
-            groupedData[section][field] = value; // Añadir los valores a la sección correspondiente
-        }
-
-        // Imprimir el objeto agrupado
-        console.log(groupedData); //No afecta al formData real, solo es para ver como se está estructurando
-
         // Mostrar todos los datos almacenados
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
