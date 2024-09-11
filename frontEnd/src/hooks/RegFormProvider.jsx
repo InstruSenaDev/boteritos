@@ -22,7 +22,13 @@ const initialState = {
     datesStudent: {},
     phoneStudent: {},
     medicalStudent: {},
-    
+    //PROFESOR
+    commonTeacher: {},
+    addressTeacher: {},
+    datesTeacher: {},
+    phoneTeacher: {},
+    medicalTeacher: {},
+
     percent: 0 //progress bar
 };
 
@@ -43,22 +49,22 @@ const reducer = (state, action) => {
 
         //PROFESOR
         case 'SET_TEACHER_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, commonTeacher: action.data };
         }
         case 'SET_DATE_TEACHER_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, datesTeacher: action.data };
         }
         case 'SET_ADDRESS_TEACHER_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, addressTeacher: action.data };
         }
         case 'SET_MEDICAL_TEACHER_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, medicalTeacher: action.data };
         }
         case 'SET_PHONE_TEACHER_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, phoneTeacher: action.data };
         }
         case 'SET_PROFESSION_DATA': {
-            return { ...state, percent: action.data };
+            return { ...state, proffessionTeacher: action.data };
         }
         //ESTUDIANTE
         case 'SET_STUDENT_DATA': {

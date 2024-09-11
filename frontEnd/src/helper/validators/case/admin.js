@@ -1,50 +1,59 @@
 export const caseAdmin = (name, value) => {
   let error = "";
+  
+  // Asegurarse de que value sea una cadena
+  const stringValue = String(value).trim();
+
   switch (name) {
     case "nombre":
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "El nombre es obligatorio.";
       }
       break;
 
     case "correo":
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "El correo es obligatorio.";
-      } else if (!/\S+@\S+\.\S+/.test(value)) {
+      } else if (!/\S+@\S+\.\S+/.test(stringValue)) {
         error = "El correo no es válido.";
       }
       break;
 
     case "apellido":
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "El apellido es obligatorio.";
       }
       break;
 
     case "comuna":
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "La comuna es obligatoria.";
       }
       break;
 
-    case "direccion":
-      if (!value.trim()) {
+    case "numero":
+      if (!stringValue) {
         error = "La dirección es obligatoria.";
       }
       break;
-      
+
     case "barrio":
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "El barrio es obligatorio.";
       }
       break;
-    /*
-        case "fechanacimiento":
-          if (!value.trim()) {
-            error = "La fecha de nacimiento es obligatoria.";
-          }
-          break;
-            */
+
+    case "fechanacimiento":
+      if (!stringValue) {
+        error = "La fecha de nacimiento es obligatoria.";
+      }
+      break;
+
+    case "fechaingreso":
+      if (!stringValue) {
+        error = "La fecha de ingreso es obligatoria.";
+      }
+      break;
 
     case "idtipodocumento":
       if (!value) {
@@ -59,8 +68,8 @@ export const caseAdmin = (name, value) => {
       break;
 
     case "edad":
-      const edad = Number(value);
-      if (!value.trim()) {
+      const edad = Number(stringValue);
+      if (!stringValue) {
         error = "La edad es obligatoria.";
       } else if (!Number.isInteger(edad) || edad <= 0) {
         error = "Ingrese una edad valida.";
@@ -68,12 +77,11 @@ export const caseAdmin = (name, value) => {
       break;
 
     case "numerodocumento":
-
-      if (!value.trim()) {
+      if (!stringValue) {
         error = "El número de documento es obligatorio.";
-      } else if (value.length < 8 || value.length > 10) {
+      } else if (stringValue.length < 8 || stringValue.length > 10) {
         error = "El número de documento debe tener entre 8 y 10 dígitos.";
-      } else if (isNaN(value) || value.length <= 0) {
+      } else if (isNaN(stringValue) || stringValue.length <= 0) {
         error = "Ingrese un documento valido.";
       }
       break;
