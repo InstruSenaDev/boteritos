@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
-from django.conf.urls.static import static
 from django.conf import settings
 from django.views.static import serve
 
@@ -11,7 +10,8 @@ urlpatterns = [
     path('api/v3/dropdowns/', include('dropdowns.urls')),
     path('api/v3/usuarios/', include('users.routers')),
     path('api/v3/sql/', include('users.urls')),
-    path('api/v3/registro/', include('users.urls'))
+    path('api/v3/registro/', include('users.urls')),
+    path('api/v3/logros/', include('logros.urls'))
 ] 
 
 urlpatterns += [
