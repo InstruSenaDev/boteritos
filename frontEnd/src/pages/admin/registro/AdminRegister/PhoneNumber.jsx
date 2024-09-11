@@ -1,5 +1,5 @@
 import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
-import { PhoneNumberSection } from '../../../sections/admin/GeneralRegister/PhoneNumbers'
+import { PhoneNumberSection } from '../../../../sections/admin/registro/GeneralRegister/PhoneNumbers'
 import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 const PhoneNumber = () => {

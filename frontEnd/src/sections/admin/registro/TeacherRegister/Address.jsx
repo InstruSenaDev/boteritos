@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "../../../components/forms/Input.jsx";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { caseProfesor } from "../../../helper/validators/case/profesor.js";
+import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const AdressSection = () => {
   const [state, dispatch] = useRegFormContext();

@@ -1,5 +1,5 @@
 import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
-import { TeacherRegister } from '../../../sections/admin/TeacherRegister/TeacherRegister'
+import { TeacherRegister } from '../../../../sections/admin/registro/TeacherRegister/TeacherRegister'
 import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 const ProfessionTeacher = () => {

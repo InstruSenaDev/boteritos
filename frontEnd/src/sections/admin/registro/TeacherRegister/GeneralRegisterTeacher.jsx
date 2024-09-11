@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from "../../../components/forms/Dropdown.jsx";
-import { Input } from "../../../components/forms/Input.jsx";
-import { UploadFile } from "../../../components/forms/UploadFile.jsx";
+import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { UploadFile } from "../../../../components/forms/UploadFile.jsx";
 import {
     dataDoc,
     dataSexo,
-} from "../../../helper/objects/dropdownArray.js";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
+} from "../../../../helper/objects/dropdownArray.js";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
-import { caseProfesor } from "../../../helper/validators/case/profesor.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
+import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const GeneralRegisterTeacher = () => {
     const [state, dispatch] = useRegFormContext();

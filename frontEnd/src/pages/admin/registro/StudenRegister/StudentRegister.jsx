@@ -1,5 +1,5 @@
 import { LayoutGeneral } from "../../../../layouts/LayoutGeneral";
-import { GeneralRegisterStudent } from "../../../../sections/admin/registro/GeneralRegister/GeneralRegister";
+import { GeneralRegisterStudent } from "../../../../sections/admin/registro/StudentRegister/GeneralRegisterStudent";
 import { ProgressBarD } from "../../../../components/forms/ProgressBar";
 
 const Admin = () => {

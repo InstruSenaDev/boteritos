@@ -1,5 +1,5 @@
 import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
-import { MedicalInfoSection } from '../../../sections/admin/GeneralRegister/MedicalInfo'
+import { MedicalInfoSection } from "../../../../sections/admin/registro/GeneralRegister/MedicalInfo"
 import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 export const MedicalInfo = () => {
