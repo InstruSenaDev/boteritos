@@ -1,8 +1,6 @@
-import React from 'react'
-import { LayoutGeneral } from '../../../layouts/LayoutGeneral'
-import { PhoneNumberSection } from '../../../sections/admin/GeneralRegister/PhoneNumbers'
-import { ProgressBarD } from '../../../components/forms/ProgressBar'
-import { RegFormProvider } from '../../../hooks/RegFormProvider'
+import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
+import { PhoneNumberSection } from '../../../../sections/admin/registro/GeneralRegister/PhoneNumbers'
+import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 const PhoneNumber = () => {
   return (

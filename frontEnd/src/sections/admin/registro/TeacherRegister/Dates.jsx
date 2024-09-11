@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { DatePicker2 } from "../../../components/forms/DatePicker.jsx";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { getDate } from "../../../helper/functions/getDate.js";
+import { DatePicker2 } from "../../../../components/forms/DatePicker.jsx";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { getDate } from "../../../../helper/functions/getDate.js";
 import { format } from "date-fns";
-import { validateField } from "../../../helper/validators/register.js";
+import { validateField } from "../../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
-import { caseProfesor } from "../../../helper/validators/case/profesor.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
+import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const DatesSection = () => {
   const [state, dispatch] = useRegFormContext();
@@ -77,7 +77,7 @@ export const DatesSection = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    const error = validateField(values.idrol, name, value); // Validar el campo específico
+    const error = caseProfesor(name, value); // Validar el campo específico
 
     setErrors({
       ...errors,

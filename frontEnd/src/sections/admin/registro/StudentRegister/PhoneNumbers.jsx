@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "../../../components/forms/Input.jsx";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { caseTelefono } from "../../../helper/validators/case/telefono.js";
+import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
 
 export const PhoneNumberSection = () => {
   const [state, dispatch] = useRegFormContext();

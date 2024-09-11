@@ -1,5 +1,5 @@
 import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
-import { AdressSection } from '../../../sections/admin/GeneralRegister/Address'
+import { AdressSection } from '../../../../sections/admin/registro/GeneralRegister/Address'
 import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 const Addres = () => {

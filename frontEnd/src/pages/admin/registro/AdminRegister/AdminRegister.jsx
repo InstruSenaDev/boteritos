@@ -1,6 +1,6 @@
 import React from "react";
 import { LayoutGeneral } from "../../../../layouts/LayoutGeneral";
-import { GeneralRegister } from "../../../sections/admin/GeneralRegister/GeneralRegister";
+import { GeneralRegister } from "../../../../sections/admin/registro/GeneralRegister/GeneralRegister"
 import { ProgressBarD } from "../../../../components/forms/ProgressBar";
 import { RegFormProvider } from "../../../../hooks/RegFormProvider";
 

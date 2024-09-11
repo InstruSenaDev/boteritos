@@ -1,6 +1,6 @@
 import { LayoutGeneral } from "../../../../layouts/LayoutGeneral";
 import { ProgressBarD } from "../../../../components/forms/ProgressBar";
-import { GeneralRegisterTeacher } from "../../../sections/admin/TeacherRegister/GeneralRegisterTeacher";
+import { GeneralRegisterTeacher } from "../../../../sections/admin/registro/TeacherRegister/GeneralRegisterTeacher";
 
 const TeacherRegister = () => {
   return (

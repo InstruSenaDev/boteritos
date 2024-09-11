@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Dropdown } from "../../../components/forms/Dropdown.jsx";
-import { Input } from "../../../components/forms/Input.jsx";
-import { UploadFile } from "../../../components/forms/UploadFile.jsx";
+import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { UploadFile } from "../../../../components/forms/UploadFile.jsx";
 import {
     dataDoc,
     dataSexo,
     dataArea
-} from "../../../helper/objects/dropdownArray.js";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
+} from "../../../../helper/objects/dropdownArray.js";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
-import { caseProfesor } from "../../../helper/validators/case/profesor.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
+import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const TeacherRegister = () => {
     const [state, dispatch] = useRegFormContext();
@@ -134,20 +134,6 @@ export const TeacherRegister = () => {
         if (file) {
             formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
         }
-
-        // Construir un objeto para agrupar los datos por secciones
-        const groupedData = {};
-
-        for (let [key, value] of formData.entries()) {
-            const [section, field] = key.split('.'); // Separar la sección y la llave
-            if (!groupedData[section]) {
-                groupedData[section] = {}; // Inicializar la sección si no existe
-            }
-            groupedData[section][field] = value; // Añadir los valores a la sección correspondiente
-        }
-
-        // Imprimir el objeto agrupado
-        console.log(groupedData); //No afecta al formData real, solo es para ver como se está estructurando
 
         // Mostrar todos los datos almacenados
 

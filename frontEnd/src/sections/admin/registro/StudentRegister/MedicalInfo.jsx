@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "../../../components/forms/Input.jsx";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { caseCondicionMedica } from "../../../helper/validators/case/condicionMedica.js";
+import { caseCondicionMedica } from "../../../../helper/validators/case/condicionMedica.js";
+import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
+import {
+  dataEps
+} from "../../../../helper/objects/dropdownArray.js";
 
 export const MedicalInfoSection = () => {
   const [state, dispatch] = useRegFormContext();
@@ -20,12 +24,31 @@ export const MedicalInfoSection = () => {
 
   const [isRegistering, setIsRegistering] = useState(false);
 
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownEps: []
+  });
+
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
+    ideps: "",
     estatura: "",
     //hojaDeVida: null,
   });
+
+  //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
+  useEffect(() => {
+    const getDataDropdown = async () => {
+      const resultEps = await dataEps();
+
+      setDataDropdown({
+        ...dataDropdown,
+        dropdownEps: resultEps,
+      });
+    };
+
+    getDataDropdown();
+  }, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -44,6 +67,12 @@ export const MedicalInfoSection = () => {
     });
   };
 
+  // Función genérica para manejar cambios en otros dropdowns
+  const handleDropdownChange = (name, value) => {
+    setValues({ ...values, [name]: value });
+    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+  };
+
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -52,17 +81,17 @@ export const MedicalInfoSection = () => {
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
-        if (Object.hasOwn(values, key)) {
-            const error = caseCondicionMedica(key, values[key]);
-            if (error) {
-                newErrors[key] = error;
-            }
+      if (Object.hasOwn(values, key)) {
+        const error = caseCondicionMedica(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
         }
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+      setErrors(newErrors);
+      return;
     }
 
     const dataUser = {
@@ -119,6 +148,17 @@ export const MedicalInfoSection = () => {
             onChange={handleInputChange}
             value={values.lugaratencion}
             error={errors.lugaratencion}
+          />
+          <Dropdown
+            name={"ideps"}
+            label={"Tipo de Eps"}
+            //data={dataMatricula}
+            data={dataDropdown.dropdownEps}
+            onChange={(value) =>
+              handleDropdownChange("ideps", value)
+            }
+            placeholder={"Selecciona el tipo de eps"}
+            error={errors.ideps}
           />
           <Input
             name={"peso"}
