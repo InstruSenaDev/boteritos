@@ -2,8 +2,31 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ..serialzer.estudianteSerializer import EstudianteSerializer
+from ..serialzer.usuarioSerializer import UsuarioSerializer
 from ..models import Estudiante
 from ..querySql import querySql
+
+
+@api_view(['POST'])
+def EstudianteCreateView(request):
+    
+    if request.method == 'POST':
+        print('-----REQUEST DATA-----')
+        print(request.data)
+        print('-----REQUEST DATA-----')
+        
+        serializerUsuario = UsuarioSerializer(data = request.data)
+        
+        if not serializerUsuario.is_valid():
+            
+            serializerUsuario.save()
+            print('¡Fue valido!')    
+            print(serializerUsuario.data)
+            
+            return Response('ERROR')
+        
+        return Response('HOLA')
+
 
 class EstudianteViewSets(viewsets.ModelViewSet):
     
@@ -11,10 +34,16 @@ class EstudianteViewSets(viewsets.ModelViewSet):
     queryset = Estudiante.objects.all()
     
     def create(self, request):
+        
+        print(request.data)
+        
+        return Response('Hola')
+        """"
         serializer = self.serializer_class(data = request.data)
         
         if serializer.is_valid():
-            serializer.save()
+            
+            #serializer.save()
             return Response({
                 "message" : "¡Estudiante creado con exito!",
                 "data" : serializer.data
@@ -24,7 +53,10 @@ class EstudianteViewSets(viewsets.ModelViewSet):
             "message" : "Creacion cancelada",
             "error" : serializer.errors
         }, status= status.HTTP_400_BAD_REQUEST)
-        
+        """
+
+
+
 @api_view(['GET'])
 def EstudianteTableAdmin(request):
     if request.method == "GET":
