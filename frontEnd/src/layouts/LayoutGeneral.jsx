@@ -8,12 +8,11 @@ import { jwtDecode } from "jwt-decode";
 export const LayoutGeneral = ({ titleHeader, children }) => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false); // Estado de expansión de la sidebar
 
-  
   // Obtener el token del localStorage y decodificarlo para extraer el rol
-  const access_token = JSON.parse(localStorage.getItem('access_token'));
+  const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const rol = decodedToken.rol;
-  
+
   // Seleccionar la sección del sidebar que corresponde al rol
   const selectedSection = sidebarsection[rol] || [];
 
