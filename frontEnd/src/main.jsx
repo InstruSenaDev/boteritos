@@ -13,6 +13,7 @@ const FormLogin = lazy(() => import("./sections/FormLogin.jsx"));
 const DatosEstudiante = lazy(() => import("./pages/admin/DatosEstudiante.jsx"));
 const ListEstudiantes = lazy(() => import("./pages/admin/ListEstudents.jsx"));
 const AdminMain = lazy(() => import("./pages/admin/AdminMain.jsx"));
+const RecibirLogros = lazy(() => import("./pages/admin/RecibirLogros.jsx"));
 //GENERAL
 const Perfil = lazy(() => import("./pages/general/Profile.jsx"));
 const PasswordHelp = lazy(() => import("./pages/general/PasswordHelp.jsx"));
@@ -64,6 +65,7 @@ const router = createBrowserRouter([
       { path: "registro", element: <Registro /> },
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
+      { path: "logrosrecibidos", element: <RecibirLogros/> },
       {
         path: "registro",
         element: <RegFormLayout />,
