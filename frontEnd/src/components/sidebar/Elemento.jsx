@@ -10,7 +10,7 @@ export const Elemento = ({ icon, text, isExpanded, link }) => {
           </div>
           {/* Mostrar el texto solo si la sidebar está expandida */}
           <span
-            className={`font-cocogooseLight text-paragraph2 ${isExpanded ? "" : "hidden"
+            className={`font-cocogooseLight text-paragraph2 text-nowrap ${isExpanded ? "" : "hidden"
               }`}
           >
             {text}
