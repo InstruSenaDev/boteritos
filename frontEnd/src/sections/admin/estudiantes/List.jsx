@@ -1,9 +1,9 @@
 //import React from "react";
 import { useState } from "react";
-import HeaderData from "../../../components/tables/headerData/HeaderData";
-import TableStudents from "../../../components/estudiantes/tableStudents";
+import HeaderData from "../../../components/list/headerData/HeaderData";
+import TableStudents from "../../../components/list/tables/TableStudents";
 
-export const DataStudent = () => {
+export const List = () => {
 
   const [idEstudiante, setIdEstudiante] = useState('')
   
@@ -15,7 +15,7 @@ export const DataStudent = () => {
   return (
     <>
       <main className="flex flex-col gap-8">
-        <HeaderData id={idEstudiante} urlApi={'sql/estudiantes/header/'} typeLink={'go'} />
+        <HeaderData id={idEstudiante} urlApi={'sql/estudiantes/header/'} typeLink={'go'} urlGo={'datoestudiante'} />
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE ESTUDIANTES
         </p>

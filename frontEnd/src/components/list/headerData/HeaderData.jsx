@@ -19,7 +19,8 @@ const logros = [
   },
 ];
 
-export const HeaderData = ({ id, urlApi,urlGo, urlBack, typeLink }) => {
+//ESTUDIANTES
+export const HeaderData = ({ id, urlApi, urlGo ,typeLink }) => {
 
   const [dataCard1, setDataCard1] = useState({});
   const [dataCard2, setDataCard2] = useState({});
@@ -31,24 +32,25 @@ export const HeaderData = ({ id, urlApi,urlGo, urlBack, typeLink }) => {
     const getData = async () => {
       if (id) {
         const response = await getOneUser(`${urlApi}${id}`);
-        console.log(response);
+        
         setDataCard1(response.data.data.dataEstudiante);
         setDataCard2(response.data.data.dataResponsable);
       }
     };
     getData();
   }, [id]);
-
-  console.log(dataCard1);
-  console.log(dataCard2);
   
   const linkTo = (id)=>{
-    
-    if (id) {
-      navigate(`datoestudiante/${id}`)
+
+    if (typeLink == 'back') {
+      navigate(-1)
+      return
     }
-    console.log(id);
-    
+
+    if (id) {
+      navigate(`${urlGo}/${id}`)
+    }
+        
   }
 
   return (

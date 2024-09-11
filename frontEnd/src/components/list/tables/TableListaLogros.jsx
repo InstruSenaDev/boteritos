@@ -1,12 +1,12 @@
-import DataState from "./dataStates/DataState";
-import { ObjLogrosCreados } from "../../helper/objects/ListaLogros";
-import Buscador from "../search/Buscador";
+import DataState from "../dataStates/DataState";
+import { ObjLogrosCreados } from "../../../helper/objects/ListaLogros";
+import Buscador from "../../search/Buscador";
 import { useEffect, useState } from "react";
-import { Input } from "../forms/Input";
-import { Dropdown } from "../forms/Dropdown";
-import { dataDoc } from "../../helper/objects/dropdownArray";
+import { Input } from "../../forms/Input";
+import { Dropdown } from "../../forms/Dropdown";
+import { dataDoc } from "../../../helper/objects/dropdownArray";
 
-import { LogrosModal } from "../modales/LogrosModal";
+import { LogrosModal } from "../../modales/LogrosModal";
 import { Button } from "@tremor/react";
 
 export default function TableListaLogros() {

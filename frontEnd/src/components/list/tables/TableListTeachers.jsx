@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import Buscador from "../search/Buscador";
+import Buscador from "../../search/Buscador";
 
 const TableListTeachers = () => {
   const [openAcc, setOpenAcc] = useState(-1);

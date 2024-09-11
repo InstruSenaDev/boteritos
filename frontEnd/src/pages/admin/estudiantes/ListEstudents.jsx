@@ -1,11 +1,11 @@
 //import React from "react";
 import { LayoutGeneral } from "../../../layouts/LayoutGeneral";
-import { DataStudent } from "../../../sections/admin/estudiantes/DataStudent";
+import { List } from "../../../sections/admin/estudiantes/List";
 
 const ListEstudiantes = () => {
   return (
     <LayoutGeneral titleHeader="Estudiantes">
-      <DataStudent />
+      <List />
     </LayoutGeneral>
   );
 };

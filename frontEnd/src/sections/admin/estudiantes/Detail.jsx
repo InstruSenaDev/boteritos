@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GrupoDatoElemento } from "../../../components/datosEstudiante/GrupoDatoElemento";
-import HeaderData from "../../../components/tables/headerData/HeaderData";
+import HeaderData from "../../../components/list/headerData/HeaderData";
 import { GrupoDatos } from "../../../components/datosEstudiante/GrupoDatos";
 import { DatosHistoria } from "../../../components/datosEstudiante/DatosHistoria";
-import { Boton } from "../../../components/forms/Boton";
 
 import {
   dataPersonal,
@@ -12,11 +11,11 @@ import {
   dataCondicionMedica,
   dataHistoriaClinica,
 } from "../../../helper/objects/dataStudentsArray";
+
 import { useParams } from "react-router-dom";
 import { UpdateModal } from "../../../components/modales/UpdateModal";
-import { Input } from "../../../components/forms/Input";
 
-const StudentsDates = () => {
+const Detail = () => {
   const [selectedSection, setSelectedSection] = useState(null);
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
@@ -25,6 +24,8 @@ const StudentsDates = () => {
 
   const update = (sectionId, data) => {
     console.log(id);
+    console.log('secion ,');
+    
     setSelectedSection(sectionId);
     setSectionData(data); //para establecer los datos de la sección
     setModalOpen(true);
@@ -65,11 +66,9 @@ const StudentsDates = () => {
   const formatLabel = (key) => {
     // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
     return key
-      .replace(/([A-Z])/g, " $1") // Agrega un espacio antes de cada mayúscula.
+      .replace(/([A-Z])/g, " $1") // Agrega un espacio antes de  cada mayúscula.
       .replace(/^./, (str) => str.toUpperCase()); // Convierte la primera letra a mayúscula.
   };
-
-
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -380,4 +379,4 @@ const StudentsDates = () => {
   );
 };
 
-export default StudentsDates;
+export default Detail;

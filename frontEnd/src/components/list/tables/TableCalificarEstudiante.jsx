@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { ObjLogros } from "../../helper/objects/logrosCalificar"
-import Buscador from "../search/Buscador"
+import { ObjLogros } from "../../../helper/objects/logrosCalificar"
+import Buscador from "../../search/Buscador"
 import { useParams } from "react-router-dom";
 
 

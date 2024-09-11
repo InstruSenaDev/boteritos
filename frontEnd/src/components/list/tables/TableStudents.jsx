@@ -1,5 +1,5 @@
-import { getAllUser } from "../../api/get.js";
-import DataState from "../tables/dataStates/DataState.jsx";
+import { getAllUser } from "../../../api/get.js";
+import DataState from "../dataStates/DataState.jsx";
 import { useEffect, useState } from "react";
 
 export default function TableStudents({ getId }) {
