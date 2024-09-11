@@ -2,12 +2,11 @@ import { Button } from "@tremor/react";
 import React, { useEffect, useState } from "react";
 import InputTrimestre from "../forms/InputTrimestre";
 
-const CrearTrim = ({onTrimestresCompletos}) => {
+const CrearTrim = ({ onTrimestresCompletos }) => {
   const [trimestres, setTrimestres] = useState([{ id: 1, inicio: "", fin: "" }]);
   const [mensajeError, setMensajeError] = useState("");
 
   const agregarTrimestre = () => {
-    // Validar si ya hay 4 trimestres
     if (trimestres.length >= 4) {
       setMensajeError("No puedes crear más de 4 trimestres");
       return;
@@ -16,9 +15,6 @@ const CrearTrim = ({onTrimestresCompletos}) => {
     setMensajeError("");
     const nuevosTrimestres = [...trimestres, { id: trimestres.length + 1, inicio: "", fin: "" }];
     setTrimestres(nuevosTrimestres);
-
-    // Guardar en localStorage inmediatamente después de agregar
-    localStorage.setItem("trimestres", JSON.stringify(nuevosTrimestres));
   };
 
   const eliminarTrimestre = (index) => {
@@ -26,10 +22,9 @@ const CrearTrim = ({onTrimestresCompletos}) => {
       setMensajeError("Debe haber al menos 1 trimestre");
       return;
     }
-    setMensajeError(""); // Limpiar el mensaje de error si se puede eliminar
+    setMensajeError("");
     const nuevosTrimestres = trimestres.filter((_, i) => i !== index);
     setTrimestres(nuevosTrimestres);
-    localStorage.setItem("trimestres", JSON.stringify(nuevosTrimestres));
   };
 
   const handleTrimestreChange = (index, field, value) => {
@@ -47,29 +42,35 @@ const CrearTrim = ({onTrimestresCompletos}) => {
       setMensajeError("Todos los trimestres deben tener fechas de inicio y fin.");
       return;
     }
+
     setMensajeError("");
 
-    localStorage.setItem("trimestres", JSON.stringify(trimestres));
-    console.log("trimestres en el localStorage:", trimestres);
+    const trimestresValidos = trimestres.filter(({ inicio, fin }) => {
+      const inicioDate = new Date(inicio);
+      const finDate = new Date(fin);
+      return inicioDate <= finDate;
+    });
+
+    if (trimestresValidos.length === trimestres.length) {
+      localStorage.setItem("trimestres", JSON.stringify(trimestresValidos));
+      console.log("Trimestres en el localStorage:", trimestresValidos);
+      if (trimestresValidos.length >= 4) {
+        onTrimestresCompletos();  // Llamar a esta función solo al hacer clic en "Crear"
+      }
+    } else {
+      setMensajeError("Hay trimestres con fechas inválidas.");
+    }
   };
 
   useEffect(() => {
-    const trimestresGuardados = JSON.parse(localStorage.getItem("trimestres")) || [{ id: 1, inicio: "", fin: "" }];
-    setTrimestres(trimestresGuardados);
+    const trimestresGuardados = JSON.parse(localStorage.getItem("trimestres")) || [];
+    setTrimestres(trimestresGuardados.length > 0 ? trimestresGuardados : [{ id: 1, inicio: "", fin: "" }]);
   }, []);
-
-
-  useEffect(()=>{
-    if (trimestres.length>=4){
-      onTrimestresCompletos();
-    }
-  }, [trimestres, onTrimestresCompletos]);
-
 
   return (
     <div className="flex justify-center items-center h-full w-full">
-      <main className="bg-white rounded-xl py-7 px-8 w-fit h-full space-y-5 ">
-        <div className="w-full text-center ">
+      <main className="bg-white rounded-xl py-7 px-8 w-fit h-full space-y-5">
+        <div className="w-full text-center">
           <h1 className="text-darkBlue font-cocogooseRegular text-title">
             No hay Trimestres Creados
           </h1>
@@ -104,7 +105,7 @@ const CrearTrim = ({onTrimestresCompletos}) => {
               onClick={agregarTrimestre}
               id="agregar"
               className="max-w-[300px] w-full"
-              disabled={trimestres.length>=4}
+              disabled={trimestres.length >= 4}
             >
               Agregar
             </Button>
