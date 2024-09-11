@@ -2,7 +2,7 @@ import { Button } from '@tremor/react'
 import React, { useState } from 'react'
 import Buscador from '../search/Buscador';
 import { objTrimestres } from '../../helper/objects/Trimestres';
-import { LogrosModal } from '../modales/LogrosModal';
+import { ModalCreacion } from '../modales/ModalCreacion';
 import { Input } from '../forms/Input';
 
 export default function TableTrimestres () {
@@ -120,11 +120,12 @@ export default function TableTrimestres () {
        
         </section>
       </main>
-      <LogrosModal txtmodal={'Crear nuevo trimestre'}
+      <ModalCreacion txtmodal={'Crear nuevo trimestre'}
       isOpen={isOpen}
       onClose={handleCloseModal}
       onSubmit={handleForm}
-      isConfirm={isConfirm}>
+      isConfirm={isConfirm}
+      txtBoton={"a"}>
 
         <Input
        texto={'Fecha inicio'}
@@ -144,7 +145,7 @@ export default function TableTrimestres () {
        value={values.fechafinal || ""}
        />
 
-   </LogrosModal>
+   </ModalCreacion>
       
       </>
   )

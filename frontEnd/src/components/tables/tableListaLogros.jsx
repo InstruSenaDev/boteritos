@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { dataDoc } from "../../helper/objects/dropdownArray";
-
-import { LogrosModal } from "../modales/LogrosModal";
+import { ModalCreación } from "../modales/ModalCreacion";
 import { Button } from "@tremor/react";
 
 export default function TableListaLogros() {
@@ -150,7 +149,7 @@ export default function TableListaLogros() {
           ))}
         </section>
       </main>
-      <LogrosModal
+      <ModalCreación
       txtmodal={'Crear nuevo logro'}
       isOpen={isOpen}
       onClose={handleCloseModal}
@@ -174,7 +173,7 @@ export default function TableListaLogros() {
        onChange={handleInputChange}
        value={values.logro || ""}
        />
-      </LogrosModal>
+      </ModalCreación>
     </>
   );
 }
