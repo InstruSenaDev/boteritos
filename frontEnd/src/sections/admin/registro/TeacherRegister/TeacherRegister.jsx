@@ -121,59 +121,17 @@ export const TeacherRegister = () => {
             professionTeacher: values
         }
 
-        const formData = new FormData();
 
-        // Añadir datos de cada sección al FormData
-        for (const [sectionKey, sectionValues] of Object.entries(data)) {
-            for (const [key, value] of Object.entries(sectionValues)) {
-                formData.append(`${sectionKey}.${key}`, value); // Usar el nombre de la sección como prefijo
-            }
-        }
-
-        // Añadir archivo (si existe)
-        if (file) {
-            formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
-        }
-
-        console.log(formData);
-        
-
-        // Mostrar todos los datos almacenados
-
-        //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-        // for (const key in values) {
-        //     if (Object.hasOwn(values, key)) {
-        //         const error = validateField(key, values[key]);
-        //         if (error) {
-        //             newErrors[key] = error;
-        //         }
-        //     }
-        // }
-
-        // if (Object.keys(newErrors).length > 0) {
-        //     // Si hay errores, no enviar el formulario
-        //     setErrors(newErrors);
-
-        //     return;
-        // }
-        /*
         const dataUser = {
             ...values,
             nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
         };
         console.log(dataUser);
-        */
-        //let formData = new FormData();
 
-        /*Object.entries(dataUser).forEach(([key, value]) => {
-          formData.append([key] , value)
-          
-        });
-    
         
 
-        // createUser(dataUser);*/
-        console.log(formData);
+
+        // createUser(dataUser);
     };
 
     const createUser = async (data) => {

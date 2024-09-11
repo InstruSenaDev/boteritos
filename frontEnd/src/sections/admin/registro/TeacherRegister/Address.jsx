@@ -72,8 +72,8 @@ export const AdressSection = () => {
       barrio: values.barrio.trim(),
       numero: values.numero.trim(),
     };
-    console.log(dataUser);
 
+    
 
     //let formData = new FormData();
 
@@ -111,6 +111,7 @@ export const AdressSection = () => {
     // if (Object.keys(newErrors).length > 0) {
     //   setErrors(newErrors);
     // }
+    
   };
 
   return (
