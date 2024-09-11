@@ -18,6 +18,7 @@ const RecibirLogros = lazy(() => import("./pages/admin/RecibirLogros.jsx"));
 const Perfil = lazy(() => import("./pages/general/Profile.jsx"));
 const PasswordHelp = lazy(() => import("./pages/general/PasswordHelp.jsx"));
 const ForgotPassword = lazy(() => import("./pages/general/ForgotPassword.jsx"));
+const ChangePassword = lazy(() => import("./pages/general/CambiarContrasena.jsx"));
 //REGISTRO DE ADMINISTRADORES
 const Registro = lazy(() => import("./pages/admin/registro/Registro.jsx"));
 const Addres = lazy(() => import("./pages/admin/registro/AdminRegister/Addres.jsx"));
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
       { path: '', element: <AdminMain /> },
       { path: "perfil", element: <Perfil/>},
       { path: "ayudacontrasena", element: <PasswordHelp/>},
+      { path: "cambiarcontrasena", element: <ChangePassword/> },
       { path: "recuperarcontrasena", element: <ForgotPassword/> },
       { path: "registro", element: <Registro /> },
       { path: "listaestudiantes", element: <ListEstudiantes /> },
@@ -105,6 +107,7 @@ const router = createBrowserRouter([
       { path: "perfil", element: <Perfil /> },
       { path: "ayudacontrasena", element: <PasswordHelp/>},
       { path: "recuperarcontrasena", element: <ForgotPassword/> },
+      { path: "cambiarcontrasena", element: <ChangePassword/> },
     ]
   },
   {
@@ -115,6 +118,7 @@ const router = createBrowserRouter([
       { path: "perfil", element: <Perfil/>},
       { path: "ayudacontrasena", element: <PasswordHelp/>},
       { path: "recuperarcontrasena", element: <ForgotPassword/> },
+      { path: "cambiarcontrasena", element: <ChangePassword/> },
     ]
   }
 

@@ -5,7 +5,7 @@ import {Input} from "../../components/forms/Input.jsx";
 
 import React from 'react'
 
-export const CambiarContrasena = () => {
+const CambiarContrasena = () => {
   return (
     <LayoutGeneral title="Cambiar contraseña" titleHeader="Cambiar Contraseña">
     <main className="w-full flex items-center justify-center">
@@ -43,3 +43,4 @@ export const CambiarContrasena = () => {
   )
 }
 
+export default CambiarContrasena;

@@ -72,6 +72,8 @@ export const PhoneNumberSection = () => {
       dataPhone: values
     }
 
+    console.log(data)
+
     const formData = new FormData();
 
     // Añadir datos de cada sección al FormData
