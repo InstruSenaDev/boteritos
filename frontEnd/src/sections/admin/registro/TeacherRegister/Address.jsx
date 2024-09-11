@@ -8,13 +8,28 @@ import { useNavigate, Link } from "react-router-dom";
 import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const AdressSection = () => {
+
   const [state, dispatch] = useRegFormContext();
 
+  console.log(state);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch({ type: 'CHANGE_PERCENT', data: 50 })
   }, [])
+
+  useEffect(() => {
+    const pito = async () => {
+      const response = await fetch("http://localhost:8000/api/v3/sql/prueba/", {
+        method: "POST",
+        body: state.dataForm,
+      });
+      const data = await response.json();
+      console.log(data);
+    };
+    pito();
+  }, []);
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 

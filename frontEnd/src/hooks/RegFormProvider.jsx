@@ -10,7 +10,8 @@ export const useRegFormContext = () => {
 
 // Estado inicial
 const initialState = {
-  formData: new FormData(),
+  dataForm: new FormData(),
+  /*
   //ADMIN
   dataCommon: {},
   dataAddress: {},
@@ -29,13 +30,34 @@ const initialState = {
   datesTeacher: {},
   phoneTeacher: {},
   medicalTeacher: {},
-
+    */
   percent: 0, //progress bar
 };
+
+initialState.dataForm.append("pito", "tragas");
+
+console.log(initialState);
 
 // Reductor
 const reducer = (state, action) => {
   switch (action.type) {
+    case "ADD_DATA_FORM": {
+      console.log(action.data);
+
+      // Crear una nueva instancia de FormData basada en el estado actual
+      const updatedFormData = new FormData();
+
+      // Agregar nuevos datos usando action.data (un objeto clave-valor)
+      Object.entries(action.data).forEach(([key, value]) => {
+        updatedFormData.append(key, value);
+      });
+
+      return {
+        ...state,
+        dataForm: updatedFormData,
+      };
+    }
+    /*
     // ADMIN
     case "SET_COMMON_DATA":
       return { ...state, dataCommon: action.data };
@@ -50,55 +72,32 @@ const reducer = (state, action) => {
 
     // PROFESOR
     case "SET_TEACHER_DATA": {
-      const updatedFormData = new FormData(state.formData);
-      Object.entries(action.data).forEach(([key, value]) => {
-        updatedFormData.set(key, value);
-      });
       return {
         ...state,
-        commonTeacher: action.data,
-        formData: updatedFormData,
+        commonTeacher: action.data
       };
     }
 
     case "SET_DATE_TEACHER_DATA": {
-      const updatedFormData = new FormData(state.formData);
-      Object.entries(action.data).forEach(([key, value]) => {
-        updatedFormData.set(key, value);
-      });
-      return { ...state, datesTeacher: action.data, formData: updatedFormData };
+      return { ...state, datesTeacher: action.data};
     }
 
     case "SET_ADDRESS_TEACHER_DATA": {
-      const updatedFormData = new FormData(state.formData);
-      Object.entries(action.data).forEach(([key, value]) => {
-        updatedFormData.set(key, value);
-      });
       return {
         ...state,
-        addressTeacher: action.data,
-        formData: updatedFormData,
+        addressTeacher: action.data
       };
     }
 
     case "SET_MEDICAL_TEACHER_DATA": {
-      const updatedFormData = new FormData(state.formData);
-      Object.entries(action.data).forEach(([key, value]) => {
-        updatedFormData.set(key, value);
-      });
       return {
         ...state,
-        medicalTeacher: action.data,
-        formData: updatedFormData,
+        medicalTeacher: action.data        
       };
     }
 
     case "SET_PHONE_TEACHER_DATA": {
-      const updatedFormData = new FormData(state.formData);
-      Object.entries(action.data).forEach(([key, value]) => {
-        updatedFormData.set(key, value);
-      });
-      return { ...state, phoneTeacher: action.data, formData: updatedFormData };
+      return { ...state, phoneTeacher: action.data };
     }
 
     //ESTUDIANTE
@@ -120,7 +119,7 @@ const reducer = (state, action) => {
     case "SET_PHONE_STUDENT_DATA": {
       return { ...state, phoneStudent: action.data };
     }
-
+    */
     // Acción para consolidar datos del formulario
     // case "SET_FORM_DATA": {
     //   return {
@@ -138,13 +137,11 @@ const reducer = (state, action) => {
 
     default:
       return state;
-
   }
 };
 
 // Define el proveedor de contexto
 export const RegFormProvider = ({ children }) => {
-    
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
