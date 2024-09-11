@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "../../../components/forms/Input.jsx";
-import { Boton } from "../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../api/post.js";
-import { validateField } from "../../../helper/validators/register.js";
-import { useRegFormContext } from "../../../hooks/RegFormProvider.jsx";
+import { Input } from "../../../../components/forms/Input.jsx";
+import { Boton } from "../../../../components/forms/Boton.jsx";
+import { postUserStudent } from "../../../../api/post.js";
+import { validateField } from "../../../../helper/validators/register.js";
+import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { caseCondicionMedica } from "../../../helper/validators/case/condicionMedica.js";
+import { caseCondicionMedica } from "../";
+import {
+  dataEps
+} from "../../../../helper/objects/dropdownArray.js";
 
 export const MedicalInfoSection = () => {
   const [state, dispatch] = useRegFormContext();
@@ -20,12 +23,31 @@ export const MedicalInfoSection = () => {
 
   const [isRegistering, setIsRegistering] = useState(false);
 
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownEps: []
+});
+
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
+    idEps: "",
     estatura: "",
     //hojaDeVida: null,
   });
+
+  //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
+  useEffect(() => {
+    const getDataDropdown = async () => {
+        const resultEps = await dataEps();
+
+        setDataDropdown({
+            ...dataDropdown,
+            dropdownEps: resultEps,
+        });
+    };
+
+    getDataDropdown();
+}, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -43,6 +65,12 @@ export const MedicalInfoSection = () => {
       [name]: value,
     });
   };
+
+  // Función genérica para manejar cambios en otros dropdowns
+  const handleDropdownChange = (name, value) => {
+    setValues({ ...values, [name]: value });
+    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+};
 
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
@@ -120,6 +148,17 @@ export const MedicalInfoSection = () => {
             value={values.lugaratencion}
             error={errors.lugaratencion}
           />
+          <Dropdown
+                        name={"idEps"}
+                        label={"Tipo de Eps"}
+                        //data={dataMatricula}
+                        data={dataDropdown.dropdownEps}
+                        onChange={(value) =>
+                            handleDropdownChange("idEps", value)
+                        }
+                        placeholder={"Selecciona el tipo de eps"}
+                        error={errors.ideps}
+                    />
           <Input
             name={"peso"}
             texto={"Peso"}

@@ -1,5 +1,5 @@
 import { LayoutGeneral } from '../../../../layouts/LayoutGeneral'
-import { DatesSection } from '../../../sections/admin/GeneralRegister/Dates'
+import { DatesSection } from '../../../../sections/admin/GeneralRegister/Dates'
 import { ProgressBarD } from '../../../../components/forms/ProgressBar'
 
 const Dates = () => {
