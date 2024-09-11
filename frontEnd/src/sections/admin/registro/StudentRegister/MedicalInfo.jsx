@@ -5,7 +5,8 @@ import { postUserStudent } from "../../../../api/post.js";
 import { validateField } from "../../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import { caseCondicionMedica } from "../";
+import { caseCondicionMedica } from "../../../../helper/validators/case/condicionMedica.js";
+import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
 import {
   dataEps
 } from "../../../../helper/objects/dropdownArray.js";
@@ -25,12 +26,12 @@ export const MedicalInfoSection = () => {
 
   const [dataDropdown, setDataDropdown] = useState({
     dropdownEps: []
-});
+  });
 
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
-    idEps: "",
+    ideps: "",
     estatura: "",
     //hojaDeVida: null,
   });
@@ -38,16 +39,16 @@ export const MedicalInfoSection = () => {
   //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
   useEffect(() => {
     const getDataDropdown = async () => {
-        const resultEps = await dataEps();
+      const resultEps = await dataEps();
 
-        setDataDropdown({
-            ...dataDropdown,
-            dropdownEps: resultEps,
-        });
+      setDataDropdown({
+        ...dataDropdown,
+        dropdownEps: resultEps,
+      });
     };
 
     getDataDropdown();
-}, []);
+  }, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -70,7 +71,7 @@ export const MedicalInfoSection = () => {
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
     console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
-};
+  };
 
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
@@ -80,17 +81,17 @@ export const MedicalInfoSection = () => {
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
-        if (Object.hasOwn(values, key)) {
-            const error = caseCondicionMedica(key, values[key]);
-            if (error) {
-                newErrors[key] = error;
-            }
+      if (Object.hasOwn(values, key)) {
+        const error = caseCondicionMedica(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
         }
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+      setErrors(newErrors);
+      return;
     }
 
     const dataUser = {
@@ -149,16 +150,16 @@ export const MedicalInfoSection = () => {
             error={errors.lugaratencion}
           />
           <Dropdown
-                        name={"idEps"}
-                        label={"Tipo de Eps"}
-                        //data={dataMatricula}
-                        data={dataDropdown.dropdownEps}
-                        onChange={(value) =>
-                            handleDropdownChange("idEps", value)
-                        }
-                        placeholder={"Selecciona el tipo de eps"}
-                        error={errors.ideps}
-                    />
+            name={"ideps"}
+            label={"Tipo de Eps"}
+            //data={dataMatricula}
+            data={dataDropdown.dropdownEps}
+            onChange={(value) =>
+              handleDropdownChange("ideps", value)
+            }
+            placeholder={"Selecciona el tipo de eps"}
+            error={errors.ideps}
+          />
           <Input
             name={"peso"}
             texto={"Peso"}
