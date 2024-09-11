@@ -135,6 +135,9 @@ export const TeacherRegister = () => {
             formData.append("professionTeacher.hojaDeVida", file); // Añadir el archivo a la sección correspondiente
         }
 
+        console.log(formData);
+        
+
         // Mostrar todos los datos almacenados
 
         //const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
@@ -153,13 +156,13 @@ export const TeacherRegister = () => {
 
         //     return;
         // }
-
+        /*
         const dataUser = {
             ...values,
             nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
         };
         console.log(dataUser);
-
+        */
         //let formData = new FormData();
 
         /*Object.entries(dataUser).forEach(([key, value]) => {
@@ -167,10 +170,10 @@ export const TeacherRegister = () => {
           
         });
     
-        console.log(formData);*/
+        
 
-
-        // createUser(dataUser);
+        // createUser(dataUser);*/
+        console.log(formData);
     };
 
     const createUser = async (data) => {

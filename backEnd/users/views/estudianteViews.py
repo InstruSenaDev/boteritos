@@ -1,8 +1,15 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from ..serialzer.estudianteSerializer import EstudianteSerializer
 from ..serialzer.usuarioSerializer import UsuarioSerializer
+from ..serialzer.fechasSerizalizer import FechasSerializer
+from ..serialzer.direccionSerializer import DireccionSerializer
+from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
+from ..serialzer.fechasSerizalizer import FechasSerializer
+from ..serialzer.telefonosSerializer import TelefonosSerializer
+
 from ..models import Estudiante
 from ..querySql import querySql
 
@@ -11,21 +18,79 @@ from ..querySql import querySql
 def EstudianteCreateView(request):
     
     if request.method == 'POST':
-        print('-----REQUEST DATA-----')
-        print(request.data)
-        print('-----REQUEST DATA-----')
-        
-        serializerUsuario = UsuarioSerializer(data = request.data)
+        datos = request.data
+                
+        #----------USUARIO----------
+        serializerUsuario = UsuarioSerializer(data = datos)
         
         if not serializerUsuario.is_valid():
-            
-            serializerUsuario.save()
-            print('¡Fue valido!')    
-            print(serializerUsuario.data)
-            
-            return Response('ERROR')
+            return Response({
+                "message" : "Creacion del usuario cancelada",
+                "error" : serializerUsuario.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+        serializerUsuario.save()
         
-        return Response('HOLA')
+        idUsuario = serializerUsuario.data['idusuario']
+        datos['idusuario'] = idUsuario
+        
+        #----------FECHAS----------
+        serializerFechas = FechasSerializer(data = datos)
+        #VALIDAMOS FECHAS
+        if not serializerFechas.is_valid():
+            return Response({
+                "message" : "Insert en fechas cancelado",
+                "erorr" : serializerFechas.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+        #GUARDAMOS FECHAS
+        serializerFechas.save()
+        
+        #----------DIRECCION----------
+        direccionSerializer = DireccionSerializer(data = datos)
+        if not direccionSerializer.is_valid():
+            return Response({
+                "message" : "Insert en direccion cancelado",
+                "error" : direccionSerializer.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        #GUARDAMOS DIRECCION
+        direccionSerializer.save()
+        
+        #----------DATOS MEDICOS----------
+        datosMedicosSerializer = DatosMedicosSerializer(data = datos)
+        if not datosMedicosSerializer.is_valid():
+            return Response({
+                "message" : "Insert en datos medicos cancelado",
+                "error" : datosMedicosSerializer.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        datosMedicosSerializer.save()
+        
+        #----------TELEFONOS----------
+        telefonoSerializer = TelefonosSerializer(data = datos)
+        if not telefonoSerializer.is_valid():
+            return Response({
+                "message" : "Insert en telefonos cancelado",
+                "error" : telefonoSerializer.errors
+            },status=status.HTTP_400_BAD_REQUEST) 
+        telefonoSerializer.save()
+        
+        #----------ESTUDIANTE----------
+        estudianteSerializer = EstudianteSerializer(data = datos)
+        if not estudianteSerializer.is_valid():
+            return Response({
+                "message" : "Insert en tabla estudiante cancelada",
+                "error" : estudianteSerializer.errors
+            }, status= status.HTTP_400_BAD_REQUEST)
+        estudianteSerializer.save()  
+             
+        return Response({
+            "usuario" : serializerUsuario.data,
+            "fechas" : serializerFechas.data,
+            "direccion" : direccionSerializer.data,
+            "datosMedicos" : datosMedicosSerializer.data,
+            "telefono" : telefonoSerializer.data,
+            "estudiante" : estudianteSerializer.data
+        }, status=status.HTTP_201_CREATED)
 
 
 class EstudianteViewSets(viewsets.ModelViewSet):
@@ -37,8 +102,6 @@ class EstudianteViewSets(viewsets.ModelViewSet):
         
         print(request.data)
         
-        return Response('Hola')
-        """"
         serializer = self.serializer_class(data = request.data)
         
         if serializer.is_valid():
@@ -53,8 +116,6 @@ class EstudianteViewSets(viewsets.ModelViewSet):
             "message" : "Creacion cancelada",
             "error" : serializer.errors
         }, status= status.HTTP_400_BAD_REQUEST)
-        """
-
 
 
 @api_view(['GET'])

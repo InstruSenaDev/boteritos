@@ -52,9 +52,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
         
         usuario = Usuario(**validated_data)
         usuario.set_password(validated_data['contrasena'])
-        #usuario.save()
+        usuario.save()
         
         return usuario
+    
     #AHORA LO ARREGLO
     def update(self, instance, validated_data):
         
