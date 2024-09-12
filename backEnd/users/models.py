@@ -260,7 +260,7 @@ class Usuario(models.Model):
     documento = models.TextField()
     estado = models.TextField()
     edad = models.TextField()
-    imagen = models.ImageField(upload_to='imagenes/', max_length=255)
+    imagen = models.ImageField(upload_to='imagenes/', max_length=512)
     idrol = models.ForeignKey(Rol, models.DO_NOTHING, db_column='idRol')   
     idsexo = models.ForeignKey(Sexo, models.DO_NOTHING, db_column='idSexo')   
     idtipodocumento = models.ForeignKey(Tipodocumento, models.DO_NOTHING, db_column='idTipoDocumento')   

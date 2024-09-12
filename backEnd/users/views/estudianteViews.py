@@ -19,7 +19,9 @@ def EstudianteCreateView(request):
     
     if request.method == 'POST':
         datos = request.data
-                
+        #2223456789
+        print(request.data)
+        
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
         
@@ -28,6 +30,7 @@ def EstudianteCreateView(request):
                 "message" : "Creacion del usuario cancelada",
                 "error" : serializerUsuario.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+            
         serializerUsuario.save()
         
         idUsuario = serializerUsuario.data['idusuario']
@@ -41,8 +44,7 @@ def EstudianteCreateView(request):
                 "message" : "Insert en fechas cancelado",
                 "erorr" : serializerFechas.errors
             }, status=status.HTTP_400_BAD_REQUEST)
-        #GUARDAMOS FECHAS
-        serializerFechas.save()
+        
         
         #----------DIRECCION----------
         direccionSerializer = DireccionSerializer(data = datos)
@@ -52,8 +54,7 @@ def EstudianteCreateView(request):
                 "error" : direccionSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST)
         
-        #GUARDAMOS DIRECCION
-        direccionSerializer.save()
+        
         
         #----------DATOS MEDICOS----------
         datosMedicosSerializer = DatosMedicosSerializer(data = datos)
@@ -63,7 +64,7 @@ def EstudianteCreateView(request):
                 "error" : datosMedicosSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST)
         
-        datosMedicosSerializer.save()
+        
         
         #----------TELEFONOS----------
         telefonoSerializer = TelefonosSerializer(data = datos)
@@ -72,7 +73,7 @@ def EstudianteCreateView(request):
                 "message" : "Insert en telefonos cancelado",
                 "error" : telefonoSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST) 
-        telefonoSerializer.save()
+        
         
         #----------ESTUDIANTE----------
         estudianteSerializer = EstudianteSerializer(data = datos)
@@ -81,6 +82,13 @@ def EstudianteCreateView(request):
                 "message" : "Insert en tabla estudiante cancelada",
                 "error" : estudianteSerializer.errors
             }, status= status.HTTP_400_BAD_REQUEST)
+            
+        #GUARDAMOS FECHAS
+        serializerFechas.save()
+        #GUARDAMOS DIRECCION
+        direccionSerializer.save()
+        datosMedicosSerializer.save()
+        telefonoSerializer.save()
         estudianteSerializer.save()  
              
         return Response({

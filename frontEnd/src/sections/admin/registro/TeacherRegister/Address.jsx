@@ -1,46 +1,27 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Input } from "../../../../components/forms/Input.jsx";
 import { Boton } from "../../../../components/forms/Boton.jsx";
 import { postUserStudent } from "../../../../api/post.js";
 import { validateField } from "../../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
-import { useNavigate, Link } from "react-router-dom";
 import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const AdressSection = () => {
-
   const [state, dispatch] = useRegFormContext();
-
-  console.log(state);
-  
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 50 })
-  }, [])
-
-  useEffect(() => {
-    const pito = async () => {
-      const response = await fetch("http://localhost:8000/api/v3/sql/prueba/", {
-        method: "POST",
-        body: state.dataForm,
-      });
-      const data = await response.json();
-      console.log(data);
-    };
-    pito();
-  }, []);
-
   const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [isRegistering, setIsRegistering] = useState(false);
-
   const [values, setValues] = useState({
     comuna: "",
     barrio: "",
     numero: "",
-    //hojaDeVida: null,
   });
+
+  const dataFormInd = new FormData();
+
+  useEffect(() => {
+    dispatch({ type: "CHANGE_PERCENT", data: 50 });
+  }, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -62,8 +43,7 @@ export const AdressSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_ADDRESS_TEACHER_DATA', data: values })
-
+    
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
@@ -80,7 +60,6 @@ export const AdressSection = () => {
       return;
     }
 
-
     const dataUser = {
       ...values,
       comuna: values.comuna.trim(),
@@ -88,45 +67,17 @@ export const AdressSection = () => {
       numero: values.numero.trim(),
     };
 
-    
-
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-      formData.append([key] , value)
-      
-    });
-
-    console.log(formData);*/
-    navigate('/admin/registro/registroprofesor/fechas')
-
-    // createUser(dataUser);
-  };
-
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, dataUser[key]);
+      }
     }
 
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
 
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
+    navigate("/admin/registro/registroprofesor/fechas");
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
-    
   };
 
   return (
@@ -166,11 +117,13 @@ export const AdressSection = () => {
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
           {/* Botón para confirmar el formulario */}
-          <Link to={"/admin/registro/registroprofesor"} className="max-w-[400px] w-full">
+          <Link
+            to={"/admin/registro/registroprofesor"}
+            className="max-w-[400px] w-full"
+          >
             <Boton text="Atras" type="blue" />
           </Link>
           <Boton text="Confirmar" type="blue" />
-
         </div>
       </form>
     </>

@@ -19,6 +19,26 @@ export const dataDoc = async () => {
   return dataDrop
 }
 
+export const dataRh = async () => {
+
+  let dataDrop = []
+  const result = await getDropdown('dropdowns/rh/');
+  
+  console.log(result);
+  
+  if (result.data) {
+    let arrayData = result.data
+  
+    dataDrop = arrayData.map((value)=> (
+      {
+        "option" : value.rh,
+        "value" : value.idrh
+      })
+    )
+  }
+
+  return dataDrop
+}
 
 export const dataRol = async () => {
 

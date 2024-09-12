@@ -5,7 +5,11 @@ export const UploadFile = ({ title, onFileChange, id }) => {
 
     // Maneja el cambio de archivo
     const handleFileChange = (event) => {
+        
+        console.log(event);
+        
         const file = event.target.files[0];
+
         if (file) {
             setFileName(file.name); // Actualiza el nombre del archivo en el estado
             onFileChange(file); // Llama a la función de callback con el archivo seleccionado
