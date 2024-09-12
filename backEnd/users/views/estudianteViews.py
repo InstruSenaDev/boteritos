@@ -101,30 +101,15 @@ def EstudianteCreateView(request):
         }, status=status.HTTP_201_CREATED)
 
 
-class EstudianteViewSets(viewsets.ModelViewSet):
-    
-    serializer_class = EstudianteSerializer
-    queryset = Estudiante.objects.all()
-    
-    def create(self, request):
+@api_view(['GET'])
+def EstudianteDataPersonal(request,id):
+    if request.method == 'GET':
+        query = querySql("SELECT `usuario`.`nombre`, `usuario`.`apellido`,`usuario`.`correo`, `usuario`.`documento`, `usuario`.`edad`, `estudiante`.`tallaCamisa`, `estudiante`.`institutoProcedencia`,`sexo`.`sexo`, `matriculas`.`matricula` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `sexo` ON `usuario`.`idSexo` = `sexo`.`idSexo` LEFT JOIN `matriculas` ON `estudiante`.`idMatricula` = `matriculas`.`idMatricula` WHERE `estudiante`.`idEstudiante` = %s;", [id])
         
-        print(request.data)
-        
-        serializer = self.serializer_class(data = request.data)
-        
-        if serializer.is_valid():
-            
-            #serializer.save()
-            return Response({
-                "message" : "¡Estudiante creado con exito!",
-                "data" : serializer.data
-            }, status=status.HTTP_201_CREATED)
-            
         return Response({
-            "message" : "Creacion cancelada",
-            "error" : serializer.errors
-        }, status= status.HTTP_400_BAD_REQUEST)
-
+            "message" : "Datos encontrados",
+            "datos" : query
+        })
 
 @api_view(['GET'])
 def EstudianteTableAdmin(request):
@@ -182,3 +167,4 @@ def EstudianteHeaderAdmin(request,id):
             "message" : "¡Consulta exitosa!",
             "data" : dataHead
         }, status=status.HTTP_200_OK)
+        

@@ -16,3 +16,9 @@ export const getDropdown = async (url) =>{
     const data = await fetchFunction('GET', null, null, url)
     return data
 }
+
+//http://localhost:8000/api/v3/usuarios/historiaclinica/?idestudiante=2
+export const dataDetailEstudiante = async (url) => {
+    const data = await fetchFunction('GET', null, null, `usuarios/${url}`)
+    return data
+}

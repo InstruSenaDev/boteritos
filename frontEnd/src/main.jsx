@@ -7,6 +7,7 @@ import RegFormLayout from "./hooks/ContextLayout.jsx";
 import "./index.css";
 import App from "./App.jsx";
 import Loading from "./components/loaders/loading.jsx";
+
 //ADMINISTRADOR
 const Admin = lazy(() => import("./pages/admin/registro/AdminRegister/AdminRegister.jsx"));
 const FormLogin = lazy(() => import("./sections/FormLogin.jsx"));
