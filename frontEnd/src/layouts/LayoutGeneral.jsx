@@ -12,7 +12,7 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const rol = decodedToken.rol;
-  const imagen = decodedToken.imagen;
+  const imagen = decodedToken.img;
   console.log("Decoded Token:", decodedToken);
   console.log("Image URL:", imagen);
 

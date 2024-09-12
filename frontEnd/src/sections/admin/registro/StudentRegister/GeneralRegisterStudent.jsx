@@ -39,7 +39,7 @@ export const GeneralRegisterStudent = () => {
     cambiocontrasena: "0",
     estado: "1",
     idrol: 3,
-    idmatricula: "",
+    matricula: "",
   });
 
   const dataFormInd = new FormData();
@@ -231,12 +231,12 @@ export const GeneralRegisterStudent = () => {
             error={errors.idsexo}
           />
           <Dropdown
-            name={"idmatricula"}
+            name={"matricula"}
             label={"Matricula"}
             data={dataDropdown.dropdownMatricula}
-            onChange={(value) => handleDropdownChange("idmatricula", value)}
+            onChange={(value) => handleDropdownChange("matricula", value)}
             placeholder={"Selecciona la matricula"}
-            error={errors.idmatricula}
+            error={errors.matricula}
           />
           <Input
             name={"institutoprocedencia"}

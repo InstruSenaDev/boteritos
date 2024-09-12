@@ -136,8 +136,8 @@ export const MedicalInfoSection = () => {
             placeholder={"Altura del profesor"}
             tipo={"number"}
             onChange={handleInputChange}
-            value={values.estatura}
-            error={errors.estatura}
+            value={values.altura}
+            error={errors.altura}
           />
           <Dropdown
             name={"idrh"}

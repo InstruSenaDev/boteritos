@@ -136,8 +136,8 @@ export const MedicalInfoSection = () => {
           />
           <Input
             name={"altura"}
-            texto={"Estatura"}
-            placeholder={"Estatura del usuario"}
+            texto={"altura"}
+            placeholder={"altura del usuario"}
             tipo={"number"}
             onChange={handleInputChange}
             value={values.altura}

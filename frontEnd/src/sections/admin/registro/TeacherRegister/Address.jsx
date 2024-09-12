@@ -89,7 +89,7 @@ export const AdressSection = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
           <Input
             name={"barrio"}
-            texto={"Barrios"}
+            texto={"Barrio"}
             placeholder={"Barrio del usuario"}
             tipo={"text"}
             onChange={handleInputChange}

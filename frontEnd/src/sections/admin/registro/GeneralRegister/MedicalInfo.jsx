@@ -23,7 +23,7 @@ export const MedicalInfoSection = () => {
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
-    estatura: "",
+    altura: "",
     //hojaDeVida: null,
   });
 
@@ -69,7 +69,7 @@ export const MedicalInfoSection = () => {
       ...values,
       lugaratencion: values.lugaratencion.trim(),
       peso: values.peso.trim(),
-      estatura: values.estatura.trim(),
+      altura: values.altura.trim(),
     };
     console.log(dataUser);
 
@@ -139,13 +139,13 @@ export const MedicalInfoSection = () => {
             error={errors.peso}
           />
           <Input
-            name={"estatura"}
-            texto={"Estatura"}
-            placeholder={"Estatura del usuario"}
+            name={"altura"}
+            texto={"Altura"}
+            placeholder={"Altura del usuario"}
             tipo={"number"}
             onChange={handleInputChange}
-            value={values.estatura}
-            error={errors.estatura}
+            value={values.altura}
+            error={errors.altura}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
