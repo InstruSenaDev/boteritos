@@ -39,7 +39,7 @@ export const GeneralRegisterStudent = () => {
     cambiocontrasena: "0",
     estado: "1",
     idrol: 3,
-    matricula: "",
+    idmatricula: "",
   });
 
   const dataFormInd = new FormData();
@@ -90,7 +90,7 @@ export const GeneralRegisterStudent = () => {
   const handleFileChange = (name, file) => {
     dataFormInd.set(name, file);
     console.log(file);
-    
+
   };
 
   // Maneja el envío del formulario
@@ -132,9 +132,9 @@ export const GeneralRegisterStudent = () => {
       `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
     );
     const data = await response.json();
-    
+
     console.log(data);
-    
+
     if (data.error) {
       console.log(data.error);
       return;
@@ -231,12 +231,12 @@ export const GeneralRegisterStudent = () => {
             error={errors.idsexo}
           />
           <Dropdown
-            name={"matricula"}
+            name={"idmatricula"}
             label={"Matricula"}
             data={dataDropdown.dropdownMatricula}
-            onChange={(value) => handleDropdownChange("matricula", value)}
+            onChange={(value) => handleDropdownChange("idmatricula", value)}
             placeholder={"Selecciona la matricula"}
-            error={errors.matricula}
+            error={errors.idmatricula}
           />
           <Input
             name={"institutoprocedencia"}
@@ -247,8 +247,8 @@ export const GeneralRegisterStudent = () => {
             value={values.institutoprocedencia}
             error={errors.institutoprocedencia}
           />
-          {/* Dropdown para seleccionar el sexo */}
           <UploadFile
+            typefile={"image/*"}
             title={"Foto"}
             id="imagen"
             onFileChange={(file) => handleFileChange("imagen", file)}

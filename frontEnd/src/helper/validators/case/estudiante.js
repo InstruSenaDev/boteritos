@@ -42,7 +42,7 @@ export const caseEstudiante = (name, value) => {
       }
       break;
 
-      case "matricula":
+      case "idmatricula":
         if (!value) {
           error = "Seleccione la matricula.";
         }
