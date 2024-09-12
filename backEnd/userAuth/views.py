@@ -39,14 +39,14 @@ def Login(request):
             })   
                  
         utc_now = datetime.now(pytz.utc)
-        
+        print(usuario.imagen)
         #Creacion de token de acceso
         access_payload = {
             'idusuario': usuario.idusuario ,
             'nombre': usuario.nombre ,
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
-            'img' : usuario.img,
+            'img' : f'http://localhost:8000/media/{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_ACCESS_EXPIRATION_TIME),
             'iat': utc_now
         }
@@ -58,6 +58,7 @@ def Login(request):
             'nombre': usuario.nombre ,
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
+            'img' : f'http://localhost:8000/media/{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_REFRESH_EXPIRATION_TIME),
             'iat': utc_now
         }

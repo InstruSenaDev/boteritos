@@ -4,16 +4,19 @@ import bcrypt
 # Create your models here.
 
 class Usuario(models.Model):
-    idusuario = models.AutoField(db_column='idUsuario', primary_key=True)   
+    idusuario = models.AutoField(db_column='idUsuario', primary_key=True)
     nombre = models.TextField()
     apellido = models.TextField()
     correo = models.TextField()
-    contrasena = models.TextField(db_column='contrasena')
-    cambiocontrasena = models.TextField(db_column='cambioContrasena')   
-    documento = models.TextField(unique=True)
+    contrasena = models.TextField()
+    cambiocontrasena = models.TextField(db_column='cambioContrasena')
+    documento = models.TextField()
     estado = models.TextField()
     edad = models.TextField()
-    idrol = models.IntegerField(db_column='idRol')   
+    imagen = models.TextField()
+    idrol = models.IntegerField(db_column='idRol')
+    idsexo = models.IntegerField(db_column='idSexo')
+    idtipodocumento = models.IntegerField(db_column='idTipoDocumento')
     
     class Meta:
         managed = False
