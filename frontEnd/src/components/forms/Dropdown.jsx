@@ -21,8 +21,8 @@ export function Dropdown({ label, name, data, onChange , placeholder, error}) {
                     onValueChange={handleChange}  // Manejador de cambios asignado
                    
                 >
-                    {data.map((dropdownKey) => (
-                        <SelectItem key={dropdownKey.value} className='cursor-pointer' value={dropdownKey.value}>
+                    {data.map((dropdownKey, index) => (
+                        <SelectItem key={index} className='cursor-pointer' value={dropdownKey.value}>
                             {dropdownKey.option}
                         </SelectItem>
                     ))}

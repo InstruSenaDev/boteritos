@@ -1,65 +1,37 @@
 import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
 import { Input } from "../../../../components/forms/Input.jsx";
 import { UploadFile } from "../../../../components/forms/UploadFile.jsx";
 import { dataDoc, dataSexo } from "../../../../helper/objects/dropdownArray.js";
 import { Boton } from "../../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../../api/post.js";
 import { validateField } from "../../../../helper/validators/register.js";
-import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
 
 export const GeneralRegisterTeacher = () => {
-  const prueba = new FormData();
-  prueba.append("pito", "tragó");
-  prueba.append("cuca", "peluda");
-
-  useEffect(() => {
-    const pito = async () => {
-      const response = await fetch("http://localhost:8000/api/v3/sql/prueba/", {
-        method: "POST",
-        body: prueba,
-      });
-      const data = await response.json();
-      console.log(data);
-    };
-    pito();
-  }, []);
-
-  console.log(prueba);
-
-  const [state, dispatch] = useRegFormContext();
-
-  console.log(state);
-
-  console.log(typeof state.data);
-
   const navigate = useNavigate();
-
+  const prueba = new FormData();
+  const [state, dispatch] = useRegFormContext();
   const [errors, setErrors] = useState({}); // Estado para los errores
-
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
     dropdownSexo: [],
   });
-
   const [values, setValues] = useState({
     nombre: "",
     apellido: "",
-    numerodocumento: "",
-    correo: "",
-    urlimg: "",
-    edad: "",
     idtipodocumento: "",
+    documento: "",
+    edad: "",
+    correo: "",
     idsexo: "",
     contrasena: "",
     cambiocontrasena: "0",
     estado: "1",
-    //hojaDeVida: null,
+    idrol: 2,
   });
-
-  const [file, setFile] = useState(null); // Para manejar el archivo de la foto
+  const dataFormInd = new FormData();
 
   //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
   useEffect(() => {
@@ -82,12 +54,10 @@ export const GeneralRegisterTeacher = () => {
     const { name, value } = event.target;
 
     const error = caseProfesor(name, value); // Validar el campo específico
-
     setErrors({
       ...errors,
       [name]: error,
     }); // Actualizar el estado de errores y valores
-
     setValues({
       ...values,
       [name]: value,
@@ -97,12 +67,11 @@ export const GeneralRegisterTeacher = () => {
   // Función genérica para manejar cambios en otros dropdowns
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
-    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
   };
 
   // Handle file changes
   const handleFileChange = (name, file) => {
-    setFile(file);
+    dataFormInd.set(name, file);
   };
 
   // Maneja el envío del formulario
@@ -124,56 +93,30 @@ export const GeneralRegisterTeacher = () => {
       setErrors(newErrors);
       return;
     }
-    console.log('PASÓ VALIDACIONES');
-    
-    /*
-    dispatch({ type: "SET_TEACHER_DATA", data: values });
 
-    // Si se seleccionó un archivo, actualizar el contexto con el archivo
-    if (file) {
-      dispatch({ type: "SET_TEACHER_DATA", data: { ...values, foto: file } });
-    }*/
-
+    //Limpiamos los datos
     const dataUser = {
       ...values,
-      nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
-      numerodocumento: values.numerodocumento.trim(),
+      nombre: values.nombre.trim(),
+      apellido: values.apellido.trim(),
+      documento: values.documento.trim(),
       correo: values.correo.trim(),
-      urlimg: `https://${values.urlimg}img.com`,
       edad: values.edad.trim(),
-      contrasena: values.numerodocumento.trim(),
+      contrasena: values.documento.trim(),
     };
 
-    dispatch({type : "ADD_DATA_FORM", data : dataUser})
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-          formData.append([key] , value)
-          
-        });
-    
-        console.log(formData);*/
-    navigate("/admin/registro/registroprofesor/direcciones");
-
-    // createUser(dataUser);
-  };
-
-  /*
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        console.log("CICLO PRUEBA :", key);
+        dataFormInd.set(key, dataUser[key]);
+      }
     }
 
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
+    navigate("/admin/registro/registroprofesor/direcciones");
+
   };
-    */
+
   return (
     <>
       <form
@@ -204,20 +147,19 @@ export const GeneralRegisterTeacher = () => {
           <Dropdown
             name={"idtipodocumento"}
             label={"Tipo de documento"}
-            //data={dataMatricula}
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
             placeholder={"Selecciona el tipo de documento"}
             error={errors.idtipodocumento}
           />
           <Input
-            name={"numerodocumento"}
+            name={"documento"}
             texto={"Número de documento"}
-            placeholder={"Documento del usuario"}
+            placeholder={"Documento del profesor"}
             tipo={"number"}
             onChange={handleInputChange}
-            value={values.numerodocumento}
-            error={errors.numerodocumento}
+            value={values.documento}
+            error={errors.documento}
           />
           <Input
             name={"edad"}
@@ -249,8 +191,8 @@ export const GeneralRegisterTeacher = () => {
           />
           <UploadFile
             title={"Foto"}
-            id="foto"
-            onFileChange={(file) => handleFileChange("foto", file)}
+            id="imagen"
+            onFileChange={(file) => handleFileChange("imagen", file)}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

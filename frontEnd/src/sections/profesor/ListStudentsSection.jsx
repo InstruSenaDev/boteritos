@@ -1,6 +1,5 @@
-import React from 'react'
-import HeaderData from '../../components/tables/headerData/HeaderData'
-import TableStudents from '../../components/estudiantes/tableStudents'
+import HeaderData from '../../components/list/headerData/HeaderData'
+import TableStudents from '../../components/list/tables/TableStudents'
 
 {/*posible archivo a borrar*/}
 

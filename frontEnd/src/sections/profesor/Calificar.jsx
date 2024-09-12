@@ -1,6 +1,5 @@
-import { Boton } from "../../components/forms/Boton";
-import TableCalificarEstudiante from "../../components/tables/TableCalificarEstudiante";
-import HeaderData from "../../components/tables/headerData/HeaderData";
+import TableCalificarEstudiante from "../../components/list/tables/TableCalificarEstudiante";
+import HeaderData from "../../components/list/headerData/HeaderData";
 import { Observacion } from "../../components/forms/Observacion";
 import { useState } from "react";
 import { ConfirmationModal } from "../../components/modales/ConfirmationModal";

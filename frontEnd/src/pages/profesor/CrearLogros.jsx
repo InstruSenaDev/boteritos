@@ -1,5 +1,5 @@
 
-import TableListaLogros from "../../components/tables/tableListaLogros.jsx";
+import TableListaLogros from "../../components/list/tables/TableListaLogros.jsx";
 import {LayoutGeneral} from "../../layouts/LayoutGeneral.jsx";
 
 const CrearLogros = () => {

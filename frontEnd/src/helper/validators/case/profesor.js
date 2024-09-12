@@ -88,7 +88,7 @@ export const caseProfesor = (name, value) => {
       }
       break;
 
-    case "numerodocumento":
+    case "documento":
       if (!stringValue) {
         error = "El número de documento es obligatorio.";
       } else if (stringValue.length < 8 || stringValue.length > 10) {

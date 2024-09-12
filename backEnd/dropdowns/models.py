@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Areas(models.Model):
-    idarea = models.AutoField(db_column='idArea', primary_key=True)  # Field name made lowercase.
+    idarea = models.AutoField(db_column='idArea', primary_key=True)   
     area = models.TextField()
 
     class Meta:
@@ -10,16 +10,16 @@ class Areas(models.Model):
         db_table = 'areas'
 
 class Eps(models.Model):
-    ideps = models.AutoField(db_column='idEps', primary_key=True)  # Field name made lowercase.
-    eps = models.TextField(db_column='eps')  # Field name made lowercase.
+    ideps = models.AutoField(db_column='idEps', primary_key=True)   
+    eps = models.TextField(db_column='eps')   
 
     class Meta:
         managed = False
         db_table = 'eps'
 
 class Rh(models.Model):
-    idrh = models.AutoField(db_column='idRh', primary_key=True)  # Field name made lowercase.
-    rh = models.TextField(db_column='rh')  # Field name made lowercase.
+    idrh = models.AutoField(db_column='idRh', primary_key=True)   
+    rh = models.TextField(db_column='rh')   
 
     class Meta:
         managed = False

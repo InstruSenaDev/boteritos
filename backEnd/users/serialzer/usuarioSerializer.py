@@ -55,6 +55,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         usuario.save()
         
         return usuario
+    
     #AHORA LO ARREGLO
     def update(self, instance, validated_data):
         

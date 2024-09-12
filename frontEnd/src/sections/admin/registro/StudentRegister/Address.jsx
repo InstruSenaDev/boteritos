@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../../../components/forms/Input.jsx";
 import { Boton } from "../../../../components/forms/Boton.jsx";
-import { postUserStudent } from "../../../../api/post.js";
 import { validateField } from "../../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
@@ -13,19 +12,18 @@ export const AdressSection = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 50 })
-  }, [])
+    dispatch({ type: "CHANGE_PERCENT", data: 50 });
+  }, []);
 
   const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [isRegistering, setIsRegistering] = useState(false);
 
   const [values, setValues] = useState({
     comuna: "",
     barrio: "",
     numero: "",
-    //hojaDeVida: null,
   });
+
+  const dataFormInd = new FormData();
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -48,22 +46,21 @@ export const AdressSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_ADDRESS_STUDENT_DATA', data: values })
 
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
-        if (Object.hasOwn(values, key)) {
-            const error = caseEstudiante(key, values[key]);
-            if (error) {
-                newErrors[key] = error;
-            }
+      if (Object.hasOwn(values, key)) {
+        const error = caseEstudiante(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
         }
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+      setErrors(newErrors);
+      return;
     }
 
     const dataUser = {
@@ -72,45 +69,16 @@ export const AdressSection = () => {
       barrio: values.barrio.trim(),
       numero: values.numero.trim(),
     };
-    console.log(dataUser);
 
-
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-      formData.append([key] , value)
-      
-    });
-
-    console.log(formData);*/
-    navigate('/admin/registro/registroestudiante/fechas')
-
-    // createUser(dataUser);
-  };
-
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, dataUser[key]);
+      }
     }
 
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
-
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
+    navigate("/admin/registro/registroestudiante/fechas");
   };
 
   return (
@@ -150,11 +118,13 @@ export const AdressSection = () => {
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
           {/* Botón para confirmar el formulario */}
-          <Link to={"/admin/registro/registroestudiante"} className="max-w-[400px] w-full">
+          <Link
+            to={"/admin/registro/registroestudiante"}
+            className="max-w-[400px] w-full"
+          >
             <Boton text="Atras" type="blue" />
           </Link>
           <Boton text="Confirmar" type="blue" />
-
         </div>
       </form>
     </>
