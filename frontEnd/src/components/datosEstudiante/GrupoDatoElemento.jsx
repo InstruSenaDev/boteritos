@@ -178,7 +178,7 @@ export const GrupoDatoElemento = () => {
           onClick={() => handleOpenModal("historiaclinica")}
         />
         <DatoElemento
-          icon={"fa-solid fa-user"}
+          icon={"fa-solid fa-file-lines"}
           texto={"Informes"}
           onClick={() => handleOpenModal("Informes")}
         />

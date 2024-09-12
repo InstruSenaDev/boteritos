@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { GrupoDatoElemento } from "../../../components/datosEstudiante/GrupoDatoElemento";
-import HeaderData from "../../../components/tables/headerData/HeaderData";
-import { GrupoDatos } from "../../../components/datosEstudiante/GrupoDatos";
-import { DatosHistoria } from "../../../components/datosEstudiante/DatosHistoria";
-import { Boton } from "../../../components/forms/Boton";
+import { GrupoDatoElemento } from "../../../../components/datosEstudiante/GrupoDatoElemento";
+import HeaderData from "../../../../components/tables/headerData/HeaderData";
+import { GrupoDatos } from "../../../../components/datosEstudiante/GrupoDatos";
+import { DatosHistoria } from "../../../../components/datosEstudiante/DatosHistoria";
+import { Boton } from "../../../../components/forms/Boton";
 
 import {
   dataPersonal,
@@ -11,10 +11,10 @@ import {
   dataResponsable,
   dataCondicionMedica,
   dataHistoriaClinica,
-} from "../../../helper/objects/dataStudentsArray";
+} from "../../../../helper/objects/dataStudentsArray";
 import { useParams } from "react-router-dom";
-import { UpdateModal } from "../../../components/modales/UpdateModal";
-import { Input } from "../../../components/forms/Input";
+import { UpdateModal } from "../../../../components/modales/UpdateModal";
+import { Input } from "../../../../components/forms/Input";
 
 const StudentsDates = () => {
   const [selectedSection, setSelectedSection] = useState(null);
