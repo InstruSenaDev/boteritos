@@ -46,6 +46,7 @@ def Login(request):
             'nombre': usuario.nombre ,
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
+            'img' : usuario.img,
             'exp': utc_now + timedelta(seconds=settings.JWT_ACCESS_EXPIRATION_TIME),
             'iat': utc_now
         }
