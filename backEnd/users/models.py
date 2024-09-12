@@ -104,18 +104,6 @@ class Fechas(models.Model):
         managed = False
         db_table = 'fechas'
 
-class Historiaclinica(models.Model):
-    idhistoriaclinica = models.AutoField(db_column='idHistoriaClinica', primary_key=True)   
-    medicamentos = models.TextField()
-    restriccionesalimenticias = models.TextField(db_column='restriccionesAlimenticias')   
-    archivo = models.TextField()
-    observacion = models.TextField()
-    idestudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='idEstudiante')   
-
-    class Meta:
-        managed = False
-        db_table = 'historiaclinica'
-
 class Logroestudiante(models.Model):
     idlogroestudiante = models.AutoField(db_column='idLogroEstudiante', primary_key=True)   
     resultado = models.TextField()
@@ -152,7 +140,7 @@ class Matriculas(models.Model):
 class Profesor(models.Model):
     idprofesor = models.AutoField(db_column='idProfesor', primary_key=True)   
     titulo = models.TextField()
-    hojavida = models.TextField(db_column='hojaVida')   
+    hojavida = models.FileField(upload_to='archivos/', max_length=512)  
     idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='idUsuario')   
     idarea = models.ForeignKey(Areas, models.DO_NOTHING, db_column='idArea')   
 
@@ -249,6 +237,19 @@ class Trimestres(models.Model):
     class Meta:
         managed = False
         db_table = 'trimestres'
+
+
+class Historiaclinica(models.Model):
+    idhistoriaclinica = models.AutoField(db_column='idHistoriaClinica', primary_key=True)   
+    medicamentos = models.TextField()
+    restriccionesalimenticias = models.TextField(db_column='restriccionesAlimenticias')   
+    archivo = models.FileField(upload_to='archivos/', max_length=512)
+    observacion = models.TextField()
+    idestudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='idEstudiante')   
+
+    class Meta:
+        managed = False
+        db_table = 'historiaclinica'
 
 class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)   

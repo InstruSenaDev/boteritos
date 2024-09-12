@@ -76,7 +76,7 @@ def ProfesorCreateView(request):
         profesorSerializer = ProfesorSerializer(data = datos)
         if not profesorSerializer.is_valid():
             return Response({
-                "message" : "Insert en tabla estudiante cancelada",
+                "message" : "Insert en tabla profesor cancelada",
                 "error" : profesorSerializer.errors
             }, status= status.HTTP_400_BAD_REQUEST)
         profesorSerializer.save()  
@@ -87,7 +87,7 @@ def ProfesorCreateView(request):
             "direccion" : direccionSerializer.data,
             "datosMedicos" : datosMedicosSerializer.data,
             "telefono" : telefonoSerializer.data,
-            "estudiante" : profesorSerializer.data
+            "profesor" : profesorSerializer.data
         }, status=status.HTTP_201_CREATED)
 
 
