@@ -1,9 +1,12 @@
 import React,{useState} from "react";
 import Buscador from "../search/Buscador";
+import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
-  
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedLogro, setSelectedLogro] = useState(null);
+
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
@@ -14,32 +17,50 @@ export const TablaLogrosRecibidos = () => {
       nombrelogro: "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
       profesor: "Brian David Marín",
       area: "Socio - Afectiva",
+      tipo: "Ser",
+      descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum"
     },
     {
       idlogro: 2,
       nombrelogro: "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
       profesor: "Juan José Cuartas",
       area: "Socio - Afectiva",
+       tipo: "Ser",
+      descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum"
     },
     {
       idlogro: 3,
       nombrelogro: "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
       profesor: "Sebastían Rodriguez Prado",
       area: "Socio - Afectiva",
+       tipo: "Hacer",
+      descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum"
     },
     {
       idlogro: 4,
       nombrelogro: "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
       profesor: "Claudia Camila Carmona",
       area: "Socio - Afectiva",
+       tipo: "Conocer",
+      descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum"
     },
     {
       idlogro: 5,
       nombrelogro: "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
       profesor: "Luis Loui Lens",
       area: "Socio - Afectiva",
+       tipo: "Saber",
+      descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum"
     },
   ];
+
+  const handleOpenModal=(logro)=>{
+    setSelectedLogro(logro);
+    setIsOpen(true)
+  }
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -78,7 +99,7 @@ export const TablaLogrosRecibidos = () => {
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0">
+              <div className="flex gap-2 lg:gap-0" onClick={() => handleOpenModal(data)}>
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
                 <div className="acc-header w-full flex justify-between items-center ">
                   <p className="underline cursor-pointer">{`${data.nombrelogro}`}</p>
@@ -101,7 +122,7 @@ export const TablaLogrosRecibidos = () => {
 
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden text-center">Acción:</p>
-                <div className=" w-full flex justify-evenly items-center ">
+                <div className=" w-full flex justify-center items-center gap-3 ">
                   <i className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"></i>
                   <i className="fa-solid fa-circle-xmark text-2xl cursor-pointer text-redFull"></i>
                 </div>
@@ -110,6 +131,17 @@ export const TablaLogrosRecibidos = () => {
           ))}
         </section>
       </main>
+
+      {selectedLogro && (
+        <LogrosRecibidosModal
+          txtmodal="Detalle del logro"
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          tipo={selectedLogro.tipo || 'N/A'}
+          nombre={selectedLogro.nombrelogro || 'N/A'}
+          descripcion={selectedLogro.descripcion || 'No disponible'}
+        />
+      )}
     </>
   );
 };
