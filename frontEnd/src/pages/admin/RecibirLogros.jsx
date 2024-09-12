@@ -4,7 +4,7 @@ import { TablaLogrosRecibidos } from '../../components/logros/TablaLogrosRecibid
 
 const RecibirLogros = () => {
   return (
-    <LayoutGeneral>
+    <LayoutGeneral titleHeader={"Logros Recibidos"}>
         <div className='bg-white w-full rounded-xl px-6'>  
             <TablaLogrosRecibidos/>
         </div>
