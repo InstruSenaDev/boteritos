@@ -1,40 +1,40 @@
 import React, { useState } from "react";
 import Buscador from "../../search/Buscador";
 
-const TableListTeachers = (getId) => {
+const TableListAdmins = (getId) => {
   const [openAcc, setOpenAcc] = useState(-1);
 
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const dataTeacher = [
+  const dataAdmin = [
     {
-      idprofesor: 1,
+      idadmi: 1,
       nombre: "JUAN ALBERTO",
       titulo: "Artista",
       area: "Artes",
     },
     {
-      idprofesor: 1,
+      idadmi: 1,
       nombre: "JUAN ALBERTO",
       titulo: "Artista",
       area: "Artes",
     },
     {
-      idprofesor: 1,
+      idadmi: 1,
       nombre: "JUAN ALBERTO",
       titulo: "Artista",
       area: "Artes",
     },
     {
-      idprofesor: 1,
+      idadmi: 1,
       nombre: "JUAN ALBERTO",
       titulo: "Artista",
       area: "Artes",
     },
     {
-      idprofesor: 1,
+      idadmi: 1,
       nombre: "JUAN ALBERTO",
       titulo: "Artista",
       area: "Artes",
@@ -56,7 +56,7 @@ const TableListTeachers = (getId) => {
             <p>Área</p>
             <p>Acción</p>
           </div>
-          {dataTeacher.map((data, index) => (
+          {dataAdmin.map((data, index) => (
             <div
               className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
                 openAcc === index ? "open" : "close"
@@ -67,9 +67,9 @@ const TableListTeachers = (getId) => {
                 <p className="text-darkBlue lg:hidden">No°</p>
                 <div className="acc-header w-full flex justify-between items-center ">
                   <p>
-                    {data.idprofesor.toString().length == 2
-                      ? data.idprofesor
-                      : `0${data.idprofesor}`}
+                    {data.idadmi.toString().length == 2
+                      ? data.idadmi
+                      : `0${data.idadmi}`}
                   </p>
                   <button onClick={() => toogleRow(index)}>
                     <i className="fa-solid fa-angle-down block lg:hidden"></i>
@@ -89,7 +89,7 @@ const TableListTeachers = (getId) => {
                 <div className=" w-full flex justify-between items-center ">
                   <p
                     className="unerline cursor-pointer"
-                    onClick={() => getId(data.idprofesor)}
+                    onClick={() => getId(data.idadmi)}
                   >{`${data.titulo}`}</p>
                 </div>
               </div>
@@ -115,4 +115,4 @@ const TableListTeachers = (getId) => {
   );
 };
 
-export default TableListTeachers;
+export default TableListAdmins;

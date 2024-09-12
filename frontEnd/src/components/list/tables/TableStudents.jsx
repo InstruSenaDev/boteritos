@@ -1,7 +1,7 @@
 import { getAllUser } from "../../../api/get.js";
 import DataState from "../dataStates/DataState.jsx";
 import { useEffect, useState } from "react";
-import { ModalInformes } from "../modales/ModalInformes";
+import { ModalInformes } from "../../modales/ModalInformes";
 
 export default function TableStudents({ getId }) {
   //to={`/datoestudiante/${data.idestudiante}`}
@@ -30,24 +30,24 @@ export default function TableStudents({ getId }) {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const dataInformes =[
+  const dataInformes = [
     {
-      informe:"informe1PrimerTrimestre.pdf",
-      fecha: "20/03/2025"
+      informe: "informe1PrimerTrimestre.pdf",
+      fecha: "20/03/2025",
     },
     {
-      informe:"informe2PrimerTrimestre.pdf",
-      fecha: "20/03/2025"
+      informe: "informe2PrimerTrimestre.pdf",
+      fecha: "20/03/2025",
     },
     {
-      informe:"informe3PrimerTrimestre.pdf",
-      fecha: "20/03/2025"
+      informe: "informe3PrimerTrimestre.pdf",
+      fecha: "20/03/2025",
     },
     {
-      informe:"informe4PrimerTrimestre.pdf",
-      fecha: "20/03/2025"
+      informe: "informe4PrimerTrimestre.pdf",
+      fecha: "20/03/2025",
     },
-  ]
+  ];
 
   return (
     <>
@@ -111,11 +111,14 @@ export default function TableStudents({ getId }) {
                   </div>
                 </div>
 
-                <div className="acc-body flex gap-2 lg:gap-0">
+                <div className="acc-header flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Acción:</p>
                   <div className="w-full flex justify-between items-center ">
                     <div className="justify-self-center flex gap-3">
-                      <i className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"onClick={() => handleOpenModal(dataInformes)}></i>
+                      <i
+                        className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"
+                        onClick={() => handleOpenModal(dataInformes)}
+                      ></i>
                       <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
                     </div>
                   </div>
@@ -128,16 +131,14 @@ export default function TableStudents({ getId }) {
         </section>
       </main>
 
-      {selectedInforme &&(
- <ModalInformes
- isOpen={isOpen}
- onClose={handleCloseModal}
- txtmodal="Informes del Estudiante"
- informes={selectedInforme}
-
-/>
+      {selectedInforme && (
+        <ModalInformes
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          txtmodal="Informes del Estudiante"
+          informes={selectedInforme}
+        />
       )}
-     
     </>
   );
 }

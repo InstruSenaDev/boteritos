@@ -2,10 +2,10 @@ export const sidebarsection = {
   1: [
     { icon: "fa-solid fa-user", texto: "Perfil", link: "admin/perfil"},
     { icon: "fa-solid fa-graduation-cap", texto: "Estudiantes", link: "admin/listaestudiantes" },
-    { icon: "fa-solid fa-user-tie", texto: "Profesores", link: "" },
+    { icon: "fa-solid fa-user-tie", texto: "Profesores", link: "admin/listaprofesores" },
     { icon: "fa-solid fa-trophy", texto: "Logros", link: "admin/logrosrecibidos" },
     { icon: "fa-solid fa-user-plus", texto: "Crear usuario", link: "admin/registro" },
-    { icon: "fa-solid fa-plus", texto: "Crear trimestre", link: "" },
+    { icon: "fa-solid fa-plus", texto: "Crear trimestre", link: "admin/creartrimestres" },
     { icon: "fa-solid fa-lock", texto: "Cambiar contraseña", link: "admin/cambiarcontrasena" },
   ],
   2: [

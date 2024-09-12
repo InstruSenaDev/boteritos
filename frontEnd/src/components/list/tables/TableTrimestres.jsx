@@ -1,10 +1,10 @@
 import { Button } from "@tremor/react";
 import React, { useState } from "react";
-import Buscador from "../search/Buscador";
-import { objTrimestres } from "../../helper/objects/Trimestres";
-import { ModalCreacion } from "../modales/ModalCreacion";
-import { Input } from "../forms/Input";
-import { Switch } from "../forms/Switch";
+import Buscador from "../../search/Buscador";
+import { objTrimestres } from "../../../helper/objects/Trimestres";
+import { ModalCreacion } from "../../modales/ModalCreacion";
+import { Input } from "../../forms/Input";
+import { Switch } from "../../forms/Switch";
 
 export default function TableTrimestres() {
   const [isConfirm, setIsConfirm] = useState(false);
