@@ -14,16 +14,16 @@ export function ConfirmationModal({
                     <h1 className="text-title text-darkBlue font-cocogooseRegular mb-2">{txtQuestion}</h1>
                     <h2 className="text-gray-700">{txtWarning}</h2>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex flex-col lg:flex-row gap-4">
                     <Button
-                        className="w-[400px] bg-white text-darkBlue font-cocogooseRegular hover:bg-darkBlue hover:text-white"
+                        className=" w-[300px] lg:w-[400px] bg-white text-darkBlue font-cocogooseRegular hover:bg-darkBlue hover:text-white"
                         type="button"
                         onClick={onClose}
                     >
                         Regresar
                     </Button>
                     <Button
-                        className="w-[400px] bg-darkBlue text-white font-cocogooseRegular hover:bg-darkBlue/80"
+                        className="w-[300px] lg:w-[400px] bg-darkBlue text-white font-cocogooseRegular hover:bg-darkBlue/80"
                         type="button"
                         onClick={onClose}
                     >

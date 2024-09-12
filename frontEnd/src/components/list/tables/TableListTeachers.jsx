@@ -3,6 +3,14 @@ import Buscador from "../../search/Buscador";
 
 const TableListTeachers = (getId) => {
   const [openAcc, setOpenAcc] = useState(-1);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () =>{
+   setIsOpen(true);
+  }
+  const handleClose = () =>{
+   setIsOpen(false);
+  }
 
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
@@ -104,13 +112,19 @@ const TableListTeachers = (getId) => {
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
                 <div className=" w-full flex justify-between items-center ">
-                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
+                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpen}></i>
                 </div>
               </div>
             </div>
           ))}
         </section>
       </main>
+      <ConfirmationModal
+        isOpen={isOpen}
+        onClose={handleClose}
+        txtQuestion={`¿Está seguro de eliminar este usuario?`}
+        txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+      />
     </>
   );
 };

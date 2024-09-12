@@ -2,11 +2,13 @@ import { getAllUser } from "../../../api/get.js";
 import DataState from "../dataStates/DataState.jsx";
 import { useEffect, useState } from "react";
 import { ModalInformes } from "../../modales/ModalInformes";
+import { ConfirmationModal } from "../../modales/ConfirmationModal.jsx";
 
 export default function TableStudents({ getId }) {
   //to={`/datoestudiante/${data.idestudiante}`}
   const [dataStudents, setDataStudents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
   const [selectedInforme, setSelectedInforme] = useState(null);
 
@@ -17,6 +19,14 @@ export default function TableStudents({ getId }) {
 
   const handleCloseModal = () => {
     setIsOpen(false);
+  };
+
+  const handleOpenConfirmationModal = () =>{
+    setIsConfirmationModalOpen(true);
+  }
+
+  const handleCloseConfirmationModal = () => {
+    setIsConfirmationModalOpen(false);
   };
 
   useEffect(() => {
@@ -81,13 +91,22 @@ export default function TableStudents({ getId }) {
                 key={index}
               >
                 {/*Aqui se hace una conversion para añadir los ceros a la izquierda*/}
-                <p>
-                  {data.idestudiante.toString().length == 2
-                    ? data.idestudiante
-                    : `0${data.idestudiante}`}
-                </p>
-
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 lg:gap-0 ">
+                <p className="text-darkBlue lg:hidden">No°</p>
+                <div className="acc-header w-full flex justify-between items-center ">
+                  <p>
+                    {data.idestudiante.toString().length == 2
+                      ? data.idestudiante
+                      : `0${data.idestudiante}`}
+                  </p>
+                  <button onClick={() => toogleRow(index)}>
+                    <i className="fa-solid fa-angle-down block lg:hidden"></i>
+                  </button>
+                </div>
+              </div>
+                <div className="acc-header flex gap-2 items-center">
+                  <p className="text-darkBlue lg:hidden">Nombre</p>
+                  <div className="w-full flex gap-2 items-center">
                   <p
                     className="underline cursor-pointer"
                     onClick={() => getId(data.idestudiante)}
@@ -95,23 +114,24 @@ export default function TableStudents({ getId }) {
                     {`${data.nombre} ${data.apellido}`}
                   </p>
                   <i className="fa-solid fa-circle w-[15px] h-[15px] text-greenFull rounded-full"></i>
+                  </div>
                 </div>
 
-                <div className="acc-header flex gap-2 lg:gap-0">
+                <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Diagnostico:</p>
                   <div className="w-full flex justify-between items-center ">
                     <p>{data.diagnostico}</p>
                   </div>
                 </div>
 
-                <div className="acc-header flex gap-2 lg:gap-0">
+                <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Calificación:</p>
                   <div className="w-full flex justify-between items-center ">
                     <DataState state={data.calificado} />
                   </div>
                 </div>
 
-                <div className="acc-header flex gap-2 lg:gap-0">
+                <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Acción:</p>
                   <div className="w-full flex justify-between items-center ">
                     <div className="justify-self-center flex gap-3">
@@ -119,7 +139,7 @@ export default function TableStudents({ getId }) {
                         className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"
                         onClick={() => handleOpenModal(dataInformes)}
                       ></i>
-                      <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
+                      <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpenConfirmationModal}></i>
                     </div>
                   </div>
                 </div>
@@ -137,8 +157,15 @@ export default function TableStudents({ getId }) {
           onClose={handleCloseModal}
           txtmodal="Informes del Estudiante"
           informes={selectedInforme}
-        />
+        />  
       )}
+
+    <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onClose={handleCloseConfirmationModal}
+        txtQuestion={`¿Está seguro de eliminar este usuario?`}
+        txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+      />
     </>
   );
 }

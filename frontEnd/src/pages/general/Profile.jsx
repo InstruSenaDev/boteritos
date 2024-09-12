@@ -5,8 +5,8 @@ import { Info } from "../../components/profile/Info";
 const Profile = () => {
   return (
     <LayoutGeneral titleHeader="Perfil">
-      <div className="px-7 py-4 sm:flex sm:flex-col w-full sm:px-24 sm:py-16 bg-white rounded-xl">
-        <h1 className="text-title2 font-Cocogoose-SemiLight text-darkBlue">
+      <div className="px-7 py-4 sm:flex sm:flex-col w-full sm:px-28 sm:py-16 bg-white rounded-xl">
+        <h1 className="text-title font-Cocogoose-SemiLight text-darkBlue">
           Información personal
         </h1>
         <div className="sm:justify-items-center sm:flex sm:flex-row border-b-2 border-b-placeholderBlue py-7 gap-7">

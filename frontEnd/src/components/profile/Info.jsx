@@ -10,10 +10,18 @@ export const Info = ({ title, text }) => {
       } py-4`}
     >
       <div className="flex justify-between">
-        <p className="text-subTitle2 font-Cocogoose-SemiLight text-darkBlue">
+        <p className="text-subTitle font-Cocogoose-SemiLight text-darkBlue">
           {title}
         </p>
-        <p className="underline font-Cocogoose-SemiLight text-darkBlue">Editar</p>
+        <p
+          className={`underline font-Cocogoose-SemiLight text-darkBlue ${
+            title === "Dirección" || title === "Comuna" || title === "Teléfono"
+              ? "block"
+              : "hidden"
+          }`}
+        >
+          Editar
+        </p>
       </div>
       <p className="text-paragraph font-Cocogoose-Light">{text}</p>
     </div>
