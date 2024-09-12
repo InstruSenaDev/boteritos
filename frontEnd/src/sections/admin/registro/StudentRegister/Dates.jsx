@@ -15,7 +15,7 @@ export const DatesSection = () => {
   const [errors, setErrors] = useState({}); // Estado para los errores
   const [values, setValues] = useState({
     fechaingreso: "",
-    fechanacimiento: "2000-01-01",
+    fechanacimiento: "",
     fecharegistro : ""
   });
   
