@@ -13,7 +13,7 @@ import { InformeIndividual } from "../../components/informe/InformeIndividual";
 import { Observacion } from "../../components/informe/Observacion";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 
-export const Informe = () => {
+const Informe = () => {
   return (
     <LayoutGeneral title="InformeObservacion" titleHeader="Informe">
       <div className="w-full space-y-7">
@@ -66,3 +66,4 @@ export const Informe = () => {
     </LayoutGeneral>
   );
 };
+export default Informe;
