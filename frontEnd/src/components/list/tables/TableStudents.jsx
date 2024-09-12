@@ -1,7 +1,7 @@
 import { getAllUser } from "../../../api/get.js";
 import DataState from "../dataStates/DataState.jsx";
 import { useEffect, useState } from "react";
-import { ModalInformes } from "../modales/ModalInformes";
+import { ModalInformes } from "../../modales/ModalInformes.jsx"
 
 export default function TableStudents({ getId }) {
   //to={`/datoestudiante/${data.idestudiante}`}
