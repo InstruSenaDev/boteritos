@@ -23,7 +23,9 @@ export const GrupoDatoElemento = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    const error = modaleValidators(name, value);
+    const content = selectedContent || "default";
+
+    const error = modaleValidators(content, name, value);
 
     setErrors({
       ...errors,
@@ -50,6 +52,21 @@ export const GrupoDatoElemento = () => {
 
   const handleForm = (event) => {
     event.preventDefault();
+
+    const newErrors = {};
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = modaleValidators(selectedContent, key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     // Recorrer y aplicar .trim() a cada valor del objeto
     const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
@@ -146,7 +163,7 @@ export const GrupoDatoElemento = () => {
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
 
-    if (contentType === "responsable" || "historiaclinica") {
+    if (contentType === "responsable" || "historia clinica") {
       // Agrega el ID del estudiante al nuevo campo idestudiante en responsable
       initialValues.idestudiante = parseInt(id);
       // Convertir idparentesco e idtipodocumento a enteros si existen
@@ -183,6 +200,7 @@ export const GrupoDatoElemento = () => {
     setIsOpen(false);
     setSelectedContent(null);
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
+    setErrors({});
   };
 
   return (
@@ -220,6 +238,7 @@ export const GrupoDatoElemento = () => {
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
           handleFileChange={handleFileChange}
+          errores={errors}
         />
       </RegisterModal>
     </>

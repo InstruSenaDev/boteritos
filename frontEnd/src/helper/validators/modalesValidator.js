@@ -1,6 +1,6 @@
 import { caseHistoriaClinica } from "./case/historiaClinica";
 import { caseCondicionMedica } from "./case/condicionMedica";
-import { caseTelefono } from "./case/caseTelefono";
+import { caseTelefono } from "./case/telefono";
 import { caseResponsable } from "./case/responsable";
 
 export const modaleValidators = (content, name, value) => {
@@ -11,13 +11,13 @@ export const modaleValidators = (content, name, value) => {
     case "Telefono":
       error = caseTelefono(name, value);
       break;
-    case "Responsable":
+    case "responsable":
       error = caseResponsable(name, value);
       break;
     case "Condicion Medica":
       error = caseCondicionMedica(name, value);
       break;
-    case "Historia Clinica":
+    case "historiaclinica":
       error = caseHistoriaClinica(name, value);
       break;
     default:

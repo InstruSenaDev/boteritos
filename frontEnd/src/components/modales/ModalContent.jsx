@@ -16,7 +16,9 @@ export const ModalContent = ({
   handleInputChange,
   handleDropdownChange,
   handleFileChange,
+  errores,
 }) => {
+  console.log("Selected Content:", selectedContent);
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
     dropdownSexo: [],
@@ -43,6 +45,7 @@ export const ModalContent = ({
 
     getDataDropdown();
   }, []);
+  console.log("Errores en ModalContent:", errores);
 
   switch (selectedContent) {
     case "responsable":
@@ -55,6 +58,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.nombre || ""}
+            error={errores.nombre}
           />
           <Input
             texto="Apellido"
@@ -63,6 +67,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.apellido || ""}
+            error={errores.apellido}
           />
           <Dropdown
             name="idtipodocumento"
@@ -71,6 +76,7 @@ export const ModalContent = ({
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
             value={values.idtipodocumento || ""}
             placeholder={"Seleccione el tipo de documento"}
+            error={errores.idtipodocumento}
           />
           <Input
             texto="Número de documento"
@@ -79,6 +85,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.numerodocumento || ""}
+            error={errores.numerodocumento}
           />
           <Input
             texto="Teléfono"
@@ -87,14 +94,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.telefono || ""}
-          />
-          <Input
-            texto="Otro teléfono"
-            placeholder="Ingresa un segundo teléfono"
-            name="telefonodos"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.telefonodos || ""}
+            error={errores.telefono}
           />
           <Input
             texto="Dirección"
@@ -103,6 +103,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.direccion || ""}
+            error={errores.direccion}
           />
           <Input
             texto="Correo electronico"
@@ -111,6 +112,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.correo || ""}
+            error={errores.correo}
           />
           <Input
             texto="Ocupación"
@@ -119,6 +121,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.ocupacion || ""}
+            error={errores.ocupacion}
           />
           <Input
             texto="Profesión"
@@ -127,6 +130,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.profesion || ""}
+            error={errores.profesion}
           />
           <Input
             texto="Empresa"
@@ -135,6 +139,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.empresa || ""}
+            error={errores.empresa}
           />
           <Dropdown
             name="idsexo"
@@ -143,6 +148,7 @@ export const ModalContent = ({
             onChange={(value) => handleDropdownChange("idsexo", value)}
             value={values.idsexo || ""}
             placeholder={"Seleccione el sexo"}
+            error={errores.idsexo}
           />
           <Dropdown
             name="idtipoparentesco"
@@ -153,6 +159,7 @@ export const ModalContent = ({
             }
             value={values.idtipoparentesco || ""}
             placeholder={"Seleccione el parentesco"}
+            error={errores.idtipoparentesco}
           />
         </>
       );
@@ -161,12 +168,13 @@ export const ModalContent = ({
       return (
         <>
           <Dropdown
-            name="iddiagnostico"
             label="Diagnostico"
+            name="iddiagnostico"
             data={dataDropdown.dataDiagnostico}
             onChange={(value) => handleDropdownChange("iddiagnostico", value)}
             value={values.iddiagnostico || ""}
             placeholder={"Seleccione el diagnostico del estudiante"}
+            error={errores.iddiagnostico}
           />
           <Dropdown
             name="iddiscapacidad"
@@ -175,6 +183,7 @@ export const ModalContent = ({
             onChange={(value) => handleDropdownChange("iddiscapacidad", value)}
             value={values.iddiscapacidad || ""}
             placeholder={"Seleccione la discapacidad del estudiante"}
+            error={errores.iddiscapacidad}
           />
 
           <Input
@@ -184,6 +193,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.restriccionesalimenticias || ""}
+            error={errores.restricciones}
           />
           <Input
             texto="Medicamentos"
@@ -192,6 +202,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.medicamentos || ""}
+            error={errores.medicamentos}
           />
           <Input
             texto="Cantidad de medicamentos"
@@ -200,6 +211,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.cantidadmedicamentos || ""}
+            error={errores.medicamentos}
           />
           <Input
             texto="Observacion"
@@ -208,6 +220,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.observacion || ""}
+            error={errores.observacion}
           />
           <UploadFile
             typefile={".pdf"}

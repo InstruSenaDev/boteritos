@@ -9,10 +9,10 @@ import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
 import { RegistroExito } from "../../../../components/forms/RegistroExito.jsx";
 
 export const PhoneNumberSection = () => {
-  const [state,dispatch] = useRegFormContext();
-  
+  const [state, dispatch] = useRegFormContext();
+
   console.log(state);
-  
+
   //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -28,17 +28,13 @@ export const PhoneNumberSection = () => {
 
   const [estadoValida, setEstadoValida] = useState(false); // Estado que controla el renderizado condicional
 
-  if(finish){
-    console.log('TUREEEEE');
-    
-  }else{
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    
+  if (finish) {
+    console.log("TUREEEEE");
+  } else {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   }
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -92,19 +88,20 @@ export const PhoneNumberSection = () => {
 
     dispatch({ type: "CHANGE_PERCENT", data: 100 });
     dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
-    
+
     setFinish(true);
   };
-  
-  
-  const pito = async () => {  
-    
+
+  const pito = async () => {
     console.log(state);
-    
-    const response = await fetch("http://localhost:8000/api/v3/registro/admin/", {
-      method: "POST",
-      body: state.dataForm,
-    });
+
+    const response = await fetch(
+      "http://localhost:8000/api/v3/registro/admin/",
+      {
+        method: "POST",
+        body: state.dataForm,
+      }
+    );
     if (response.status === 201) {
       setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
     }
@@ -113,17 +110,19 @@ export const PhoneNumberSection = () => {
     console.log(data);
   };
 
-  if(finish){
+  if (finish) {
     pito();
   }
-
-
 
   return (
     <>
       {estadoValida ? (
         <div className="w-full flex justify-center">
-          <RegistroExito rol={"Administrador"} url1={"admin/registro"} url2={"admin/"}/>
+          <RegistroExito
+            rol={"Administrador"}
+            url1={"admin/registro"}
+            url2={"admin/"}
+          />
         </div>
       ) : (
         <form
@@ -151,7 +150,10 @@ export const PhoneNumberSection = () => {
             />
           </div>
           <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
-            <Link to={"/admin/registro/registroadmin/datosmedicos"} className="max-w-[400px] w-full">
+            <Link
+              to={"/admin/registro/registroadmin/datosmedicos"}
+              className="max-w-[400px] w-full"
+            >
               <Boton text="Atras" type="blue" />
             </Link>
             <Boton text="Confirmar" type="blue" />
