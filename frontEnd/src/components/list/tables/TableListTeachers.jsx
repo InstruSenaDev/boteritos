@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Buscador from "../../search/Buscador";
+import { ConfirmationModal } from "../../modales/ConfirmationModal";
 
 const TableListTeachers = (getId) => {
   const [openAcc, setOpenAcc] = useState(-1);

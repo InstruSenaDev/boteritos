@@ -88,7 +88,7 @@ export const GrupoDatoElemento = () => {
 
     if (response.status == 200 || response.status == 201) {
       console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
+        "Nada de errores"
       );
       return;
     }
