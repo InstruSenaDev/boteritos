@@ -7,7 +7,10 @@ import { GrupoDatos } from "../../../components/list/groupData/GrupoDatos";
 import { dataPersonal } from "../../../helper/objects/dataStudentsArray";
 
 import { UpdateModal } from "../../../components/modales/UpdateModal";
-import { dataDetailEstudiante } from "../../../api/get";
+import {
+  dataDetailEstudiante,
+  dataResponsableEstudiante,
+} from "../../../api/get";
 
 const Detail = () => {
   const [selectedSection, setSelectedSection] = useState(null);
@@ -15,30 +18,34 @@ const Detail = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
   const [dataDetail, setDataDetail] = useState({
-    historiaClinica : [],
-    responsables : []
+    historiaClinica: [],
+    responsables: [],
   });
 
   //historiaclinica/?idestudiante=2
 
   useEffect(() => {
     const obtainData = async () => {
-
       const dataHistClinic = await dataDetailEstudiante(
         `historiaclinica/${id}`
       );
 
-      const dataResponsable = await dataDetailEstudiante(
-        `historiaclinica/${id}`
+      const dataResponsable = await dataResponsableEstudiante(
+        `responsable/${id}`
       );
 
-      console.log(dataHistClinic);
-      
+      if (!dataHistClinic.status == 200) {
+        setDataDetail({ historiaClinica: null });
+      }
+
+      if (!dataResponsable.status == 200) {
+        setDataDetail({ responsables: null });
+      }
 
       setDataDetail({
         ...dataDetail,
-        historiaClinica : dataHistClinic.data.data,
-        responsables: dataResponsable.data.data
+        historiaClinica: dataHistClinic.data.data,
+        responsables: dataResponsable.data.data,
       });
     };
 
@@ -102,8 +109,106 @@ const Detail = () => {
       <GrupoDatoElemento /> {/* BOTONES PARA LOS MODALES */}
       <div className="w-full h-0 border-darkBlue border-2"></div>
       <div className="space-y-7">
-
-        {dataDetail.historiaClinica.map((value, index) => (
+        {dataDetail.responsables && dataDetail.responsables.map((value, index) => (
+          <GrupoDatos
+            titulo={"Responsables"}
+            update={() => update("Historia clinica", dataPersonal[0])}
+            data={dataDetail.responsables}
+            key={index}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Nombres:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.nombre}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Apellidos:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.apellido}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Correo:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.correo}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Sexo:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.sexo}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Tipo documento:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.tipodocumento}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Documento:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.numerodocumento}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Telefono:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.telefono}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Profesion:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.profesion}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Ocupacion:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.ocupacion}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Empresa:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.empresa}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Parentesco:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.tipoparentesco}
+                </p>
+              </div>
+            </div>
+          </GrupoDatos>
+        ))}
+        {dataDetail.historiaClinica && dataDetail.historiaClinica.map((value, index) => (
           <GrupoDatos
             titulo={"Historia Clinica"}
             update={() => update("Historia clinica", dataPersonal[0])}
