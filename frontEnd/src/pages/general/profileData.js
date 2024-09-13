@@ -1,23 +1,23 @@
 
 const profileData = {
   personalInfo: {
-    birthDate: '20/03/2000',
-    documentType: 'Cédula de Ciudadanía',
-    documentNumber: 'x.xxx.xxx.xxx',
-    address: 'Cra XXX #XX-XX',
-    name: 'Briana David Marín', 
-    email: 'briandavidmarin@gmail.com'
+    fechanacimiento: '20/03/2000',
+    tipoDocumento: 'Cédula de Ciudadanía',
+    numeroDocumento: 'x.xxx.xxx.xxx',
+    direccion: 'Cra XXX #XX-XX',
+    nombre: 'Briana David Marín', 
+    correo: 'briandavidmarin@gmail.com'
   },
   contactInfo: {
-    phone: 'XXX-XXX-XXXX',
-    responsibleName: 'Sebastian Rodriguez',
-    responsibleEmail: 'correo@gmail.com',
+    telefono: 'XXX-XXX-XXXX',
+    nombre: 'Sebastian Rodriguez',
+    correo: 'correo@gmail.com',
   },
   medicalInfo: {
-    bloodType: 'O+',
-    diagnosis: 'XXXXXXXXXXX',
-    medications: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-    observations: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+    rh: 'O+',
+    diagnostico: 'XXXXXXXXXXX',
+    medicamentos: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+    obsevacion: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
   },
 };
 

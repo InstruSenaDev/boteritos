@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Input } from '../forms/Input';
 
 const ProfileField = ({ label, value, editable }) => {
+  if (!value) return null;
   const [isEditing, setIsEditing] = useState(false);
   const [currentValue, setCurrentValue] = useState(value);
 
