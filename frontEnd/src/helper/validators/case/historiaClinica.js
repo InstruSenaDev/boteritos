@@ -18,7 +18,7 @@ export const caseHistoriaClinica = (name, value) => {
           break;
         case "archivo":
           if (!value.trim()) {
-              error = "El campo archivo es obligatorio.";
+              error = "El archivo es obligatorio.";
           }
           break;
         case "observacion":

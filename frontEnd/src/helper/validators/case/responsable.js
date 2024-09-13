@@ -20,6 +20,15 @@ export const caseResponsable = (name, value) => {
           return 'El nombre debe tener al menos 3 caracteres';
         }
         break;
+
+      case 'apellido':
+          if (value.trim() === '') {
+            return 'El apellido no puede estar vacío';
+          }
+          if (value.length < 3) {
+            return 'El apellido debe tener al menos 3 caracteres';
+          }
+          break;
   
       case 'documento':
         if (value.trim() === '') {
@@ -30,7 +39,7 @@ export const caseResponsable = (name, value) => {
         }
         break;
   
-      case 'ndocumento':
+      case 'numerodocumento':
         if (value.trim() === '') {
           return 'El número de documento no puede estar vacío';
         }
@@ -66,17 +75,41 @@ export const caseResponsable = (name, value) => {
         }
         break;
   
-      case 'empresa':
+      case 'correo':
         if (value.trim() === '') {
-          return 'El nombre de la empresa no puede estar vacío';
+          return 'El correo no puede estar vacío';
         }
         break;
   
-      case 'parentesco':
+      case 'ocupacion':
         if (value.trim() === '') {
-          return 'El parentesco no puede estar vacío';
+          return 'El campo ocupacion no puede estar vacío';
         }
         break;
+
+        case 'profesion':
+        if (value.trim() === '') {
+          return 'El campo profesion no puede estar vacío';
+        }
+        break;
+
+        case 'empresa':
+          if (value.trim() === '') {
+            return 'El campo empresa no puede estar vacío';
+          }
+          break;
+          
+          case 'sexo':
+            if (value.trim() === '') {
+              return 'Debes seleccionar una opción';
+            }
+            break;
+            
+        case 'parentesco':
+          if (value.trim() === '') {
+            return 'El parentesco no puede estar vacío';
+          }
+          break;  
   
       default:
         return null;
