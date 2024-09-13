@@ -140,9 +140,13 @@ export const GeneralRegister = () => {
         console.log(data);
 
         if (data.error) {
-            console.log(data.error);
+            // Si el documento ya existe, mostramos el error en el campo 'documento'
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              documento: "El número de documento ya existe.",
+            }));
             return;
-        }
+          }
 
         //Recorrido del objeto para añadirlo al formData
         for (const key in value) {
