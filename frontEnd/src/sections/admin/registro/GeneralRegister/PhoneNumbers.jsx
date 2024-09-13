@@ -8,18 +8,17 @@ import { useNavigate, Link } from "react-router-dom";
 import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
 
 export const PhoneNumberSection = () => {
-  const [state, dispatch] = useRegFormContext();
-
-  useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 100 })
-  }, [])
+  const [state,dispatch] = useRegFormContext();
+  
+  console.log(state);
+  
+  //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
   const [values, setValues] = useState({
     telefono1: "",
     telefono2: "",
-    //hojaDeVida: null,
   });
 
   const dataFormInd = new FormData();
@@ -37,6 +36,7 @@ export const PhoneNumberSection = () => {
   useEffect(() => {
     
   }, []);
+
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -56,7 +56,6 @@ export const PhoneNumberSection = () => {
 
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
-    event.preventDefault();
     event.preventDefault();
 
     // Validar todos los campos antes de enviar
@@ -93,12 +92,13 @@ export const PhoneNumberSection = () => {
     
     setFinish(true);
   };
-
+  
+  
   const pito = async () => {  
     
     console.log(state);
     
-    const response = await fetch("http://localhost:8000/api/v3/registro/estudiante/", {
+    const response = await fetch("http://localhost:8000/api/v3/registro/admin/", {
       method: "POST",
       body: state.dataForm,
     });
@@ -109,6 +109,7 @@ export const PhoneNumberSection = () => {
   if(finish){
     pito();
   }
+
 
 
   return (
