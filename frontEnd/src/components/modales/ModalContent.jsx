@@ -7,6 +7,7 @@ import {
   dataSexo,
   dataTipoParentesco,
   dataDiagnostico,
+  dataDiscapacidad
 } from "../../helper/objects/dropdownArray";
 
 export const ModalContent = ({
@@ -20,6 +21,7 @@ export const ModalContent = ({
     dropdownSexo: [],
     dataTipoParentesco: [],
     dataDiagnostico: [],
+    dataDiscapacidad: [],
   });
 
   const dataFormInd = new FormData();
@@ -30,11 +32,13 @@ export const ModalContent = ({
       const resultSexo = await dataSexo();
       const resultParentesco = await dataTipoParentesco();
       const resultDiagnostico = await dataDiagnostico();
+      const resultDiscapacidad = await dataDiscapacidad();
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
         dataTipoParentesco: resultParentesco,
-        dataDiagnostico: resultDiagnostico
+        dataDiagnostico: resultDiagnostico,
+        dataDiscapacidad: resultDiscapacidad,
       });
     };
 
@@ -230,13 +234,15 @@ export const ModalContent = ({
             value={values.iddiagnostico || ""}
             placeholder={"Seleccione el diagnostico del estudiante"}
           />
-          <Input
-            texto="Diagnóstico"
-            placeholder="Ingresa el diagnóstico del estudiante"
-            name="diagnostico"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.diagnostico || ""}
+          <Dropdown
+            name="iddiscapacidad"
+            label="Discapacidad"
+            data={dataDropdown.dataDiscapacidad}
+            onChange={(value) =>
+              handleDropdownChange("iddiscapacidad", value)
+            }
+            value={values.iddiscapacidad || ""}
+            placeholder={"Seleccione la discapacidad del estudiante"}
           />
 
           <Input
