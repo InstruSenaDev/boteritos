@@ -16,6 +16,13 @@ export const GrupoDatoElemento = () => {
   const [values, setValues] = useState({});
   const { id } = useParams();
 
+  if(isConfirm){
+    console.log('TURE');
+  }else{
+    console.log('AAAAAAAA');
+    
+  }
+
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -81,9 +88,9 @@ export const GrupoDatoElemento = () => {
     fetchModal(trimmedValues, selectedContent);
   };
 
-  const fetchModal = async (data, modalType) => {
+  const fetchModal = async (data) => {
     console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, `usuarios/${modalType}/`);
+    const response = await postModales(data, `registro/historiaclinica/`);
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
@@ -92,19 +99,13 @@ export const GrupoDatoElemento = () => {
       );
       return;
     }
-
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
-
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
   };
+
+  if (isConfirm) {
+    fetchModal();
+  }
+
+
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {

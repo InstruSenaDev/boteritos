@@ -76,7 +76,6 @@ const router = createBrowserRouter([
       { path: "logrosrecibidos", element: <RecibirLogros/> },
       { path: "informe", element: <Informe/> },
       { path: "creartrimestres", element:<Trimestre/>},
-      { path: "listaprofesores", element:<ListTeachers/>},
       { path: "listaadministradores", element:<ListAdmins/>},
       {
         path: "registro",
