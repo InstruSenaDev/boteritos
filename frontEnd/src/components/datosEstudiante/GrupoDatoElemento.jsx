@@ -4,7 +4,7 @@ import { DatoElemento } from "./DatoElemento";
 import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
-import { postModales } from "../../api/post";
+
 import { defaultValues } from "../../helper/modales/objectsModal";
 import { useParams } from "react-router-dom";
 
@@ -15,7 +15,7 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
   const { id } = useParams();
-
+  
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -83,20 +83,33 @@ export const GrupoDatoElemento = () => {
   };
 
   const fetchModal = async (data) => {
-    console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, `responsable/`);
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      console.log(
-        "Nada de errores"
-      );
-      return;
-    }
-  };
-
+    const formData = new FormData();
+  
+    // Agregar los datos al objeto FormData
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+  
+  
+    try {
+      const response = await fetch(`http://localhost:8000/api/v3/registro/prueba/`, {
+        method: "POST",
+        body: formData, 
+      });
   
 
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Datos recibidos:", responseData);
+      } else {
+        console.error("Error en la respuesta:", response.status);
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+    }
+  };
+  
+  
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);

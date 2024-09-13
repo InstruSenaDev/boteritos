@@ -23,8 +23,9 @@ export const fetchFunctionFiles = async (method, body, header , url) =>{
     const response = await fetch(`${urlApi}${url}`, {
         method: method,
         body : body
+        
     })
-    
+
     const data = await response.json()
     const result = {status: response.status, data : data }
     return result

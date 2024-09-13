@@ -16,6 +16,8 @@ export const ModalContent = ({
     dataTipoParentesco: [],
   });
 
+  const dataFormInd = new FormData();
+
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
@@ -31,6 +33,12 @@ export const ModalContent = ({
 
     getDataDropdown();
   }, []);
+
+  const handleFileChange = (name, file) => {
+    dataFormInd.set(name, file);
+    console.log(file);
+};
+
 
   switch (selectedContent) {
     // case "telefono":
@@ -244,7 +252,10 @@ export const ModalContent = ({
             onChange={handleInputChange}
             value={values.observacion || ""}
           />
-          <UploadFile />
+          <UploadFile typefile={".pdf"}
+                        title={"historiaclinia"}
+                        id="archivo"
+                        onFileChange={(file) => handleFileChange("imagen", file)}/>
         </>
       );
 
