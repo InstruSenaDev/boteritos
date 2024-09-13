@@ -62,8 +62,6 @@ def HistoriaClinica(request):
         query = Historiaclinica.objects.filter(idhistoriaclinica = request.data['idhistoriaclinica']).first()
         queryCondicion = Condicion.objects.filter(idhistoriaclinica = request.data['idhistoriaclinica']).first()
         
-        print(queryCondicion)
-        
         if not query:
             return Response({
                 "message" : "Actualizacion cancelada",

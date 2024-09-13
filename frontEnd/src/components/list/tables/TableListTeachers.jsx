@@ -1,10 +1,18 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Buscador from "../../search/Buscador";
+import { ConfirmationModal } from "../../modales/ConfirmationModal";
 
-
-const TableListTeachers = () => {
+const TableListTeachers = (getId) => {
   const [openAcc, setOpenAcc] = useState(-1);
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () =>{
+   setIsOpen(true);
+  }
+  const handleClose = () =>{
+   setIsOpen(false);
+  }
+
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
@@ -58,13 +66,12 @@ const TableListTeachers = () => {
             <p>Acción</p>
           </div>
           {dataTeacher.map((data, index) => (
-       <div
-       className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-         openAcc === index ? "open" : "close"
-       }`}
-       key={index}
-     >
-            
+            <div
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
+                openAcc === index ? "open" : "close"
+              }`}
+              key={index}
+            >
               <div className="flex gap-2 lg:gap-0 ">
                 <p className="text-darkBlue lg:hidden">No°</p>
                 <div className="acc-header w-full flex justify-between items-center ">
@@ -89,7 +96,10 @@ const TableListTeachers = () => {
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Título:</p>
                 <div className=" w-full flex justify-between items-center ">
-                  <p>{`${data.titulo}`}</p>
+                  <p
+                    className="unerline cursor-pointer"
+                    onClick={() => getId(data.idprofesor)}
+                  >{`${data.titulo}`}</p>
                 </div>
               </div>
 
@@ -103,15 +113,19 @@ const TableListTeachers = () => {
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
                 <div className=" w-full flex justify-between items-center ">
-                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
+                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpen}></i>
                 </div>
               </div>
             </div>
           ))}
         </section>
       </main>
-
-
+      <ConfirmationModal
+        isOpen={isOpen}
+        onClose={handleClose}
+        txtQuestion={`¿Está seguro de eliminar este usuario?`}
+        txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+      />
     </>
   );
 };

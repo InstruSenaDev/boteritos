@@ -54,7 +54,7 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
     if (trimestresValidos.length === trimestres.length) {
       localStorage.setItem("trimestres", JSON.stringify(trimestresValidos));
       console.log("Trimestres en el localStorage:", trimestresValidos);
-      if (trimestresValidos.length >= 4) {
+      if (trimestresValidos.length >= 3) {
         onTrimestresCompletos();  // Llamar a esta función solo al hacer clic en "Crear"
       }
     } else {

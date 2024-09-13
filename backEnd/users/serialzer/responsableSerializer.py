@@ -59,8 +59,6 @@ class ResponsableSerializer(serializers.ModelSerializer):
         }
     )
 
-
-
     class Meta:
         model = Responsable
         fields = '__all__'
@@ -69,7 +67,7 @@ class ResponsableSerializer(serializers.ModelSerializer):
     def validarNumeroDocumento(self, value):
         user = Responsable.objects.filter(numerodocumento = value).count()
         #Si encuentra usuarios con ese numero de documento, retornará la cantidad de estos, lo que significa que ese usuario ya existe
-        print(user)
+        
         if user >= 1 :
             return False
         

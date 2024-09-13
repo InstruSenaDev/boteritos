@@ -25,12 +25,10 @@ export const defaultValues = {
   },
   historiaClinica: {
     diagnostico: "",
-    restriccionesalimenticias: "prueba",
+    restriccionesalimenticias: "",
     medicamentos: "",
     cantidadmedicamentos: "",
     idestudiante: "",
     observacion: "",
-    archivo: "prueba",
-
   },
 };

@@ -256,7 +256,7 @@ const Detail = () => {
           <div>
             {Object.keys(filterData(sectionData)).map((key) => (
               <div key={key} className="mb-4">
-                <label className="blocktext-paragraph font-cocogooseLight text-darkBlue">
+                <label className="blocktext-paragraph font-cocogooseLight text-black">
                   {formatLabel(key)}:
                 </label>
                 <input
