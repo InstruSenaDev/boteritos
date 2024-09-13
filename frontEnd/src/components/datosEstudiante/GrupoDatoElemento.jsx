@@ -90,7 +90,7 @@ export const GrupoDatoElemento = () => {
 
   const fetchModal = async (data) => {
     console.log("Datos que se enviarán a la API:", data);
-    const response = await postModales(data, `registro/historiaclinica/`);
+    const response = await postModales(data, `responsable/`);
     console.log(response);
 
     if (response.status == 200 || response.status == 201) {
