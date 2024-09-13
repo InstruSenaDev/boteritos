@@ -17,7 +17,7 @@ router.register(r'fechas', FechasViewSet, basename='fechas')
 router.register(r'profesor', ProfesorViewSets, basename='profesor')
 #router.register(r'estudiantef', EstudianteViewSets, basename='estudiantef')
 router.register(r'responsable', ResponsableViewSets, basename='responsable')
-router.register(r'historiaclinica', HistoriaClinicaViewSets, basename='historiaclinica')
+#router.register(r'historiaclinica', HistoriaClinicaViewSets, basename='historiaclinica')
 
 
 urlpatterns = router.urls
