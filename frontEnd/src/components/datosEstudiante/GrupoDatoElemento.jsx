@@ -16,8 +16,8 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
   const { id } = useParams();
+  const formData = new FormData();
   const [errors, setErrors] = useState({});
- 
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -28,8 +28,7 @@ export const GrupoDatoElemento = () => {
     setErrors({
       ...errors,
       [name]: error,
-    })
-
+    });
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -45,6 +44,10 @@ export const GrupoDatoElemento = () => {
     }));
   };
 
+  const handleFileChange = (name, file) => {
+    formData.set(name, file);
+  };
+
   const handleForm = (event) => {
     event.preventDefault();
 
@@ -57,6 +60,7 @@ export const GrupoDatoElemento = () => {
     console.log("Valores después de aplicar .trim():", trimmedValues); // Imprime los valores del formulario
 
     // Verificar si hay algún valor vacío después de aplicar .trim()
+    /*
     const hasEmptyFields = Object.values(trimmedValues).some(
       (value) => value === ""
     );
@@ -83,6 +87,7 @@ export const GrupoDatoElemento = () => {
       );
       return; // Detiene el proceso si se encuentran campos vacíos
     }
+    */
 
     // Convertir idtipodocumento e idparentesco a enteros si existen
     if (trimmedValues.idtipodocumento) {
@@ -101,8 +106,6 @@ export const GrupoDatoElemento = () => {
     // setValues(trimmedValues);
 
     // Aquí puedes proceder con el envío de los datos
-    setIsConfirm(true);
-    console.log("datos de isconfirm", isConfirm);
     console.log("Valores actualizados:", values);
 
     console.log("valores de trimmed", trimmedValues);
@@ -110,24 +113,27 @@ export const GrupoDatoElemento = () => {
   };
 
   const fetchModal = async (data) => {
-    const formData = new FormData();
-  
+    console.log(data);
+
     // Agregar los datos al objeto FormData
     Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
+      console.log(key, data[key]);
+      formData.set(key, data[key]);
     });
-  
-  
+
     try {
-      const response = await fetch(`http://localhost:8000/api/v3/registro/prueba/`, {
-        method: "POST",
-        body: formData, 
-      });
-  
+      const response = await fetch(
+        `http://localhost:8000/api/v3/registro/prueba/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const responseData = await response.json();
         console.log("Datos recibidos:", responseData);
+        setIsConfirm(true);
       } else {
         console.error("Error en la respuesta:", response.status);
       }
@@ -135,8 +141,7 @@ export const GrupoDatoElemento = () => {
       console.error("Error en la solicitud:", error);
     }
   };
-  
-  
+
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
@@ -173,11 +178,6 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false);
   };
 
-  useEffect(() => {
-    if (selectedContent) {
-    }
-  }, [values, selectedContent]);
-
   // Cierra el modal y resetea el contenido seleccionado
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -188,21 +188,11 @@ export const GrupoDatoElemento = () => {
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
-        {/* <DatoElemento
-          icon={"fa-solid fa-phone"}
-          texto={"Telefono(s)"}
-          onClick={() => handleOpenModal("telefono")}
-        /> */}
         <DatoElemento
           icon={"fa-solid fa-user-group"}
           texto={"Responsable(s)"}
           onClick={() => handleOpenModal("responsable")}
         />
-        {/* <DatoElemento
-          icon={"fa-solid fa-hospital"}
-          texto={"Condicion medica"}
-          onClick={() => handleOpenModal("condicionmedica")}
-        /> */}
         <DatoElemento
           icon={"fa-solid fa-address-card"}
           texto={"Historia clinica"}
@@ -229,7 +219,7 @@ export const GrupoDatoElemento = () => {
           values={values}
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
-          error={errors}
+          handleFileChange={handleFileChange}
         />
       </RegisterModal>
     </>

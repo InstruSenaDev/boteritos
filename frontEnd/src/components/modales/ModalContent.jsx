@@ -14,6 +14,7 @@ export const ModalContent = ({
   values,
   handleInputChange,
   handleDropdownChange,
+  handleFileChange,
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
@@ -22,43 +23,23 @@ export const ModalContent = ({
     dataDiagnostico: [],
   });
 
-  const dataFormInd = new FormData();
-
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
       const resultSexo = await dataSexo();
       const resultParentesco = await dataTipoParentesco();
-      const resultDiagnostico = await dataDiagnostico();
+
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
         dataTipoParentesco: resultParentesco,
-        dataDiagnostico: resultDiagnostico
       });
     };
 
     getDataDropdown();
   }, []);
 
-  const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
-  };
-
   switch (selectedContent) {
-    // case "telefono":
-    //   return (
-    //     <Input
-    //       texto="Ingresa un número de teléfono el cual permita comunicarse con el estudiante"
-    //       placeholder="Por favor escriba su número telefónico"
-    //       name="telefono"
-    //       tipo="text"
-    //       onChange={handleInputChange}
-    //       value={values.telefono || ""}
-    //     />
-    //   );
-
     case "responsable":
       return (
         <>
@@ -171,52 +152,6 @@ export const ModalContent = ({
         </>
       );
 
-    // Similar para los otros casos
-
-    // case "condicionmedica":
-    //   return (
-    //     <>
-    //       <Dropdown
-    //         name="parentesco"
-    //         label="Tipo de parentesco"
-    //         data={dataDropdown.dropdownDocumento}
-    //         onChange={(value) => handleDropdownChange("parentesco", value)}
-    //         value={values.parentesco || ""}
-    //       />
-    //       <Input
-    //         texto="Lugar de atención"
-    //         placeholder="Ingresa el lugar de atención"
-    //         name="lugaratencion"
-    //         tipo="text"
-    //         onChange={handleInputChange}
-    //         value={values.lugaratencion || ""}
-    //       />
-    //       <Dropdown
-    //         name="rh"
-    //         label="RH"
-    //         data={dataDropdown.dataRh}
-    //         onChange={(value) => handleDropdownChange("rh", value)}
-    //         value={values.rh || ""}
-    //       />
-    //       <Input
-    //         texto="Estatura"
-    //         placeholder="Ingresa la estatura"
-    //         name="estatura"
-    //         tipo="text"
-    //         onChange={handleInputChange}
-    //         value={values.estatura || ""}
-    //       />
-    //       <Input
-    //         texto="Peso"
-    //         placeholder="Ingresa el peso"
-    //         name="peso"
-    //         tipo="text"
-    //         onChange={handleInputChange}
-    //         value={values.peso || ""}
-    //       />
-    //     </>
-    //   );
-
     case "historiaclinica":
       return (
         <>
@@ -224,9 +159,7 @@ export const ModalContent = ({
             name="iddiagnostico"
             label="Diagnostico"
             data={dataDropdown.dataDiagnostico}
-            onChange={(value) =>
-              handleDropdownChange("iddiagnostico", value)
-            }
+            onChange={(value) => handleDropdownChange("iddiagnostico", value)}
             value={values.iddiagnostico || ""}
             placeholder={"Seleccione el diagnostico del estudiante"}
           />
@@ -254,7 +187,6 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.medicamentos || ""}
-          
           />
           <Input
             texto="Cantidad de medicamentos"
@@ -274,9 +206,9 @@ export const ModalContent = ({
           />
           <UploadFile
             typefile={".pdf"}
-            title={"historiaclinia"}
+            title={"Archivo"}
             id="archivo"
-            onFileChange={(file) => handleFileChange("imagen", file)}
+            onFileChange={(file) => handleFileChange("archivo", file)}
           />
         </>
       );
