@@ -7,6 +7,7 @@ import { getModalConfig } from "../../helper/modales/getModalConfig";
 
 import { defaultValues } from "../../helper/modales/objectsModal";
 import { useParams } from "react-router-dom";
+import { modaleValidators } from "../../helper/validators/modalesValidator";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -15,13 +16,22 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
   const { id } = useParams();
- 
+  const formData = new FormData();
+  const [errors, setErrors] = useState({});
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    
+    const content = selectedContent || "default";
+
+    const error = modaleValidators(content, name, value);
+
+    setErrors({
+      ...errors,
+      [name]: error,
+    });
+
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -36,8 +46,27 @@ export const GrupoDatoElemento = () => {
     }));
   };
 
+  const handleFileChange = (name, file) => {
+    formData.set(name, file);
+  };
+
   const handleForm = (event) => {
     event.preventDefault();
+
+    const newErrors = {};
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = modaleValidators(selectedContent, key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     // Recorrer y aplicar .trim() a cada valor del objeto
     const trimmedValues = Object.entries(values).reduce((acc, [key, value]) => {
@@ -48,9 +77,26 @@ export const GrupoDatoElemento = () => {
     console.log("Valores después de aplicar .trim():", trimmedValues); // Imprime los valores del formulario
 
     // Verificar si hay algún valor vacío después de aplicar .trim()
+    /*
     const hasEmptyFields = Object.values(trimmedValues).some(
       (value) => value === ""
     );
+
+    const newErrors = {};
+    for (const key in values){
+      if (Object.hasOwn(values,key)){
+        const error = modaleValidators(key, values[key]);
+        if(error){
+          newErrors[key] = error;        
+        }
+      }
+    }
+
+
+    if (Object.keys(newErrors).length>0){
+      setErrors(newErrors);
+      return;
+    }
 
     if (hasEmptyFields) {
       console.error(
@@ -58,6 +104,7 @@ export const GrupoDatoElemento = () => {
       );
       return; // Detiene el proceso si se encuentran campos vacíos
     }
+    */
 
     // Convertir idtipodocumento e idparentesco a enteros si existen
     if (trimmedValues.idtipodocumento) {
@@ -76,8 +123,6 @@ export const GrupoDatoElemento = () => {
     // setValues(trimmedValues);
 
     // Aquí puedes proceder con el envío de los datos
-    setIsConfirm(true);
-    console.log("datos de isconfirm", isConfirm);
     console.log("Valores actualizados:", values);
 
     console.log("valores de trimmed", trimmedValues);
@@ -85,24 +130,27 @@ export const GrupoDatoElemento = () => {
   };
 
   const fetchModal = async (data) => {
-    const formData = new FormData();
-  
+    console.log(data);
+
     // Agregar los datos al objeto FormData
     Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
+      console.log(key, data[key]);
+      formData.set(key, data[key]);
     });
-  
-  
+
     try {
-      const response = await fetch(`http://localhost:8000/api/v3/registro/prueba/`, {
-        method: "POST",
-        body: formData, 
-      });
-  
+      const response = await fetch(
+        `http://localhost:8000/api/v3/registro/prueba/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const responseData = await response.json();
         console.log("Datos recibidos:", responseData);
+        setIsConfirm(true);
       } else {
         console.error("Error en la respuesta:", response.status);
       }
@@ -110,13 +158,12 @@ export const GrupoDatoElemento = () => {
       console.error("Error en la solicitud:", error);
     }
   };
-  
-  
+
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);
 
-    if (contentType === "responsable" || "historiaclinica") {
+    if (contentType === "responsable" || "historia clinica") {
       // Agrega el ID del estudiante al nuevo campo idestudiante en responsable
       initialValues.idestudiante = parseInt(id);
       // Convertir idparentesco e idtipodocumento a enteros si existen
@@ -148,36 +195,22 @@ export const GrupoDatoElemento = () => {
     setIsConfirm(false);
   };
 
-  useEffect(() => {
-    if (selectedContent) {
-    }
-  }, [values, selectedContent]);
-
   // Cierra el modal y resetea el contenido seleccionado
   const handleCloseModal = () => {
     setIsOpen(false);
     setSelectedContent(null);
     setIsConfirm(false); // Reinicia el estado de confirmación al cerrar el modal
+    setErrors({});
   };
 
   return (
     <>
       <div className="flex flex-wrap gap-y-3 justify-between">
-        {/* <DatoElemento
-          icon={"fa-solid fa-phone"}
-          texto={"Telefono(s)"}
-          onClick={() => handleOpenModal("telefono")}
-        /> */}
         <DatoElemento
           icon={"fa-solid fa-user-group"}
           texto={"Responsable(s)"}
           onClick={() => handleOpenModal("responsable")}
         />
-        {/* <DatoElemento
-          icon={"fa-solid fa-hospital"}
-          texto={"Condicion medica"}
-          onClick={() => handleOpenModal("condicionmedica")}
-        /> */}
         <DatoElemento
           icon={"fa-solid fa-address-card"}
           texto={"Historia clinica"}
@@ -204,6 +237,8 @@ export const GrupoDatoElemento = () => {
           values={values}
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
+          handleFileChange={handleFileChange}
+          errores={errors}
         />
       </RegisterModal>
     </>

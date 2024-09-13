@@ -6,20 +6,12 @@ export const getModalConfig = (contentType) => {
   let columns = 1;
 
   switch (contentType) {
-    case "telefono":
-      initialValues = defaultValues.telefono;
-      columns = 1;
-      break;
     case "responsable":
       initialValues = defaultValues.responsable;
       columns = 2;
       break;
-    case "condicionmedica":
-      initialValues = defaultValues.condicionMedica;
-      columns = 1;
-      break;
     case "historiaclinica":
-      initialValues = defaultValues.historiaClinica;
+      initialValues = defaultValues.historiaclinica;
       columns = 1;
       break;
     case "Informes":

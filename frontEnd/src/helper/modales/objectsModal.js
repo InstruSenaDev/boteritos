@@ -3,7 +3,7 @@ export const defaultValues = {
     telefono: "",
   },
   responsable: {
-    nombre: "", 
+    nombre: "",
     apellido: "",
     telefono: "",
     direccion: "",
@@ -16,17 +16,12 @@ export const defaultValues = {
     idtipoparentesco: "",
     idsexo: "",
   },
-  condicionMedica: {
-    parentesco: "",
-    lugaratencion: "",
-    rh: "",
-    estatura: "",
-    peso: "",
-  },
-  historiaClinica: {
-    diagnostico: "",
-    restriccionesalimenticias: "",
+  historiaclinica: {
+    iddiagnostico: "",
+    iddiscapacidad: "",
+    idhistoriaclinica: "",
     medicamentos: "",
+    restricciones: "",
     cantidadmedicamentos: "",
     idestudiante: "",
     observacion: "",
