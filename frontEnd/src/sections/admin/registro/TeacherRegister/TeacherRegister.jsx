@@ -10,6 +10,7 @@ import { validateField } from "../../../../helper/validators/register.js";
 import { useNavigate, Link } from "react-router-dom";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { caseProfesor } from "../../../../helper/validators/case/profesor.js";
+import { RegistroExito } from "../../../../components/forms/RegistroExito.jsx";
 
 export const TeacherRegister = () => {
   const [state, dispatch] = useRegFormContext();
@@ -26,6 +27,8 @@ export const TeacherRegister = () => {
   const dataFormInd = new FormData();
 
   const [finish, setFinish] = useState(false);
+
+  const [estadoValida, setEstadoValida] = useState(false); // Estado que controla el renderizado condicional
 
   if(finish){
     console.log('TUREEEEE');
@@ -126,6 +129,9 @@ export const TeacherRegister = () => {
       method: "POST",
       body: state.dataForm,
     });
+    if (response.status === 201) {
+      setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
+    }
     const data = await response.json();
     console.log(data);
   };
@@ -135,6 +141,13 @@ export const TeacherRegister = () => {
   }
   return (
     <>
+    {
+      estadoValida ? (
+        <div className="w-full flex justify-center">
+      <RegistroExito rol={"Profesor"} url1={"admin/registro"} url2={"admin/listaprofesores"}/>
+    </div>
+      ) : (
+    
       <form
         onSubmit={handleFormSubmit}
         className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
@@ -177,6 +190,7 @@ export const TeacherRegister = () => {
           <Boton text="Confirmar" type="blue" />
         </div>
       </form>
+      )}
     </>
   );
 };

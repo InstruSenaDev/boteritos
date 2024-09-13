@@ -1,5 +1,6 @@
 import React from 'react'
 import { LayoutGeneral } from '../../layouts/LayoutGeneral'
+import { RegistroExito } from '../../components/forms/RegistroExito'
 
 const AdminMain = () => {
   return (
