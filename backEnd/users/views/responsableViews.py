@@ -22,22 +22,51 @@ def ResponsableOne(request, id):
             "data" : query
         },status=status.HTTP_200_OK)
 
-
-class ResponsableViewSets(viewsets.ModelViewSet):
-    serializer_class = ResponsableSerializer
-    queryset = Responsable.objects.all()
+@api_view(['POST', 'PUT'])
+def ResponsableView(request):
     
-    def create(self, request):
-        serializer = self.serializer_class(data = request.data)
+    if request.method == 'POST':
+        datos = request.data
+        srResponsable = ResponsableSerializer(data = datos)
         
-        if serializer.is_valid():
-            serializer.save()
+        if srResponsable.is_valid():
+            srResponsable.save()
             return Response({
-                "message" : "¡Responsable creado con exito!",
-                "data" : serializer.data
+                "message" : "Creacion del responsable realizada con exito",
+                "error" : srResponsable.data
             }, status=status.HTTP_201_CREATED)
-            
+         
         return Response({
-            "message" : "Creacion cancelada",
-            "error" : serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message" : "Creacion de condicion cancelada",
+            "error" : srResponsable.errors
+        },status=status.HTTP_400_BAD_REQUEST)
+        
+    if request.method == 'PUT':
+        
+        if not request.data['idresponsable']:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "Falta el ID del estudiante"
+            })
+            
+        query = Responsable.objects.filter(idresponsable = request.data['idresponsable']).first()
+        
+        if not query:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "Datos no encontrados"
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        srResponsable = ResponsableSerializer(query, data = request.data)
+        
+        if srResponsable.is_valid():
+            srResponsable.save()
+            return Response({
+                "message" : "¡Actualizacion realizada con exito!",
+                "data" : srResponsable.data
+            },status=status.HTTP_201_CREATED)
+
+        return Response({
+            "message" : "Actualizacion cancelada",
+            "error": srResponsable.errors
+        },status=status.HTTP_400_BAD_REQUEST)

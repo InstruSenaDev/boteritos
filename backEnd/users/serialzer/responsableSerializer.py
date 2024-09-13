@@ -59,8 +59,6 @@ class ResponsableSerializer(serializers.ModelSerializer):
         }
     )
 
-
-
     class Meta:
         model = Responsable
         fields = '__all__'

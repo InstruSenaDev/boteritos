@@ -6,7 +6,7 @@ from .views.estudianteViews import EstudianteTableAdmin, EstudianteHeaderAdmin, 
 from .views.historiaClinicaViews import HistoriaClinicaOne, HistoriaClinica
 from .views.profesorViews import ProfesorCreateView
 from .views.usuarioViews import AdminCreateView
-from .views.responsableViews import ResponsableOne
+from .views.responsableViews import ResponsableOne, ResponsableView
 from .middleware import searchDocument
 
 @api_view(['POST'])
@@ -31,6 +31,7 @@ urlpatterns= [
     
     
     path('responsable/<int:id>', ResponsableOne),
+    path('responsable/', ResponsableView),
     
     path('checkdoc/<int:doc>', searchDocument),
     path('prueba/', prueba),
