@@ -13,7 +13,7 @@ router = DefaultRouter()
 
 #router.register(r'usuario', UsuarioViewSet, basename='usuario')
 #router.register(r'datosmedicos', DatosMedicosViewSet, basename='datosmedicos')
-router.register(r'fechas', FechasViewSet, basename='fechas')
+#router.register(r'fechas', FechasViewSet, basename='fechas')
 router.register(r'profesor', ProfesorViewSets, basename='profesor')
 #router.register(r'estudiantef', EstudianteViewSets, basename='estudiantef')
 #router.register(r'responsable', ResponsableViewSets, basename='responsable')

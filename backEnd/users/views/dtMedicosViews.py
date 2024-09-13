@@ -23,8 +23,8 @@ def DatosMedicosEstudianteOne(request,id):
         }, status=status.HTTP_200_OK)
 
 
-@api_view(['POST', 'PUT'])
-def DatosMedicosCreate(request):
+@api_view(['PUT'])
+def DatosMedicosUpdate(request):
             
     if request.method == 'PUT':
         query = Datosmedicos.objects.filter(iddatosmedicos = request.data['iddatosmedicos']).first()
