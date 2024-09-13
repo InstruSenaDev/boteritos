@@ -7,6 +7,7 @@ import { getModalConfig } from "../../helper/modales/getModalConfig";
 
 import { defaultValues } from "../../helper/modales/objectsModal";
 import { useParams } from "react-router-dom";
+import { modaleValidators } from "../../helper/validators/modalesValidator";
 
 export const GrupoDatoElemento = () => {
   const [cols, setCols] = useState(1);
@@ -15,13 +16,21 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
   const { id } = useParams();
+  const [errors, setErrors] = useState({});
  
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
-    
+    const error = modaleValidators(name, value);
+
+    setErrors({
+      ...errors,
+      [name]: error,
+    })
+
+
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -51,6 +60,22 @@ export const GrupoDatoElemento = () => {
     const hasEmptyFields = Object.values(trimmedValues).some(
       (value) => value === ""
     );
+
+    const newErrors = {};
+    for (const key in values){
+      if (Object.hasOwn(values,key)){
+        const error = modaleValidators(key, values[key]);
+        if(error){
+          newErrors[key] = error;        
+        }
+      }
+    }
+
+
+    if (Object.keys(newErrors).length>0){
+      setErrors(newErrors);
+      return;
+    }
 
     if (hasEmptyFields) {
       console.error(
@@ -204,6 +229,7 @@ export const GrupoDatoElemento = () => {
           values={values}
           handleInputChange={handleInputChange}
           handleDropdownChange={handleDropdownChange}
+          error={errors}
         />
       </RegisterModal>
     </>

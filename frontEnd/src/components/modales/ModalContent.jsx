@@ -254,6 +254,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.medicamentos || ""}
+          
           />
           <Input
             texto="Cantidad de medicamentos"
