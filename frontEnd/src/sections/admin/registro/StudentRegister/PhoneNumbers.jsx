@@ -8,8 +8,10 @@ import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
 
 export const PhoneNumberSection = () => {
   const [state,dispatch] = useRegFormContext();
-
-  const navigate = useNavigate();
+  
+  console.log(state);
+  
+  //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
@@ -20,8 +22,18 @@ export const PhoneNumberSection = () => {
 
   const dataFormInd = new FormData();
 
+  const [finish, setFinish] = useState(false);
+
+  if(finish){
+    console.log('TUREEEEE');
+    
+  }else{
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    
+  }
+
   useEffect(() => {
-    dispatch({ type: "CHANGE_PERCENT", data: 100 });
+    
   }, []);
 
   // Maneja cambios en los inputs de texto
@@ -74,11 +86,17 @@ export const PhoneNumberSection = () => {
       }
     }
 
+    dispatch({ type: "CHANGE_PERCENT", data: 100 });
     dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
-    pito();
+    
+    setFinish(true);
   };
-
-  const pito = async () => {
+  
+  
+  const pito = async () => {  
+    
+    console.log(state);
+    
     const response = await fetch("http://localhost:8000/api/v3/registro/estudiante/", {
       method: "POST",
       body: state.dataForm,
@@ -86,6 +104,10 @@ export const PhoneNumberSection = () => {
     const data = await response.json();
     console.log(data);
   };
+
+  if(finish){
+    pito();
+  }
 
   return (
     <>

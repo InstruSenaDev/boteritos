@@ -32,6 +32,8 @@ export default function TableStudents({ getId }) {
   useEffect(() => {
     const obtainData = async () => {
       const dataApi = await getAllUser("sql/estudiantes/tabla");
+      console.log(dataApi);
+      
       setDataStudents(dataApi.data);
     };
     obtainData();
@@ -73,7 +75,7 @@ export default function TableStudents({ getId }) {
 
         <section className="max-h-[80vh] overflow-y-scroll">
           {/* HEADER TABLA */}
-          <div className="sticky top-0 lg:grid grid-cols-[150px_minmax(300px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+          <div className="sticky top-0 lg:grid grid-cols-[150px_minmax(350px,_1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue bg-white hidden">
             <p>No°</p>
             <p>Nombre</p>
             <p>Diagnóstico</p>
