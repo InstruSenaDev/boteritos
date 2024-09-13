@@ -4,7 +4,7 @@ import Buscador from "../../search/Buscador";
 import { useEffect, useState } from "react";
 import { Input } from "../../forms/Input";
 import { Dropdown } from "../../forms/Dropdown";
-import { dataDoc } from "../../../helper/objects/dropdownArray";
+import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
 
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
@@ -36,7 +36,7 @@ export default function TableListaLogros() {
 
   useEffect(()=>{
     const getDataDropdown = async () => {
-      const resultTipo = await dataDoc();
+      const resultTipo = await dataTipoLogro();
       setDataDropdown({
         dropdownTipo : resultTipo
       });

@@ -12,6 +12,9 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const rol = decodedToken.rol;
+  const imagen = decodedToken.img;
+  console.log("Decoded Token:", decodedToken);
+  console.log("Image URL:", imagen);
 
   // Seleccionar la sección del sidebar que corresponde al rol
   const selectedSection = sidebarsection[rol] || [];
@@ -20,6 +23,7 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
     <Layout>
       {/* Sidebar */}
       <Sidebar
+        img={imagen}
         name={decodedToken.nombre || "Usuario"}
         rol={
           rol === 1 ? "Administrador" : rol === 2 ? "Profesor" : "Estudiante"

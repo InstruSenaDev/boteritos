@@ -10,15 +10,9 @@ export default function TableStudents({ getId }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
-  const [selectedInforme, setSelectedInforme] = useState(null);
-
-  const handleOpenModal = (informes) => {
-    setSelectedInforme(informes);
-    setIsOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsOpen(false);
+  
+  const toogleRow = (index) => {
+    setOpenAcc(openAcc !== index ? index : -1);
   };
 
   const handleOpenConfirmationModal = () =>{
@@ -38,28 +32,6 @@ export default function TableStudents({ getId }) {
     };
     obtainData();
   }, []);
-  const toogleRow = (index) => {
-    setOpenAcc(openAcc !== index ? index : -1);
-  };
-
-  const dataInformes = [
-    {
-      informe: "informe1PrimerTrimestre.pdf",
-      fecha: "20/03/2025",
-    },
-    {
-      informe: "informe2PrimerTrimestre.pdf",
-      fecha: "20/03/2025",
-    },
-    {
-      informe: "informe3PrimerTrimestre.pdf",
-      fecha: "20/03/2025",
-    },
-    {
-      informe: "informe4PrimerTrimestre.pdf",
-      fecha: "20/03/2025",
-    },
-  ];
 
   return (
     <>
@@ -87,37 +59,22 @@ export default function TableStudents({ getId }) {
           {dataStudents ? (
             dataStudents.map((data, index) => (
               <div
-                className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(300px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
+                className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(350px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
                   openAcc === index ? "open" : "close"
                 }`}
                 key={index}
               >
                 {/*Aqui se hace una conversion para añadir los ceros a la izquierda*/}
-                <div className="flex gap-2 lg:gap-0 ">
-                <p className="text-darkBlue lg:hidden">No°</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p>
-                    {data.idestudiante.toString().length == 2
-                      ? data.idestudiante
-                      : `0${data.idestudiante}`}
-                  </p>
-                  <button onClick={() => toogleRow(index)}>
-                    <i className="fa-solid fa-angle-down block lg:hidden"></i>
-                  </button>
-                </div>
-              </div>
-                <div className="acc-header flex gap-2 items-center">
-                  <p className="text-darkBlue lg:hidden">Nombre</p>
-                  <div className="w-full flex gap-2 items-center">
-                  <p
-                    className="underline cursor-pointer"
-                    onClick={() => getId(data.idestudiante)}
-                  >
-                    {`${data.nombre} ${data.apellido}`}
-                  </p>
-                  <i className="fa-solid fa-circle w-[15px] h-[15px] text-greenFull rounded-full"></i>
-                  </div>
-                </div>
+                <p>
+                  {data.idestudiante.toString().length == 2
+                    ? data.idestudiante
+                    : `0${data.idestudiante}`}
+                </p>
+
+                <p
+                  className="underline cursor-pointer"
+                  onClick={() => getId(data.idestudiante)}
+                >{`${data.nombre} ${data.apellido}`}</p>
 
                 <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Diagnostico:</p>
@@ -137,11 +94,8 @@ export default function TableStudents({ getId }) {
                   <p className="text-darkBlue lg:hidden">Acción:</p>
                   <div className="w-full flex justify-between items-center ">
                     <div className="justify-self-center flex gap-3">
-                      <i
-                        className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"
-                        onClick={() => handleOpenModal(dataInformes)}
-                      ></i>
-                      <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpenConfirmationModal}></i>
+                      <i className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"></i>
+                      <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"></i>
                     </div>
                   </div>
                 </div>

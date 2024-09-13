@@ -9,4 +9,4 @@ const ListTeachers = () => {
   )
 }
 
-export default ListTeachers
+export default ListTeachers;

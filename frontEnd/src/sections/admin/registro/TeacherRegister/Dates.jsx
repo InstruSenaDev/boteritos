@@ -15,6 +15,7 @@ export const DatesSection = () => {
   const [values, setValues] = useState({
     fechaingreso: "",
     fechanacimiento: "",
+    fecharegistro : ""
   });
   const dataFormInd = new FormData();
 

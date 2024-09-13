@@ -6,7 +6,7 @@ import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Input } from "../../forms/Input";
 import { Switch } from "../../forms/Switch";
 
-export default function TableTrimestres() {
+const TableTrimestres =() => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
@@ -152,3 +152,4 @@ export default function TableTrimestres() {
     </>
   );
 }
+export default TableTrimestres;

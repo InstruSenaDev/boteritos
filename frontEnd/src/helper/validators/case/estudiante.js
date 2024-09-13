@@ -42,11 +42,11 @@ export const caseEstudiante = (name, value) => {
       }
       break;
 
-    case "matricula":
-      if (!isString(value) || !value.trim()) {
-        error = "La matricula es obligatoria.";
-      }
-      break;
+      case "idmatricula":
+        if (!value) {
+          error = "Seleccione la matricula.";
+        }
+        break;
 
     case "fechaingreso":
     case "fechanacimiento":
@@ -100,7 +100,7 @@ export const caseEstudiante = (name, value) => {
       }
       break;
 
-    case "numerodocumento":
+    case "documento":
       if (!isString(value) || !value.trim()) {
         error = "El número de documento es obligatorio.";
       } else if (value.length < 8 || value.length > 10) {

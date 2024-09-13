@@ -15,7 +15,7 @@ export const caseCondicionMedica = (name, value) => {
                 error = "El campo lugar de atención es obligatorio.";
             }
             break;
-        case "rh":
+        case "idrh":
             if (!trimmedValue) {
                 error = "El campo RH es obligatorio.";
             }
@@ -25,11 +25,11 @@ export const caseCondicionMedica = (name, value) => {
                 error = "El campo Eps es obligatorio.";
             }
             break;
-        case "estatura":
+        case "altura":
             if (!trimmedValue) {
-                error = "El campo estatura es obligatorio.";
+                error = "El campo altura es obligatorio.";
             } else if (isNaN(trimmedValue)) {
-                error = "El campo estatura debe ser un número.";
+                error = "El campo altura debe ser un número.";
             }
             break;
         case "peso":

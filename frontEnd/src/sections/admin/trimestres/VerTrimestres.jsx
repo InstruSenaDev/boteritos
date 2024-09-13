@@ -1,5 +1,5 @@
 import React from "react";
-import TableTrimestres from "../../../components/list/tables/TableTrimestres";
+import  TableTrimestres  from "../../../components/list/tables/TableTrimestres";
 
 export const VerTrimestres = () => {
   return (
