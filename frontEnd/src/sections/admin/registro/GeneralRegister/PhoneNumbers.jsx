@@ -10,15 +10,11 @@ import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
 export const PhoneNumberSection = () => {
   const [state, dispatch] = useRegFormContext();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     dispatch({ type: 'CHANGE_PERCENT', data: 100 })
   }, [])
 
   const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [isRegistering, setIsRegistering] = useState(false);
 
   const [values, setValues] = useState({
     telefono1: "",
@@ -26,6 +22,21 @@ export const PhoneNumberSection = () => {
     //hojaDeVida: null,
   });
 
+  const dataFormInd = new FormData();
+
+  const [finish, setFinish] = useState(false);
+
+  if(finish){
+    console.log('TUREEEEE');
+    
+  }else{
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    
+  }
+
+  useEffect(() => {
+    
+  }, []);
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -46,7 +57,7 @@ export const PhoneNumberSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_PHONE_DATA', data: values })
+    event.preventDefault();
 
     // Validar todos los campos antes de enviar
     const newErrors = {};
@@ -64,86 +75,41 @@ export const PhoneNumberSection = () => {
       return;
     }
 
-    const data = {
-      dataCommon: state.dataCommon,
-      dataAddress: state.dataAddress,
-      dataDates: state.dataDates,
-      dataMedical: state.dataMedical,
-      dataPhone: values
-    }
-
-    console.log(data)
-
-    const formData = new FormData();
-
-    // Añadir datos de cada sección al FormData
-    for (const [sectionKey, sectionValues] of Object.entries(data)) {
-      for (const [key, value] of Object.entries(sectionValues)) {
-        formData.append(`${sectionKey}.${key}`, value); // Usar el nombre de la sección como prefijo
-      }
-    }
-    // Mostrar todos los datos almacenados
-    console.log(data);
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // for (const key in values) {
-    //   if (Object.hasOwn(values, key)) {
-    //     const error = validateField(key, values[key]);
-    //     if (error) {
-    //       newErrors[key] = error;
-    //     }
-    //   }
-    // }
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   // Si hay errores, no enviar el formulario
-    //   setErrors(newErrors);
-    //   return;
-    // }
-
     const dataUser = {
       ...values,
       telefono1: values.telefono1.trim(),
       telefono2: values.telefono2.trim(),
     };
-    console.log(dataUser);
 
-
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-      formData.append([key] , value)
-      
-    });
-
-    console.log(formData);*/
-
-    // createUser(dataUser);
-  };
-
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, dataUser[key]);
+      }
     }
 
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
-
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
+    dispatch({ type: "CHANGE_PERCENT", data: 100 });
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
+    
+    setFinish(true);
   };
+
+  const pito = async () => {  
+    
+    console.log(state);
+    
+    const response = await fetch("http://localhost:8000/api/v3/registro/estudiante/", {
+      method: "POST",
+      body: state.dataForm,
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
+  if(finish){
+    pito();
+  }
+
 
   return (
     <>

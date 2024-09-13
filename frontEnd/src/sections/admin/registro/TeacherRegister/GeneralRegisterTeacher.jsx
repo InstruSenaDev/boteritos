@@ -107,33 +107,33 @@ export const GeneralRegisterTeacher = () => {
     };
     checkDoc(dataUser);
   };
-    
 
-    const checkDoc = async (value) => {
-      const response = await fetch(
-        `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
-      );
-      const data = await response.json();
-      
-      console.log(data);
-      
-      if (data.error) {
-        console.log(data.error);
-        return;
+
+  const checkDoc = async (value) => {
+    const response = await fetch(
+      `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
+    );
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.error) {
+      console.log(data.error);
+      return;
+    }
+
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in value) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, value[key]);
       }
-  
-      //Recorrido del objeto para añadirlo al formData
-      for (const key in value) {
-        if (Object.hasOwn(values, key)) {
-          dataFormInd.set(key, value[key]);
-        }
-      }
-      dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
-      navigate("/admin/registro/registroprofesor/direcciones");
-    };
+    }
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
+    navigate("/admin/registro/registroprofesor/direcciones");
+  };
 
 
-  
+
 
   return (
     <>
@@ -208,7 +208,7 @@ export const GeneralRegisterTeacher = () => {
             error={errors.idsexo}
           />
           <UploadFile
-          typefile={"image/*"}
+            typefile={"image/*"}
             title={"Foto"}
             id="imagen"
             onFileChange={(file) => handleFileChange("imagen", file)}

@@ -73,7 +73,6 @@ export const MedicalInfoSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: "SET_MEDICAL_STUDENT_DATA", data: values });
 
     // Validar todos los campos antes de enviar
     const newErrors = {};

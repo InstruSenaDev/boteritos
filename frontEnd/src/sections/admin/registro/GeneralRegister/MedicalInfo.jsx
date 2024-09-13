@@ -6,26 +6,51 @@ import { validateField } from "../../../../helper/validators/register.js";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
 import { caseCondicionMedica } from "../../../../helper/validators/case/condicionMedica.js";
+import { Dropdown } from "../../../../components/forms/Dropdown.jsx";
+import { dataEps, dataRh } from "../../../../helper/objects/dropdownArray.js";
 
 export const MedicalInfoSection = () => {
   const [state, dispatch] = useRegFormContext();
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 83 })
-  }, [])
-
+  
   const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [isRegistering, setIsRegistering] = useState(false);
-
   const [values, setValues] = useState({
     lugaratencion: "",
     peso: "",
     altura: "",
-    //hojaDeVida: null,
+    ideps: "",
+    idrh: "",
   });
+
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownEps: [],
+    dropdownRh: [],
+  });
+
+  const dataFormInd = new FormData();
+
+  useEffect(() => {
+    const getDataDropdown = async () => {
+      const resultEps = await dataEps();
+      const resultRh = await dataRh();
+      console.log(resultRh);
+      
+      setDataDropdown({
+        ...dataDropdown,
+        dropdownEps: resultEps,
+        dropdownRh: resultRh,
+      });
+    };
+
+    getDataDropdown();
+  }, []);
+
+  useEffect(() => {
+    dispatch({ type: 'CHANGE_PERCENT', data: 83 })
+  }, [])
+
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -44,10 +69,14 @@ export const MedicalInfoSection = () => {
     });
   };
 
+  // Función genérica para manejar cambios en otros dropdowns
+  const handleDropdownChange = (name, value) => {
+    setValues({ ...values, [name]: value });
+  };
+
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: 'SET_MEDICAL_DATA', data: values })
 
     // Validar todos los campos antes de enviar
     const newErrors = {};
@@ -71,46 +100,18 @@ export const MedicalInfoSection = () => {
       peso: values.peso.trim(),
       altura: values.altura.trim(),
     };
-    console.log(dataUser);
+    
 
 
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-      formData.append([key] , value)
-      
-    });
-
-    console.log(formData);*/
-
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, dataUser[key]);
+      }
+    }
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
     navigate('/admin/registro/registroadmin/telefonos')
 
-    // createUser(dataUser);
-  };
-
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
-    }
-
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
-
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
-
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
   };
 
   return (
@@ -146,6 +147,22 @@ export const MedicalInfoSection = () => {
             onChange={handleInputChange}
             value={values.altura}
             error={errors.altura}
+          />
+          <Dropdown
+            name={"idrh"}
+            label={"Tipo de sangre"}
+            data={dataDropdown.dropdownRh}
+            onChange={(value) => handleDropdownChange("idrh", value)}
+            placeholder={"Selecciona el tipo de sangre"}
+            error={errors.idrh}
+          />
+          <Dropdown
+            name={"ideps"}
+            label={"EPS"}
+            data={dataDropdown.dropdownEps}
+            onChange={(value) => handleDropdownChange("ideps", value)}
+            placeholder={"Selecciona la EPS"}
+            error={errors.ideps}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
