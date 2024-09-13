@@ -11,29 +11,22 @@ import { Button } from "@tremor/react";
 
 export default function TableListaLogros() {
   const [isConfirm, setIsConfirm] = useState(false);
-  const [values, setValues] = useState({
-    logro:"",
-    tipo:""
-  });
-
-  const handleForm = (event) => {
-    event.preventDefault();
-    console.log(values);
-     setValues({
-    logro: "",
-    tipo: ""
-  });
-    setIsConfirm(true);
-  };
-
-
   // Estado para manejar el modal
   const [isOpen, setIsOpen] = useState(false);
+
+  const [errors, setErrors] = useState({}); // Estado para los errores
 
   const[dataDropdown, setDataDropdown] = useState({
     dropdownTipo:[]
   })
-
+  const [values, setValues] = useState({
+    logro:"",
+    estado: "0",
+    observacion: "Por revisar",
+    idtipologro:"",
+    idtrimestre: "1",
+    idprofesor: "", //LOCAL STORAGE
+  });
   useEffect(()=>{
     const getDataDropdown = async () => {
       const resultTipo = await dataTipoLogro();
@@ -45,7 +38,6 @@ export default function TableListaLogros() {
   }, [])
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
-
   // Maneja el cambio en los campos de entrada del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -54,14 +46,12 @@ export default function TableListaLogros() {
       [name]: value,
     });
   };
-
   const handleDropdownChange = (name, value) => {
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
   };
-
   const handleOpenModal=()=>{
     setIsOpen(true)
     setIsConfirm(false); 
@@ -75,6 +65,27 @@ export default function TableListaLogros() {
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
+  
+
+  const handleForm = (event) => {
+    event.preventDefault();
+
+
+    const dataUser = {
+      ...values,
+      logro: values.logro.trim(),
+    };
+
+    console.log(dataUser);
+    console.log(values);
+    setIsConfirm(true);
+  };
+
+
+
+
+
+
 
  
 
@@ -159,11 +170,11 @@ export default function TableListaLogros() {
       >
       <Dropdown
        label="Selecciona una opción"
-       name="tipo"
+       name="idtipologro"
        data={dataDropdown.dropdownTipo}  
-       onChange={(value) => handleDropdownChange("tipo",value)}
+       onChange={(value) => handleDropdownChange("idtipologro",value)}
       placeholder={"Seleccione el tipo de logro"}
-      value={values.tipo || ""}
+      value={values.idtipologro || ""}
       />
 
        <Input

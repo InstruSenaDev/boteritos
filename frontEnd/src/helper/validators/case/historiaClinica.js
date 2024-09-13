@@ -11,11 +11,6 @@ export const caseHistoriaClinica = (name, value) => {
               error = "El campo restricciones alimenticias es obligatorio.";
           }
           break;
-      case "medicamentos":
-          if (!value.trim()) {
-              error = "El campo medicamentos es obligatorio.";
-          }
-          break;
         case "archivo":
           if (!value.trim()) {
               error = "El campo archivo es obligatorio.";

@@ -7,6 +7,7 @@ export const sidebarsection = {
     { icon: "fa-solid fa-user-plus", texto: "Crear usuario", link: "admin/registro" },
     { icon: "fa-solid fa-plus", texto: "Crear trimestre", link: "admin/creartrimestres" },
     { icon: "fa-solid fa-lock", texto: "Cambiar contraseña", link: "admin/cambiarcontrasena" },
+    { icon: "fa-solid fa-star", texto: "Administradores", link: "admin/listaadministradores" }
   ],
   2: [
     { icon: "fa-solid fa-user", texto: "Perfil", link: "profesor/perfil" },

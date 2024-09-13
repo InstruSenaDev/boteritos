@@ -2,6 +2,7 @@ import { caseHistoriaClinica } from "./case/historiaClinica";
 import { caseCondicionMedica } from "./case/condicionMedica";
 import { caseTelefono } from "./case/Telefono";
 import { caseResponsable } from "./case/responsable";
+import { caseLogros } from "./case/logros";
 
 export const modales = (content, name, value) => {
     let error;
@@ -19,6 +20,9 @@ export const modales = (content, name, value) => {
             break;
         case "Historia Clinica":
             error = caseHistoriaClinica(name, value);
+            break;
+        case "Logros":
+            error = caseLogros(name, value);
             break;
         default:
             console.error(`Tipo de contenido no soportado: ${content}`); // Añadido para depuración
