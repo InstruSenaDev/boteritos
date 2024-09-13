@@ -39,7 +39,7 @@ def Login(request):
             })   
                  
         utc_now = datetime.now(pytz.utc)
-        print(usuario.imagen)
+        
         #Creacion de token de acceso
         access_payload = {
             'idusuario': usuario.idusuario ,

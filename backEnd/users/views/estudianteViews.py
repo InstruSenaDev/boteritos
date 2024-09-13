@@ -19,7 +19,6 @@ def EstudianteCreateView(request):
     if request.method == 'POST':
         datos = request.data
         #2223456789
-        print(request.data)
         
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
