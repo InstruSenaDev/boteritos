@@ -16,11 +16,6 @@ export const GrupoDatoElemento = () => {
   const [values, setValues] = useState({});
   const { id } = useParams();
 
-  if(isConfirm){
-    console.log('TURE');
-  }else{
-    console.log('AAAAAAAA');
-  }
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
@@ -99,12 +94,6 @@ export const GrupoDatoElemento = () => {
       return;
     }
   };
-
-  if (isConfirm) {
-    fetchModal();
-  }
-
-
 
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
