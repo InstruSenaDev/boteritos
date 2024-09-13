@@ -5,12 +5,13 @@ import { Boton } from "../../../../components/forms/Boton.jsx";
 import { useRegFormContext } from "../../../../hooks/RegFormProvider.jsx";
 import { useNavigate, Link } from "react-router-dom";
 import { caseTelefono } from "../../../../helper/validators/case/telefono.js";
+import { RegistroExito } from "../../../../components/forms/RegistroExito.jsx";
 
 export const PhoneNumberSection = () => {
-  const [state,dispatch] = useRegFormContext();
-  
+  const [state, dispatch] = useRegFormContext();
+
   console.log(state);
-  
+
   //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -24,16 +25,18 @@ export const PhoneNumberSection = () => {
 
   const [finish, setFinish] = useState(false);
 
-  if(finish){
+  const [estadoValida, setEstadoValida] = useState(false); // Estado que controla el renderizado condicional
+
+  if (finish) {
     console.log('TUREEEEE');
-    
-  }else{
+
+  } else {
     console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    
+
   }
 
   useEffect(() => {
-    
+
   }, []);
 
   // Maneja cambios en los inputs de texto
@@ -88,64 +91,73 @@ export const PhoneNumberSection = () => {
 
     dispatch({ type: "CHANGE_PERCENT", data: 100 });
     dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
-    
+
     setFinish(true);
   };
-  
-  
-  const pito = async () => {  
-    
+
+
+  const pito = async () => {
+
     console.log(state);
-    
+
     const response = await fetch("http://localhost:8000/api/v3/registro/estudiante/", {
       method: "POST",
       body: state.dataForm,
     });
+    if (response.status === 201) {
+      setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
+    }
     const data = await response.json();
     console.log(data);
   };
 
-  if(finish){
+  if (finish) {
     pito();
   }
 
   return (
     <>
-      <form
-        onSubmit={handleFormSubmit}
-        className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
-          <Input
-            name={"telefono1"}
-            texto={"Primer telefono"}
-            placeholder={"telefono del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.telefono1}
-            error={errors.telefono1}
-          />
-          <Input
-            name={"telefono2"}
-            texto={"Segundo telefono"}
-            placeholder={"Telefono de respaldo del usuario"}
-            tipo={"text"}
-            onChange={handleInputChange}
-            value={values.telefono2}
-            error={errors.telefono2}
-          />
+      {estadoValida ? (
+        <div className="w-full flex justify-center">
+          <RegistroExito rol={"Estudiante"} url1={"admin/registro"} url2={"admin/listaestudiantes"} />
         </div>
-        <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
-          {/* Botón para confirmar el formulario */}
-          <Link
-            to={"/admin/registro/registroestudiante/datosmedicos"}
-            className="max-w-[400px] w-full"
-          >
-            <Boton text="Atras" type="blue" />
-          </Link>
-          <Boton text="Confirmar" type="blue" />
-        </div>
-      </form>
+      ) : (
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex flex-col max-w-[830px] w-full gap-x-[30px] gap-y-10"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-8">
+            <Input
+              name={"telefono1"}
+              texto={"Primer telefono"}
+              placeholder={"telefono del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.telefono1}
+              error={errors.telefono1}
+            />
+            <Input
+              name={"telefono2"}
+              texto={"Segundo telefono"}
+              placeholder={"Telefono de respaldo del usuario"}
+              tipo={"text"}
+              onChange={handleInputChange}
+              value={values.telefono2}
+              error={errors.telefono2}
+            />
+          </div>
+          <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">
+            {/* Botón para confirmar el formulario */}
+            <Link
+              to={"/admin/registro/registroestudiante/datosmedicos"}
+              className="max-w-[400px] w-full"
+            >
+              <Boton text="Atras" type="blue" />
+            </Link>
+            <Boton text="Confirmar" type="blue" />
+          </div>
+        </form>
+      )}
     </>
   );
 };

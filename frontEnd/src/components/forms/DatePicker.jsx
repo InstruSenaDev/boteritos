@@ -23,6 +23,7 @@ export function DatePicker2({ name, texto, value, onChange, error }) {
         }`}
       >
         <DatePicker
+        enableYearNavigation={true}
           locale={es}
           placeholder="Selecciona la fecha"
           value={value ? new Date(value) : null} // Mostrar la fecha seleccionada
