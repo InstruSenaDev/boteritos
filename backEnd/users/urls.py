@@ -28,8 +28,7 @@ urlpatterns= [
     path('profesor/', ProfesorCreateView),
     
     path('admin/', AdminCreateView),
-    
-    
+        
     path('responsable/<int:id>', ResponsableOne),
     path('responsable/', ResponsableView),
     

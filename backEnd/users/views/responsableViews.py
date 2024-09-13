@@ -37,7 +37,7 @@ def ResponsableView(request):
             }, status=status.HTTP_201_CREATED)
          
         return Response({
-            "message" : "Creacion de condicion cancelada",
+            "message" : "Creacion del responsable cancelada",
             "error" : srResponsable.errors
         },status=status.HTTP_400_BAD_REQUEST)
         

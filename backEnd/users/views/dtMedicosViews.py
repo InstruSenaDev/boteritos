@@ -1,9 +1,19 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from ..models import Datosmedicos
 from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
 
+@api_view(['GET'])
+def DatosMedicosEstudianteOne(request):
+    if request.method == 'GET':
+        
+        pass
+
+
+
+"""
 class DatosMedicosViewSet(viewsets.ModelViewSet):
     serializer_class = DatosMedicosSerializer
     queryset = Datosmedicos.objects.all()
@@ -45,5 +55,6 @@ class DatosMedicosViewSet(viewsets.ModelViewSet):
         return Response({
             "message": "Actualización cancelada", "error": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+"""
         
     

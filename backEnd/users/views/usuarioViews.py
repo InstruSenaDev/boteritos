@@ -15,10 +15,7 @@ from ..serialzer.telefonosSerializer import TelefonosSerializer
 def AdminCreateView(request):
     
     if request.method == 'POST':
-        datos = request.data
-        #2223456789
-        print(request.data)
-        
+        datos = request.data        
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
         

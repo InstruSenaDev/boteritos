@@ -96,7 +96,7 @@ def LogrosViews(request):
                 
                 # Insertar todas las instancias de Logroestudiante de una sola vez
                 Logroestudiante.objects.bulk_create(nuevos_logros_estudiantes)
-                print(getAllEstudiantes)
+                
             
             return Response({
                 "message" : "¡Actualizacion realizada con exito!",
@@ -121,7 +121,7 @@ def Calificar(request,id):
     
     if request.method == 'GET':
         getLogros = Logros.objects.filter(idprofesor = id)
-        print(getLogros)
+        
         
         # Obtener los IDs de los logros creados por el profesor
         logros_ids = getLogros.values_list('idlogro', flat=True)
