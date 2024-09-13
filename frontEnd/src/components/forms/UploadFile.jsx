@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const UploadFile = ({ title, onFileChange, id }) => {
+export const UploadFile = ({ title, onFileChange, id, typefile }) => {
     const [fileName, setFileName] = useState("");
 
     // Maneja el cambio de archivo
@@ -28,7 +28,7 @@ export const UploadFile = ({ title, onFileChange, id }) => {
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-x-1">
                     <i className="fa-solid fa-file-arrow-up text-title text-orange"></i>
                     <p className="font-cocogooseLight text-paragraph3"><span className="text-orange">Click para subir</span> o arrastre y suelte</p>
-                    <input type="file" accept="image/*" onChange={handleFileChange} id={id} className="hidden"/> {/* Input oculto con ID único */}
+                    <input type="file" accept={typefile} onChange={handleFileChange} id={id} className="hidden"/> {/* Input oculto con ID único */}
                 </div>
                 <p className="font-cocogooseUltraLight text-paragraphSmall">{fileName ? `Archivo seleccionado: ${fileName}` : "(Tamaño maximo del archivo: 5MB)"}</p> {/* Muestra el nombre del archivo seleccionado */}
             </div>

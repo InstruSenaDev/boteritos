@@ -9,23 +9,19 @@ import { caseAdmin } from "../../../../helper/validators/case/admin.js";
 
 export const AdressSection = () => {
   const [state, dispatch] = useRegFormContext();
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch({ type: 'CHANGE_PERCENT', data: 50 })
-  }, [])
-
   const [errors, setErrors] = useState({}); // Estado para los errores
-
-  const [isRegistering, setIsRegistering] = useState(false);
-
   const [values, setValues] = useState({
     comuna: "",
     barrio: "",
     numero: "",
-    //hojaDeVida: null,
   });
+
+  const dataFormInd = new FormData();
+
+  useEffect(() => {
+    dispatch({ type: 'CHANGE_PERCENT', data: 50 })
+  }, [])
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -52,17 +48,17 @@ export const AdressSection = () => {
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
-        if (Object.hasOwn(values, key)) {
-            const error = caseAdmin(key, values[key]);
-            if (error) {
-                newErrors[key] = error;
-            }
+      if (Object.hasOwn(values, key)) {
+        const error = caseAdmin(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
         }
+      }
     }
 
     if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
+      setErrors(newErrors);
+      return;
     }
     const dataUser = {
       ...values,
@@ -70,45 +66,19 @@ export const AdressSection = () => {
       barrio: values.barrio.trim(),
       numero: values.numero.trim(),
     };
-    console.log(dataUser);
 
-
-    //let formData = new FormData();
-
-    /*Object.entries(dataUser).forEach(([key, value]) => {
-      formData.append([key] , value)
-      
-    });
-
-    console.log(formData);*/
-    navigate('/admin/registro/registroadmin/fechas')
-
-    // createUser(dataUser);
-  };
-
-  const createUser = async (data) => {
-    const response = await postUserStudent(data, "usuarios");
-    console.log(response);
-
-    if (response.status == 200 || response.status == 201) {
-      setIsRegistering(true);
-      console.log(
-        "Nada de errores, aqui se debe redireccionar al registro con detalle"
-      );
-      return;
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in dataUser) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, dataUser[key]);
+      }
     }
 
-    //Se presentaron errores (API):
-    const dataError = await response.data.error;
+    dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
 
-    // const newErrors = {}; // Definir newErrors como un objeto vacío antes de usarlo
-    // Object.entries(dataError).forEach(([key, value]) => {
-    //   newErrors[key] = value[0];
-    // });
+    navigate('/admin/registro/registroadmin/fechas')
 
-    // if (Object.keys(newErrors).length > 0) {
-    //   setErrors(newErrors);
-    // }
+
   };
 
   return (

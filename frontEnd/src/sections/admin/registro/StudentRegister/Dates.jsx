@@ -15,7 +15,7 @@ export const DatesSection = () => {
   const [errors, setErrors] = useState({}); // Estado para los errores
   const [values, setValues] = useState({
     fechaingreso: "",
-    fechanacimiento: "2000-01-01",
+    fechanacimiento: "",
     fecharegistro : ""
   });
   
@@ -46,7 +46,6 @@ export const DatesSection = () => {
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    dispatch({ type: "SET_DATE_STUDENT_DATA", data: values });
 
     // Validar todos los campos antes de enviar
     const newErrors = {};

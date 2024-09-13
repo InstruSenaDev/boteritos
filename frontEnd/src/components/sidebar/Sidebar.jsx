@@ -32,8 +32,8 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
               }`}
               id="sidebar-text"
             >
-              <p className="text-paragraph2">{name}</p>
-              <p className="text-paragraph3">{rol}</p>
+              <p className="text-paragraph2 text-nowrap">{name}</p>
+              <p className="text-paragraph3 text-nowrap">{rol}</p>
             </div>
             <div
               className="w-[24px] h-[24px] rounded-full bg-white shadow-2xl text-sm text-black flex justify-center items-center absolute right-[-12px] cursor-pointer"

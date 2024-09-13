@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
-import { dataDoc, dataSexo } from "../../helper/objects/dropdownArray";
+import { dataDoc, dataSexo, dataTipoParentesco, dataRh} from "../../helper/objects/dropdownArray";
 
 export const ModalContent = ({
   selectedContent,
@@ -12,16 +12,20 @@ export const ModalContent = ({
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
-    dropdownSexo : []
+    dropdownSexo : [],
+    dataTipoParentesco: [],
   });
 
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
       const resultSexo = await dataSexo();
+      const resultParentesco = await dataTipoParentesco();
       setDataDropdown({ 
         dropdownDocumento : resultDocumento,
-        dropdownSexo : resultSexo
+        dropdownSexo : resultSexo,
+        dataTipoParentesco : resultParentesco,
+
       });
     };
 
@@ -143,7 +147,7 @@ export const ModalContent = ({
           <Dropdown
             name="idtipoparentesco"
             label="Tipo de parentesco"
-            data={dataDropdown.dropdownDocumento}
+            data={dataDropdown.dataTipoParentesco}
             onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
             value={values.idtipoparentesco || ""}
             placeholder={"Seleccione el parentesco"}
@@ -153,49 +157,49 @@ export const ModalContent = ({
 
     // Similar para los otros casos
 
-    case "condicionmedica":
-      return (
-        <>
-          <Dropdown
-            name="parentesco"
-            label="Tipo de parentesco"
-            data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("parentesco", value)}
-            value={values.parentesco || ""}
-          />
-          <Input
-            texto="Lugar de atención"
-            placeholder="Ingresa el lugar de atención"
-            name="lugaratencion"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.lugaratencion || ""}
-          />
-          <Dropdown
-            name="rh"
-            label="RH"
-            data={dataDropdown.dropdownDocumento}
-            onChange={(value) => handleDropdownChange("rh", value)}
-            value={values.rh || ""}
-          />
-          <Input
-            texto="Estatura"
-            placeholder="Ingresa la estatura"
-            name="estatura"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.estatura || ""}
-          />
-          <Input
-            texto="Peso"
-            placeholder="Ingresa el peso"
-            name="peso"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.peso || ""}
-          />
-        </>
-      );
+    // case "condicionmedica":
+    //   return (
+    //     <>
+    //       <Dropdown
+    //         name="parentesco"
+    //         label="Tipo de parentesco"
+    //         data={dataDropdown.dropdownDocumento}
+    //         onChange={(value) => handleDropdownChange("parentesco", value)}
+    //         value={values.parentesco || ""}
+    //       />
+    //       <Input
+    //         texto="Lugar de atención"
+    //         placeholder="Ingresa el lugar de atención"
+    //         name="lugaratencion"
+    //         tipo="text"
+    //         onChange={handleInputChange}
+    //         value={values.lugaratencion || ""}
+    //       />
+    //       <Dropdown
+    //         name="rh"
+    //         label="RH"
+    //         data={dataDropdown.dataRh}
+    //         onChange={(value) => handleDropdownChange("rh", value)}
+    //         value={values.rh || ""}
+    //       />
+    //       <Input
+    //         texto="Estatura"
+    //         placeholder="Ingresa la estatura"
+    //         name="estatura"
+    //         tipo="text"
+    //         onChange={handleInputChange}
+    //         value={values.estatura || ""}
+    //       />
+    //       <Input
+    //         texto="Peso"
+    //         placeholder="Ingresa el peso"
+    //         name="peso"
+    //         tipo="text"
+    //         onChange={handleInputChange}
+    //         value={values.peso || ""}
+    //       />
+    //     </>
+    //   );
 
     case "historiaclinica":
       return (

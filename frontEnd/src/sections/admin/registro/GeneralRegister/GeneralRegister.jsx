@@ -34,20 +34,19 @@ export const GeneralRegister = () => {
     const [values, setValues] = useState({
         nombre: "",
         apellido: "",
-        numerodocumento: "",
-        correo: "",
-        urlimg: "",
-        edad: "",
         idtipodocumento: "",
+        documento: "",
+        edad: "",
+        correo: "",
         idsexo: "",
         contrasena: "",
         cambiocontrasena: "0",
         estado: "1",
-        idsexo: "",
-        token: "",
-        refreshToken: ""
+        idrol: 1
         //hojaDeVida: null,
     });
+
+    const dataFormInd = new FormData();
 
     //PASAR DATOS A LOS DROPDOWNS (DATOS DE LA DB)
     useEffect(() => {
@@ -92,6 +91,12 @@ export const GeneralRegister = () => {
         console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
     };
 
+    // Handle file changes
+    const handleFileChange = (name, file) => {
+        dataFormInd.set(name, file);
+        console.log(file);
+    };
+
 
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
@@ -116,45 +121,42 @@ export const GeneralRegister = () => {
 
         const dataUser = {
             ...values,
-            nombre: `${values.nombre.trim()} ${values.apellido.trim()}`,
-            numerodocumento: values.numerodocumento.trim(),
+            nombre: `${values.nombre.trim()}`,
+            apellido: values.apellido.trim(),
+            documento: values.documento.trim(),
             correo: values.correo.trim(),
-            urlimg: `https://${values.urlimg}img.com`,
             edad: values.edad.trim(),
-            contrasena: values.numerodocumento.trim(),
+            contrasena: values.documento.trim(),
         };
-        console.log(dataUser);
-
-        //let formData = new FormData();
-
-        /*Object.entries(dataUser).forEach(([key, value]) => {
-          formData.append([key] , value)
-          
-        });
-    
-        console.log(formData);*/
-        navigate('/admin/registro/registroadmin/direcciones')
-
-        // createUser(dataUser);
+        checkDoc(dataUser);
     };
 
-    const createUser = async (data) => {
-        const response = await postUserStudent(data, "usuarios");
-        console.log(response);
+    const checkDoc = async (value) => {
+        const response = await fetch(
+            `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
+        );
+        const data = await response.json();
 
-        if (response.status == 200 || response.status == 201) {
-            setIsRegistering(true);
-            console.log(
-                "Nada de errores, aqui se debe redireccionar al registro con detalle"
-            );
+        console.log(data);
+
+        if (data.error) {
+            // Si el documento ya existe, mostramos el error en el campo 'documento'
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              documento: "El número de documento ya existe.",
+            }));
             return;
+          }
+
+        //Recorrido del objeto para añadirlo al formData
+        for (const key in value) {
+            if (Object.hasOwn(values, key)) {
+                dataFormInd.set(key, value[key]);
+            }
         }
-
-        //Se presentaron errores (API):
-        const dataError = await response.data.error;
-
+        dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
+        navigate('/admin/registro/registroadmin/direcciones')
     };
-
     return (
         <>
             <form
@@ -194,13 +196,13 @@ export const GeneralRegister = () => {
                         error={errors.idtipodocumento}
                     />
                     <Input
-                        name={"numerodocumento"}
+                        name={"documento"}
                         texto={"Número de documento"}
                         placeholder={"Documento del usuario"}
                         tipo={"number"}
                         onChange={handleInputChange}
-                        value={values.numerodocumento}
-                        error={errors.numerodocumento}
+                        value={values.documento}
+                        error={errors.documento}
                     />
                     <Input
                         name={"edad"}
@@ -231,9 +233,10 @@ export const GeneralRegister = () => {
                         error={errors.idsexo}
                     />
                     <UploadFile
+                        typefile={"image/*"}
                         title={"Foto"}
-                        id="foto"
-                        onFileChange={(file) => handleFileChange("foto", file)}
+                        id="imagen"
+                        onFileChange={(file) => handleFileChange("imagen", file)}
                     />
                 </div>
                 <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

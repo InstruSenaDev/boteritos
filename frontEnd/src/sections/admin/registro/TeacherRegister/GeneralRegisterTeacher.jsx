@@ -72,6 +72,7 @@ export const GeneralRegisterTeacher = () => {
   // Handle file changes
   const handleFileChange = (name, file) => {
     dataFormInd.set(name, file);
+    console.log(file);
   };
 
   // Maneja el envío del formulario
@@ -104,18 +105,39 @@ export const GeneralRegisterTeacher = () => {
       edad: values.edad.trim(),
       contrasena: values.documento.trim(),
     };
+    checkDoc(dataUser);
+  };
 
-    for (const key in dataUser) {
-      if (Object.hasOwn(values, key)) {
-        console.log("CICLO PRUEBA :", key);
-        dataFormInd.set(key, dataUser[key]);
-      }
+
+  const checkDoc = async (value) => {
+    const response = await fetch(
+      `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
+    );
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.error) {
+      // Si el documento ya existe, mostramos el error en el campo 'documento'
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        documento: "El número de documento ya existe.",
+      }));
+      return;
     }
 
+    //Recorrido del objeto para añadirlo al formData
+    for (const key in value) {
+      if (Object.hasOwn(values, key)) {
+        dataFormInd.set(key, value[key]);
+      }
+    }
     dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
     navigate("/admin/registro/registroprofesor/direcciones");
-
   };
+
+
+
 
   return (
     <>
@@ -190,6 +212,7 @@ export const GeneralRegisterTeacher = () => {
             error={errors.idsexo}
           />
           <UploadFile
+            typefile={"image/*"}
             title={"Foto"}
             id="imagen"
             onFileChange={(file) => handleFileChange("imagen", file)}

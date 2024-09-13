@@ -20,10 +20,20 @@ export const TeacherRegister = () => {
   });
   const [values, setValues] = useState({
     titulo: "",
-    hojavida: "",
     idarea: "",
+
   });
   const dataFormInd = new FormData();
+
+  const [finish, setFinish] = useState(false);
+
+  if(finish){
+    console.log('TUREEEEE');
+    
+  }else{
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    
+  }
 
   useEffect(() => {
     dispatch({ type: "CHANGE_PERCENT", data: 100 });
@@ -105,11 +115,14 @@ export const TeacherRegister = () => {
 
     dispatch({ type: "ADD_DATA_FORM", data: dataFormInd });
 
-    pito();
+    setFinish(true);
   };
 
-  const pito = async () => {
-    const response = await fetch("http://localhost:8000/api/v3/sql/prueba/", {
+  const pito = async () => {  
+    
+    console.log(state);
+    
+    const response = await fetch("http://localhost:8000/api/v3/registro/profesor/", {
       method: "POST",
       body: state.dataForm,
     });
@@ -117,6 +130,9 @@ export const TeacherRegister = () => {
     console.log(data);
   };
 
+  if(finish){
+    pito();
+  }
   return (
     <>
       <form
@@ -144,9 +160,10 @@ export const TeacherRegister = () => {
             error={errors.idarea}
           />
           <UploadFile
+          typefile={".pdf"}
             title={"Hoja de vida"}
             id="hojavida"
-            onFileChange={(file) => handleFileChange("hojaDeVida", file)}
+            onFileChange={(file) => handleFileChange("hojavida", file)}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

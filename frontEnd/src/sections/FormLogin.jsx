@@ -5,6 +5,7 @@ import { postLogin } from "../api/post.js";
 import { defRol } from "../helper/functions/defRol.js";
 import { useNavigate } from "react-router-dom";
 import ErrorWarning from "../components/messages/error.jsx";
+import { getDate } from "../helper/functions/getDate.js";
 
 const FormLogin = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const FormLogin = () => {
     contrasena: "",
   });
 
-  const [typeContrasena, setTypeContrasena] = useState("password")
+  const [typeContrasena, setTypeContrasena] = useState("password");
 
   const [errors, setErrors] = useState({}); //Errores de inputs
   const [errorMessage, setError] = useState(); //Errores de la API
@@ -37,40 +38,46 @@ const FormLogin = () => {
 
   const validateLogin = async (data) => {
     console.log(data);
-    
+
     const response = await postLogin(data, "auth/login/");
 
     if (response.data.error) {
       //Se presentaron errores (API):
-      const error = await response.data.error
+      const error = await response.data.error;
       console.log(error);
 
-      setError(error)
+      setError(error);
       return;
     }
-
+    localStorage.setItem("fecha", getDate());
     //¡El acceso fue exitoso!
     defLogin(response);
   };
 
   const defLogin = (dataResponse) => {
     //Establecemos datos en el localeStorage
-    localStorage.setItem("access_token", JSON.stringify(dataResponse.data.data.access_token));
-    localStorage.setItem("refresh_token" , JSON.stringify(dataResponse.data.data.refresh_token));
+    localStorage.setItem(
+      "access_token",
+      JSON.stringify(dataResponse.data.data.access_token)
+    );
+    localStorage.setItem(
+      "refresh_token",
+      JSON.stringify(dataResponse.data.data.refresh_token)
+    );
     //Define para donde va
     const rol = defRol();
     navigate(rol);
   };
 
   //Mostrar contraseña
-  const verContrasena =  (event) =>{
-    const isCheck =  event.target.checked;
+  const verContrasena = (event) => {
+    const isCheck = event.target.checked;
     if (isCheck) {
-      setTypeContrasena("text")
-    }else{
-      setTypeContrasena("password")
+      setTypeContrasena("text");
+    } else {
+      setTypeContrasena("password");
     }
-  }
+  };
 
   return (
     <main className="w-full h-screen flex justify-center items-center p-4 text-black">
@@ -79,11 +86,10 @@ const FormLogin = () => {
         className="bg-white md:p-16 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]"
       >
         <div className="flex flex-col gap-7 max-w-[400px] w-full">
-
           <h1 className="text-title font-cocogooseRegular tracking-widest text-darkBlue">
             Inicio de sesión
           </h1>
-          { errorMessage ? <ErrorWarning text={errorMessage} /> : null }
+          {errorMessage ? <ErrorWarning text={errorMessage} /> : null}
           <Input
             texto="Número de documento"
             placeholder="Ingresa tu documento"
@@ -104,7 +110,12 @@ const FormLogin = () => {
           />
           <div className="flex flex-col lg:flex-row justify-between gap-y-2">
             <div className="space-x-2">
-              <input type="checkbox" id="ver" className="rounded-full" onChange={(event)=> verContrasena(event)} />
+              <input
+                type="checkbox"
+                id="ver"
+                className="rounded-full"
+                onChange={(event) => verContrasena(event)}
+              />
               <label
                 htmlFor="ver"
                 className="text-paragraph2 font-cocogooseLight"

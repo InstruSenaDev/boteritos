@@ -90,7 +90,7 @@ export const GeneralRegisterStudent = () => {
   const handleFileChange = (name, file) => {
     dataFormInd.set(name, file);
     console.log(file);
-    
+
   };
 
   // Maneja el envío del formulario
@@ -132,11 +132,15 @@ export const GeneralRegisterStudent = () => {
       `http://localhost:8000/api/v3/sql/checkdoc/${value.documento}`
     );
     const data = await response.json();
-    
+
     console.log(data);
-    
+
     if (data.error) {
-      console.log(data.error);
+      // Si el documento ya existe, mostramos el error en el campo 'documento'
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        documento: "El número de documento ya existe.",
+      }));
       return;
     }
 
@@ -247,8 +251,8 @@ export const GeneralRegisterStudent = () => {
             value={values.institutoprocedencia}
             error={errors.institutoprocedencia}
           />
-          {/* Dropdown para seleccionar el sexo */}
           <UploadFile
+            typefile={"image/*"}
             title={"Foto"}
             id="imagen"
             onFileChange={(file) => handleFileChange("imagen", file)}
