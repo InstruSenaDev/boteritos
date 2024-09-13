@@ -15,11 +15,13 @@ export const GrupoDatoElemento = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [values, setValues] = useState({});
   const { id } = useParams();
-  
+ 
 
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
+    
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,

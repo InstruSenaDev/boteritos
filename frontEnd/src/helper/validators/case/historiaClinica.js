@@ -1,9 +1,9 @@
 export const caseHistoriaClinica = (name, value) => {
   let error;
   switch (name) {
-      case "diagnostico":
+      case "medicamentos":
           if (!value.trim()) {
-              error = "El campo diagnóstico es obligatorio.";
+              error = "El campo medicamentos es obligatorio.";
           }
           break;
       case "restricciones":
@@ -14,6 +14,16 @@ export const caseHistoriaClinica = (name, value) => {
       case "medicamentos":
           if (!value.trim()) {
               error = "El campo medicamentos es obligatorio.";
+          }
+          break;
+        case "archivo":
+          if (!value.trim()) {
+              error = "El campo archivo es obligatorio.";
+          }
+          break;
+        case "observacion":
+          if (!value.trim()) {
+              error = "El campo observación es obligatorio.";
           }
           break;
       default:

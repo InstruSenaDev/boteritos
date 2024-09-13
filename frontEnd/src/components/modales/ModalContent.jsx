@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 import { UploadFile } from "../forms/UploadFile";
-import { dataDoc, dataSexo, dataTipoParentesco, dataRh} from "../../helper/objects/dropdownArray";
+import {
+  dataDoc,
+  dataSexo,
+  dataTipoParentesco,
+  dataDiagnostico,
+} from "../../helper/objects/dropdownArray";
 
 export const ModalContent = ({
   selectedContent,
@@ -12,8 +17,9 @@ export const ModalContent = ({
 }) => {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
-    dropdownSexo : [],
+    dropdownSexo: [],
     dataTipoParentesco: [],
+    dataDiagnostico: [],
   });
 
   const dataFormInd = new FormData();
@@ -23,11 +29,12 @@ export const ModalContent = ({
       const resultDocumento = await dataDoc();
       const resultSexo = await dataSexo();
       const resultParentesco = await dataTipoParentesco();
-      setDataDropdown({ 
-        dropdownDocumento : resultDocumento,
-        dropdownSexo : resultSexo,
-        dataTipoParentesco : resultParentesco,
-
+      const resultDiagnostico = await dataDiagnostico();
+      setDataDropdown({
+        dropdownDocumento: resultDocumento,
+        dropdownSexo: resultSexo,
+        dataTipoParentesco: resultParentesco,
+        dataDiagnostico: resultDiagnostico
       });
     };
 
@@ -37,8 +44,7 @@ export const ModalContent = ({
   const handleFileChange = (name, file) => {
     dataFormInd.set(name, file);
     console.log(file);
-};
-
+  };
 
   switch (selectedContent) {
     // case "telefono":
@@ -64,7 +70,7 @@ export const ModalContent = ({
             onChange={handleInputChange}
             value={values.nombre || ""}
           />
-           <Input
+          <Input
             texto="Apellido"
             placeholder="Ingresa el apellido"
             name="apellido"
@@ -156,7 +162,9 @@ export const ModalContent = ({
             name="idtipoparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dataTipoParentesco}
-            onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
+            onChange={(value) =>
+              handleDropdownChange("idtipoparentesco", value)
+            }
             value={values.idtipoparentesco || ""}
             placeholder={"Seleccione el parentesco"}
           />
@@ -212,6 +220,16 @@ export const ModalContent = ({
     case "historiaclinica":
       return (
         <>
+          <Dropdown
+            name="iddiagnostico"
+            label="Diagnostico"
+            data={dataDropdown.dataDiagnostico}
+            onChange={(value) =>
+              handleDropdownChange("iddiagnostico", value)
+            }
+            value={values.iddiagnostico || ""}
+            placeholder={"Seleccione el diagnostico del estudiante"}
+          />
           <Input
             texto="Diagnóstico"
             placeholder="Ingresa el diagnóstico del estudiante"
@@ -220,6 +238,7 @@ export const ModalContent = ({
             onChange={handleInputChange}
             value={values.diagnostico || ""}
           />
+
           <Input
             texto="Restricciones alimenticias"
             placeholder="Ingresa las restricciones alimenticias"
@@ -252,10 +271,12 @@ export const ModalContent = ({
             onChange={handleInputChange}
             value={values.observacion || ""}
           />
-          <UploadFile typefile={".pdf"}
-                        title={"historiaclinia"}
-                        id="archivo"
-                        onFileChange={(file) => handleFileChange("imagen", file)}/>
+          <UploadFile
+            typefile={".pdf"}
+            title={"historiaclinia"}
+            id="archivo"
+            onFileChange={(file) => handleFileChange("imagen", file)}
+          />
         </>
       );
 
