@@ -20,7 +20,6 @@ export const GrupoDatoElemento = () => {
     console.log('TURE');
   }else{
     console.log('AAAAAAAA');
-    
   }
 
   // Maneja cambios en campos de texto
@@ -81,7 +80,7 @@ export const GrupoDatoElemento = () => {
 
     // Aquí puedes proceder con el envío de los datos
     setIsConfirm(true);
-    console.log(isConfirm);
+    console.log("datos de isconfirm", isConfirm);
     console.log("Valores actualizados:", values);
 
     console.log("valores de trimmed", trimmedValues);

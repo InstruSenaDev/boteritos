@@ -14,8 +14,6 @@ export const ModalContent = ({
     dropdownDocumento: [],
     dropdownSexo : [],
     dataTipoParentesco: [],
-    dataRh:[],
-
   });
 
   useEffect(() => {
@@ -23,12 +21,11 @@ export const ModalContent = ({
       const resultDocumento = await dataDoc();
       const resultSexo = await dataSexo();
       const resultParentesco = await dataTipoParentesco();
-      const resultRh = await dataRh();
       setDataDropdown({ 
         dropdownDocumento : resultDocumento,
         dropdownSexo : resultSexo,
         dataTipoParentesco : resultParentesco,
-        dataRh: resultRh,
+
       });
     };
 
