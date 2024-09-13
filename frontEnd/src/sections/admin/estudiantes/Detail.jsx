@@ -14,18 +14,34 @@ const Detail = () => {
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
-  const [dataDetail, setDataDetail] = useState([]);
+  const [dataDetail, setDataDetail] = useState({
+    historiaClinica : [],
+    responsables : []
+  });
 
   //historiaclinica/?idestudiante=2
 
   useEffect(() => {
     const obtainData = async () => {
-      const dataApi = await dataDetailEstudiante(
-        `historiaclinica/?idestudiante=${id}`
+
+      const dataHistClinic = await dataDetailEstudiante(
+        `historiaclinica/${id}`
       );
-      console.log(dataApi);
-      setDataDetail(dataApi.data);
+
+      const dataResponsable = await dataDetailEstudiante(
+        `historiaclinica/${id}`
+      );
+
+      console.log(dataHistClinic);
+      
+
+      setDataDetail({
+        ...dataDetail,
+        historiaClinica : dataHistClinic.data.data,
+        responsables: dataResponsable.data.data
+      });
     };
+
     obtainData();
   }, []);
 
@@ -86,12 +102,12 @@ const Detail = () => {
       <GrupoDatoElemento /> {/* BOTONES PARA LOS MODALES */}
       <div className="w-full h-0 border-darkBlue border-2"></div>
       <div className="space-y-7">
-        
-        {dataDetail.map((value, index) => (
+
+        {dataDetail.historiaClinica.map((value, index) => (
           <GrupoDatos
             titulo={"Historia Clinica"}
             update={() => update("Historia clinica", dataPersonal[0])}
-            data={dataDetail}
+            data={dataDetail.historiaClinica}
             key={index}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
