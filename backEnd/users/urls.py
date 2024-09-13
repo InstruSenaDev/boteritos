@@ -7,7 +7,7 @@ from .views.historiaClinicaViews import HistoriaClinicaOne, HistoriaClinica
 from .views.profesorViews import ProfesorCreateView
 from .views.usuarioViews import AdminCreateView
 from .views.responsableViews import ResponsableOne, ResponsableView
-from .views.dtMedicosViews import DatosMedicosEstudianteOne
+from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosCreate
 from .middleware import searchDocument
 
 @api_view(['POST'])
@@ -25,15 +25,18 @@ urlpatterns= [
     
     path('profesor/', ProfesorCreateView),
     
+    path('admin/', AdminCreateView),
+    
     path('responsable/<int:id>', ResponsableOne),
     path('responsable/', ResponsableView),
     
     path('historiaclinica/<int:id>', HistoriaClinicaOne),
     path('historiaclinica/', HistoriaClinica),
     
-    path('datosmedicos/<int:id>', DatosMedicosEstudianteOne),
+    path('datosmedicos/', DatosMedicosCreate),
+    path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne),
     
-    path('admin/', AdminCreateView),
+    #path('telefono', ),
     
     path('checkdoc/<int:doc>', searchDocument),
     path('prueba/', prueba),

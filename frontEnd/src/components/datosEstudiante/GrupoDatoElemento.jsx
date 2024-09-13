@@ -95,6 +95,8 @@ export const GrupoDatoElemento = () => {
     }
   };
 
+  
+
   // Abre el modal con valores iniciales según el tipo de contenido
   const handleOpenModal = (contentType) => {
     const { initialValues, columns } = getModalConfig(contentType);

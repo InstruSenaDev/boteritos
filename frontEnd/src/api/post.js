@@ -16,3 +16,5 @@ export const postModales = async (body, url) => {
   const data = await fetchFunction("POST", body, null, `registro/${url}`);
   return data;
 };
+
+//FOAHFASFSAFHA

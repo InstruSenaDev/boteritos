@@ -30,7 +30,5 @@ export const defaultValues = {
     cantidadmedicamentos: "",
     idestudiante: "",
     observacion: "",
-    archivo: "prueba",
-
   },
 };
