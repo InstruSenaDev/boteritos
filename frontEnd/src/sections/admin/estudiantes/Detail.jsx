@@ -17,13 +17,14 @@ const Detail = () => {
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
+  //ESTADO PARA GET
   const [dataDetail, setDataDetail] = useState({
     historiaClinica: [],
     responsables: [],
   });
 
   //historiaclinica/?idestudiante=2
-
+  //FUNCION PARA OBTENER LOS DATOS
   useEffect(() => {
     const obtainData = async () => {
       const dataHistClinic = await dataDetailEstudiante(

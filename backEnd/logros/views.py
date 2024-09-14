@@ -111,7 +111,7 @@ def LogrosViews(request):
 def ListLogros(request):
 
     if request.method == 'GET':
-        query = querySql("SELECT `logros`.`idLogro` AS `idlogro` ,`logros`.`logro`, `tipologro`.`tipoLogro`, `profesor`.`titulo`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre`, `profesor`.`idProfesor` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario`;",[])
+        query = querySql("SELECT `logros`.`idLogro` AS `idlogro` ,`logros`.`logro`, `tipologro`.`tipoLogro`, `logros`.`idTrimestre`, `logros`.`idTipoLogro`, `profesor`.`titulo`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre`, `profesor`.`idProfesor` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario`;",[])
         
         return Response(query)
     
