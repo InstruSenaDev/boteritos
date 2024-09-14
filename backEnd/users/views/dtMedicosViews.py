@@ -27,7 +27,7 @@ def DatosMedicosEstudianteOne(request,id):
 def DatosMedicosUpdate(request):
             
     if request.method == 'PUT':
-        query = Datosmedicos.objects.filter(iddatosmedicos = request.data['iddatosmedicos']).first()
+        query = Datosmedicos.objects.filter(idusuario = request.data['idusuario']).first()
         
         if not query:
             return Response({

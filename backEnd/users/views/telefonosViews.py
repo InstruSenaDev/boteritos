@@ -10,7 +10,7 @@ from ..querySql import querySql
 def TelefonosEstudiante(request,id):
     
     if request.method == 'GET':
-        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `telefonos`.`telefono1`, `telefonos`.`telefono2`, `telefonos`.`idTelefonos` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE ( (`telefonos`.`telefono1` IS NOT NULL) AND (`telefonos`.`telefono1` IS NOT NULL) AND `usuario`.`idUsuario` = %s);", [id])
+        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `telefonos`.`telefono1`, `telefonos`.`telefono2`, `telefonos`.`idTelefonos` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE ( (`telefonos`.`telefono1` IS NOT NULL) AND (`telefonos`.`telefono1` IS NOT NULL) AND `estudiante`.`idUsuario` = %s);", [id])
         
         if len(query) == 0:
             return Response({
@@ -28,7 +28,7 @@ def TelefonosEstudiante(request,id):
 def TelefonosUpdate(request):
             
     if request.method == 'PUT':
-        query = Telefonos.objects.filter(idtelefonos = request.data['idtelefonos']).first()
+        query = Telefonos.objects.filter(idusuario = request.data['idusuario']).first()
         
         if not query:
             return Response({
