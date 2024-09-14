@@ -1,39 +1,46 @@
 export const caseHistoriaClinica = (name, value) => {
   let error;
+
+  const trimmedValue = typeof value === "string" ? value.trim() : value;
+
   switch (name) {
     case "medicamentos":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El campo medicamentos es obligatorio.";
       }
       break;
-    case "restricciones":
-      if (!value.trim()) {
+
+    case "restriccionesalimenticias":
+      if (!trimmedValue) {
         error = "El campo restricciones alimenticias es obligatorio.";
       }
       break;
+
     case "medicamentos":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El campo medicamentos es obligatorio.";
       }
       break;
+
     case "archivo":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El archivo es obligatorio.";
       }
       break;
+
     case "observacion":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El campo observación es obligatorio.";
       }
       break;
 
     case "iddiagnostico":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El campo diagnostico es obligatorio";
       }
       break;
     case "iddiscapacidad":
-      if (!value.trim()) {
+      if (!trimmedValue) {
         error = "El campo discapacidad es obligatorio";
       }
       break;
