@@ -8,6 +8,7 @@ import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
 
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
+import { caseLogros } from "../../../helper/validators/case/logros";
 
 export default function TableListaLogros() {
   const [isConfirm, setIsConfirm] = useState(false);
@@ -16,22 +17,22 @@ export default function TableListaLogros() {
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
-  const[dataDropdown, setDataDropdown] = useState({
-    dropdownTipo:[]
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownTipo: []
   })
   const [values, setValues] = useState({
-    logro:"",
+    logro: "",
     estado: "0",
     observacion: "Por revisar",
-    idtipologro:"",
+    idtipologro: "",
     idtrimestre: "1",
     idprofesor: "", //LOCAL STORAGE
   });
-  useEffect(()=>{
+  useEffect(() => {
     const getDataDropdown = async () => {
       const resultTipo = await dataTipoLogro();
       setDataDropdown({
-        dropdownTipo : resultTipo
+        dropdownTipo: resultTipo
       });
     };
     getDataDropdown();
@@ -41,53 +42,68 @@ export default function TableListaLogros() {
   // Maneja el cambio en los campos de entrada del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+  
     setValues({
       ...values,
       [name]: value,
     });
+    // Limpiar error al escribir
+  if (errors[name]) {
+    setErrors({ ...errors, [name]: null });
+  }
   };
   const handleDropdownChange = (name, value) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+    setValues({ ...values, [name]: value });
+    console.log("dropdowns value:", value);
+
+    // Limpiar error al escribir
+  if (errors[name]) {
+    setErrors({ ...errors, [name]: null });
+  }
   };
-  const handleOpenModal=()=>{
+  const handleOpenModal = () => {
     setIsOpen(true)
-    setIsConfirm(false); 
+    setIsConfirm(false);
   }
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    setIsConfirm(false); 
+    setIsConfirm(false);
   };
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
-  
+
 
   const handleForm = (event) => {
     event.preventDefault();
-
-
+  
+    // Validar todos los campos antes de enviar
+    const newErrors = {};
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = caseLogros(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Mostrar errores solo si hay campos inválidos
+      return;
+    }
+    // Si no hay errores, enviar los datos
     const dataUser = {
       ...values,
       logro: values.logro.trim(),
     };
-
+    
+  
+  
     console.log(dataUser);
-    console.log(values);
-    setIsConfirm(true);
   };
-
-
-
-
-
-
-
- 
 
   return (
     <>
@@ -111,9 +127,8 @@ export default function TableListaLogros() {
           {/* CUERPO DE LA TABLA */}
           {ObjLogrosCreados.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-                openAcc === index ? "open" : "close"
-              }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                }`}
               key={index}
             >
               <div className="flex gap-2 lg:gap-0 ">
@@ -162,29 +177,31 @@ export default function TableListaLogros() {
         </section>
       </main>
       <ModalCreacion
-      txtmodal={'Crear nuevo logro'}
-      isOpen={isOpen}
-      onClose={handleCloseModal}
-      onSubmit={handleForm}
-      isConfirm={isConfirm}
+        txtmodal={'Crear nuevo logro'}
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleForm}
+        isConfirm={isConfirm}
       >
-      <Dropdown
-       label="Selecciona una opción"
-       name="idtipologro"
-       data={dataDropdown.dropdownTipo}  
-       onChange={(value) => handleDropdownChange("idtipologro",value)}
-      placeholder={"Seleccione el tipo de logro"}
-      value={values.idtipologro || ""}
-      />
+        <Dropdown
+          label="Selecciona una opción"
+          name="idtipologro"
+          data={dataDropdown.dropdownTipo}
+          onChange={(value) => handleDropdownChange("idtipologro", value)}
+          placeholder={"Seleccione el tipo de logro"}
+          value={values.idtipologro || ""}
+          error={errors.idtipologro}
+        />
 
-       <Input
-       texto={'Nombre del logro'}
-       placeholder={'Ingresa el nombre del logro'}
-       name={'logro'}
-       tipo={'text'}
-       onChange={handleInputChange}
-       value={values.logro || ""}
-       />
+        <Input
+          texto={'Nombre del logro'}
+          placeholder={'Ingresa el nombre del logro'}
+          name={'logro'}
+          tipo={'text'}
+          onChange={handleInputChange}
+          value={values.logro || ""}
+          error={errors.logro}
+        />
       </ModalCreacion>
     </>
   );
