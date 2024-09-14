@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Input } from '../forms/Input';
+import React, { useState } from "react";
+import { Input } from "../forms/Input";
 
 const ProfileField = ({ label, value, editable }) => {
   if (!value) return null;
@@ -17,7 +17,9 @@ const ProfileField = ({ label, value, editable }) => {
   return (
     <div className="flex items-center justify-between mb-4 bg-backgroundWhite p-3 rounded-lg">
       <div>
-        <p className="text-paragraph font-cocogooseLight text-darkBlue">{label}</p>
+        <p className="text-paragraph font-cocogooseLight text-darkBlue">
+          {label}
+        </p>
         {isEditing ? (
           <Input
             type="text"
