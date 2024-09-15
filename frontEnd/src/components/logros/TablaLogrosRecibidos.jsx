@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Buscador from "../search/Buscador";
 import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 import { ConfirmationModal } from "../modales/ConfirmationModal";
@@ -8,54 +8,45 @@ export const TablaLogrosRecibidos = () => {
   const [isLogroModalOpen, setIsLogroModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [selectedLogro, setSelectedLogro] = useState(null);
+  const [estadoValida, setEstadoValida] = useState(false);
   const [modalAction, setModalAction] = useState(""); // Nuevo estado para definir si es "aceptar" o "rechazar"
+  const [logros, setLogros] = useState([]); // Estado para almacenar los logros.
 
   const toggleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const dataTeacher = [
-    {
-      idlogro: 1,
-      nombrelogro:
-        "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
-      profesor: "Brian David Marín",
-      area: "Socio - Afectiva",
-      tipo: "Ser",
-      descripcion:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum",
-    },
-    {
-      idlogro: 2,
-      nombrelogro:
-        "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
-      profesor: "Juan José Cuartas",
-      area: "Socio - Afectiva",
-      tipo: "Ser",
-      descripcion:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum",
-    },
-    {
-      idlogro: 3,
-      nombrelogro:
-        "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
-      profesor: "Sebastían Rodriguez Prado",
-      area: "Socio - Afectiva",
-      tipo: "Hacer",
-      descripcion:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum",
-    },
-    {
-      idlogro: 4,
-      nombrelogro:
-        "Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros",
-      profesor: "Claudia Camila Carmona",
-      area: "Socio - Afectiva",
-      tipo: "Conocer",
-      descripcion:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam ipsum",
-    },
-  ];
+  // Función para obtener los logros desde la API
+  const getLogros = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Datos recibidos:", data);
+        return data;
+      } else {
+        console.error("Error al obtener los datos:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error.message);
+    }
+  };
+
+  // Usar useEffect para obtener los logros cuando el componente se monta
+  useEffect(() => {
+    const fetchLogros = async () => {
+      const data = await getLogros(); // Llama a la función getLogros
+      setLogros(data || []); // Almacena los logros en el estado
+    };
+
+    fetchLogros(); // Ejecuta la función cuando el componente se monta
+  }, []);
 
   const handleOpenLogroModal = (logro) => {
     setSelectedLogro(logro);
@@ -90,54 +81,48 @@ export const TablaLogrosRecibidos = () => {
             <p>Área</p>
             <p className="text-center">Acción</p>
           </div>
-          {dataTeacher.map((data, index) => (
+
+          {/* Reemplazar el mapeo de dataTeacher con logros */}
+          {logros.map((logro, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-                openAcc === index ? "open" : "close"
-              }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                }`}
               key={index}
             >
               <div className="flex gap-2 lg:gap-0 ">
                 <p className="text-darkBlue lg:hidden">No°</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p>
-                    {data.idlogro.toString().length == 2
-                      ? data.idlogro
-                      : `0${data.idlogro}`}
-                  </p>
+                <div className="acc-header w-full flex justify-between items-center">
+                  <p className="pl-2">{logro.idlogro.toString().length === 2 ? logro.idlogro : `${logro.idlogro}`}</p>
                   <button onClick={() => toggleRow(index)}>
                     <i className="fa-solid fa-angle-down block lg:hidden"></i>
                   </button>
                 </div>
               </div>
 
-              <div
-                className="flex gap-2 lg:gap-0"
-                onClick={() => handleOpenLogroModal(data)}
-              >
+              <div className="flex gap-2 lg:gap-0" onClick={() => handleOpenLogroModal(logro)}>
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p className="underline cursor-pointer">{`${data.nombrelogro}`}</p>
+                <div className="acc-header max-w-[300px] w-full flex justify-between items-center ">
+                  <p className="underline cursor-pointer">{logro.logro}</p>
                 </div>
               </div>
 
-              <div className="acc-body flex gap-2 lg:gap-0">
+              <div className="acc-body max-w-[200px] w-full flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Título:</p>
-                <div className=" w-full flex justify-between items-center ">
-                  <p>{`${data.profesor}`}</p>
+                <div className="w-full flex justify-between items-center">
+                  <p>{logro.nombre}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Área:</p>
-                <div className=" w-full flex justify-between items-center ">
-                  <p>{`${data.area}`}</p>
+                <div className="w-full flex justify-between items-center">
+                  <p>{logro.tipologro}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden text-center">Acción:</p>
-                <div className=" w-full flex justify-center items-center gap-3 ">
+                <div className="w-full flex justify-center items-center gap-3 ">
                   <i
                     className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
                     onClick={() => handleOpenConfirmationModal("Aceptar")}
@@ -158,8 +143,8 @@ export const TablaLogrosRecibidos = () => {
           txtmodal="Detalle del logro"
           isOpen={isLogroModalOpen}
           onClose={handleCloseLogroModal}
-          tipo={selectedLogro.tipo || "N/A"}
-          nombre={selectedLogro.nombrelogro || "N/A"}
+          tipo={selectedLogro.tipologro || "N/A"}
+          nombre={selectedLogro.logro || "N/A"}
           descripcion={selectedLogro.descripcion || "No disponible"}
         />
       )}

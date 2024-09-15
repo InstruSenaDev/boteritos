@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Input } from "../../forms/Input";
 import { Dropdown } from "../../forms/Dropdown";
 import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
+import { jwtDecode } from "jwt-decode";
 
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
@@ -22,13 +23,18 @@ export default function TableListaLogros() {
   const [dataDropdown, setDataDropdown] = useState({
     dropdownTipo: []
   })
+  // Decodifica el token
+  const access_token = JSON.parse(localStorage.getItem("access_token"));
+  const decodedToken = jwtDecode(access_token);
+  const idprofesor = decodedToken.idwork; // Extrae el idwork del token
+
   const [values, setValues] = useState({
     logro: "",
     estado: "0",
     observacion: "Por revisar",
     idtipologro: "",
     idtrimestre: "1",
-    idprofesor: "6", //LOCAL STORAGE
+    idprofesor: idprofesor, //LOCAL STORAGE
   });
   useEffect(() => {
     const getDataDropdown = async () => {
