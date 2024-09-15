@@ -34,7 +34,7 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
 
       {/* Overlay, se muestra solo si la sidebar está expandida */}
       <div
-        className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black transition-opacity h-full duration-300 ${
           isSidebarExpanded ? "opacity-50" : "opacity-0 pointer-events-none"
         }`}
       ></div>

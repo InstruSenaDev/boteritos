@@ -17,6 +17,8 @@ export default function TableListaLogros() {
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
+  const [estadoValida, setEstadoValida] = useState(false);
+
   const [dataDropdown, setDataDropdown] = useState({
     dropdownTipo: []
   })
@@ -26,7 +28,7 @@ export default function TableListaLogros() {
     observacion: "Por revisar",
     idtipologro: "",
     idtrimestre: "1",
-    idprofesor: "", //LOCAL STORAGE
+    idprofesor: "6", //LOCAL STORAGE
   });
   useEffect(() => {
     const getDataDropdown = async () => {
@@ -42,24 +44,24 @@ export default function TableListaLogros() {
   // Maneja el cambio en los campos de entrada del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-  
+
     setValues({
       ...values,
       [name]: value,
     });
     // Limpiar error al escribir
-  if (errors[name]) {
-    setErrors({ ...errors, [name]: null });
-  }
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
     console.log("dropdowns value:", value);
 
     // Limpiar error al escribir
-  if (errors[name]) {
-    setErrors({ ...errors, [name]: null });
-  }
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
   const handleOpenModal = () => {
     setIsOpen(true)
@@ -75,10 +77,29 @@ export default function TableListaLogros() {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
+  const postLogro = async (dataModal) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/v3/logros/logro/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataModal),
+      });
 
-  const handleForm = (event) => {
+      if (response.ok) { // Verifica si la respuesta fue exitosa (status en el rango 200-299)
+        const data = await response.json();
+        console.log("Datos enviados correctamente:", data);
+        setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
+      }
+    } catch (error) {
+      console.error("Error al enviar los datos:", error.message);
+    }
+  };
+
+  const handleForm = async (event) => {
     event.preventDefault();
-  
+
     // Validar todos los campos antes de enviar
     const newErrors = {};
     for (const key in values) {
@@ -89,7 +110,7 @@ export default function TableListaLogros() {
         }
       }
     }
-  
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors); // Mostrar errores solo si hay campos inválidos
       return;
@@ -99,10 +120,7 @@ export default function TableListaLogros() {
       ...values,
       logro: values.logro.trim(),
     };
-    
-  
-  
-    console.log(dataUser);
+    await postLogro(dataUser);
   };
 
   return (
