@@ -12,7 +12,7 @@ export const GrupoDatos = ({ titulo, update, children }) => {
         </button>
       </div>
       <div className="flex flex-col xl:flex-row px-5 justify-between gap-y-3">
-          {children}
+        {children}
       </div>
     </div>
   );

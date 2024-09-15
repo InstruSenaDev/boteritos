@@ -193,7 +193,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.restriccionesalimenticias || ""}
-            error={errores.restricciones}
+            error={errores.restriccionesalimenticias}
           />
           <Input
             texto="Medicamentos"

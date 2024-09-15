@@ -8,8 +8,11 @@ import { dataPersonal } from "../../../helper/objects/dataStudentsArray";
 
 import { UpdateModal } from "../../../components/modales/UpdateModal";
 import {
+  dataDatosMedicosEstudiante,
   dataDetailEstudiante,
   dataResponsableEstudiante,
+  DataDireccionesEstudiante,
+  dataContactosEstudiante,
 } from "../../../api/get";
 
 const Detail = () => {
@@ -17,13 +20,17 @@ const Detail = () => {
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
+  //ESTADO PARA GET
   const [dataDetail, setDataDetail] = useState({
     historiaClinica: [],
     responsables: [],
+    datosMedicos: [],
+    contactos: [],
+    direcciones: [],
   });
 
   //historiaclinica/?idestudiante=2
-
+  //FUNCION PARA OBTENER LOS DATOS
   useEffect(() => {
     const obtainData = async () => {
       const dataHistClinic = await dataDetailEstudiante(
@@ -34,6 +41,18 @@ const Detail = () => {
         `responsable/${id}`
       );
 
+      const dataDatosMedicos = await dataDatosMedicosEstudiante(
+        `datosmedicos/estudiante/${id}`
+      );
+
+      const dataContactos = await dataContactosEstudiante(
+        `telefono/estudiante/${id}`
+      );
+
+      const dataDirecciones = await DataDireccionesEstudiante(
+        `direccion/estudiante/${id}`
+      );
+
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
       }
@@ -42,10 +61,25 @@ const Detail = () => {
         setDataDetail({ responsables: null });
       }
 
+      if (!dataDatosMedicos.status == 200) {
+        setDataDetail({ datosMedicos: null });
+      }
+
+      if (!dataContactos.status == 200) {
+        setDataDetail({ historiaClinica: null });
+      }
+
+      if (!dataDirecciones.status == 200) {
+        setDataDetail({ historiaClinica: null });
+      }
+
       setDataDetail({
         ...dataDetail,
         historiaClinica: dataHistClinic.data.data,
         responsables: dataResponsable.data.data,
+        datosMedicos: dataDatosMedicos.data.data,
+        contactos: dataContactos.data.data,
+        direcciones: dataDirecciones.data.data,
       });
     };
 
@@ -83,7 +117,7 @@ const Detail = () => {
   };
 
   const filterData = (data) => {
-    // Filtra los campos que contienen IDs (asumiendo que todos los IDs tienen 'id' en su nombre)
+    // Filtra los campos que contienen Ids
     return Object.keys(data)
       .filter((key) => !key.toLowerCase().includes("id"))
       .reduce((obj, key) => {
@@ -109,140 +143,262 @@ const Detail = () => {
       <GrupoDatoElemento /> {/* BOTONES PARA LOS MODALES */}
       <div className="w-full h-0 border-darkBlue border-2"></div>
       <div className="space-y-7">
-        {dataDetail.responsables && dataDetail.responsables.map((value, index) => (
-          <GrupoDatos
-            titulo={"Responsables"}
-            update={() => update("Historia clinica", dataPersonal[0])}
-            data={dataDetail.responsables}
-            key={index}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Nombres:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.nombre}
-                </p>
+        {dataDetail.responsables &&
+          dataDetail.responsables.map((value, index) => (
+            <GrupoDatos
+              titulo={"Responsables"}
+              update={() => update("Historia clinica", dataPersonal[0])}
+              data={dataDetail.responsables}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Nombres:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.nombre}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Apellidos:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.apellido}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Correo:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.correo}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Sexo:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.sexo}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Tipo documento:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.tipodocumento}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Documento:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.numerodocumento}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Telefono:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.telefono}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Profesion:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.profesion}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Ocupacion:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.ocupacion}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Empresa:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.empresa}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Parentesco:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.tipoparentesco}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Apellidos:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.apellido}
-                </p>
+            </GrupoDatos>
+          ))}
+
+        {dataDetail.historiaClinica &&
+          dataDetail.historiaClinica.map((value, index) => (
+            <GrupoDatos
+              titulo={"Historia Clinica"}
+              update={() => update("Historia clinica", dataPersonal[0])}
+              data={dataDetail.historiaClinica}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Medicamentos:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.medicamentos}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Restricciones Alimenticias:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.restriccionesalimenticias}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Observacion:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.observacion}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Correo:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.correo}
-                </p>
+            </GrupoDatos>
+          ))}
+
+        {dataDetail.datosMedicos &&
+          dataDetail.datosMedicos.map((value, index) => (
+            <GrupoDatos
+              titulo={"Datos Medicos"}
+              update={() => update("Datos Medicos", dataPersonal[0])}
+              data={dataDetail.datosMedicos}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Lugar de atención:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.lugaratencion}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Peso:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.peso}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Altura:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.altura}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    EPS:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.eps}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Tipo de sangre:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.rh}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Sexo:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.sexo}
-                </p>
+            </GrupoDatos>
+          ))}
+
+        {dataDetail.contactos &&
+          dataDetail.contactos.map((value, index) => (
+            <GrupoDatos
+              titulo={"Contactos"}
+              update={() => update("Contactos", dataPersonal[0])}
+              data={dataDetail.contactos}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Telefono:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.telefono1}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Segundo Telefono
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.telefono2}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Tipo documento:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.tipodocumento}
-                </p>
+            </GrupoDatos>
+          ))}
+
+        {dataDetail.direcciones &&
+          dataDetail.direcciones.map((value, index) => (
+            <GrupoDatos
+              titulo={"Dirección"}
+              update={() => update("Dirección", dataPersonal[0])}
+              data={dataDetail.direcciones}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Comuna:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.comuna}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Número
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.numero}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Barrio:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.barrio}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Documento:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.numerodocumento}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Telefono:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.telefono}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Profesion:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.profesion}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Ocupacion:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.ocupacion}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Empresa:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.empresa}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Parentesco:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.tipoparentesco}
-                </p>
-              </div>
-            </div>
-          </GrupoDatos>
-        ))}
-        {dataDetail.historiaClinica && dataDetail.historiaClinica.map((value, index) => (
-          <GrupoDatos
-            titulo={"Historia Clinica"}
-            update={() => update("Historia clinica", dataPersonal[0])}
-            data={dataDetail.historiaClinica}
-            key={index}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Medicamentos:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.medicamentos}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Restricciones Alimenticias:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.restriccionesalimenticias}
-                </p>
-              </div>
-              <div>
-                <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Observacion:
-                </p>
-                <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.observacion}
-                </p>
-              </div>
-            </div>
-          </GrupoDatos>
-        ))}
+            </GrupoDatos>
+          ))}
       </div>
       <UpdateModal
         isOpen={isModalOpen}

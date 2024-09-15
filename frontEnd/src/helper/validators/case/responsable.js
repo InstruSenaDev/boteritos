@@ -41,7 +41,7 @@ export const caseResponsable = (name, value) => {
 
     case "numerodocumento":
       if (value.trim() === "") {
-        return "El número de documento no puede estar vacío";
+        return "El número de documento es obligatorio";
       }
       if (!/^\d+$/.test(value)) {
         return "El número de documento debe ser un número";
