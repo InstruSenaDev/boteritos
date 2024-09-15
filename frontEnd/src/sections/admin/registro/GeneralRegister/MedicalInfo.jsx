@@ -14,7 +14,6 @@ export const MedicalInfoSection = () => {
 
   const navigate = useNavigate();
 
-  
   const [errors, setErrors] = useState({}); // Estado para los errores
   const [values, setValues] = useState({
     lugaratencion: "",
@@ -100,9 +99,7 @@ export const MedicalInfoSection = () => {
       peso: values.peso.trim(),
       altura: values.altura.trim(),
     };
-    
-
-
+  
     //Recorrido del objeto para añadirlo al formData
     for (const key in dataUser) {
       if (Object.hasOwn(values, key)) {

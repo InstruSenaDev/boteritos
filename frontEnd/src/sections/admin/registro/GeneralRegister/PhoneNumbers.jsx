@@ -11,8 +11,6 @@ import { RegistroExito } from "../../../../components/forms/RegistroExito.jsx";
 export const PhoneNumberSection = () => {
   const [state, dispatch] = useRegFormContext();
 
-  console.log(state);
-
   //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({}); // Estado para los errores
@@ -27,14 +25,6 @@ export const PhoneNumberSection = () => {
   const [finish, setFinish] = useState(false);
 
   const [estadoValida, setEstadoValida] = useState(false); // Estado que controla el renderizado condicional
-
-  if (finish) {
-    console.log("TUREEEEE");
-  } else {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-  }
-
-  useEffect(() => {}, []);
 
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
@@ -55,6 +45,8 @@ export const PhoneNumberSection = () => {
 
   // Maneja el envío del formulario
   const handleFormSubmit = (event) => {
+    console.log('ACTIVACION DE FUNCION SUBMIT');
+    
     event.preventDefault();
 
     // Validar todos los campos antes de enviar
@@ -102,6 +94,9 @@ export const PhoneNumberSection = () => {
         body: state.dataForm,
       }
     );
+
+    setFinish(false);
+    
     if (response.status === 201) {
       setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
     }
@@ -111,6 +106,8 @@ export const PhoneNumberSection = () => {
   };
 
   if (finish) {
+    console.log('ACTIVACION DE LA API');
+    
     pito();
   }
 

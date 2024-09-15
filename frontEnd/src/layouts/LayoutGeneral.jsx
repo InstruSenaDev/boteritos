@@ -13,8 +13,6 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
   const decodedToken = jwtDecode(access_token);
   const rol = decodedToken.rol;
   const imagen = decodedToken.img;
-  console.log("Decoded Token:", decodedToken);
-  console.log("Image URL:", imagen);
 
   // Seleccionar la sección del sidebar que corresponde al rol
   const selectedSection = sidebarsection[rol] || [];

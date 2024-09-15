@@ -3,6 +3,36 @@ import bcrypt
 
 # Create your models here.
 
+class Admin(models.Model):
+    idadmin = models.AutoField(db_column='idAdmin', primary_key=True)   
+    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='idUsuario')   
+
+    class Meta:
+        managed = False
+        db_table = 'admin'
+
+class Estudiante(models.Model):
+    idestudiante = models.AutoField(db_column='idEstudiante', primary_key=True)   
+    tallacamisa = models.TextField(db_column='tallaCamisa')   
+    institutoprocedencia = models.TextField(db_column='institutoProcedencia')   
+    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='idUsuario')   
+    idmatricula = models.IntegerField(db_column='idMatricula')   
+
+    class Meta:
+        managed = False
+        db_table = 'estudiante'
+
+class Profesor(models.Model):
+    idprofesor = models.AutoField(db_column='idProfesor', primary_key=True)   
+    titulo = models.TextField()
+    hojavida = models.FileField(upload_to='archivos/', max_length=512)  
+    idusuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='idUsuario')   
+    idarea = models.IntegerField(db_column='idArea')   
+
+    class Meta:
+        managed = False
+        db_table = 'profesor'
+
 class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)
     nombre = models.TextField()
