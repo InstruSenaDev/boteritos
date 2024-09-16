@@ -71,6 +71,8 @@ def LogrosViews(request):
         id = request.data['idlogro']
         query = Logros.objects.filter(idlogro = id).first()
         
+        print(query)
+        
         if not query:
             return Response({
                 "messsage" : "Datos vacios",
@@ -78,11 +80,11 @@ def LogrosViews(request):
             },status=status.HTTP_404_NOT_FOUND)
         
         serializer = LogrosSerializer(query, data = request.data)
-        
+                
         #VALIDACIONES
         if serializer.is_valid():
             serializer.save()
-            
+            print(serializer.data)
             #SI EL ESTADO ES 1 SIGNIFICA QUE EL LOGRO FUE ACEPTADO, POR LO TANTO ES NECESARIO REALIZAR LOS INSERT EN LA TABLA LOGROESTUDIANTE PARA REALIZAR LA RESPECTIVAS CALIFICACIONES
             if str(serializer.data['estado']) == "1":
                 getAllEstudiantes = Estudiante.objects.all()
@@ -92,10 +94,11 @@ def LogrosViews(request):
                 # Iterar sobre los estudiantes y crear las entradas
                 for estudiante in getAllEstudiantes:
                     nuevo_logro_estudiante = Logroestudiante(
-                        resultado='L.P',  # Ajusta según lo que necesitas guardar
+                        resultado='2',  # Ajusta según lo que necesitas guardar
                         fecha=date.today(),  # Usa la fecha actual
                         idlogro=query,   # Relacionar con el logro actualizado
-                        idestudiante=estudiante  # Relacionar con cada estudiante
+                        idestudiante=estudiante,  # Relacionar con cada estudiante
+                        estado = '0' #Definir el estado inicial (GUARDADO)
                     )
                     nuevos_logros_estudiantes.append(nuevo_logro_estudiante)
                 
@@ -107,18 +110,17 @@ def LogrosViews(request):
                 "message" : "¡Actualizacion realizada con exito!",
                 "data" : serializer.data
             })
-        #data = DatosMedicosSerializer(dataMedicos, data=request.data)
         
-        return Response('PUT')
+        return Response(serializer.errors)
 
 
 #PARA ADMIN VER TODOS LOS LOGROS CREADOS
 @api_view(['GET'])
-def ListLogrosAdmin(request,trimestre):
+def ListLogrosAdmin(request,idtrim):
 
     if request.method == 'GET':
         
-        query = querySql("SELECT `logros`.*, `tipologro`.`tipoLogro`, `trimestres`.`trimestre`, `profesor`.*, `areas`.`area`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `trimestres` ON `logros`.`idTrimestre` = `trimestres`.`idTrimestre` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `trimestres`.`idTrimestre` = %s;",[trimestre])
+        query = querySql("SELECT `logros`.*, `tipologro`.`tipoLogro`, `trimestres`.`trimestre`, `profesor`.*, `areas`.`area`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `trimestres` ON `logros`.`idTrimestre` = `trimestres`.`idTrimestre` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `trimestres`.`idTrimestre` = %s;",[idtrim])
         
         if len(query) == 0 :
             return Response({
@@ -154,16 +156,16 @@ def ListLogrosProfesor(request, idtrim, idprof):
         
 #LOGROS YA APROBADOS LISTOS PARA QUE SEAN CALIFICADOS
 @api_view(['GET', 'PUT'])
-def Calificar(request,id):
+def Calificar(request,idtrim,idprof,idestud):
     
     if request.method == 'GET':
-        getLogros = Logros.objects.filter(idprofesor = id)
+        getLogros = Logros.objects.filter(idprofesor = idprof, idtrimestre = idtrim)
         
         # Obtener los IDs de los logros creados por el profesor
         logros_ids = getLogros.values_list('idlogro', flat=True)
         
         # Filtrar los Logroestudiante que están relacionados con los logros creados por el profesor
-        query = Logroestudiante.objects.filter(idlogro__in=logros_ids)
+        query = Logroestudiante.objects.filter(idlogro__in=logros_ids, idestudiante = idestud)
         
         # Serializar los datos
         serializer = CalificarSerializer(query, many=True)
