@@ -4,6 +4,7 @@ import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 import { ConfirmationModal } from "../modales/ConfirmationModal";
 import { RegisterModal } from "../modales/RegisterModal";
 import { Input } from "../forms/Input"
+import { jwtDecode } from "jwt-decode";
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
@@ -37,36 +38,41 @@ export const TablaLogrosRecibidos = () => {
     event.preventDefault();
     console.log(values)
   };
+  
 
   // Función para obtener los logros desde la API
   const getLogros = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/", {
+      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/admin/1", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log("Datos recibidos:", data);
-        return data;
+  
+        // Asegúrate de acceder a 'data' dentro de la respuesta
+        return Array.isArray(data.data) ? data.data : [];
       } else {
         console.error("Error al obtener los datos:", response.statusText);
+        return []; // Retorna un array vacío si la solicitud falla
       }
     } catch (error) {
       console.error("Error al realizar la solicitud:", error.message);
+      return []; // Retorna un array vacío en caso de error
     }
   };
 
-  // Usar useEffect para obtener los logros cuando el componente se monta
   useEffect(() => {
     const fetchLogros = async () => {
-      const data = await getLogros(); // Llama a la función getLogros
+      const data = await getLogros();
+      console.log('Logros recibidos:', data); // Verifica que aquí lleguen los logros
       setLogros(data || []); // Almacena los logros en el estado
     };
-
+  
     fetchLogros(); // Ejecuta la función cuando el componente se monta
   }, []);
 
@@ -113,15 +119,13 @@ export const TablaLogrosRecibidos = () => {
             <p>Área</p>
             <p className="text-center">Acción</p>
           </div>
-
           {/* Reemplazar el mapeo de dataTeacher con logros */}
           {logros.map((logro, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
-                }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"}`}
               key={index}
             >
-              <div className="flex gap-2 lg:gap-0 ">
+              <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">No°</p>
                 <div className="acc-header w-full flex justify-between items-center">
                   <p className="pl-2">{logro.idlogro.toString().length === 2 ? logro.idlogro : `${logro.idlogro}`}</p>
@@ -133,13 +137,13 @@ export const TablaLogrosRecibidos = () => {
 
               <div className="flex gap-2 lg:gap-0" onClick={() => handleOpenLogroModal(logro)}>
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
-                <div className="acc-header max-w-[300px] w-full flex justify-between items-center ">
+                <div className="acc-header max-w-[300px] w-full flex justify-between items-center">
                   <p className="underline cursor-pointer">{logro.logro}</p>
                 </div>
               </div>
 
               <div className="acc-body max-w-[200px] w-full flex gap-2 lg:gap-0">
-                <p className="text-darkBlue lg:hidden">Título:</p>
+                <p className="text-darkBlue lg:hidden">Profesor:</p>
                 <div className="w-full flex justify-between items-center">
                   <p>{logro.nombre}</p>
                 </div>
@@ -148,13 +152,13 @@ export const TablaLogrosRecibidos = () => {
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Área:</p>
                 <div className="w-full flex justify-between items-center">
-                  <p>{logro.tipologro}</p>
+                  <p>{logro.area}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden text-center">Acción:</p>
-                <div className="w-full flex justify-center items-center gap-3 ">
+                <div className="w-full flex justify-center items-center gap-3">
                   <i
                     className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
                     onClick={() => handleOpenConfirmationModal("Aceptar")}
@@ -175,7 +179,7 @@ export const TablaLogrosRecibidos = () => {
           txtmodal="Detalle del logro"
           isOpen={isLogroModalOpen}
           onClose={handleCloseLogroModal}
-          tipo={selectedLogro.tipologro || "N/A"}
+          tipo={selectedLogro.area || "N/A"}
           nombre={selectedLogro.logro || "N/A"}
           descripcion={selectedLogro.descripcion || "No disponible"}
         />
@@ -188,12 +192,12 @@ export const TablaLogrosRecibidos = () => {
         onSubmit={handleFormSubmit}
       >
         <p>Al hacer clic en "Agregar", se rechazará el logro y se le enviará la observación al profesor</p>
-        <Input 
+        <Input
           placeholder={"Observación o recomendación"}
           texto={"Agregue una observación al logro"}
           name={"observacion"}
-          onChange={handleInputChange} 
-          />
+          onChange={handleInputChange}
+        />
 
       </RegisterModal>
 

@@ -26,7 +26,7 @@ export default function TableListaLogros() {
   // Decodifica el token
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
-  const idprofesor = decodedToken.idwork; // Extrae el idwork del token
+  const idprofesor = decodedToken.idjob; // Extrae el idwork del token
 
   const [values, setValues] = useState({
     logro: "",
