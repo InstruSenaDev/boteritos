@@ -30,8 +30,8 @@ export default function TableListaLogros() {
 
   const [values, setValues] = useState({
     logro: "",
-    estado: "0",
-    observacion: "Por revisar",
+    estado: 2,
+    observacion: "",
     idtipologro: "",
     idtrimestre: "1",
     idprofesor: idprofesor, //LOCAL STORAGE

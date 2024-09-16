@@ -2,11 +2,17 @@ import React, { useState, useEffect } from "react";
 import Buscador from "../search/Buscador";
 import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 import { ConfirmationModal } from "../modales/ConfirmationModal";
+import { RegisterModal } from "../modales/RegisterModal";
+import { Input } from "../forms/Input"
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
   const [isLogroModalOpen, setIsLogroModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+  const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
+
+
   const [selectedLogro, setSelectedLogro] = useState(null);
   const [estadoValida, setEstadoValida] = useState(false);
   const [modalAction, setModalAction] = useState(""); // Nuevo estado para definir si es "aceptar" o "rechazar"
@@ -14,6 +20,22 @@ export const TablaLogrosRecibidos = () => {
 
   const toggleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
+  };
+  const [values, setValues] = useState({
+    observacion: "",
+  });
+  // Maneja cambios en los inputs de texto
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    console.log(values)
   };
 
   // Función para obtener los logros desde la API
@@ -65,6 +87,16 @@ export const TablaLogrosRecibidos = () => {
   const handleCloseConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
   };
+
+  const handleRejectedModalOpen = () => {
+    setIsRejectedModalOpen(true)
+  }
+
+  const handleCloseRejectedModal = () => {
+    setIsRejectedModalOpen(false)
+  }
+
+
 
   return (
     <>
@@ -129,7 +161,7 @@ export const TablaLogrosRecibidos = () => {
                   ></i>
                   <i
                     className="fa-solid fa-circle-xmark text-2xl cursor-pointer text-redFull"
-                    onClick={() => handleOpenConfirmationModal("Rechazar")}
+                    onClick={handleRejectedModalOpen}
                   ></i>
                 </div>
               </div>
@@ -148,6 +180,23 @@ export const TablaLogrosRecibidos = () => {
           descripcion={selectedLogro.descripcion || "No disponible"}
         />
       )}
+      <RegisterModal
+        txtmodal={"¿Está seguro de rechazar el logro?"}
+        cols={"1"}
+        isOpen={isRejectedModalOpen}
+        onClose={handleCloseRejectedModal}
+        onSubmit={handleFormSubmit}
+      >
+        <p>Al hacer clic en "Agregar", se rechazará el logro y se le enviará la observación al profesor</p>
+        <Input 
+          placeholder={"Observación o recomendación"}
+          texto={"Agregue una observación al logro"}
+          name={"observacion"}
+          onChange={handleInputChange} 
+          />
+
+      </RegisterModal>
+
 
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
