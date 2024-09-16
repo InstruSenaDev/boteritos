@@ -4,12 +4,12 @@ from rest_framework import status
 from datetime import date
 from .serializers.trimestreSerializer import TrimestreSerializer
 from .serializers.logrosSerializer import LogrosSerializer, CalificarSerializer
-from .models import Logros, Estudiante,Logroestudiante
+from .models import Logros, Estudiante, Logroestudiante, Trimestres
 from helper.querySql import querySql
 
-@api_view(['POST', 'GET'])
-def TrimestresView(request):
-    
+@api_view(['POST'])
+def TrimestresCreate(request):
+        
     if request.method == 'POST':
         serializer = TrimestreSerializer(data = request.data)
         
@@ -25,25 +25,30 @@ def TrimestresView(request):
             "error" : serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['GET', 'POST', 'PUT'])
-def LogrosViews(request):
-    
+@api_view(['GET'])
+def TrimestresList(request,fecha):
     if request.method == 'GET':
-        query = Logros.objects.all()
         
-        if len(query) == 0:
-            return Response({
-                "message" : "Datos vacios"
-            }, status=status.HTTP_204_NO_CONTENT)
+        query = Trimestres.objects.filter(fechainicio__year = fecha)
         
-        serializer = LogrosSerializer(query, many = True)
-        
+        if not query :
+            return Response({ 
+                "message" : "Trimestres no encontrados",
+                "error" : "No hay trimestres registrados en el año actual"
+            }, status=status.HTTP_404_NOT_FOUND)
+            
+        srTrimestres = TrimestreSerializer(query, many = True)
+    
         return Response({
-            "message" : "¡Consulta exitosa!",
-            "data" : serializer.data
+            "message" : "Trimestres encontrados",
+            "data" : srTrimestres.data
         },status=status.HTTP_200_OK)
         
+    
+
+@api_view(['POST', 'PUT'])
+def LogrosViews(request):
+
     #CUANDO LO CREA EL PROFESOR
     if request.method == 'POST':        
         serializer = LogrosSerializer(data = request.data)
@@ -105,23 +110,54 @@ def LogrosViews(request):
         #data = DatosMedicosSerializer(dataMedicos, data=request.data)
         
         return Response('PUT')
-    
-    
+
+
+#PARA ADMIN VER TODOS LOS LOGROS CREADOS
 @api_view(['GET'])
-def ListLogros(request):
+def ListLogrosAdmin(request,trimestre):
 
     if request.method == 'GET':
-        query = querySql("SELECT `logros`.`idLogro` AS `idlogro` ,`logros`.`logro`, `tipologro`.`tipoLogro`, `logros`.`idTrimestre`, `logros`.`idTipoLogro`, `profesor`.`titulo`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre`, `profesor`.`idProfesor` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario`;",[])
         
-        return Response(query)
+        query = querySql("SELECT `logros`.*, `tipologro`.`tipoLogro`, `trimestres`.`trimestre`, `profesor`.*, `areas`.`area`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `trimestres` ON `logros`.`idTrimestre` = `trimestres`.`idTrimestre` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `trimestres`.`idTrimestre` = %s;",[trimestre])
+        
+        if len(query) == 0 :
+            return Response({
+                "message" : "Datos vacios",
+                "error" :  ""    
+            },status=status.HTTP_404_NOT_FOUND)
+            
+        return Response({
+            "message" : "Logros encontrados",
+            "data" : query
+        },status=status.HTTP_200_OK)
     
-
+#VISTA PARA LOS PROFESORES, PARA VER LOS LOGROS CREADOS POR ELLOS MISMOS    
+@api_view(['GET'])
+def ListLogrosProfesor(request, idtrim, idprof):
+    
+    if request.method == 'GET':
+        query = Logros.objects.filter(estado = 1, idtrimestre = idtrim, idprofesor = idprof)
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "No hay logros creados en este trimestre"
+            }, status=status.HTTP_204_NO_CONTENT)
+        
+        serializer = LogrosSerializer(query, many = True)
+        
+        return Response({
+            "message" : "¡Consulta exitosa!",
+            "data" : serializer.data
+        },status=status.HTTP_200_OK)
+        
+        
+#LOGROS YA APROBADOS LISTOS PARA QUE SEAN CALIFICADOS
 @api_view(['GET', 'PUT'])
 def Calificar(request,id):
     
     if request.method == 'GET':
         getLogros = Logros.objects.filter(idprofesor = id)
-        
         
         # Obtener los IDs de los logros creados por el profesor
         logros_ids = getLogros.values_list('idlogro', flat=True)

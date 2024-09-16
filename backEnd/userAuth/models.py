@@ -32,6 +32,17 @@ class Profesor(models.Model):
     class Meta:
         managed = False
         db_table = 'profesor'
+        
+class Trimestres(models.Model):
+    idtrimestre = models.AutoField(db_column='idTrimestre', primary_key=True)
+    trimestre = models.TextField()
+    descripcion = models.TextField()
+    fechainicio = models.DateField(db_column='fechaInicio')
+    fechafin = models.DateField(db_column='fechaFin')
+
+    class Meta:
+        managed = False
+        db_table = 'trimestres'
 
 class Usuario(models.Model):
     idusuario = models.AutoField(db_column='idUsuario', primary_key=True)
