@@ -103,16 +103,19 @@ def LogrosViews(request):
                     nuevos_logros_estudiantes.append(nuevo_logro_estudiante)
                 
                 # Insertar todas las instancias de Logroestudiante de una sola vez
-                Logroestudiante.objects.bulk_create(nuevos_logros_estudiantes)
-                
-            
-            return Response({
-                "message" : "¡Actualizacion realizada con exito!",
-                "data" : serializer.data
-            })
-        
-        return Response(serializer.errors)
+                calificaciones = Logroestudiante.objects.bulk_create(nuevos_logros_estudiantes)
 
+                srCalificacion = CalificarSerializer(calificaciones, many = True)
+                
+                return Response({
+                    "message" : "¡Aceptacion de logro realizada con exito!",
+                    "data" : srCalificacion.data
+                },status=status.HTTP_201_CREATED)     
+            
+        return Response({
+            "message" : "Aceptacion de logros cancelada",
+            "data" : serializer.errors
+        },status=status.HTTP_400_BAD_REQUEST)
 
 #PARA ADMIN VER TODOS LOS LOGROS CREADOS
 @api_view(['GET'])
@@ -121,6 +124,8 @@ def ListLogrosAdmin(request,idtrim):
     if request.method == 'GET':
         
         query = querySql("SELECT `logros`.*, `tipologro`.`tipoLogro`, `trimestres`.`trimestre`, `profesor`.*, `areas`.`area`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `trimestres` ON `logros`.`idTrimestre` = `trimestres`.`idTrimestre` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `trimestres`.`idTrimestre` = %s;",[idtrim])
+        
+        print(query)
         
         if len(query) == 0 :
             return Response({
@@ -138,7 +143,7 @@ def ListLogrosAdmin(request,idtrim):
 def ListLogrosProfesor(request, idtrim, idprof):
     
     if request.method == 'GET':
-        query = Logros.objects.filter(estado = 1, idtrimestre = idtrim, idprofesor = idprof)
+        query = Logros.objects.filter(idtrimestre = idtrim, idprofesor = idprof)
         
         if len(query) == 0:
             return Response({
@@ -152,7 +157,6 @@ def ListLogrosProfesor(request, idtrim, idprof):
             "message" : "¡Consulta exitosa!",
             "data" : serializer.data
         },status=status.HTTP_200_OK)
-        
         
 #LOGROS YA APROBADOS LISTOS PARA QUE SEAN CALIFICADOS
 @api_view(['GET', 'PUT'])
@@ -171,3 +175,7 @@ def Calificar(request,idtrim,idprof,idestud):
         serializer = CalificarSerializer(query, many=True)
         
         return Response(serializer.data)
+    
+    if request.method == 'PUT':
+        print()
+        pass
