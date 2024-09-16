@@ -22,7 +22,6 @@ def DatosMedicosEstudianteOne(request,id):
             "data" : query
         }, status=status.HTTP_200_OK)
 
-
 @api_view(['PUT'])
 def DatosMedicosUpdate(request):
             

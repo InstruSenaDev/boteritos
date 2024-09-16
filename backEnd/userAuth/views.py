@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Usuario, Profesor, Admin , Estudiante
+from .models import Usuario, Profesor, Admin , Estudiante, Trimestres
+from .querySql import querySql
 
 def searchRol(idrol,idusuario):
-    print('ID ROL:', idrol)
-    print('ID USUARIO', idusuario)
+    
     if idrol == 1 :
         rol = Admin.objects.filter(idusuario = idusuario).first()
         if rol :
@@ -34,9 +34,21 @@ def searchRol(idrol,idusuario):
     else:
         return None
 
+def getTrimestre():
+    #Obtener fecha
+    utc_now = datetime.now(pytz.utc)
+    # Formatear la fecha para obtener solo año, mes y día
+    fechaFormateada = utc_now.strftime("%Y-%m-%d")
+        
+    query = querySql("SELECT `trimestres`.* FROM `trimestres` WHERE %s BETWEEN `trimestres`.`fechaInicio` AND `trimestres`.`fechaFin`",[fechaFormateada])
+    
+    return query[0]['idtrimestre']
+
 @api_view(['POST'])
 def Login(request):
     
+    trimestre = getTrimestre()
+        
     if request.method == 'POST':
         
         documento = request.data['documento']
@@ -49,7 +61,7 @@ def Login(request):
             },status=status.HTTP_400_BAD_REQUEST)
         #Obtener data del usuario
         usuario = Usuario.objects.filter(documento = documento).first()
-        print(usuario)
+
         if not usuario:
             #Usuario no encontrado
             return Response({
@@ -80,11 +92,12 @@ def Login(request):
             'nombre': usuario.nombre ,
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
-            'idwork' : rol,
+            'idjob' : rol,
             'img' : f'http://localhost:8000/media/{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_ACCESS_EXPIRATION_TIME),
             'iat': utc_now
         }
+        
         access_token = jwt.encode(access_payload, settings.JWT_ACCESS_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
         
         #Creacion de token de refresco
@@ -93,17 +106,19 @@ def Login(request):
             'nombre': usuario.nombre ,
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
-            'idwork' : rol,
+            'idjob' : rol,
             'img' : f'http://localhost:8000/media/{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_REFRESH_EXPIRATION_TIME),
             'iat': utc_now
         }
+        
         refresh_token = jwt.encode(refresh_payload, settings.JWT_REFRESH_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
         
         return Response({
             "message" : "¡Ingreso con exito!",
             "data": {    
                 "access_token" : access_token,
-                "refresh_token" : refresh_token
+                "refresh_token" : refresh_token,
+                'trimestre' : trimestre
             }
         },status= status.HTTP_202_ACCEPTED)
