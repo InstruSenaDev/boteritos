@@ -31,7 +31,7 @@ export default function TableListaLogros() {
   const [values, setValues] = useState({
     logro: "",
     estado: 2,
-    observacion: "",
+    observacion: "En espera",
     idtipologro: "",
     idtrimestre: "1",
     idprofesor: idprofesor, //LOCAL STORAGE
@@ -85,7 +85,7 @@ export default function TableListaLogros() {
 
   const postLogro = async (dataModal) => {
     try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/logro/", {
+      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
