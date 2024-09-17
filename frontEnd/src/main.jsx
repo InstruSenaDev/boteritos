@@ -110,7 +110,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <TeacherMain/> },
-      { path: "calificarestudiante", element: <Calificar /> },
+      { path: "calificarestudiante/:id", element: <Calificar /> },
       { path: "crearlogro", element: <CrearLogros /> },
       { path: "listaestudiantes", element: <ListEstudents /> },
       { path: "perfil", element: <Perfil /> },

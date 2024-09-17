@@ -140,7 +140,7 @@ export const GrupoDatoElemento = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v3/registro/prueba/`,
+        `http://localhost:8000/api/v3/registro/${selectedContent}/`,
         {
           method: "POST",
           body: formData,
