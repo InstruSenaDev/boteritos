@@ -30,13 +30,6 @@ export const TeacherRegister = () => {
 
   const [estadoValida, setEstadoValida] = useState(false); // Estado que controla el renderizado condicional
 
-  if(finish){
-    console.log('TUREEEEE');
-    
-  }else{
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    
-  }
 
   useEffect(() => {
     dispatch({ type: "CHANGE_PERCENT", data: 100 });
@@ -129,6 +122,9 @@ export const TeacherRegister = () => {
       method: "POST",
       body: state.dataForm,
     });
+    
+    setFinish(false)
+
     if (response.status === 201) {
       setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
     }

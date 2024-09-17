@@ -97,7 +97,6 @@ export const GeneralRegister = () => {
         console.log(file);
     };
 
-
     // Maneja el envío del formulario
     const handleFormSubmit = (event) => {
         event.preventDefault();

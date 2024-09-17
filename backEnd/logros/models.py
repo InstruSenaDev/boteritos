@@ -92,6 +92,7 @@ class Estudiante(models.Model):
 class Logroestudiante(models.Model):
     idlogroestudiante = models.AutoField(db_column='idLogroEstudiante', primary_key=True)   
     resultado = models.TextField()
+    estado = models.IntegerField()
     fecha = models.DateField()
     idlogro = models.ForeignKey('Logros', models.DO_NOTHING, db_column='idLogro')   
     idestudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='idEstudiante')   

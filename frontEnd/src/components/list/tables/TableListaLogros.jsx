@@ -5,78 +5,129 @@ import { useEffect, useState } from "react";
 import { Input } from "../../forms/Input";
 import { Dropdown } from "../../forms/Dropdown";
 import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
+import { jwtDecode } from "jwt-decode";
 
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
+import { caseLogros } from "../../../helper/validators/case/logros";
 
 export default function TableListaLogros() {
   const [isConfirm, setIsConfirm] = useState(false);
-  const [values, setValues] = useState({
-    logro:"",
-    tipo:""
-  });
-
-  const handleForm = (event) => {
-    event.preventDefault();
-    console.log(values);
-     setValues({
-    logro: "",
-    tipo: ""
-  });
-    setIsConfirm(true);
-  };
-
-
   // Estado para manejar el modal
   const [isOpen, setIsOpen] = useState(false);
 
-  const[dataDropdown, setDataDropdown] = useState({
-    dropdownTipo:[]
-  })
+  const [errors, setErrors] = useState({}); // Estado para los errores
 
-  useEffect(()=>{
+  const [estadoValida, setEstadoValida] = useState(false);
+
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownTipo: []
+  })
+  // Decodifica el token
+  const access_token = JSON.parse(localStorage.getItem("access_token"));
+  const decodedToken = jwtDecode(access_token);
+  const idprofesor = decodedToken.idjob; // Extrae el idwork del token
+
+  const [values, setValues] = useState({
+    logro: "",
+    estado: 2,
+    observacion: "En espera",
+    idtipologro: "",
+    idtrimestre: "1",
+    idprofesor: idprofesor, //LOCAL STORAGE
+  });
+  useEffect(() => {
     const getDataDropdown = async () => {
       const resultTipo = await dataTipoLogro();
       setDataDropdown({
-        dropdownTipo : resultTipo
+        dropdownTipo: resultTipo
       });
     };
     getDataDropdown();
   }, [])
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
-
   // Maneja el cambio en los campos de entrada del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+
     setValues({
       ...values,
       [name]: value,
     });
+    // Limpiar error al escribir
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
-
   const handleDropdownChange = (name, value) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
+    setValues({ ...values, [name]: value });
+    console.log("dropdowns value:", value);
 
-  const handleOpenModal=()=>{
+    // Limpiar error al escribir
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
+  };
+  const handleOpenModal = () => {
     setIsOpen(true)
-    setIsConfirm(false); 
+    setIsConfirm(false);
   }
 
   const handleCloseModal = () => {
     setIsOpen(false);
-    setIsConfirm(false); 
+    setIsConfirm(false);
   };
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
- 
+  const postLogro = async (dataModal) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataModal),
+      });
+
+      if (response.ok) { // Verifica si la respuesta fue exitosa (status en el rango 200-299)
+        const data = await response.json();
+        console.log("Datos enviados correctamente:", data);
+        setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
+      }
+    } catch (error) {
+      console.error("Error al enviar los datos:", error.message);
+    }
+  };
+
+  const handleForm = async (event) => {
+    event.preventDefault();
+
+    // Validar todos los campos antes de enviar
+    const newErrors = {};
+    for (const key in values) {
+      if (Object.hasOwn(values, key)) {
+        const error = caseLogros(key, values[key]);
+        if (error) {
+          newErrors[key] = error;
+        }
+      }
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Mostrar errores solo si hay campos inválidos
+      return;
+    }
+    // Si no hay errores, enviar los datos
+    const dataUser = {
+      ...values,
+      logro: values.logro.trim(),
+    };
+    await postLogro(dataUser);
+  };
 
   return (
     <>
@@ -100,9 +151,8 @@ export default function TableListaLogros() {
           {/* CUERPO DE LA TABLA */}
           {ObjLogrosCreados.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-                openAcc === index ? "open" : "close"
-              }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                }`}
               key={index}
             >
               <div className="flex gap-2 lg:gap-0 ">
@@ -151,29 +201,31 @@ export default function TableListaLogros() {
         </section>
       </main>
       <ModalCreacion
-      txtmodal={'Crear nuevo logro'}
-      isOpen={isOpen}
-      onClose={handleCloseModal}
-      onSubmit={handleForm}
-      isConfirm={isConfirm}
+        txtmodal={'Crear nuevo logro'}
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleForm}
+        isConfirm={isConfirm}
       >
-      <Dropdown
-       label="Selecciona una opción"
-       name="tipo"
-       data={dataDropdown.dropdownTipo}  
-       onChange={(value) => handleDropdownChange("tipo",value)}
-      placeholder={"Seleccione el tipo de logro"}
-      value={values.tipo || ""}
-      />
+        <Dropdown
+          label="Selecciona una opción"
+          name="idtipologro"
+          data={dataDropdown.dropdownTipo}
+          onChange={(value) => handleDropdownChange("idtipologro", value)}
+          placeholder={"Seleccione el tipo de logro"}
+          value={values.idtipologro || ""}
+          error={errors.idtipologro}
+        />
 
-       <Input
-       texto={'Nombre del logro'}
-       placeholder={'Ingresa el nombre del logro'}
-       name={'logro'}
-       tipo={'text'}
-       onChange={handleInputChange}
-       value={values.logro || ""}
-       />
+        <Input
+          texto={'Nombre del logro'}
+          placeholder={'Ingresa el nombre del logro'}
+          name={'logro'}
+          tipo={'text'}
+          onChange={handleInputChange}
+          value={values.logro || ""}
+          error={errors.logro}
+        />
       </ModalCreacion>
     </>
   );
