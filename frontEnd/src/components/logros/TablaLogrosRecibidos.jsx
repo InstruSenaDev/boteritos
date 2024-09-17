@@ -270,7 +270,7 @@ export const TablaLogrosRecibidos = () => {
           onClose={handleCloseLogroModal}
           tipo={selectedLogro.area || "N/A"}
           nombre={selectedLogro.logro || "N/A"}
-          descripcion={selectedLogro.descripcion || "No disponible"}
+          
         />
       )}
       <RegisterModal
