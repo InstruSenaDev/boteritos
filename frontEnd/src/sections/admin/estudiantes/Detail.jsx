@@ -15,6 +15,7 @@ import {
   dataContactosEstudiante,
   DataPersonal,
 } from "../../../api/get";
+import { ModalContentUpdate } from "../../../components/modales/ModalContentUpdate";
 
 const Detail = () => {
   const [selectedSection, setSelectedSection] = useState(null);
@@ -549,31 +550,16 @@ const Detail = () => {
           ))}
       </div>
       <UpdateModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onSave={handleSave}
-      >
-        <h2 className="text-paragraph font-cocogooseLight">
-          Editando sección: {selectedSection}
-        </h2>
-        {sectionData && (
-          <div>
-            {Object.keys(filterData(sectionData)).map((key) => (
-              <div key={key} className="mb-4">
-                <label className="blocktext-paragraph font-cocogooseLight text-black">
-                  {formatLabel(key)}:
-                </label>
-                <input
-                  type="text"
-                  value={sectionData[key]}
-                  onChange={(e) => handleInputChange(e, key)}
-                  className="p-2 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] focus:ring focus:selection focus:outline-none"
-                />
-              </div>
-            ))}
-          </div>
-        )}
-      </UpdateModal>
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onSave={handleSave}
+        >
+          <ModalContentUpdate
+            section={selectedSection}
+            data={sectionData}
+            onChange={handleInputChange}
+          />
+        </UpdateModal>
     </div>
   );
 };
