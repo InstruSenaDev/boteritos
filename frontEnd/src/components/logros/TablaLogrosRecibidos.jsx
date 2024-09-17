@@ -25,6 +25,7 @@ export const TablaLogrosRecibidos = () => {
   const [values, setValues] = useState({
     observacion: "",
   });
+
   // Maneja cambios en los inputs de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -85,7 +86,7 @@ export const TablaLogrosRecibidos = () => {
   // Función para obtener los logros desde la API
   const getLogros = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/admin/1", {
+      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/admin/1", { //OBTENER TRIMESTRE MAMAGUEVO
         method: "GET",
         headers: {
           "Content-Type": "application/json",

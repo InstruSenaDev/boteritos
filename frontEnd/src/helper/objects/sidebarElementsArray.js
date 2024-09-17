@@ -14,6 +14,7 @@ export const sidebarsection = {
     { icon: "fa-solid fa-graduation-cap", texto: "Estudiantes", link: "profesor/listaestudiantes" },
     { icon: "fa-solid fa-trophy", texto: "Crear logros", link: "profesor/crearlogro" },
     { icon: "fa-solid fa-lock", texto: "Cambiar contraseña", link: "profesor/cambiarcontrasena" },
+    { icon: "fa-solid fa-lock", texto: "Calificar", link: "profesor/calificarestudiante" },
   ],
   3: [
     { icon: "fa-solid fa-user", texto: "Perfil", link: "estudiante/perfil" },
