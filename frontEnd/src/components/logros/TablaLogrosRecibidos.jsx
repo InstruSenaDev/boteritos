@@ -118,15 +118,15 @@ export const TablaLogrosRecibidos = () => {
     fetchLogros(); // Ejecuta la función cuando el componente se monta
   }, []);
 
-  const handleOpenLogroModal = (logro) => {
-    console.log("ID del logro seleccionado:", logro.idlogro);
-    setSelectedLogro(logro);
-    setIsLogroModalOpen(true);
-  };
+  // const handleOpenLogroModal = (logro) => {
+  //   console.log("ID del logro seleccionado:", logro.idlogro);
+  //   setSelectedLogro(logro);
+  //   setIsLogroModalOpen(true);
+  // };
 
-  const handleCloseLogroModal = () => {
-    setIsLogroModalOpen(false);
-  };
+  // const handleCloseLogroModal = () => {
+  //   setIsLogroModalOpen(false);
+  // };
 
   const handleOpenConfirmationModal = (action, logro) => {
     console.log("ID del logro para confirmación:", logro.idlogro);
@@ -224,10 +224,10 @@ export const TablaLogrosRecibidos = () => {
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0" onClick={() => handleOpenLogroModal(logro)}>
+              <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
                 <div className="acc-header max-w-[300px] w-full flex justify-between items-center">
-                  <p className="underline cursor-pointer">{logro.logro}</p>
+                  <p className="">{logro.logro}</p>
                 </div>
               </div>
 
@@ -263,7 +263,7 @@ export const TablaLogrosRecibidos = () => {
         </section>
       </main>
 
-      {selectedLogro && (
+      {/* {selectedLogro && (
         <LogrosRecibidosModal
           txtmodal="Detalle del logro"
           isOpen={isLogroModalOpen}
@@ -272,7 +272,7 @@ export const TablaLogrosRecibidos = () => {
           nombre={selectedLogro.logro || "N/A"}
           
         />
-      )}
+      )} */}
       <RegisterModal
         txtmodal={"¿Está seguro de rechazar el logro?"}
         cols={"1"}
