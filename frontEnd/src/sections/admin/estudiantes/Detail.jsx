@@ -13,6 +13,7 @@ import {
   dataResponsableEstudiante,
   DataDireccionesEstudiante,
   dataContactosEstudiante,
+  DataPersonal,
 } from "../../../api/get";
 
 const Detail = () => {
@@ -27,6 +28,7 @@ const Detail = () => {
     datosMedicos: [],
     contactos: [],
     direcciones: [],
+    usuario: [],
   });
 
   //historiaclinica/?idestudiante=2
@@ -53,6 +55,8 @@ const Detail = () => {
         `direccion/estudiante/${id}`
       );
 
+      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
+
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
       }
@@ -72,12 +76,17 @@ const Detail = () => {
       if (!dataDirecciones.status == 200) {
         setDataDetail({ direcciones: null });
       }
+
+      if (!DataPersonalEstudiante.status == 200) {
+        setDataDetail({ usuario: null });
+      }
+
       console.log("Datos Historia Clínica:", dataHistClinic.data.data);
       console.log("Datos Responsable:", dataResponsable.data.data);
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
-    
+      console.log("Datos personales:", DataPersonalEstudiante.data.data);
 
       setDataDetail({
         ...dataDetail,
@@ -86,6 +95,7 @@ const Detail = () => {
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
+        usuario: DataPersonalEstudiante.data.data,
       });
     };
 
@@ -94,34 +104,36 @@ const Detail = () => {
 
   const update = (sectionId, index) => {
     let data;
-    
+
     switch (sectionId) {
-      case 'Responsables':
+      case "Datos personales":
+        data = dataDetail.personal[index];
+        break;
+      case "Responsables":
         data = dataDetail.responsables[index];
         break;
-      case 'Historia clinica':
+      case "Historia clinica":
         data = dataDetail.historiaClinica[index];
         break;
-      case 'Datos Medicos':
+      case "Datos Medicos":
         data = dataDetail.datosMedicos[index];
         break;
-      case 'Contactos':
+      case "Contactos":
         data = dataDetail.contactos[index];
         break;
-      case 'Dirección':
+      case "Dirección":
         data = dataDetail.direcciones[index];
         break;
       default:
         data = null;
     }
-  
+
     console.log("Selected data:", data);
     setSelectedSection(sectionId);
     setSectionData(data);
     setModalOpen(true);
   };
-  
-  
+
   const closeModal = () => {
     setModalOpen(false);
     setSelectedSection(null);
@@ -133,19 +145,20 @@ const Detail = () => {
       section: selectedSection,
       data: sectionData,
     };
-  
+
     // Actualiza el estado global con los nuevos datos editados
-    setDataDetail(prevDataDetail => ({
+    setDataDetail((prevDataDetail) => ({
       ...prevDataDetail,
-      [selectedSection.toLowerCase()]: prevDataDetail[selectedSection.toLowerCase()].map((item, index) => 
+      [selectedSection.toLowerCase()]: prevDataDetail[
+        selectedSection.toLowerCase()
+      ].map((item, index) =>
         index === sectionData.index ? sectionData : item
       ),
     }));
-  
+
     console.log("Datos guardados", newData);
     closeModal();
   };
-  
 
   const handleInputChange = (e, key) => {
     setSectionData({
@@ -164,13 +177,13 @@ const Detail = () => {
       }, {});
   };
 
-const formatLabel = (key) => {
-  // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
-  return key
-    .replace(/([A-Z])/g, ' $1') // Agrega un espacio antes de cada mayúscula.
-    .replace(/^./, (str) => str.toUpperCase()) // Convierte la primera letra a mayúscula.
-    .trim(); // Elimina cualquier espacio extra al principio o al final.
-};
+  const formatLabel = (key) => {
+    // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
+    return key
+      .replace(/([A-Z])/g, " $1") // Agrega un espacio antes de cada mayúscula.
+      .replace(/^./, (str) => str.toUpperCase()) // Convierte la primera letra a mayúscula.
+      .trim(); // Elimina cualquier espacio extra al principio o al final.
+  };
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -182,6 +195,83 @@ const formatLabel = (key) => {
       <GrupoDatoElemento /> {/* BOTONES PARA LOS MODALES */}
       <div className="w-full h-0 border-darkBlue border-2"></div>
       <div className="space-y-7">
+        {dataDetail.usuario &&
+          dataDetail.usuario.map((value, index) => (
+            <GrupoDatos
+              titulo={"Datos personales"}
+              update={() => update("Datos Personales", index)}
+              data={dataDetail.usuario}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Nombres:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.nombre}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Apellidos:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.apellido}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Correo:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.correo}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Sexo:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.sexo}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Tipo documento:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.tipodocumento}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Documento:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.numerodocumento}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Telefono:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.telefono}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    edad:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.edad}
+                  </p>
+                </div>
+              </div>
+            </GrupoDatos>
+          ))}
+
         {dataDetail.responsables &&
           dataDetail.responsables.map((value, index) => (
             <GrupoDatos
@@ -311,17 +401,16 @@ const formatLabel = (key) => {
 
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Diagnostico :
+                    Diagnostico :
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
                     {value.diagnostico}
                   </p>
                 </div>
 
-                
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  Discapacidad :
+                    Discapacidad :
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
                     {value.discapacidad}

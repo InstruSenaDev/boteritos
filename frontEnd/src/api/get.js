@@ -42,3 +42,8 @@ export const DataDireccionesEstudiante = async (url) => {
   const data = await fetchFunction("GET", null, null, `registro/${url}`);
   return data;
 };
+
+export const DataPersonal = async (url) => {
+  const data = await fetchFunction("GET", null, null, `registro/${url}`);
+  return data;
+};
