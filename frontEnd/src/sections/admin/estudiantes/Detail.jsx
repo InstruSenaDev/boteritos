@@ -4,7 +4,7 @@ import { GrupoDatoElemento } from "../../../components/datosEstudiante/GrupoDato
 import HeaderData from "../../../components/list/headerData/HeaderData";
 import { GrupoDatos } from "../../../components/list/groupData/GrupoDatos";
 
-import { dataPersonal } from "../../../helper/objects/dataStudentsArray";
+// import { dataPersonal } from "../../../helper/objects/dataStudentsArray";
 
 import { UpdateModal } from "../../../components/modales/UpdateModal";
 import {
@@ -72,6 +72,12 @@ const Detail = () => {
       if (!dataDirecciones.status == 200) {
         setDataDetail({ historiaClinica: null });
       }
+      console.log("Datos Historia Clínica:", dataHistClinic.data.data);
+      console.log("Datos Responsable:", dataResponsable.data.data);
+      console.log("Datos datos medicos:", dataDatosMedicos.data.data);
+      console.log("Datos Contactos:", dataContactos.data.data);
+      console.log("Datos direcciones:", dataDirecciones.data.data);
+    
 
       setDataDetail({
         ...dataDetail,
@@ -86,14 +92,36 @@ const Detail = () => {
     obtainData();
   }, []);
 
-  const update = (sectionId, data) => {
-    console.log(id);
-    console.log("secion ,");
-
+  const update = (sectionId, index) => {
+    let data;
+    
+    switch (sectionId) {
+      case 'Responsables':
+        data = dataDetail.responsables[index];
+        break;
+      case 'Historia clinica':
+        data = dataDetail.historiaClinica[index];
+        break;
+      case 'Datos Medicos':
+        data = dataDetail.datosMedicos[index];
+        break;
+      case 'Contactos':
+        data = dataDetail.contactos[index];
+        break;
+      case 'Dirección':
+        data = dataDetail.direcciones[index];
+        break;
+      default:
+        data = null;
+    }
+  
+    console.log("Selected data:", data);
     setSelectedSection(sectionId);
-    setSectionData(data); //para establecer los datos de la sección
+    setSectionData(data);
     setModalOpen(true);
   };
+  
+  
   const closeModal = () => {
     setModalOpen(false);
     setSelectedSection(null);
@@ -105,9 +133,19 @@ const Detail = () => {
       section: selectedSection,
       data: sectionData,
     };
+  
+    // Actualiza el estado global con los nuevos datos editados
+    setDataDetail(prevDataDetail => ({
+      ...prevDataDetail,
+      [selectedSection.toLowerCase()]: prevDataDetail[selectedSection.toLowerCase()].map((item, index) => 
+        index === sectionData.index ? sectionData : item
+      ),
+    }));
+  
     console.log("Datos guardados", newData);
     closeModal();
   };
+  
 
   const handleInputChange = (e, key) => {
     setSectionData({
@@ -126,12 +164,13 @@ const Detail = () => {
       }, {});
   };
 
-  const formatLabel = (key) => {
-    // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
-    return key
-      .replace(/([A-Z])/g, " $1") // Agrega un espacio antes de  cada mayúscula.
-      .replace(/^./, (str) => str.toUpperCase()); // Convierte la primera letra a mayúscula.
-  };
+const formatLabel = (key) => {
+  // Convierte la primera letra a mayúscula y agrega espacios antes de mayúsculas.
+  return key
+    .replace(/([A-Z])/g, ' $1') // Agrega un espacio antes de cada mayúscula.
+    .replace(/^./, (str) => str.toUpperCase()) // Convierte la primera letra a mayúscula.
+    .trim(); // Elimina cualquier espacio extra al principio o al final.
+};
 
   return (
     <div className="w-full space-y-2 grid gap-10">
@@ -147,7 +186,7 @@ const Detail = () => {
           dataDetail.responsables.map((value, index) => (
             <GrupoDatos
               titulo={"Responsables"}
-              update={() => update("Historia clinica", dataPersonal[0])}
+              update={() => update("Responsables", index)}
               data={dataDetail.responsables}
               key={index}
             >
@@ -248,7 +287,7 @@ const Detail = () => {
           dataDetail.historiaClinica.map((value, index) => (
             <GrupoDatos
               titulo={"Historia Clinica"}
-              update={() => update("Historia clinica", dataPersonal[0])}
+              update={() => update("Historia clinica", index)}
               data={dataDetail.historiaClinica}
               key={index}
             >
@@ -269,6 +308,26 @@ const Detail = () => {
                     {value.restriccionesalimenticias}
                   </p>
                 </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Diagnostico :
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.diagnostico}
+                  </p>
+                </div>
+
+                
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Discapacidad :
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.discapacidad}
+                  </p>
+                </div>
+
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Observacion:
@@ -285,7 +344,7 @@ const Detail = () => {
           dataDetail.datosMedicos.map((value, index) => (
             <GrupoDatos
               titulo={"Datos Medicos"}
-              update={() => update("Datos Medicos", dataPersonal[0])}
+              update={() => update("Datos Medicos", index)}
               data={dataDetail.datosMedicos}
               key={index}
             >
@@ -338,7 +397,7 @@ const Detail = () => {
           dataDetail.contactos.map((value, index) => (
             <GrupoDatos
               titulo={"Contactos"}
-              update={() => update("Contactos", dataPersonal[0])}
+              update={() => update("Contactos", index)}
               data={dataDetail.contactos}
               key={index}
             >
@@ -367,7 +426,7 @@ const Detail = () => {
           dataDetail.direcciones.map((value, index) => (
             <GrupoDatos
               titulo={"Dirección"}
-              update={() => update("Dirección", dataPersonal[0])}
+              update={() => update("Dirección", index)}
               data={dataDetail.direcciones}
               key={index}
             >
@@ -430,210 +489,4 @@ const Detail = () => {
   );
 };
 
-/**
- 
-  <GrupoDatos
-    titulo={"Teléfonos"}
-    update={() => update("Teléfonos", dataTelefono[0])}
-  >
-    {dataTelefono.map((dataKey) => (
-      <div
-        key={dataKey.idTelefono}
-        className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3"
-      >
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Teléfono 1:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.primerTelefono}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Teléfono 2:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.segundoTelefono}
-          </p>
-        </div>
-      </div>
-    ))}
-  </GrupoDatos>
-  <GrupoDatos
-    titulo={"Responsable"}
-    update={() => update("Responsable", dataResponsable[0])}
-  >
-    {dataResponsable.map((dataKey) => (
-      <div
-        key={dataKey.idResponsable}
-        className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3"
-      >
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Nombre:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.nombre}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Parentesco:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.parentesco}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Tipo de Documento:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.tipoDeDocumento}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Número de Documento:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.numeroDeDocumento}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Teléfono 1:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.primerTelefono}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Teléfono 2:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.segundoTelefono}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Dirección:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.direccion}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Empresa:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.empresa}
-          </p>
-        </div>
-      </div>
-    ))}
-  </GrupoDatos>
-
-  <GrupoDatos
-    titulo={"Condición Médica"}
-    update={() => update("condición medica", dataCondicionMedica[0])}
-  >
-    {dataCondicionMedica.map((dataKey) => (
-      <div
-        key={dataKey.idCondicionMedica}
-        className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3"
-      >
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            EPS:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.eps}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            RH:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.rh}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Peso:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.peso}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Estatura:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.estatura}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Lugar de Atención:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.lugarDeAtencion}
-          </p>
-        </div>
-      </div>
-    ))}
-  </GrupoDatos>
-
-  <DatosHistoria
-    titulo={"Historia Clínica"}
-    update={() => update("Historia clinica", dataHistoriaClinica[0])}
-  >
-    {dataHistoriaClinica.map((dataKey) => (
-      <div
-        key={dataKey.idHistoriaClinica}
-        className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3"
-      >
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Diagnóstico:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.diagnostico}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Medicamentos:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.medicamentos}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Restricciones Alimenticias:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.restriccionesAlimenticias}
-          </p>
-        </div>
-        <div>
-          <p className="font-cocogooseLight text-paragraph text-darkBlue">
-            Alergias:
-          </p>
-          <p className="font-cocogooseLight text-paragraph2 flex-1">
-            {dataKey.alergias}
-          </p>
-        </div>
-      </div>
-    ))}
-  </DatosHistoria>
-  
- */
 export default Detail;
