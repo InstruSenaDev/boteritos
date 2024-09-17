@@ -34,9 +34,51 @@ export const TablaLogrosRecibidos = () => {
       [name]: value,
     });
   };
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(values)
+    console.log({
+      idlogro: selectedLogro.idlogro,
+      estado: 0,
+      observacion: values.observacion,
+      idtrimestre: selectedLogro.idtrimestre,
+      idtipologro: selectedLogro.idtipologro,
+      idprofesor: selectedLogro.idprofesor,
+      logro: selectedLogro.logro
+    });
+    if (selectedLogro) {
+      // Realiza la solicitud PUT para el RegisterModal
+      try {
+        const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idlogro: selectedLogro.idlogro,
+            estado: 0, // Cambia el estado a 0
+            observacion: values.observacion, // Envia la observación
+            idtrimestre: selectedLogro.idtrimestre,
+            idtipologro: selectedLogro.idtipologro,
+            idprofesor: selectedLogro.idprofesor,
+            logro: selectedLogro.logro,
+          }),
+        });
+
+        if (response.ok) {
+          console.log("Logro actualizado exitosamente");
+          // Actualiza la lista de logros
+          const updatedLogros = logros.map((logro) =>
+            logro.idlogro === selectedLogro.idlogro ? { ...logro, estado: 0 } : logro
+          );
+          setLogros(updatedLogros);
+          handleCloseRejectedModal(); // Cierra el modal al completar
+        } else {
+          console.error("Error al actualizar el logro:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error.message);
+      }
+    }
   };
 
 
@@ -118,12 +160,12 @@ export const TablaLogrosRecibidos = () => {
         body: JSON.stringify({
           idlogro: logro.idlogro,
           estado: 1,
-          observacion: "Aceptado", // Agrega observación si está disponible
+          observacion: "Aceptado",
           idtrimestre: logro.idtrimestre,
           idtipologro: logro.idtipologro,
           idprofesor: logro.idprofesor,
           logro: logro.logro
-        }), // Actualiza el estado del logro y otros campos
+        }), 
       });
     
       if (response.ok) {
