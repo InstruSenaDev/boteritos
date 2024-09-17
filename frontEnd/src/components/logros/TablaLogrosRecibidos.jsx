@@ -12,7 +12,7 @@ export const TablaLogrosRecibidos = () => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
   const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
-
+  
 
   const [selectedLogro, setSelectedLogro] = useState(null);
   const [estadoValida, setEstadoValida] = useState(false);
