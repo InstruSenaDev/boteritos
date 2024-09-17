@@ -66,11 +66,11 @@ const Detail = () => {
       }
 
       if (!dataContactos.status == 200) {
-        setDataDetail({ historiaClinica: null });
+        setDataDetail({ contactos: null });
       }
 
       if (!dataDirecciones.status == 200) {
-        setDataDetail({ historiaClinica: null });
+        setDataDetail({ direcciones: null });
       }
       console.log("Datos Historia Clínica:", dataHistClinic.data.data);
       console.log("Datos Responsable:", dataResponsable.data.data);
