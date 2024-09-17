@@ -38,7 +38,7 @@ export const TablaLogrosRecibidos = () => {
     event.preventDefault();
     console.log(values)
   };
-  
+
 
   // Función para obtener los logros desde la API
   const getLogros = async () => {
@@ -49,11 +49,11 @@ export const TablaLogrosRecibidos = () => {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("Datos recibidos:", data);
-  
+
         // Asegúrate de acceder a 'data' dentro de la respuesta
         return Array.isArray(data.data) ? data.data : [];
       } else {
@@ -72,11 +72,12 @@ export const TablaLogrosRecibidos = () => {
       console.log('Logros recibidos:', data); // Verifica que aquí lleguen los logros
       setLogros(data || []); // Almacena los logros en el estado
     };
-  
+
     fetchLogros(); // Ejecuta la función cuando el componente se monta
   }, []);
 
   const handleOpenLogroModal = (logro) => {
+    console.log("ID del logro seleccionado:", logro.idlogro);
     setSelectedLogro(logro);
     setIsLogroModalOpen(true);
   };
@@ -85,8 +86,10 @@ export const TablaLogrosRecibidos = () => {
     setIsLogroModalOpen(false);
   };
 
-  const handleOpenConfirmationModal = (action) => {
+  const handleOpenConfirmationModal = (action, logro) => {
+    console.log("ID del logro para confirmación:", logro.idlogro);
     setModalAction(action);
+    setSelectedLogro(logro); // Guarda el logro seleccionado
     setIsConfirmationModalOpen(true);
   };
 
@@ -94,14 +97,58 @@ export const TablaLogrosRecibidos = () => {
     setIsConfirmationModalOpen(false);
   };
 
-  const handleRejectedModalOpen = () => {
-    setIsRejectedModalOpen(true)
+  const handleRejectedModalOpen = (logro) => {
+    console.log("ID del logro para rechazo:", logro.idlogro); 
+    setSelectedLogro(logro); // Guarda el logro seleccionado
+    setIsRejectedModalOpen(true);
   }
 
   const handleCloseRejectedModal = () => {
     setIsRejectedModalOpen(false)
   }
 
+  // Función para actualizar el estado del logro
+  const updateLogroState = async (logro) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          idlogro: logro.idlogro,
+          estado: 1,
+          observacion: "Aceptado", // Agrega observación si está disponible
+          idtrimestre: logro.idtrimestre,
+          idtipologro: logro.idtipologro,
+          idprofesor: logro.idprofesor,
+          logro: logro.logro
+        }), // Actualiza el estado del logro y otros campos
+      });
+    
+      if (response.ok) {
+        console.log("Logro actualizado exitosamente");
+        // Actualiza la lista de logros
+        const updatedLogros = logros.map((logro) =>
+          logro.idlogro === selectedLogro.idlogro ? { ...logro, estado: 1 } : logro
+        );
+        setLogros(updatedLogros);
+      } else {
+        console.error("Error al actualizar el logro:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error.message);
+    }
+  };
+  
+
+  // Manejador del botón de "Continuar" en el modal de confirmación
+  const handleConfirm = () => {
+    if (selectedLogro) {
+      updateLogroState(selectedLogro);
+    }
+    handleCloseConfirmationModal();
+  };
 
 
   return (
@@ -161,11 +208,11 @@ export const TablaLogrosRecibidos = () => {
                 <div className="w-full flex justify-center items-center gap-3">
                   <i
                     className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
-                    onClick={() => handleOpenConfirmationModal("Aceptar")}
+                    onClick={() => handleOpenConfirmationModal("Aceptar", logro)}
                   ></i>
                   <i
                     className="fa-solid fa-circle-xmark text-2xl cursor-pointer text-redFull"
-                    onClick={handleRejectedModalOpen}
+                    onClick={() => handleRejectedModalOpen(logro)}
                   ></i>
                 </div>
               </div>
@@ -207,6 +254,7 @@ export const TablaLogrosRecibidos = () => {
         onClose={handleCloseConfirmationModal}
         txtQuestion={`¿Está seguro de ${modalAction} este logro?`}
         txtWarning={`Si presionas ${modalAction.toLowerCase()}, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+        onConfirm={handleConfirm}
       />
     </>
   );
