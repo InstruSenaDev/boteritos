@@ -50,7 +50,15 @@ def TrimestresList(request,fecha):
 def LogrosViews(request):
 
     #CUANDO LO CREA EL PROFESOR
-    if request.method == 'POST':        
+    if request.method == 'POST':  
+        
+        if str(request.data['estado']) == "1":
+            
+            return Response({
+                "message" : "Creacion de logro cancelada",
+                "error" : "No puedes crear un logro con un estado de aceptado"
+            },status=status.HTTP_406_NOT_ACCEPTABLE)
+                  
         serializer = LogrosSerializer(data = request.data)
     
         if serializer.is_valid():
@@ -107,15 +115,34 @@ def LogrosViews(request):
 
                 srCalificacion = CalificarSerializer(calificaciones, many = True)
                 
+                if srCalificacion.is_valid():
+                    
+                    return Response({
+                        "message" : "¡Aceptacion de logro realizada con exito!",
+                        "data" : srCalificacion.data
+                    },status=status.HTTP_201_CREATED)    
+                    
                 return Response({
-                    "message" : "¡Aceptacion de logro realizada con exito!",
-                    "data" : srCalificacion.data
-                },status=status.HTTP_201_CREATED)     
-            
+                    "message" : "Aceptacion de logros cancelada",
+                    "data" : serializer.errors
+                },status=status.HTTP_400_BAD_REQUEST)
+        
+            if str(serializer.data['estado']) == "0":
+    
+                return Response({
+                    "message" : "Logro rechazado"
+                },status=status.HTTP_200_OK)
+                
+            else:
+                return Response({
+                    "message" : "Estado no aceptado"
+                },status=status.HTTP_400_BAD_REQUEST)
+        
         return Response({
-            "message" : "Aceptacion de logros cancelada",
-            "data" : serializer.errors
-        },status=status.HTTP_400_BAD_REQUEST)
+                "message" : "Errores en datos de logros",
+                "data" : serializer.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
 
 #PARA ADMIN VER TODOS LOS LOGROS CREADOS
 @api_view(['GET'])
@@ -160,7 +187,7 @@ def ListLogrosProfesor(request, idtrim, idprof):
         
 #LOGROS YA APROBADOS LISTOS PARA QUE SEAN CALIFICADOS
 @api_view(['GET', 'PUT'])
-def Calificar(request,idtrim,idprof,idestud):
+def CalificarList(request,idtrim,idprof,idestud):
     
     if request.method == 'GET':
         getLogros = Logros.objects.filter(idprofesor = idprof, idtrimestre = idtrim)
@@ -176,6 +203,18 @@ def Calificar(request,idtrim,idprof,idestud):
         
         return Response(serializer.data)
     
+@api_view(['PUT'])
+def CalificarSave(request):
+    
     if request.method == 'PUT':
-        print()
-        pass
+        
+        arrrayLogros = request.data['logros']
+        
+        print(arrrayLogros)
+        
+        for value in arrrayLogros:
+            print(value)
+        
+        return Response({
+            "message" : "OHAYO ONICHAN"
+        })

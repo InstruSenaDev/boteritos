@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import TrimestresCreate, TrimestresList,LogrosViews, ListLogrosAdmin, Calificar, ListLogrosProfesor
+from .views import TrimestresCreate, TrimestresList, LogrosViews, ListLogrosAdmin, CalificarList, ListLogrosProfesor, CalificarSave
 
 urlpatterns= [
     path('trimestre/', TrimestresCreate),
     path('trimestre/<str:fecha>/', TrimestresList),
-    path('logro/', LogrosViews),
-    path('listlogros/admin/<int:idtrim>/', ListLogrosAdmin),
-    path('listlogros/profesor/<int:idtrim>/<int:idprof>/', ListLogrosProfesor),
-    path('calificar/<int:idtrim>/<int:idprof>/<int:idestud>/', Calificar)
+    path('logro/', LogrosViews), #CREAR Y ACTUALIZAR LOGROS
+    path('listlogros/admin/<int:idtrim>/', ListLogrosAdmin), #LISTADO DE LOGROS PARA QUE EL ADMIN LO VISUALICE
+    path('listlogros/profesor/<int:idtrim>/<int:idprof>/', ListLogrosProfesor), #LISTAR LOGROS PARA QUE EL PROFESOR VISUALICE LO QUE HA CREADO
+    path('calificar/<int:idtrim>/<int:idprof>/<int:idestud>/', CalificarList), #LISTAR LOGROS PARA QUE LOS PROFESORES PUEDAN CALIFICAR, ESTO ESTA RELACIONADO CON LA TABLA LOGROSESTUDIANTE
+    path('calificar/guardar/', CalificarSave)
 ]
