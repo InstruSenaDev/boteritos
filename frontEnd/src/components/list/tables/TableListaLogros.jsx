@@ -24,12 +24,15 @@ export default function TableListaLogros() {
   const [estadoValida, setEstadoValida] = useState(false);
 
   const [dataDropdown, setDataDropdown] = useState({
-    dropdownTipo: []
-  })
+    dropdownTipo: [],
+  });
+
+  const [logros, setLogros] = useState([]); // Estado para almacenar los logros
   // Decodifica el token
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const idprofesor = decodedToken.idjob; // Extrae el idwork del token
+  const trimestre = JSON.parse(localStorage.getItem("trimestre")); //Trimestre
 
   const [values, setValues] = useState({
     logro: "",
@@ -43,11 +46,33 @@ export default function TableListaLogros() {
     const getDataDropdown = async () => {
       const resultTipo = await dataTipoLogro();
       setDataDropdown({
-        dropdownTipo: resultTipo
+        dropdownTipo: resultTipo,
       });
     };
     getDataDropdown();
-  }, [])
+  }, []);
+  useEffect(() => {
+    const getLogros = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/v3/logros/listlogros/profesor/${idprofesor}/${trimestre}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setLogros(data); // Almacena los logros en el estado
+          console.log(data)
+        } else {
+          console.error("Error al obtener los logros:", response.status);
+        }
+      } catch (error) {
+        console.error("Error al obtener los logros:", error.message);
+      }
+    };
+    getLogros();
+  }, [idprofesor, trimestre]); // Dependencias para volver a ejecutar si cambian
+  
+
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
   // Maneja el cambio en los campos de entrada del formulario
@@ -73,9 +98,9 @@ export default function TableListaLogros() {
     }
   };
   const handleOpenModal = () => {
-    setIsOpen(true)
+    setIsOpen(true);
     setIsConfirm(false);
-  }
+  };
 
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -83,15 +108,12 @@ export default function TableListaLogros() {
   };
 
   const handleOpenLogroModal = () => {
-    setIsisOpenLogro(true)
-  }
+    setIsisOpenLogro(true);
+  };
 
   const handleCloseLogroModal = () => {
     setIsisOpenLogro(false);
-
   };
-
-
 
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
@@ -99,16 +121,25 @@ export default function TableListaLogros() {
   };
 
   const postLogro = async (dataModal) => {
+    // Agregar el trimestre al objeto dataModal
+    const completeData = {
+      ...dataModal,
+      idtrimestre: trimestre,
+    };
     try {
-      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dataModal),
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/v3/logros/logro/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(completeData),
+        }
+      );
 
-      if (response.ok) { // Verifica si la respuesta fue exitosa (status en el rango 200-299)
+      if (response.ok) {
+        // Verifica si la respuesta fue exitosa (status en el rango 200-299)
         const data = await response.json();
         console.log("Datos enviados correctamente:", data);
         setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
@@ -150,7 +181,12 @@ export default function TableListaLogros() {
         {/* Buscador */}
         <div className="flex gap-2 justify-between w-full pb-5">
           <Buscador />
-          <Button onClick={handleOpenModal}><div className="flex gap-2 w-fit"><i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i> <span className="hidden sm:block">Agregar logro</span></div></Button>
+          <Button onClick={handleOpenModal}>
+            <div className="flex gap-2 w-fit">
+              <i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i>{" "}
+              <span className="hidden sm:block">Agregar logro</span>
+            </div>
+          </Button>
         </div>
 
         <section className="max-h-[80vh] overflow-y-scroll">
@@ -166,8 +202,9 @@ export default function TableListaLogros() {
           {/* CUERPO DE LA TABLA */}
           {ObjLogrosCreados.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
-                }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
+                openAcc === index ? "open" : "close"
+              }`}
               key={index}
             >
               <div className="flex gap-2 lg:gap-0 ">
@@ -186,7 +223,10 @@ export default function TableListaLogros() {
 
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Logro:</p>
-                <div className="acc-header w-full underline cursor-pointer" onClick={handleOpenLogroModal}>
+                <div
+                  className="acc-header w-full underline cursor-pointer"
+                  onClick={handleOpenLogroModal}
+                >
                   <p>{`${data.achievement}`}</p>{" "}
                 </div>
               </div>
@@ -216,7 +256,7 @@ export default function TableListaLogros() {
         </section>
       </main>
       <ModalCreacion
-        txtmodal={'Crear nuevo logro'}
+        txtmodal={"Crear nuevo logro"}
         isOpen={isOpen}
         onClose={handleCloseModal}
         onSubmit={handleForm}
@@ -233,27 +273,24 @@ export default function TableListaLogros() {
         />
 
         <Input
-          texto={'Nombre del logro'}
-          placeholder={'Ingresa el nombre del logro'}
-          name={'logro'}
-          tipo={'text'}
+          texto={"Nombre del logro"}
+          placeholder={"Ingresa el nombre del logro"}
+          name={"logro"}
+          tipo={"text"}
           onChange={handleInputChange}
           value={values.logro || ""}
           error={errors.logro}
         />
       </ModalCreacion>
 
-        <LogrosRecibidosModal
+      <LogrosRecibidosModal
         isOpen={isOpenLogro}
         onClose={handleCloseLogroModal}
         txtmodal={"Observaciones del admin"}
         tipo={"TIPO"}
         nombre={"Nombre logro"}
         descripcion={"descripción del admin"}
-        >
-
-        </LogrosRecibidosModal>
-
+      ></LogrosRecibidosModal>
     </>
   );
 }
