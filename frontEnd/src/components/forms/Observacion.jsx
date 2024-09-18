@@ -1,4 +1,4 @@
-export const Observacion = ({ texto, placeholder, name, value }) => {
+export const Observacion = ({ texto, placeholder, name, value, onChange }) => {
     return (
       <div className="flex flex-col gap-2 w-full">
         <div className="border-b-2 border-b-placeholderBlue p-2 w-full">
@@ -13,6 +13,7 @@ export const Observacion = ({ texto, placeholder, name, value }) => {
             className="rounded-xl w-full px-5 text-paragraph3 border-none font-cocogooseLight border-[1.5px] resize-none focus:outline-none"
             value={value}
             rows="5"
+            onChange={onChange}
           />
         </div>
       </div>

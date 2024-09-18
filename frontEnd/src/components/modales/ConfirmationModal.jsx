@@ -4,7 +4,8 @@ export function ConfirmationModal({
     txtQuestion,
     txtWarning,
     isOpen,
-    onClose
+    onClose,
+    onConfirm
 }) {
     return (
         <Dialog open={isOpen} onClose={onClose} static={true}>
@@ -25,7 +26,10 @@ export function ConfirmationModal({
                     <Button
                         className="w-[300px] lg:w-[400px] bg-darkBlue text-white font-cocogooseRegular hover:bg-darkBlue/80"
                         type="button"
-                        onClick={onClose}
+                        onClick={() => {
+                            onConfirm(); // Llama a la función de confirmación al hacer clic en Continuar
+                            onClose(); // Cierra el modal después de confirmar
+                        }}
                     >
                         Continuar
                     </Button>

@@ -8,60 +8,79 @@ import {
   dataPintura,
 } from "../../helper/objects/dataInforme";
 import { GrupoDatoElemento } from "../../components/datosEstudiante/GrupoDatoElemento";
-import HeaderData from "../../components/tables/headerData/HeaderData";
+import HeaderData from "../../components/list/headerData/HeaderData";
 import { InformeIndividual } from "../../components/informe/InformeIndividual";
 import { Observacion } from "../../components/informe/Observacion";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
+import { useParams } from "react-router-dom";
+import { Boton } from "../../components/forms/Boton"
 
 const Informe = () => {
+  const trimestre = JSON.parse(localStorage.getItem("trimestre"));
+  const { id } = useParams();
+  const idestud = id; 
   return (
     <LayoutGeneral title="InformeObservacion" titleHeader="Informe">
       <div className="w-full space-y-7">
-        <HeaderData />
+      <HeaderData
+        id={id}
+        urlApi={"sql/estudiantes/header/"}
+        typeLink={"back"}
+      />
         <GrupoDatoElemento />
         <div className="w-full h-0 border-darkBlue border-2"></div>
 
         <InformeIndividual
           tituloArea={"Area Socio - Afectiva"}
-          data={dataSocioAfectiva}
+          idArea={1}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
-          data={dataVidaDiaria}
+          tituloArea={"Vida Diaria"}
+          idArea={2}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
-          data={dataTeatro}
+          tituloArea={"Teatro"}
+          idArea={3}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
-          data={dataDanza}
+          tituloArea={"Danza"}
+          idArea={4}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
-          data={dataMusica}
+          tituloArea={"Musica"}
+          idArea={5}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
-          data={dataPintura}
+          tituloArea={"Pintura"}
+          idArea={6}
+          idtrim={trimestre}
+          idestud={idestud}
         >
-          <Observacion />
         </InformeIndividual>
+
+      </div>
+      <div className="mt-7 flex justify-center">
+        <Boton text={"Confirmar"} type={"blue"}/>
       </div>
     </LayoutGeneral>
   );

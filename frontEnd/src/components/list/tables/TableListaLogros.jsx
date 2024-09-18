@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { Input } from "../../forms/Input";
 import { Dropdown } from "../../forms/Dropdown";
 import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
+import { jwtDecode } from "jwt-decode";
 
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
 import { caseLogros } from "../../../helper/validators/case/logros";
+import { LogrosRecibidosModal } from "../../modales/LogrosRecibidosModal";
 
 export default function TableListaLogros() {
   const [isConfirm, setIsConfirm] = useState(false);
@@ -17,18 +19,25 @@ export default function TableListaLogros() {
 
   const [errors, setErrors] = useState({}); // Estado para los errores
 
+  const [isOpenLogro, setIsisOpenLogro] = useState(false);
+
   const [estadoValida, setEstadoValida] = useState(false);
 
   const [dataDropdown, setDataDropdown] = useState({
     dropdownTipo: []
   })
+  // Decodifica el token
+  const access_token = JSON.parse(localStorage.getItem("access_token"));
+  const decodedToken = jwtDecode(access_token);
+  const idprofesor = decodedToken.idjob; // Extrae el idwork del token
+
   const [values, setValues] = useState({
     logro: "",
-    estado: "0",
-    observacion: "Por revisar",
+    estado: 2,
+    observacion: "En espera",
     idtipologro: "",
     idtrimestre: "1",
-    idprofesor: "6", //LOCAL STORAGE
+    idprofesor: idprofesor, //LOCAL STORAGE
   });
   useEffect(() => {
     const getDataDropdown = async () => {
@@ -72,6 +81,18 @@ export default function TableListaLogros() {
     setIsOpen(false);
     setIsConfirm(false);
   };
+
+  const handleOpenLogroModal = () => {
+    setIsisOpenLogro(true)
+  }
+
+  const handleCloseLogroModal = () => {
+    setIsisOpenLogro(false);
+
+  };
+
+
+
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
@@ -79,7 +100,7 @@ export default function TableListaLogros() {
 
   const postLogro = async (dataModal) => {
     try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/logro/", {
+      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +186,7 @@ export default function TableListaLogros() {
 
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Logro:</p>
-                <div className="acc-header w-full">
+                <div className="acc-header w-full underline cursor-pointer" onClick={handleOpenLogroModal}>
                   <p>{`${data.achievement}`}</p>{" "}
                 </div>
               </div>
@@ -221,6 +242,18 @@ export default function TableListaLogros() {
           error={errors.logro}
         />
       </ModalCreacion>
+
+        <LogrosRecibidosModal
+        isOpen={isOpenLogro}
+        onClose={handleCloseLogroModal}
+        txtmodal={"Observaciones del admin"}
+        tipo={"TIPO"}
+        nombre={"Nombre logro"}
+        descripcion={"descripción del admin"}
+        >
+
+        </LogrosRecibidosModal>
+
     </>
   );
 }
