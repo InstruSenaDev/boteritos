@@ -13,6 +13,7 @@ import { InformeIndividual } from "../../components/informe/InformeIndividual";
 import { Observacion } from "../../components/informe/Observacion";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { useParams } from "react-router-dom";
+import { Boton } from "../../components/forms/Boton"
 
 const Informe = () => {
   const trimestre = JSON.parse(localStorage.getItem("trimestre"));
@@ -38,7 +39,7 @@ const Informe = () => {
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
+          tituloArea={"Vida Diaria"}
           idArea={2}
           idtrim={trimestre}
           idestud={idestud}
@@ -46,7 +47,7 @@ const Informe = () => {
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
+          tituloArea={"Teatro"}
           idArea={3}
           idtrim={trimestre}
           idestud={idestud}
@@ -54,7 +55,7 @@ const Informe = () => {
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
+          tituloArea={"Danza"}
           idArea={4}
           idtrim={trimestre}
           idestud={idestud}
@@ -62,7 +63,7 @@ const Informe = () => {
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
+          tituloArea={"Musica"}
           idArea={5}
           idtrim={trimestre}
           idestud={idestud}
@@ -70,13 +71,16 @@ const Informe = () => {
         </InformeIndividual>
 
         <InformeIndividual
-          tituloArea={"Area Socio - Afectiva"}
+          tituloArea={"Pintura"}
           idArea={6}
           idtrim={trimestre}
           idestud={idestud}
         >
-         
         </InformeIndividual>
+
+      </div>
+      <div className="mt-7 flex justify-center">
+        <Boton text={"Confirmar"} type={"blue"}/>
       </div>
     </LayoutGeneral>
   );
