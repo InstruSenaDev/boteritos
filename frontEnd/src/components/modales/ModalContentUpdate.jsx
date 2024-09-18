@@ -1,8 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
 
+import {
+  dataDoc,
+  dataSexo,
+  dataTipoParentesco,
+  dataDiagnostico,
+  dataDiscapacidad,
+} from "../../helper/objects/dropdownArray";
+
 export const ModalContentUpdate = ({ section, data, onChange }) => {
+  const [dataDropdown, setDataDropdown] = useState({
+    dropdownDocumento: [],
+    dropdownSexo: [],
+    dataTipoParentesco: [],
+    dataDiagnostico: [],
+    dataDiscapacidad: [],
+  });
+
+  useEffect(() => {
+    const getDataDropdown = async () => {
+      const resultDocumento = await dataDoc();
+      const resultSexo = await dataSexo();
+      const resultParentesco = await dataTipoParentesco();
+      const resultDiagnostico = await dataDiagnostico();
+      const resultDiscapacidad = await dataDiscapacidad();
+      setDataDropdown({
+        dropdownDocumento: resultDocumento,
+        dropdownSexo: resultSexo,
+        dataTipoParentesco: resultParentesco,
+        dataDiagnostico: resultDiagnostico,
+        dataDiscapacidad: resultDiscapacidad,
+      });
+    };
+
+    getDataDropdown();
+  }, []);
+
+  
+
   switch (section) {
     case "Datos personales":
       return <div className="space-y-4"></div>;
@@ -45,22 +82,16 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.sexo || ""}
           />
 
-          <Input
-            texto="Tipo documento"
-            placeholder="Ingresa el tipo de documento"
-            name="tipodocumento"
-            tipo="text"
-            onChange={(e) => onChange(e, "tipodocumento")}
-            value={data.tipodocumento || ""}
+          <Dropdown
+            name="idtipodocumento"
+            label="Tipo de documento"
+            data={dataDropdown.dropdownDocumento}
+            onChange={(value) =>
+              onChange({ target: { name: "idtipodocumento", value } })
+            }
+            value={data.idtipodocumento || ""}
+            placeholder="Seleccione el tipo de documento"
           />
-
-          {/* <Dropdown 
-          label={"Tipo de documento"}
-          name={"tipodocumento"}
-          data={data.tipodocumento}
-          onChange={(e) => onChange(e, "tipodocumento")}
-          placeholder={"Selecciona el tipo de documento"}
-          /> */}
 
           <Input
             texto="Número de documento"
@@ -105,6 +136,17 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "tipoparentesco")}
             value={data.tipoparentesco || ""}
+          />
+
+          <Dropdown
+            name="tipoparentesco"
+            label="Tipo de parentesco"
+            data={dataDropdown.dataTipoParentesco}
+            onChange={(value) =>
+              onChange({ target: { name: "tipoparentesco", value } })
+            }
+            value={data.dataTipoParentesco || ""}
+            placeholder="Seleccione el tipo de parentesco"
           />
         </div>
       );
@@ -195,7 +237,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(e) => onChange(e, "eps")}
             value={data.eps || ""}
           />
-    
+
           <Input
             texto="Tipo de sangre"
             placeholder="Ingresa el tipo de sangre"
@@ -248,7 +290,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(e) => onChange(e, "numero")}
             value={data.numero || ""}
           />
-          
+
           <Input
             texto="Barrio"
             placeholder="Ingresa el barrio"
