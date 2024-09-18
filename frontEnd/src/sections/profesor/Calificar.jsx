@@ -11,7 +11,6 @@ export const Calificar = () => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
-  const [observacion, setObservacion] = useState("");
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -20,14 +19,36 @@ export const Calificar = () => {
     setIsOpen(false);
   };
 
-  const handleObservacionChange = (e) => {
-    setObservacion(e.target.value); 
+  const handleSave = async () => {
+    const arrayLogros = {
+      logros: Object.values(selectedLogros)
+    };
+    console.log("Datos a guardar:", JSON.stringify(arrayLogros));
+
+    try {
+      const response = await fetch("http://localhost:8000/api/v3/logros/calificar/guardar/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(arrayLogros),
+      });
+
+      if (response.ok) {
+        console.log("Logros guardados exitosamente");
+        // Puedes realizar acciones adicionales aquí, como actualizar el estado o mostrar una notificación.
+      } else {
+        console.error("Error al guardar los logros:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+    }
   };
+  
 
   const handleSubmit = async () => {
     const dataToSend = {
       logros: selectedLogros,
-      observacion: observacion,
     };
 
     console.log("Datos a guardar:", dataToSend);
@@ -68,20 +89,9 @@ export const Calificar = () => {
         <HeaderData />
         <TableCalificarEstudiante setSelectedLogros={setSelectedLogros} />
 
-        <div className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
-          <Observacion
-             texto={"Observaciones"}
-             placeholder={"Ingresa una observación"}
-             value={observacion} // Pasa el valor del estado de observación
-             name="observacion"
-             onChange={handleObservacionChange} // Maneja el cambio de texto
-          ></Observacion>
-          {/*<Observacion title="Generar automaticamente" observacion="el estudiante cumple con todos los logros solicitados y es aplicado" />*/}
-        </div>
-
         <div className="w full flex justify-end gap-x-3">
           <Button
-            onClick={handleSubmit}
+            onClick={handleSave}
             className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button bg-white text-darkBlue hover:bg-darkBlue hover:text-white"
           >
             Guardar
