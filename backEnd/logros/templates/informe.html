@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Estudiante</title>
+    <style>
+        @page {
+            margin: 1cm; /* Puedes ajustar los márgenes como desees (1cm, 2cm, etc.) */
+        }
+
+        body{
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .title{
+            font-size: 18px;
+        }
+
+        .container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .containerHeader{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+
+        .keyTableHead{
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        .valueTableHead{
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .textObserv{
+            font-size: 12px;
+        }
+
+        .textLogros{
+            text-align: left;
+            font-size: 12px;
+        }
+
+        table{
+            border-collapse: collapse;
+        }
+
+        td,th {
+            border: solid 1px #010101;
+            /*border-collapse: collapse;*/
+        }
+
+        .fotoEstudiante {
+            width: 100px;
+            height: auto;
+            border-radius: 15px 0 15px 0;
+        }
+
+        .tableDataHead {
+            background-color: #5EAFE8;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .tableDataBody{
+            font-size: 12px;
+        }
+
+        .dataBodyResult{
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src=".IconBoteritos.png" alt="Logo de la Fundación" class="logo">
+
+        <h1 class="title">INFORME DE LOGROS</h1>
+
+        <div class="containerHeader">
+
+            <table>
+                <tr>
+                    <td class="keyTableHead">NOMBRE:</td>
+                    <td class="valueTableHead">BRYAN SEBASTIAN ARIAS MUÑOZ</td>
+                </tr>
+                <tr>
+                    <td class="keyTableHead">DOCUMENTO:</td>
+                    <td class="valueTableHead">1114542999</td>
+                </tr>
+                <tr>
+                    <td class="keyTableHead">EDAD:</td>
+                    <td class="valueTableHead">19</td>
+                </tr>
+                <tr>
+                    <td class="keyTableHead">DIAGNOSTICO:</td>
+                    <td class="valueTableHead">SINDROME DE DOWN</td>
+                </tr>
+                <tr>
+                    <td class="keyTableHead">FECHA:</td>
+                    <td class="valueTableHead">2024-09-01 - 2024-11-01</td>
+                </tr>
+            </table>
+            <img src="http://localhost:8000/media/imagenes/descarga.jpg" alt="Foto del participante" class="fotoEstudiante">
+        </div>
+
+        <p class="textObserv">Durante este periodo seguimos trabajando alrededor de las fiestas y celebraciones populares como eje integrador de contenidos y competencias. En septiembre se trabajó el día de amor y amistad; en octubre la fiesta del Halloween con una adaptación, convirtiéndola en una divertida fiesta de colores, en noviembre recordamos a los parientes fallecidos a través de la película Coco de Disney y la celebración del día de los muertos y en diciembre las celebraciones de navidad. Con estas actividades se incluyeron canciones, bailes, preparación de alimentos y productos artesanales vinculados a cada una de las fechas especiales.</p>
+
+    </div>
+
+    <p class="textLogros">Abreviaciones: L.A Logro Alcanzado - L.P Logro en Proceso - L.N: Logro No Alcanzado</p>
+
+    <div class="containerTable">
+
+        <table class="tableData">
+            <thead class="tableDataHead">
+                <tr>
+                    <th style="text-align: center;" >AVANCES TERAPÉUTICOS Y PEDAGÓGICOS</th>
+                </tr>
+                <tr>
+                    <th>ÁREA SOCIO - AFECTIVA</th>
+                    <th>L.A</th>
+                    <th>L.P</th>
+                    <th>L.N</th>
+                </tr>
+            </thead>
+            <tbody class="tableDataBody">
+                <tr>
+                    <td>Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros</td>
+                    <td class="dataBodyResult">X</td>
+                    <td class="dataBodyResult"></td>
+                    <td class="dataBodyResult"></td>
+                </tr>
+                <tr>
+                    <td class="dataBodyResult">Controla los diferent es estados afectivos (impulsos - emociones). Responde de manera positiva a la frustración</td>
+                    <td class="dataBodyResult">X</td>
+                    <td class="dataBodyResult"></td>
+                    <td class="dataBodyResult"></td>
+                </tr>
+                <tr>
+                    <td>Identifica las situaciones en que pueden ser vulnerados y cuando pedir ayuda.</td>
+                    <td class="dataBodyResult">X</td>
+                    <td class="dataBodyResult"></td>
+                    <td class="dataBodyResult"></td>
+                </tr>
+                <tr>
+                    <td>Establece adecuadas relaciones con sus docentes y compañeros. Expresa sus dudas y necesidades.</td>
+                    <td class="dataBodyResult">X</td>
+                    <td class="dataBodyResult"></td>
+                    <td class="dataBodyResult"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

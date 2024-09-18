@@ -3,7 +3,7 @@ from django.urls import path
 from .views.trimestreViews import TrimestresCreate, TrimestresList
 from .views.logrosViews import LogrosViews, ListLogrosAdmin, ListLogrosProfesor
 from .views.calificarViews import CalificarList, CalificarSave, CalificarSend
-from .views.informeViews import InformeList
+from .views.informeViews import InformeList, CreateInforme
 
 urlpatterns= [
     path('trimestre/', TrimestresCreate),
@@ -14,5 +14,6 @@ urlpatterns= [
     path('calificar/<int:idtrim>/<int:idprof>/<int:idestud>/', CalificarList), #LISTAR LOGROS PARA QUE LOS PROFESORES PUEDAN CALIFICAR, ESTO ESTA RELACIONADO CON LA TABLA LOGROSESTUDIANTE
     path('calificar/guardar/', CalificarSave),
     path('calificar/enviar/', CalificarSend),
-    path('informe/list/<int:idtrim>/<int:idarea>/<int:idestud>/', InformeList)
+    path('informe/list/<int:idtrim>/<int:idarea>/<int:idestud>/', InformeList),
+    path('informe/create/', CreateInforme)
 ]
