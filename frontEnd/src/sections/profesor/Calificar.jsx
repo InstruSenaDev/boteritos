@@ -1,13 +1,17 @@
 import TableCalificarEstudiante from "../../components/list/tables/TableCalificarEstudiante";
 import HeaderData from "../../components/list/headerData/HeaderData";
 import { Observacion } from "../../components/forms/Observacion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { ConfirmationModal } from "../../components/modales/ConfirmationModal";
 import { Button } from "@tremor/react";
+import { jwtDecode } from "jwt-decode";
 
 export const Calificar = () => {
+  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
+  const [observacion, setObservacion] = useState("");
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -16,9 +20,19 @@ export const Calificar = () => {
     setIsOpen(false);
   };
 
-  const handleGuardar = () => {
-    console.log("Datos a guardar", selectedLogros);
-    alert("Datos guardados exitosamente.");
+  const handleObservacionChange = (e) => {
+    setObservacion(e.target.value); 
+  };
+
+  const handleSubmit = async () => {
+    const dataToSend = {
+      logros: selectedLogros,
+      observacion: observacion,
+    };
+
+    console.log("Datos a guardar:", dataToSend);
+    setIsOpen(false); 
+  
   };
 
   return (
@@ -29,15 +43,18 @@ export const Calificar = () => {
 
         <div className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
           <Observacion
-            texto={"Observaciones"}
-            placeholder={"Ingresa una observación"}
+             texto={"Observaciones"}
+             placeholder={"Ingresa una observación"}
+             value={observacion} // Pasa el valor del estado de observación
+             name="observacion"
+             onChange={handleObservacionChange} // Maneja el cambio de texto
           ></Observacion>
           {/*<Observacion title="Generar automaticamente" observacion="el estudiante cumple con todos los logros solicitados y es aplicado" />*/}
         </div>
 
         <div className="w full flex justify-end gap-x-3">
           <Button
-            onClick={handleGuardar}
+            onClick={handleSubmit}
             className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button bg-white text-darkBlue hover:bg-darkBlue hover:text-white"
           >
             Guardar
@@ -50,6 +67,7 @@ export const Calificar = () => {
           </Button>
         </div>
         <ConfirmationModal
+        onConfirm={handleSubmit}
           isOpen={isOpen}
           onClose={handleCloseModal}
           txtQuestion={"¿Está seguro de enviarlo?"}

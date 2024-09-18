@@ -20,7 +20,7 @@ const logros = [
 ];
 
 //ESTUDIANTES
-export const HeaderData = ({ id, urlApi, urlGo ,typeLink }) => {
+export const HeaderData = ({ id, urlApi, urlGo ,typeLink, typeHeaderdata }) => {
 
   const [dataCard1, setDataCard1] = useState({});
   const [dataCard2, setDataCard2] = useState({});
@@ -55,7 +55,7 @@ export const HeaderData = ({ id, urlApi, urlGo ,typeLink }) => {
 
   return (
     <CardsData dataGraphic={logros} dataCard1={dataCard1} dataCard2={dataCard2} >
-      <ActionData type={typeLink} data={dataCard1.id} goTo={linkTo} />
+      <ActionData type={typeLink} data={dataCard1.id} goTo={linkTo} typeHeaderdata={typeHeaderdata}/>
     </CardsData>
   );
 };
