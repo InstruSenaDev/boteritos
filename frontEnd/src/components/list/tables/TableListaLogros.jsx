@@ -245,7 +245,7 @@ export default function TableListaLogros() {
     <div className="flex gap-2 lg:gap-0 acc-body ">
       <p className="text-darkBlue lg:hidden">Estado:</p>
       <div className="">
-        <DataState state={data.estado} /> {/* Usar el estado */}
+        <DataState state={Number(data.estado)} /> {/* Usar el estado */}
       </div>
     </div>
 
