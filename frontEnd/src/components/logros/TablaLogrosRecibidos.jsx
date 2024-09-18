@@ -86,7 +86,9 @@ export const TablaLogrosRecibidos = () => {
   // Función para obtener los logros desde la API
   const getLogros = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/listlogros/admin/1", { //OBTENER TRIMESTRE MAMAGUEVO
+      const trimestre = JSON.parse(localStorage.getItem("trimestre"));
+
+      const response = await fetch(`http://localhost:8000/api/v3/logros/listlogros/admin/${trimestre}`, { //OBTENER TRIMESTRE MAMAGUEVO
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -280,6 +282,7 @@ export const TablaLogrosRecibidos = () => {
         isOpen={isRejectedModalOpen}
         onClose={handleCloseRejectedModal}
         onSubmit={handleFormSubmit}
+        textButton={"Agregar y enviar"}
       >
         <p>Al hacer clic en "Agregar", se rechazará el logro y se le enviará la observación al profesor</p>
         <Input

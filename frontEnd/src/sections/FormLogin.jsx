@@ -64,6 +64,10 @@ const FormLogin = () => {
       "refresh_token",
       JSON.stringify(dataResponse.data.data.refresh_token)
     );
+    localStorage.setItem(
+      "trimestre",
+      JSON.stringify(dataResponse.data.data.trimestre) // Guardar el trimestre
+    );
     //Define para donde va
     const rol = defRol();
     navigate(rol);
@@ -78,6 +82,8 @@ const FormLogin = () => {
       setTypeContrasena("password");
     }
   };
+
+  
 
   return (
     <main className="w-full h-screen flex justify-center items-center p-4 text-black">

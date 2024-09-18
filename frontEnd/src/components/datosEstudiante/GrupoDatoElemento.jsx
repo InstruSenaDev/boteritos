@@ -4,6 +4,7 @@ import { DatoElemento } from "./DatoElemento";
 import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
+import { Link } from "react-router-dom";
 
 import { defaultValues } from "../../helper/modales/objectsModal";
 import { useParams } from "react-router-dom";
@@ -216,11 +217,14 @@ export const GrupoDatoElemento = () => {
           texto={"Historia clinica"}
           onClick={() => handleOpenModal("historiaclinica")}
         />
+        <Link to={`/admin/listaestudiantes/datoestudiante/informe/${id}`} className="xl:max-w-[340px] 2xl:max-w-[520px] w-full">
+        
         <DatoElemento
           icon={"fa-solid fa-file-lines"}
           texto={"Informes"}
-          onClick={() => handleOpenModal("Informes")}
+
         />
+        </Link>
       </div>
       <RegisterModal
         txtmodal={`Información de ${selectedContent}`}
