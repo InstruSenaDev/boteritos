@@ -4,7 +4,7 @@ from django.template.loader import get_template
 from rest_framework import status
 from datetime import date
 from weasyprint import HTML
-
+from .objPrueba import logrosInforme
 
 from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer
 from ..models import Logros, Estudiante, Logroestudiante, Trimestres
@@ -25,8 +25,14 @@ def CreateInforme(request):
     if request.method == 'POST':
         
         template = get_template("informe.html")
-        context = {"name" : "Juan Jose Cuartas Satizabal"}
-        
+        context = {"user" : {
+            "name" : "Juan",
+            "apellido" : "cuartas"
+        }} 
+        for i in range(1,7):
+            print('----------------------------------------------')
+            print(logrosInforme[i])
+
         html_template = template.render(context)
         
         HTML(string=html_template).write_pdf(target="prueba.pdf")
