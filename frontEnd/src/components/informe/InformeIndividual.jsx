@@ -32,6 +32,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
         const response = await fetch(`http://localhost:8000/api/v3/logros/informe/list/${idtrim}/${idArea}/${idestud}/`);
         if (response.ok) {
           const result = await response.json();
+          console.log("Datos recibidos:", result);
           setData(result);  // Actualiza el estado con los datos recibidos
         } else {
           console.error("Error al obtener los datos:", response.statusText);
@@ -53,7 +54,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
         <p className="text-darkBlue font-cocogooseSemiLight text-subTitle">{tituloArea}</p>
         {data.map((dataKey) => (
           <div key={dataKey.idlogro} className="w-full py-5 gap-y-2 flex flex-col justify-between">
-            <p className="font-cocogooseLight text-paragraph">{dataKey.idlogro_display}</p>
+            <p className="font-cocogooseLight text-paragraph">{dataKey.logro}</p>
             <div className="text-darkBlue flex font-cocogooseSemiLight text-subTitle max-w-[250px] w-full justify-between">
               <p>L.A</p>
               <p>L.P</p>
@@ -80,7 +81,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
         </div>
         {data.map((dataKey) => (
           <div key={dataKey.idlogro} className=" w-full py-5 flex justify-between items-center">
-            <p className="font-cocogooseLight text-paragraph">{dataKey.idlogro_display}</p>
+            <p className="font-cocogooseLight text-paragraph">{dataKey.logro}</p>
             <div className="leading-none flex font-cocogooseSemiLight text-title2 text-orange max-w-[250px] w-full justify-between px-[10px]">
               <p>X</p>
               <p>X</p>
