@@ -50,6 +50,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
   };
 
+
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
