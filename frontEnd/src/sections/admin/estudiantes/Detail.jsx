@@ -145,60 +145,61 @@ const Detail = () => {
     setSectionData(null);
   };
 
-  const handleSave = async () => {
-    const newData = {
-      section: selectedSection,
-      data: sectionData
-    };
+  // const handleSave = async () => {
+  //   const newData = {
+  //     section: selectedSection,
+  //     data: sectionData
+  //   };
   
  
-    let endpoint = '';
-    switch (selectedSection) {
-      case "Datos personales":
-        endpoint = `personal/`;
-        break;
-      case "Responsables":
-        endpoint = `registro/responsable/`;
-        break;
-      case "Historia clinica":
-        endpoint = `registro/historiaclinica/`;
-        break;
-      case "Datos Medicos":
-        endpoint = `registro/datosmedicos/estudiante/`;
-        break;
-      case "Contactos":
-        endpoint = `registr/telefono/estudiante/`;
-        break;
-      case "Dirección":
-        endpoint = `registro/direccion/estudiante/`;
-        break;
-      default:
-        endpoint = '';
-    }
+  //   let endpoint = '';
+  //   switch (selectedSection) {
+  //     case "Datos personales":
+  //       endpoint = `personal/`;
+  //       break;
+  //     case "Responsables":
+  //       endpoint = `registro/responsable/`;
+  //       break;
+  //     case "Historia clinica":
+  //       endpoint = `registro/historiaclinica/`;
+  //       break;
+  //     case "Datos Medicos":
+  //       endpoint = `registro/datosmedicos/estudiante/`;
+  //       break;
+  //     case "Contactos":
+  //       endpoint = `registr/telefono/estudiante/`;
+  //       break;
+  //     case "Dirección":
+  //       endpoint = `registro/direccion/estudiante/`;
+  //       break;
+  //     default:
+  //       endpoint = '';
+  //   }
   
-    if (endpoint) {
-      // Realizar la solicitud PUT
-      const result = await putUpdate(newData.data, endpoint);
+  //   if (endpoint) {
+  //     // Realizar la solicitud PUT
+  //     const result = await putUpdate(newData.data, endpoint);
   
-      if (result.status === 200) {
-        // Actualizar el estado global con los nuevos datos editados
-        setDataDetail((prevDataDetail) => ({
-          ...prevDataDetail,
-          [selectedSection.toLowerCase()]: prevDataDetail[
-            selectedSection.toLowerCase()
-          ].map((item, index) =>
-            index === sectionData.index ? sectionData : item
-          ),
-        }));
+  //     if (result.status === 200) {
+  //       // Actualizar el estado global con los nuevos datos editados
+        
+  //       setDataDetail((prevDataDetail) => ({
+  //         ...prevDataDetail,
+  //         [selectedSection.toLowerCase()]: prevDataDetail[
+  //           selectedSection.toLowerCase()
+  //         ].map((item, index) =>
+  //           index === sectionData.index ? sectionData : item
+  //         ),
+  //       }));
   
-        console.log("Datos guardados", newData);
-      } else {
-        console.error("Error al guardar los datos", result.data);
-      }
-    }
+  //       console.log("Datos guardados", newData);
+  //     } else {
+  //       console.error("Error al guardar los datos", result.data);
+  //     }
+  //   }
   
-    closeModal();
-  };
+  //   closeModal();
+  // };
 
   const handleInputChange = (e, key) => {
     setSectionData({
@@ -591,7 +592,7 @@ const Detail = () => {
       <UpdateModal
           isOpen={isModalOpen}
           onClose={closeModal}
-          onSave={handleSave}
+          
         >
           <ModalContentUpdate
             section={selectedSection}
