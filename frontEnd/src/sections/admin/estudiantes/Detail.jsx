@@ -57,6 +57,9 @@ const Detail = () => {
         `direccion/estudiante/${id}`
       );
 
+      console.log(dataResponsable);
+      
+
       const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
 
       if (!dataHistClinic.status == 200) {
@@ -145,29 +148,29 @@ const Detail = () => {
   const handleSave = async () => {
     const newData = {
       section: selectedSection,
-      data: filterData(sectionData), 
+      data: sectionData
     };
   
  
     let endpoint = '';
     switch (selectedSection) {
       case "Datos personales":
-        endpoint = `personal/${id}`;
+        endpoint = `personal/`;
         break;
       case "Responsables":
         endpoint = `registro/responsable/`;
         break;
       case "Historia clinica":
-        endpoint = `historiaclinica/`;
+        endpoint = `registro/historiaclinica/`;
         break;
       case "Datos Medicos":
-        endpoint = `datosmedicos/estudiante/${id}`;
+        endpoint = `registro/datosmedicos/estudiante/`;
         break;
       case "Contactos":
-        endpoint = `telefono/estudiante/${id}`;
+        endpoint = `registr/telefono/estudiante/`;
         break;
       case "Dirección":
-        endpoint = `direccion/estudiante/${id}`;
+        endpoint = `registro/direccion/estudiante/`;
         break;
       default:
         endpoint = '';
@@ -278,7 +281,7 @@ const Detail = () => {
                     Tipo documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.tipodocumento}
+                    {value.idTipodocumento}
                   </p>
                 </div>
                 <div>

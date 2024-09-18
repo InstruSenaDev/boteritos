@@ -2,25 +2,25 @@ import { urlApi } from "../helper/urls/apiUrl";
 import { fetchFunction } from "./fetch";
 
 export const putModales = async (body, url) => {
-  const data = await fetchFunction("PUT", body, null,  `registro/${url}`);
+  const data = await fetchFunction("PUT", body, null, `registro/${url}`);
   return data;
 };
 
-export const putUpdate = async (body, url) =>{
+export const putUpdate = async (body, url) => {
   //logica de convertir el body en un formdata
   const newData = new FormData()
-//Ciclo que recorre el body y hace el append al newdata
+  //Ciclo que recorre el body y hace el append al newdata
 
-for (const [key, value] of Object.entries(body)){
-  newData.append(key, value);
-}
+  for (const [key, value] of Object.entries(body)) {
+    newData.append(key, value);
+  }
 
-const response = await fetch(`${urlApi}${url}`, {
-  method: 'PUT',
-  body:newData,
-});
+  const response = await fetch(`${urlApi}${'registro/prueba/'}`, {
+    method: 'POST',
+    body: newData,
+  });
 
-const data = await response.json();
-const result = {status: response.status, data: data};
-return result;
+  const data = await response.json();
+  const result = { status: response.status, data: data };
+  return result;
 }

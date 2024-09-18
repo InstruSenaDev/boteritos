@@ -8,6 +8,9 @@ import {
   dataTipoParentesco,
   dataDiagnostico,
   dataDiscapacidad,
+  dataRh,
+  dataEps
+
 } from "../../helper/objects/dropdownArray";
 
 export const ModalContentUpdate = ({ section, data, onChange }) => {
@@ -17,9 +20,11 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
     dataTipoParentesco: [],
     dataDiagnostico: [],
     dataDiscapacidad: [],
+    dataRh: [],
+    dataEps: [],
   });
 
-  
+
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
@@ -27,26 +32,30 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
       const resultParentesco = await dataTipoParentesco();
       const resultDiagnostico = await dataDiagnostico();
       const resultDiscapacidad = await dataDiscapacidad();
+      const resultRh = await dataRh();
+      const resultEps = await dataEps();
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
         dataTipoParentesco: resultParentesco,
         dataDiagnostico: resultDiagnostico,
         dataDiscapacidad: resultDiscapacidad,
+        dataRh: resultRh,
+        dataEps: resultEps
       });
     };
 
     getDataDropdown();
   }, []);
 
-  
+
   switch (section) {
     case "Datos personales":
       return <div className="space-y-4"></div>;
 
     case "Responsables":
       return (
-        <div className="space-y-4 w-full flex flex-col items-center">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             texto="Nombre"
             placeholder="Ingresa el nombre"
@@ -73,13 +82,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.correo || ""}
           />
 
-          
+
           <Dropdown
-            name="sexo"
+            name="idsexo"
             label="Sexo"
             data={dataDropdown.dropdownSexo}
             onChange={(value) =>
-              onChange({ target: { name: "sexo", value } })
+              onChange({ target: { name: "idsexo", value } })
             }
             value={data.sexo || ""}
             placeholder="Seleccione el sexo"
@@ -133,13 +142,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
           />
 
           <Dropdown
-            name="tipoparentesco"
+            name="idtipoparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dataTipoParentesco}
             onChange={(value) =>
-              onChange({ target: { name: "tipoparentesco", value } })
+              onChange({ target: { name: "idtipoparentesco", value } })
             }
-            value={data.dataTipoParentesco || ""}
+            value={data.idtipoparentesco || ""}
             placeholder="Seleccione el tipo de parentesco"
           />
         </div>
@@ -147,7 +156,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
 
     case "Historia clinica":
       return (
-        <div className="space-y-4">
+        <div className="space-y-4 grid place-items-center">
           <Input
             texto="Medicamentos"
             placeholder="Ingresa los medicamentos"
@@ -166,13 +175,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
           />
 
           <Dropdown
-            name="diagnostico"
+            name="iddiagnostico"
             label="Diagnostico"
-            data={dataDropdown.diagnostico}
+            data={dataDropdown.dataDiagnostico}
             onChange={(value) =>
-              onChange({ target: { name: "diagnostico", value } })
+              onChange({ target: { name: "iddiagnostico", value } })
             }
-            value={data.diagnostico || ""}
+            value={data.iddiagnostico || ""}
             placeholder="Seleccione el diagnostico"
           />
 
@@ -186,13 +195,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
           />
 
           <Dropdown
-            name="discapacidad"
+            name="iddiscapacidad"
             label="Discapacidad"
-            data={dataDropdown.discapacidad}
+            data={dataDropdown.dataDiscapacidad}
             onChange={(value) =>
-              onChange({ target: { name: "discapacidad", value } })
+              onChange({ target: { name: "iddiscapacidad", value } })
             }
-            value={data.discapacidad || ""}
+            value={data.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
           />
         </div>
@@ -200,7 +209,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
 
     case "Datos Medicos":
       return (
-        <div className="space-y-4">
+        <div className="space-y-4 grid place-items-center">
           <Input
             texto="Lugar de atención"
             placeholder="Ingresa el lugar de atención"
@@ -229,10 +238,10 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
           />
 
           <Dropdown
-            name="eps"
+            name="ideps"
             label="Eps"
-            data={dataDropdown.eps}
-            onChange={(value) => onChange({ target: { name: "eps", value } })}
+            data={dataDropdown.dataEps}
+            onChange={(value) => onChange({ target: { name: "ideps", value } })}
             value={data.eps || ""}
             placeholder="Seleccione la eps"
           />
@@ -240,7 +249,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
           <Dropdown
             name="rh"
             label="Tipo de sangre"
-            data={dataDropdown.rh}
+            data={dataDropdown.dataRh}
             onChange={(value) => onChange({ target: { name: "rh", value } })}
             value={data.rh || ""}
             placeholder="Seleccione el tipo de sangre"
@@ -251,7 +260,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
 
     case "Contactos":
       return (
-        <div className="space-y-4">
+        <div className="space-y-4 grid place-items-center">
           <Input
             texto="Teléfono"
             placeholder="Ingresa el teléfono"
@@ -273,7 +282,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
 
     case "Dirección":
       return (
-        <div className="space-y-4">
+        <div className="space-y-4 grid place-items-center">
           <Input
             texto="Comuna"
             placeholder="Ingresa la comuna"
@@ -303,6 +312,6 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
       );
 
     default:
-      return <div>No content available</div>;
+      return <div>No hay información en este campo</div>;
   }
 };
