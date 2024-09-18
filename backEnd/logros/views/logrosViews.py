@@ -41,9 +41,7 @@ def LogrosViews(request):
     if request.method == 'PUT':
         id = request.data['idlogro']
         query = Logros.objects.filter(idlogro = id).first()
-        
-        print(query)
-        
+                
         if not query:
             return Response({
                 "messsage" : "Datos vacios",
@@ -55,7 +53,6 @@ def LogrosViews(request):
         #VALIDACIONES
         if serializer.is_valid():
             serializer.save()
-            print(serializer.data)
             #SI EL ESTADO ES 1 SIGNIFICA QUE EL LOGRO FUE ACEPTADO, POR LO TANTO ES NECESARIO REALIZAR LOS INSERT EN LA TABLA LOGROESTUDIANTE PARA REALIZAR LA RESPECTIVAS CALIFICACIONES
             if str(serializer.data['estado']) == "1":
                 
@@ -120,7 +117,6 @@ def ListLogrosAdmin(request,idtrim):
         
         query = querySql("SELECT `logros`.*, `tipologro`.`tipoLogro`, `trimestres`.`trimestre`, `profesor`.*, `areas`.`area`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS `nombre` FROM `logros` LEFT JOIN `tipologro` ON `logros`.`idTipoLogro` = `tipologro`.`idTipoLogro` LEFT JOIN `trimestres` ON `logros`.`idTrimestre` = `trimestres`.`idTrimestre` LEFT JOIN `profesor` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `trimestres`.`idTrimestre` = %s;",[idtrim])
         
-        print(query)
         
         if len(query) == 0 :
             return Response({
