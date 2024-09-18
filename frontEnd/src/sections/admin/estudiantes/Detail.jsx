@@ -16,6 +16,7 @@ import {
   DataPersonal,
 } from "../../../api/get";
 import { ModalContentUpdate } from "../../../components/modales/ModalContentUpdate";
+import { putUpdate } from "../../../api/put";
 
 const Detail = () => {
   const [selectedSection, setSelectedSection] = useState(null);
@@ -141,23 +142,58 @@ const Detail = () => {
     setSectionData(null);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newData = {
       section: selectedSection,
-      data: sectionData,
+      data: filterData(sectionData), 
     };
-
-    // Actualiza el estado global con los nuevos datos editados
-    setDataDetail((prevDataDetail) => ({
-      ...prevDataDetail,
-      [selectedSection.toLowerCase()]: prevDataDetail[
-        selectedSection.toLowerCase()
-      ].map((item, index) =>
-        index === sectionData.index ? sectionData : item
-      ),
-    }));
-
-    console.log("Datos guardados", newData);
+  
+ 
+    let endpoint = '';
+    switch (selectedSection) {
+      case "Datos personales":
+        endpoint = `personal/${id}`;
+        break;
+      case "Responsables":
+        endpoint = `registro/responsable/`;
+        break;
+      case "Historia clinica":
+        endpoint = `historiaclinica/`;
+        break;
+      case "Datos Medicos":
+        endpoint = `datosmedicos/estudiante/${id}`;
+        break;
+      case "Contactos":
+        endpoint = `telefono/estudiante/${id}`;
+        break;
+      case "Dirección":
+        endpoint = `direccion/estudiante/${id}`;
+        break;
+      default:
+        endpoint = '';
+    }
+  
+    if (endpoint) {
+      // Realizar la solicitud PUT
+      const result = await putUpdate(newData.data, endpoint);
+  
+      if (result.status === 200) {
+        // Actualizar el estado global con los nuevos datos editados
+        setDataDetail((prevDataDetail) => ({
+          ...prevDataDetail,
+          [selectedSection.toLowerCase()]: prevDataDetail[
+            selectedSection.toLowerCase()
+          ].map((item, index) =>
+            index === sectionData.index ? sectionData : item
+          ),
+        }));
+  
+        console.log("Datos guardados", newData);
+      } else {
+        console.error("Error al guardar los datos", result.data);
+      }
+    }
+  
     closeModal();
   };
 

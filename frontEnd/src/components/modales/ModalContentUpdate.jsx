@@ -19,6 +19,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
     dataDiscapacidad: [],
   });
 
+  
   useEffect(() => {
     const getDataDropdown = async () => {
       const resultDocumento = await dataDoc();
@@ -39,14 +40,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
   }, []);
 
   
-
   switch (section) {
     case "Datos personales":
       return <div className="space-y-4"></div>;
 
     case "Responsables":
       return (
-        <div className="space-y-4">
+        <div className="space-y-4 w-full flex flex-col items-center">
           <Input
             texto="Nombre"
             placeholder="Ingresa el nombre"
@@ -73,13 +73,16 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.correo || ""}
           />
 
-          <Input
-            texto="Sexo"
-            placeholder="Ingresa el sexo"
+          
+          <Dropdown
             name="sexo"
-            tipo="text"
-            onChange={(e) => onChange(e, "sexo")}
+            label="Sexo"
+            data={dataDropdown.dropdownSexo}
+            onChange={(value) =>
+              onChange({ target: { name: "sexo", value } })
+            }
             value={data.sexo || ""}
+            placeholder="Seleccione el sexo"
           />
 
           <Dropdown
@@ -129,15 +132,6 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.empresa || ""}
           />
 
-          <Input
-            texto="Tipo parentesco"
-            placeholder="Ingresa el tipo de parentesco"
-            name="tipoparentesco"
-            tipo="text"
-            onChange={(e) => onChange(e, "tipoparentesco")}
-            value={data.tipoparentesco || ""}
-          />
-
           <Dropdown
             name="tipoparentesco"
             label="Tipo de parentesco"
@@ -170,13 +164,16 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(e) => onChange(e, "restriccionesalimenticias")}
             value={data.restriccionesalimenticias || ""}
           />
-          <Input
-            texto="Diagnóstico"
-            placeholder="Ingresa el diagnóstico"
+
+          <Dropdown
             name="diagnostico"
-            tipo="text"
-            onChange={(e) => onChange(e, "diagnostico")}
+            label="Diagnostico"
+            data={dataDropdown.diagnostico}
+            onChange={(value) =>
+              onChange({ target: { name: "diagnostico", value } })
+            }
             value={data.diagnostico || ""}
+            placeholder="Seleccione el diagnostico"
           />
 
           <Input
@@ -188,13 +185,15 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.observacion || ""}
           />
 
-          <Input
-            texto="Discapacidad"
-            placeholder="Ingresa la discapacidad"
+          <Dropdown
             name="discapacidad"
-            tipo="text"
-            onChange={(e) => onChange(e, "discapacidad")}
+            label="Discapacidad"
+            data={dataDropdown.discapacidad}
+            onChange={(value) =>
+              onChange({ target: { name: "discapacidad", value } })
+            }
             value={data.discapacidad || ""}
+            placeholder="Seleccione la discapacidad"
           />
         </div>
       );
@@ -229,23 +228,24 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.altura || ""}
           />
 
-          <Input
-            texto="Eps"
-            placeholder="Ingresa la eps"
+          <Dropdown
             name="eps"
-            tipo="text"
-            onChange={(e) => onChange(e, "eps")}
+            label="Eps"
+            data={dataDropdown.eps}
+            onChange={(value) => onChange({ target: { name: "eps", value } })}
             value={data.eps || ""}
+            placeholder="Seleccione la eps"
           />
 
-          <Input
-            texto="Tipo de sangre"
-            placeholder="Ingresa el tipo de sangre"
+          <Dropdown
             name="rh"
-            tipo="text"
-            onChange={(e) => onChange(e, "rh")}
+            label="Tipo de sangre"
+            data={dataDropdown.rh}
+            onChange={(value) => onChange({ target: { name: "rh", value } })}
             value={data.rh || ""}
+            placeholder="Seleccione el tipo de sangre"
           />
+
         </div>
       );
 
