@@ -23,6 +23,8 @@ export default function TableListaLogros() {
 
   const [estadoValida, setEstadoValida] = useState(false);
 
+  const [selectedLogro, setSelectedLogro] = useState(null);
+
   const [dataDropdown, setDataDropdown] = useState({
     dropdownTipo: [],
   });
@@ -33,6 +35,12 @@ export default function TableListaLogros() {
   const decodedToken = jwtDecode(access_token);
   const idprofesor = decodedToken.idjob; // Extrae el idwork del token
   const trimestre = JSON.parse(localStorage.getItem("trimestre")); //Trimestre
+
+  const tipoLogroMap = {
+    1: "Conocer",
+    2: "Hacer",
+    3: "Ser",
+  };
 
   const [values, setValues] = useState({
     logro: "",
@@ -51,17 +59,22 @@ export default function TableListaLogros() {
     };
     getDataDropdown();
   }, []);
+  
   useEffect(() => {
     const getLogros = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/v3/logros/listlogros/profesor/${idprofesor}/${trimestre}`
+          `http://localhost:8000/api/v3/logros/listlogros/profesor/${trimestre}/${idprofesor}/`
         );
-
+  
         if (response.ok) {
-          const data = await response.json();
-          setLogros(data); // Almacena los logros en el estado
-          console.log(data)
+          const result = await response.json();
+          console.log(result); // Verifica la estructura de result
+          if (Array.isArray(result.data)) { // Asegúrate de acceder a la propiedad data
+            setLogros(result.data); // Almacena el array en el estado
+          } else {
+            console.error("La propiedad 'data' no es un array:", result.data);
+          }
         } else {
           console.error("Error al obtener los logros:", response.status);
         }
@@ -70,8 +83,7 @@ export default function TableListaLogros() {
       }
     };
     getLogros();
-  }, [idprofesor, trimestre]); // Dependencias para volver a ejecutar si cambian
-  
+  }, [idprofesor, trimestre]);
 
   // Estado para manejar la fila expandida
   const [openAcc, setOpenAcc] = useState(-1);
@@ -107,7 +119,8 @@ export default function TableListaLogros() {
     setIsConfirm(false);
   };
 
-  const handleOpenLogroModal = () => {
+  const handleOpenLogroModal = (logro) => {
+    setSelectedLogro(logro);
     setIsisOpenLogro(true);
   };
 
@@ -173,6 +186,8 @@ export default function TableListaLogros() {
       logro: values.logro.trim(),
     };
     await postLogro(dataUser);
+
+    setIsConfirm(true);
   };
 
   return (
@@ -194,65 +209,54 @@ export default function TableListaLogros() {
           <div className="sticky hidden top-0 bg-white lg:grid grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
             <p>No°</p>
             <p>Nombre del logro</p>
-            <p>Fecha</p>
             <p>Estado</p>
             <p>Tipo</p>
           </div>
 
-          {/* CUERPO DE LA TABLA */}
-          {ObjLogrosCreados.map((data, index) => (
-            <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-                openAcc === index ? "open" : "close"
-              }`}
-              key={index}
-            >
-              <div className="flex gap-2 lg:gap-0 ">
-                <p className="text-darkBlue lg:hidden">No°</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p>
-                    {(index + 1).toString().length === 2
-                      ? index + 1
-                      : `0${index + 1}`}
-                  </p>
-                  <button onClick={() => toogleRow(index)}>
-                    <i className="fa-solid fa-angle-down block lg:hidden"></i>
-                  </button>
-                </div>
-              </div>
+          {logros.map((data, index) => (
+  <div
+    className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
+      openAcc === index ? "open" : "close"
+    }`}
+    key={data.idlogro} // Usar idlogro como key
+  >
+    <div className="flex gap-2 lg:gap-0 ">
+      <p className="text-darkBlue lg:hidden">No°</p>
+      <div className="acc-header w-full flex justify-between items-center ">
+        <p>{(index + 1).toString().padStart(2, '0')}</p>
+        <button onClick={() => toogleRow(index)}>
+          <i className="fa-solid fa-angle-down block lg:hidden"></i>
+        </button>
+      </div>
+    </div>
 
-              <div className="flex gap-2 lg:gap-0">
-                <p className="text-darkBlue lg:hidden">Logro:</p>
-                <div
-                  className="acc-header w-full underline cursor-pointer"
-                  onClick={handleOpenLogroModal}
-                >
-                  <p>{`${data.achievement}`}</p>{" "}
-                </div>
-              </div>
+    <div className="flex gap-2 lg:gap-0">
+      <p className="text-darkBlue lg:hidden">Logro:</p>
+      <div
+        className="acc-header w-full underline cursor-pointer"
+        onClick={() => handleOpenLogroModal(data)}
+      >
+        <p>{data.logro}</p> {/* Mostrar el logro */}
+      </div>
+    </div>
 
-              <div className="flex gap-2 lg:gap-0 acc-body ">
-                <p className="text-darkBlue lg:hidden">Fecha:</p>
-                <div className=" flex justify-self-center">
-                  <p>{`${data.date}`}</p>
-                </div>
-              </div>
+    
 
-              <div className="flex gap-2 lg:gap-0 acc-body ">
-                <p className="text-darkBlue lg:hidden">Estado:</p>
-                <div className="">
-                  <DataState state={data.state} />
-                </div>
-              </div>
+    <div className="flex gap-2 lg:gap-0 acc-body ">
+      <p className="text-darkBlue lg:hidden">Estado:</p>
+      <div className="">
+        <DataState state={data.estado} /> {/* Usar el estado */}
+      </div>
+    </div>
 
-              <div className="flex gap-2 lg:gap-0 acc-body">
-                <p className="text-darkBlue lg:hidden">Tipo:</p>
-                <div>
-                  <p>{`${data.type}`}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+    <div className="flex gap-2 lg:gap-0 acc-body">
+      <p className="text-darkBlue lg:hidden">Tipo:</p>
+      <div>
+      <p>{tipoLogroMap[data.idtipologro] || 'Tipo no disponible'}</p> {/* Mostrar el tipo basado en el mapeo */}
+      </div>
+    </div>
+  </div>
+))}
         </section>
       </main>
       <ModalCreacion
@@ -287,9 +291,9 @@ export default function TableListaLogros() {
         isOpen={isOpenLogro}
         onClose={handleCloseLogroModal}
         txtmodal={"Observaciones del admin"}
-        tipo={"TIPO"}
-        nombre={"Nombre logro"}
-        descripcion={"descripción del admin"}
+        tipo={tipoLogroMap[selectedLogro?.idtipologro] || 'Tipo no disponible'}
+        nombre={selectedLogro?.logro || 'Nombre no disponible'}
+        descripcion={selectedLogro?.observacion || 'Observación no disponible'}
       ></LogrosRecibidosModal>
     </>
   );

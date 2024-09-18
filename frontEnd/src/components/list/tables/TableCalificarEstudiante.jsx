@@ -13,10 +13,10 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const idprofesor = decodedToken.idjob;
-
+  const trimestre = JSON.parse(localStorage.getItem("trimestre")); //Trimestre
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/v3/logros/calificar/1/${idprofesor}/${id}/`);
+      const response = await fetch(`http://localhost:8000/api/v3/logros/calificar/${trimestre}/${idprofesor}/${id}/`);
       const result = await response.json();
       setFetchedData(result);
       console.log("Datos recibidos:", result);
