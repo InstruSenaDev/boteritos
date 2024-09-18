@@ -49,7 +49,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
   const toogleRow = (index) => {
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
   };
-
+  
 
   return (
     <>

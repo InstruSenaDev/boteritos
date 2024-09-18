@@ -41,7 +41,7 @@ export const Calificar = () => {
     console.log("Datos enviados al servidor:", JSON.stringify(arrayLogros));
 
       try {
-        const response = await fetch("http://localhost:8000/api/v3/logros/calificar/guardar/", {
+        const response = await fetch("http://localhost:8000/api/v3/logros/calificar/enviar/", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -50,10 +50,10 @@ export const Calificar = () => {
         });
     
         if (response.ok) {
-          console.log("Logros guardados exitosamente");
+          console.log("Logros enviados exitosamente");
 
         } else {
-          console.error("Error al guardar los logros:", response.statusText);
+          console.error("Error al enviar los logros:", response.statusText);
         }
       } catch (error) {
         console.error("Error al realizar la solicitud:", error);
