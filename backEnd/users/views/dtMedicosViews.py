@@ -9,7 +9,7 @@ from ..querySql import querySql
 @api_view(['GET'])
 def DatosMedicosEstudianteOne(request,id):
     if request.method == 'GET':
-        query = querySql("SELECT `usuario`.`idUsuario`,`datosmedicos`.`idDatosMedicos`, `estudiante`.`idEstudiante`, `datosmedicos`.`lugarAtencion`,`datosmedicos`.`peso`,`datosmedicos`.`altura`,`rh`.`rh`, `eps`.`eps` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `datosmedicos` ON `datosmedicos`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `rh` ON `datosmedicos`.`idRh` = `rh`.`idRh` LEFT JOIN `eps` ON `datosmedicos`.`idEps` = `eps`.`idEps` WHERE `estudiante`.`idUsuario` = `usuario`.`idUsuario` AND `estudiante`.`idEstudiante` = %s;",[id])
+        query = querySql("SELECT `usuario`.`idUsuario`,`datosmedicos`.`idDatosMedicos`, `estudiante`.`idEstudiante`, `datosmedicos`.`lugarAtencion`,`datosmedicos`.`peso`,`datosmedicos`.`altura`,`datosmedicos`.`idRh`, `rh`.`rh`,`datosmedicos`.`idEps`, `eps`.`eps` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `datosmedicos` ON `datosmedicos`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `rh` ON `datosmedicos`.`idRh` = `rh`.`idRh` LEFT JOIN `eps` ON `datosmedicos`.`idEps` = `eps`.`idEps` WHERE `estudiante`.`idUsuario` = `usuario`.`idUsuario` AND `estudiante`.`idEstudiante` = %s;",[id])
         
         if len(query) == 0:
             return Response({

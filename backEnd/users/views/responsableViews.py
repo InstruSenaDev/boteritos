@@ -9,7 +9,8 @@ from ..querySql import querySql
 @api_view(['GET'])
 def ResponsableOne(request, id):
     if request.method == 'GET':
-        query = querySql("SELECT `responsable`.`nombre`, `responsable`.`idResponsable` , `responsable`.`apellido`, `responsable`.`correo`, `responsable`.`numeroDocumento`, `responsable`.`telefono`, `responsable`.`profesion`, `responsable`.`ocupacion`, `responsable`.`empresa`, `tipoparentesco`.`tipoParentesco`, `tipodocumento`.`tipoDocumento`, `sexo`.`sexo` FROM `responsable` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `tipodocumento` ON `responsable`.`idTipoDocumento` = `tipodocumento`.`idTipoDocumento` LEFT JOIN `sexo` ON `responsable`.`idSexo` = `sexo`.`idSexo` WHERE `responsable`.`idEstudiante` = %s;", [id])
+        
+        query = querySql("SELECT `responsable`.`nombre`, `responsable`.`idResponsable` , `responsable`.`apellido`, `responsable`.`correo`, `responsable`.`numeroDocumento`, `responsable`.`telefono`, `responsable`.`profesion`, `responsable`.`ocupacion`, `responsable`.`empresa`, `responsable`.`idTipoParentesco`, `tipoparentesco`.`tipoParentesco`, `responsable`.`idTipoDocumento`, `tipodocumento`.`tipoDocumento`, `responsable`.`idSexo`, `sexo`.`sexo` FROM `responsable` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `tipodocumento` ON `responsable`.`idTipoDocumento` = `tipodocumento`.`idTipoDocumento` LEFT JOIN `sexo` ON `responsable`.`idSexo` = `sexo`.`idSexo` WHERE `responsable`.`idEstudiante` = %s;", [id])
         
         if len(query) == 0:
             return Response({
