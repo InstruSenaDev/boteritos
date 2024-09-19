@@ -129,11 +129,12 @@
 
     <div class="containerTable">
 
+        <p style="text-align: center;" >AVANCES TERAPÉUTICOS Y PEDAGÓGICOS</p>
+
         <table class="tableData">
+            <!--recorrer el objeto que contiene los arrays de los datos-->
+            {% for data in calificaciones %}
             <thead class="tableDataHead">
-                <tr>
-                    <th style="text-align: center;" >AVANCES TERAPÉUTICOS Y PEDAGÓGICOS</th>
-                </tr>
                 <tr>
                     <th>ÁREA SOCIO - AFECTIVA</th>
                     <th>L.A</th>
@@ -141,32 +142,39 @@
                     <th>L.N</th>
                 </tr>
             </thead>
+            <!--ACCEDEMOS PUNTUALMENTE A CADA DATOS CON RESPECTO A UN AREA-->
             <tbody class="tableDataBody">
-                <tr>
-                    <td>Posee normas que facilitan la convivencia y demuestra solidaridad con sus compañeros</td>
-                    <td class="dataBodyResult">X</td>
-                    <td class="dataBodyResult"></td>
-                    <td class="dataBodyResult"></td>
-                </tr>
-                <tr>
-                    <td class="dataBodyResult">Controla los diferent es estados afectivos (impulsos - emociones). Responde de manera positiva a la frustración</td>
-                    <td class="dataBodyResult">X</td>
-                    <td class="dataBodyResult"></td>
-                    <td class="dataBodyResult"></td>
-                </tr>
-                <tr>
-                    <td>Identifica las situaciones en que pueden ser vulnerados y cuando pedir ayuda.</td>
-                    <td class="dataBodyResult">X</td>
-                    <td class="dataBodyResult"></td>
-                    <td class="dataBodyResult"></td>
-                </tr>
-                <tr>
-                    <td>Establece adecuadas relaciones con sus docentes y compañeros. Expresa sus dudas y necesidades.</td>
-                    <td class="dataBodyResult">X</td>
-                    <td class="dataBodyResult"></td>
-                    <td class="dataBodyResult"></td>
-                </tr>
-            </tbody>
+                    {% for values in data %}
+                    <tr>
+                        <td>{{values.logro}}</td>
+                        <!--LOGRO APROBADO-->
+                        <td class="dataBodyResult">
+                            {% if values.resultado == 1 %}
+                            X
+                            {% else %}
+                            
+                            {% endif %}
+                        </td>
+                        <!--LOGRO EN PROCESO-->
+                        <td class="dataBodyResult">
+                            {% if values.resultado == 2 %}
+                            X
+                            {% else %}
+                            
+                            {% endif %}
+                        </td>
+                        <!--LOGRO NO ARPOBADO-->
+                        <td class="dataBodyResult">
+                            {% if values.resultado == 0 %}
+                            X
+                            {% else %}
+                            
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            {% endfor %}
         </table>
     </div>
 

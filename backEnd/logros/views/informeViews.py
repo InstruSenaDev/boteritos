@@ -25,16 +25,36 @@ def CreateInforme(request):
     if request.method == 'POST':
         
         template = get_template("informe.html")
-        context = {"user" : {
-            "name" : "Juan",
-            "apellido" : "cuartas"
-        }} 
+        #OBJETO INICIAL EN EL CUAL 
+        
+        calificaciones = [ [], [], [], [], [], [] ]
+        print(calificaciones[1])
+        areas = ['Socio - Afectiva', 'Vida diaria', 'Teatro', 'Danza', 'Música', 'Pintura']
+        
         for i in range(1,7):
             print('----------------------------------------------')
+            
+            #query = querySql("%s", [i]) #i corresponde al area
+            
             print(logrosInforme[i])
+            
+            calificaciones[i] = logrosInforme[i]
+            
+            """
+            for values in logrosInforme[i]:
+                print('----------')
+                print(values)
+            """
+        
+        print('/////////////////////////////////////////////////////////')
+        print(calificaciones)            
+        print('/////////////////////////////////////////////////////////')
+        
+        for i in calificaciones:
+            print(i)
 
-        html_template = template.render(context)
+        html_template = template.render(context = {"calificaciones" : calificaciones, "areas" : areas})
         
         HTML(string=html_template).write_pdf(target="prueba.pdf")
         
-        return Response('A')
+        return Response(calificaciones)

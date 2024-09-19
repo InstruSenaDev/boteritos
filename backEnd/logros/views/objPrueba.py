@@ -18,7 +18,7 @@ logrosInforme = {
             "idlogro": 2,
             "logro": "Identifica números enteros y decimales",
             "idtrimestre": 1,
-            "resultado": "2",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },   
@@ -31,7 +31,7 @@ logrosInforme = {
             "idlogro": 2,
             "logro": "Identifica números enteros y decimales",
             "idtrimestre": 1,
-            "resultado": "2",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },
@@ -42,7 +42,7 @@ logrosInforme = {
             "idlogro": 2,
             "logro": "Identifica números reales",
             "idtrimestre": 1,
-            "resultado": "2",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },
@@ -66,7 +66,7 @@ logrosInforme = {
             "idlogro": 3,
             "logro": "Improvisa con confianza",
             "idtrimestre": 1,
-            "resultado": "4",
+            "resultado": "0",
             "estado": "1",
             "idestudiante": 1
         },
@@ -79,7 +79,7 @@ logrosInforme = {
             "idlogro": 4,
             "logro": "Ejecuta pasos básicos de danza moderna",
             "idtrimestre": 1,
-            "resultado": "3",
+            "resultado": "0",
             "estado": "1",
             "idestudiante": 1
         },
@@ -90,7 +90,7 @@ logrosInforme = {
             "idlogro": 4,
             "logro": "Participa en coreografías grupales",
             "idtrimestre": 1,
-            "resultado": "4",
+            "resultado": "0",
             "estado": "1",
             "idestudiante": 1
         },
@@ -103,7 +103,7 @@ logrosInforme = {
             "idlogro": 5,
             "logro": "Reconoce instrumentos musicales",
             "idtrimestre": 1,
-            "resultado": "5",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },
@@ -114,7 +114,7 @@ logrosInforme = {
             "idlogro": 5,
             "logro": "Canta en grupo con afinación",
             "idtrimestre": 1,
-            "resultado": "4",
+            "resultado": "2",
             "estado": "1",
             "idestudiante": 1
         },
@@ -127,7 +127,7 @@ logrosInforme = {
             "idlogro": 6,
             "logro": "Utiliza técnicas de acuarela",
             "idtrimestre": 1,
-            "resultado": "3",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },
@@ -138,7 +138,7 @@ logrosInforme = {
             "idlogro": 6,
             "logro": "Crea un autorretrato",
             "idtrimestre": 1,
-            "resultado": "4",
+            "resultado": "1",
             "estado": "1",
             "idestudiante": 1
         },
