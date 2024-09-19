@@ -44,7 +44,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
               ></i>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-y-4 w-full px-4">
+          <div className="flex flex-col items-center gap-y-3 w-full px-4">
             {sidebarSection.map((section) => (
               <Elemento
                 key={section.texto}

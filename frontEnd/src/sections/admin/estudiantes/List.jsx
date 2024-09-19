@@ -15,7 +15,7 @@ export const List = () => {
   return (
     <>
       <main className="flex flex-col gap-8">
-        <HeaderData id={idEstudiante} urlApi={'sql/estudiantes/header/'} typeLink={'go'} urlGo={'datoestudiante'} />
+        <HeaderData id={idEstudiante} urlApi={'sql/estudiantes/header/'} typeLink={'go'} urlGo={'datoestudiante'} typeHeaderdata={"view1"}/>
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE ESTUDIANTES
         </p>

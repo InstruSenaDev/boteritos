@@ -13,10 +13,6 @@ const List = () => {
     <>
       <main className="flex flex-col gap-8">
         <HeaderData
-        // id={idProfesor}
-        // urlApi={"sql/profesores/header/"}
-        // typeLink={"go"}
-        // urlGo={"datoprofesor"}
         />
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE PROFESORES

@@ -18,7 +18,8 @@ const RecibirLogros = lazy(() => import("./pages/admin/RecibirLogros.jsx"));
 const Informe = lazy(() => import("./pages/admin/Informe.jsx"));
 const Trimestre = lazy (()=>import("./pages/admin/Trimestres.jsx"));
 const ListProfesores = lazy (()=>import("./pages/admin/profesores/ListTeachers.jsx"));
-const ListAdmins = lazy (()=>import("./pages/admin/administradores/ListAdmins.jsx"))
+const ListAdmins = lazy (()=>import("./pages/admin/administradores/ListAdmins.jsx"));
+const Informes = lazy (()=>import("./pages/admin/Informe.jsx"))
 //GENERAL
 const Perfil = lazy(() => import("./pages/general/Profile.jsx"));
 const PasswordHelp = lazy(() => import("./pages/general/PasswordHelp.jsx"));
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
       { path: "informe", element: <Informe/> },
       { path: "creartrimestres", element:<Trimestre/>},
       { path: "listaadministradores", element:<ListAdmins/>},
+      { path: "listaestudiantes/datoestudiante/informe/:id", element:<Informes/>},
       {
         path: "registro",
         element: <RegFormLayout />,
@@ -110,7 +112,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <TeacherMain/> },
-      { path: "calificarestudiante/:id", element: <Calificar /> },
+      { path: "listaestudiantes/calificarestudiante/:id", element: <Calificar /> },
       { path: "crearlogro", element: <CrearLogros /> },
       { path: "listaestudiantes", element: <ListEstudents /> },
       { path: "perfil", element: <Perfil /> },

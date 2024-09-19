@@ -5,7 +5,7 @@ import DataState from "../dataStates/DataState";
 import { getAllUser } from "../../../api/get";
 
 
-export default function TablesStudentsTeacher(getId) {
+export default function TablesStudentsTeacher({getId}) {
 
 const [dataStudents, setDataStudents] = useState([]);
 

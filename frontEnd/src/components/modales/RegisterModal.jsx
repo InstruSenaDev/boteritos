@@ -10,6 +10,7 @@ export function RegisterModal({
   values,
   onSubmit, // Recibe la función handleForm como prop
   isConfirm,
+  textButton
 }) {
   {
     /* const [isConfirm, setIsConfirm] = useState(false);*/
@@ -53,7 +54,7 @@ export function RegisterModal({
 
               <div className="flex justify-center w-full mt-4">
                 <Button className="max-w-[400px] w-full" type="submit">
-                  Agregar
+                  {textButton}
                 </Button>
               </div>
             </>
