@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
@@ -9,11 +10,13 @@ import {
   dataDiagnostico,
   dataDiscapacidad,
   dataRh,
-  dataEps
-
+  dataEps,
 } from "../../helper/objects/dropdownArray";
 
 export const ModalContentUpdate = ({ section, data, onChange }) => {
+
+  const [values, setValues]=useState({})
+
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
     dropdownSexo: [],
@@ -23,7 +26,6 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
     dataRh: [],
     dataEps: [],
   });
-
 
   useEffect(() => {
     const getDataDropdown = async () => {
@@ -41,13 +43,17 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
         dataDiagnostico: resultDiagnostico,
         dataDiscapacidad: resultDiscapacidad,
         dataRh: resultRh,
-        dataEps: resultEps
+        dataEps: resultEps,
       });
     };
 
     getDataDropdown();
   }, []);
 
+  const handleDropdownChange = (name, value) => {
+    setValues({ ...values, [name]: value });
+    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+  };
 
   switch (section) {
     case "Datos personales":
@@ -82,27 +88,24 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.correo || ""}
           />
 
-
           <Dropdown
             name="idsexo"
             label="Sexo"
             data={dataDropdown.dropdownSexo}
-            onChange={(value) =>
-              onChange({ target: { name: "idsexo", value } })
-            }
+            onChange={(value) => handleDropdownChange("idsexo", value)}
             value={data.sexo || ""}
             placeholder="Seleccione el sexo"
           />
+          
 
           <Dropdown
-            name="idtipodocumento"
-            label="Tipo de documento"
+            name={"idtipodocumento"}
+            label={"Tipo de documento"}
+            //data={dataMatricula}
             data={dataDropdown.dropdownDocumento}
-            onChange={(value) =>
-              onChange({ target: { name: "idtipodocumento", value } })
-            }
-            value={data.idtipodocumento || ""}
-            placeholder="Seleccione el tipo de documento"
+            onChange={(value) => handleDropdownChange("idtipodocumento", value)}
+            placeholder={"Selecciona el tipo de documento"}
+           
           />
 
           <Input
@@ -145,9 +148,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="idtipoparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dataTipoParentesco}
-            onChange={(value) =>
-              onChange({ target: { name: "idtipoparentesco", value } })
-            }
+            onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
             value={data.idtipoparentesco || ""}
             placeholder="Seleccione el tipo de parentesco"
           />
@@ -178,9 +179,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="iddiagnostico"
             label="Diagnostico"
             data={dataDropdown.dataDiagnostico}
-            onChange={(value) =>
-              onChange({ target: { name: "iddiagnostico", value } })
-            }
+            onChange={(value) => handleDropdownChange("iddiagnostico", value)}
             value={data.iddiagnostico || ""}
             placeholder="Seleccione el diagnostico"
           />
@@ -198,9 +197,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="iddiscapacidad"
             label="Discapacidad"
             data={dataDropdown.dataDiscapacidad}
-            onChange={(value) =>
-              onChange({ target: { name: "iddiscapacidad", value } })
-            }
+            onChange={(value) => handleDropdownChange("ididiscapacidad", value)}
             value={data.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
           />
@@ -241,7 +238,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="ideps"
             label="Eps"
             data={dataDropdown.dataEps}
-            onChange={(value) => onChange({ target: { name: "ideps", value } })}
+            onChange={(value) => handleDropdownChange("ideps", value)}
             value={data.eps || ""}
             placeholder="Seleccione la eps"
           />
@@ -250,11 +247,10 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="rh"
             label="Tipo de sangre"
             data={dataDropdown.dataRh}
-            onChange={(value) => onChange({ target: { name: "rh", value } })}
+            onChange={(value) => handleDropdownChange("idrh", value)}
             value={data.rh || ""}
             placeholder="Seleccione el tipo de sangre"
           />
-
         </div>
       );
 

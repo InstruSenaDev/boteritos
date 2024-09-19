@@ -6,17 +6,20 @@ export const putModales = async (body, url) => {
   return data;
 };
 
-export const putUpdate = async (body, url) => {
+export const putUpdate = async (body, url, studentId) => {
   //logica de convertir el body en un formdata
-  const newData = new FormData()
+  const newData = new FormData();
+
+   // Agregar el ID del estudiante al FormData
+   newData.append('idestudiante', studentId);
   //Ciclo que recorre el body y hace el append al newdata
 
   for (const [key, value] of Object.entries(body)) {
     newData.append(key, value);
   }
 
-  const response = await fetch(`${urlApi}${'registro/prueba/'}`, {
-    method: 'POST',
+  const response = await fetch(`${urlApi}${url}`, {
+    method: 'PUT',
     body: newData,
   });
 

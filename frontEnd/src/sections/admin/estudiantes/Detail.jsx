@@ -23,6 +23,7 @@ const Detail = () => {
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
+
   //ESTADO PARA GET
   const [dataDetail, setDataDetail] = useState({
     historiaClinica: [],
@@ -145,61 +146,61 @@ const Detail = () => {
     setSectionData(null);
   };
 
-  // const handleSave = async () => {
-  //   const newData = {
-  //     section: selectedSection,
-  //     data: sectionData
-  //   };
+  const handleSave = async () => {
+    const newData = {
+      section:  selectedSection,
+      data: sectionData,
+      idestudiante:id
+    };
   
  
-  //   let endpoint = '';
-  //   switch (selectedSection) {
-  //     case "Datos personales":
-  //       endpoint = `personal/`;
-  //       break;
-  //     case "Responsables":
-  //       endpoint = `registro/responsable/`;
-  //       break;
-  //     case "Historia clinica":
-  //       endpoint = `registro/historiaclinica/`;
-  //       break;
-  //     case "Datos Medicos":
-  //       endpoint = `registro/datosmedicos/estudiante/`;
-  //       break;
-  //     case "Contactos":
-  //       endpoint = `registr/telefono/estudiante/`;
-  //       break;
-  //     case "Dirección":
-  //       endpoint = `registro/direccion/estudiante/`;
-  //       break;
-  //     default:
-  //       endpoint = '';
-  //   }
+    let endpoint = '';
+    switch (selectedSection) {
+      case "Datos personales":
+        endpoint = `personal/`;
+        break;
+      case "Responsables":
+        endpoint = `registro/responsable/`;
+        break;
+      case "Historia clinica":
+        endpoint = `registro/historiaclinica/`;
+        break;
+      case "Datos Medicos":
+        endpoint = `registro/datosmedicos/`;
+        break;
+      case "Contactos":
+        endpoint = `registr/telefono/`;
+        break;
+      case "Dirección":
+        endpoint = `registro/direccion/`;
+        break;
+      default:
+        endpoint = '';
+    }
   
-  //   if (endpoint) {
-  //     // Realizar la solicitud PUT
-  //     const result = await putUpdate(newData.data, endpoint);
+    if (endpoint) {
+      // Realizar la solicitud PUT
+      const result = await putUpdate(newData.data, endpoint, id);
   
-  //     if (result.status === 200) {
-  //       // Actualizar el estado global con los nuevos datos editados
-        
-  //       setDataDetail((prevDataDetail) => ({
-  //         ...prevDataDetail,
-  //         [selectedSection.toLowerCase()]: prevDataDetail[
-  //           selectedSection.toLowerCase()
-  //         ].map((item, index) =>
-  //           index === sectionData.index ? sectionData : item
-  //         ),
-  //       }));
+      if (result.status === 200) {
+        // // Actualizar el estado global con los nuevos datos editados
+        // setDataDetail((prevDataDetail) => ({
+        //   ...prevDataDetail,
+        //   [selectedSection.toLowerCase()]: prevDataDetail[
+        //     selectedSection.toLowerCase()
+        //   ].map((item, index) =>
+        //     index === sectionData.index ? sectionData : item
+        //   ),
+        // }));
   
-  //       console.log("Datos guardados", newData);
-  //     } else {
-  //       console.error("Error al guardar los datos", result.data);
-  //     }
-  //   }
+        console.log("Datos guardados", newData);
+      } else {
+        console.error("Error al guardar los datos", result.data);
+      }
+    }
   
-  //   closeModal();
-  // };
+    closeModal();
+  };
 
   const handleInputChange = (e, key) => {
     setSectionData({
@@ -207,6 +208,8 @@ const Detail = () => {
       [key]: e.target.value,
     });
   };
+
+
 
   const filterData = (data) => {
     // Filtra los campos que contienen Ids
@@ -466,6 +469,15 @@ const Detail = () => {
                     {value.observacion}
                   </p>
                 </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Archivo:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.archivo}
+                  </p>
+                </div>
               </div>
             </GrupoDatos>
           ))}
@@ -592,7 +604,7 @@ const Detail = () => {
       <UpdateModal
           isOpen={isModalOpen}
           onClose={closeModal}
-          
+          onSave={handleSave}
         >
           <ModalContentUpdate
             section={selectedSection}
