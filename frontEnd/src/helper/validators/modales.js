@@ -12,7 +12,7 @@ export const modales = (content, name, value) => {
         case "Telefono":
             error = caseTelefono(name, value);
             break;
-        case "Responsable":
+        case "Responsables":
             error = caseResponsable(name, value);
             break;
         case "Condicion Medica":

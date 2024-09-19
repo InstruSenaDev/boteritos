@@ -13,7 +13,7 @@ import {
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
 
-export const ModalContentUpdate = ({ section, data, onChange }) => {
+export const ModalContentUpdate = ({ section, data, onChange,errores }) => {
   const dataFormInd = new FormData();
 
   const [values, setValues] = useState({});
@@ -76,6 +76,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "nombre")}
             value={data.nombre || ""}
+            error={errores.nombre}
           />
           <Input
             texto="Apellido"
@@ -84,6 +85,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "apellido")}
             value={data.apellido || ""}
+            error={errores.apellido}
           />
 
           <Input
@@ -93,6 +95,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "correo")}
             value={data.correo || ""}
+            error={errores.correo}
           />
 
           <Dropdown
@@ -102,6 +105,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(value) => handleDropdownChange("idsexo", value)}
             value={data.sexo || ""}
             placeholder="Seleccione el sexo"
+            error={errores.idsexo}
           />
 
           <Dropdown
@@ -111,6 +115,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
             placeholder={"Selecciona el tipo de documento"}
+            error={errores.idtipodocumento}
           />
 
           <Input
@@ -120,6 +125,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "numerodocumento")}
             value={data.numerodocumento || ""}
+            error={errores.numerodocumento}
           />
 
           <Input
@@ -129,6 +135,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "profesion")}
             value={data.profesion || ""}
+            error={errores.profesion}
           />
 
           <Input
@@ -138,6 +145,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "ocupacion")}
             value={data.ocupacion || ""}
+            error={errores.ocupacion}
           />
 
           <Input
@@ -147,6 +155,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "empresa")}
             value={data.empresa || ""}
+            error={errores.empresa}
           />
 
           <Dropdown
@@ -158,6 +167,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             }
             value={data.idtipoparentesco || ""}
             placeholder="Seleccione el tipo de parentesco"
+            error={errores.idtipoparentesco}
           />
         </div>
       );
@@ -172,6 +182,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "medicamentos")}
             value={data.medicamentos || ""}
+            error={errores.medicamentos}
           />
           <Input
             texto="Restricciones alimenticias"
@@ -180,6 +191,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "restriccionesalimenticias")}
             value={data.restriccionesalimenticias || ""}
+            error={errores.restriccionesalimenticias}
           />
 
           <Dropdown
@@ -189,6 +201,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(value) => handleDropdownChange("iddiagnostico", value)}
             value={data.iddiagnostico || ""}
             placeholder="Seleccione el diagnostico"
+            error={errores.iddiagnostico}
           />
 
           <Input
@@ -198,6 +211,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "observacion")}
             value={data.observacion || ""}
+            error={errores.observacion}
           />
 
           <Dropdown
@@ -207,6 +221,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(value) => handleDropdownChange("ididiscapacidad", value)}
             value={data.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
+            error={errores.iddiscapacidad}
           />
 
           <UploadFile
@@ -228,6 +243,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "lugaratencion")}
             value={data.lugaratencion || ""}
+            error={errores.lugaratencion}
           />
 
           <Input
@@ -237,6 +253,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "peso")}
             value={data.peso || ""}
+            error={errores.peso}
           />
 
           <Input
@@ -246,6 +263,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "altura")}
             value={data.altura || ""}
+            error={errores.altura}
           />
 
           <Dropdown
@@ -255,15 +273,17 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(value) => handleDropdownChange("ideps", value)}
             value={data.eps || ""}
             placeholder="Seleccione la eps"
+            error={errores.eps}
           />
 
           <Dropdown
-            name="rh"
+            name="idrh"
             label="Tipo de sangre"
             data={dataDropdown.dataRh}
             onChange={(value) => handleDropdownChange("idrh", value)}
             value={data.rh || ""}
             placeholder="Seleccione el tipo de sangre"
+            error={errores.idrh}
           />
         </div>
       );
@@ -278,6 +298,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "telefono1")}
             value={data.telefono1 || ""}
+            error={errores.telefono1}
           />
           <Input
             texto="Segundo teléfono"
@@ -286,6 +307,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "telefono2")}
             value={data.telefono2 || ""}
+            error={errores.telefono2}
           />
         </div>
       );
@@ -300,6 +322,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "comuna")}
             value={data.comuna || ""}
+            error={errores.comuna}
           />
           <Input
             texto="Número"
@@ -308,6 +331,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "numero")}
             value={data.numero || ""}
+            error={errores.numero}
           />
 
           <Input
@@ -317,6 +341,7 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             tipo="text"
             onChange={(e) => onChange(e, "barrio")}
             value={data.barrio || ""}
+            error={errores.barrio}
           />
         </div>
       );

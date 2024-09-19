@@ -17,14 +17,19 @@ import {
 } from "../../../api/get";
 import { ModalContentUpdate } from "../../../components/modales/ModalContentUpdate";
 import { putUpdate } from "../../../api/put";
+import { UpdateModalesValidators } from "../../../helper/validators/UpdateModalesValidators";
 
 const Detail = () => {
-  const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(null);//Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const [errors, setErrors]=useState({})
+
   const { id } = useParams();
 
   //ESTADO PARA GET
+  //Para almacenar los datos obtenidos del API para diferentes secciones.
   const [dataDetail, setDataDetail] = useState({
     historiaClinica: [],
     responsables: [],
@@ -61,7 +66,8 @@ const Detail = () => {
       console.log(dataResponsable);
       
 
-      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
+      const DataPersonalEstudiante = await DataPersonal(
+        `estudiante/${id}`);
 
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
@@ -144,14 +150,24 @@ const Detail = () => {
     setModalOpen(false);
     setSelectedSection(null);
     setSectionData(null);
+    setErrors({});
   };
 
   const handleSave = async () => {
-    const newData = {
-      section:  selectedSection,
-      data: sectionData,
-      idestudiante:id
-    };
+      // Verifica si hay errores antes de continuar
+  const hasErrors = Object.values(errors).some((error) => error);
+  if (hasErrors) {
+    console.error("Errores presentes, no se puede guardar.");
+    return; // Detiene el proceso de guardado
+  }
+
+  // Lógica de guardado si no hay errores
+  const newData = {
+    section: selectedSection,
+    data: sectionData,
+    idestudiante: id
+  };
+
   
  
     let endpoint = '';
@@ -203,10 +219,21 @@ const Detail = () => {
   };
 
   const handleInputChange = (e, key) => {
-    setSectionData({
-      ...sectionData,
-      [key]: e.target.value,
-    });
+    const { name, value } = e.target;
+    const content = selectedSection || "default"; // Sección actual
+  
+    // implementar tu lógica de validación
+    const error = UpdateModalesValidators(content, name, value);
+  
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error, // Almacena el error en el estado
+    }));
+  
+    setSectionData((prevData) => ({
+      ...prevData,
+      [key]: value, // Actualiza el valor en la sección
+    }));
   };
 
 
@@ -610,6 +637,7 @@ const Detail = () => {
             section={selectedSection}
             data={sectionData}
             onChange={handleInputChange}
+            errores={errors}
           />
         </UpdateModal>
     </div>
