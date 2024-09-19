@@ -474,9 +474,9 @@ const Detail = () => {
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Archivo:
                   </p>
-                  <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.archivo}
-                  </p>
+                  <a download="Archivo boterito" href={value.archivo} className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.archivo}
+                  </a>
                 </div>
               </div>
             </GrupoDatos>

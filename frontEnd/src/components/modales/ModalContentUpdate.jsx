@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Input } from "../forms/Input";
 import { Dropdown } from "../forms/Dropdown";
@@ -12,10 +11,12 @@ import {
   dataRh,
   dataEps,
 } from "../../helper/objects/dropdownArray";
+import { UploadFile } from "../forms/UploadFile";
 
 export const ModalContentUpdate = ({ section, data, onChange }) => {
+  const dataFormInd = new FormData();
 
-  const [values, setValues]=useState({})
+  const [values, setValues] = useState({});
 
   const [dataDropdown, setDataDropdown] = useState({
     dropdownDocumento: [],
@@ -26,6 +27,12 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
     dataRh: [],
     dataEps: [],
   });
+
+  // Handle file changes
+  const handleFileChange = (name, file) => {
+    dataFormInd.set(name, file);
+    console.log(file);
+  };
 
   useEffect(() => {
     const getDataDropdown = async () => {
@@ -96,7 +103,6 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             value={data.sexo || ""}
             placeholder="Seleccione el sexo"
           />
-          
 
           <Dropdown
             name={"idtipodocumento"}
@@ -105,7 +111,6 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
             placeholder={"Selecciona el tipo de documento"}
-           
           />
 
           <Input
@@ -148,7 +153,9 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             name="idtipoparentesco"
             label="Tipo de parentesco"
             data={dataDropdown.dataTipoParentesco}
-            onChange={(value) => handleDropdownChange("idtipoparentesco", value)}
+            onChange={(value) =>
+              handleDropdownChange("idtipoparentesco", value)
+            }
             value={data.idtipoparentesco || ""}
             placeholder="Seleccione el tipo de parentesco"
           />
@@ -200,6 +207,13 @@ export const ModalContentUpdate = ({ section, data, onChange }) => {
             onChange={(value) => handleDropdownChange("ididiscapacidad", value)}
             value={data.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
+          />
+
+          <UploadFile
+            typefile={".pdf"}
+            title={"Historia Clinica"}
+            id="archivo"
+            onFileChange={(file) => handleFileChange("archivo", file)}
           />
         </div>
       );
