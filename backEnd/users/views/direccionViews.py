@@ -27,7 +27,6 @@ def DireccionEstudianteOne(request,id):
 def DireccionUpdate(request):
     if request.method == 'PUT':
         query = Direccion.objects.filter(iddireccion = request.data['iddireccion']).first()
-        print(query)
         
     
         if not query:

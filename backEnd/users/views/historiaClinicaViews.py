@@ -8,17 +8,23 @@ from ..querySql import querySql
 @api_view(['GET'])
 def HistoriaClinicaOne(request,id):
     if request.method == 'GET':
-        query = querySql("SELECT `historiaclinica`.`medicamentos`, `historiaclinica`.`restriccionesAlimenticias`, `historiaclinica`.`observacion`, `condicion`.`idHistoriaClinica`, `diagnostico`.`diagnostico`, `discapacidad`.`discapacidad` FROM `estudiante` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` LEFT JOIN `discapacidad` ON `condicion`.`idDiscapacidad` = `discapacidad`.`idDiscapacidad` WHERE `historiaclinica`.`idEstudiante` = %s;", [id])
+        query = querySql("SELECT `historiaclinica`.`medicamentos`,`historiaclinica`.`archivo`, `historiaclinica`.`restriccionesAlimenticias`, `historiaclinica`.`observacion`, `condicion`.`idHistoriaClinica`,`condicion`.`idDiagnostico`, `condicion`.`idDiscapacidad`, `diagnostico`.`diagnostico`, `discapacidad`.`discapacidad` FROM `estudiante` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` LEFT JOIN `discapacidad` ON `condicion`.`idDiscapacidad` = `discapacidad`.`idDiscapacidad` WHERE `historiaclinica`.`idEstudiante` = %s", [id])
         
         if len(query) == 0:
             return Response({
                 "message" : "Datos vacios",
                 "error" : "Historia clinica no encontrada"
             },status=status.HTTP_400_BAD_REQUEST)
+        
+        historClinica = []
+
+        for values in query:
+            values['archivo'] = f"http://localhost:8000/media/{values['archivo']}"
+            historClinica.append(values)
             
         return Response({
             "message" : "Datos encontrados",
-            "data" : query
+            "data" : historClinica
         }, status=status.HTTP_200_OK)
 
 #FALTA POST Y PUT
