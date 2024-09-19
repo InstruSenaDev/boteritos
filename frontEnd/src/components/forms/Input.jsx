@@ -8,7 +8,7 @@ export const Input = ({ texto, placeholder, name, tipo, onChange, value, error})
                     id={name}
                     name={name}
                     placeholder={placeholder}
-                    className={`h-10 rounded-xl w-full px-5 text-paragraph3 border-darkBlue font-cocogooseLight border-[1.5px] ${error ? 'border-red-500' : ''}`}
+                    className={`h-10 rounded-xl w-full px-5 text-paragraph3 color-black border-darkBlue font-cocogooseLight border-[1.5px] ${error ? 'border-red-500' : ''}`}
                     onChange={onChange}
                     value={value}
                 />

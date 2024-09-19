@@ -60,6 +60,7 @@ const FormLogin = () => {
       "access_token",
       JSON.stringify(dataResponse.data.data.access_token)
     );
+    
     localStorage.setItem(
       "refresh_token",
       JSON.stringify(dataResponse.data.data.refresh_token)

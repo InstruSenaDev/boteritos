@@ -27,7 +27,6 @@ def FechasEstudiantesOne(request,id):
 def FechasUpdate(request):
     if request.method == 'PUT':
         query = Fechas.objects.filter(idusuario = request.data['idusuario']).first()
-        print(query)
         
     
         if not query:

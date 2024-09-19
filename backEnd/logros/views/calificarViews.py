@@ -21,9 +21,8 @@ def CalificarList(request,idtrim,idprof,idestud):
         
         # Obtener los IDs de los logros creados por el profesor
         logros_ids = getLogros.values_list('idlogro', flat=True)
-        
-        print(logros_ids)
-        
+  
+      
         # Filtrar los Logroestudiante que están relacionados con los logros creados por el profesor
         query = Logroestudiante.objects.filter(idlogro__in=logros_ids, idestudiante = idestud, estado = 0)
         
@@ -60,7 +59,6 @@ def CalificarSave(request):
             srCalificar = CalificarSerializer(query, data = value)
         
             if srCalificar.is_valid():
-                print('CALIFICACION VALIDA')
         
                 srCalificar.save()
         
@@ -89,14 +87,11 @@ def CalificarSend(request):
                     "error" : "Logro no existe" 
                 },status=status.HTTP_400_BAD_REQUEST)
             
-            print(value)
-            
             objLogros['estado'] = 1
             
             srCalificar = CalificarSerializer(query, data = objLogros)
         
             if srCalificar.is_valid():
-                print('CORRECTO')
                 srCalificar.save()
         
         return Response({

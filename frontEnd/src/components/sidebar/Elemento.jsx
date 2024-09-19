@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export const Elemento = ({ icon, text, isExpanded, link }) => {
   return (
     <Link to={`/${link}`} className="w-full">
-      <div className="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue hover:text-white cursor-pointer ">
+      <div className="w-full flex items-center rounded-3xl text-gray hover:bg-darkBlue transition duration-300 ease-in-out hover:text-white cursor-pointer ">
         <div className="flex items-center">
           <div className="w-[60px] h-[44px] flex justify-center items-center">
             <i className={`text-xl ${icon}`}></i>
