@@ -39,7 +39,12 @@ def CreateInforme(request):
         
         #MODIFICAR LA URL DE LA IMAGEN PARA SEA FUNCIONAL
         dataEstud = queryEstud[0]
-        dataEstud['imagen'] = f'http://localhost:8000/media/{dataEstud['imagen']}'
+        urlImg = dataEstud.get('imagen')
+        
+        if not urlImg :
+            dataEstud['imagen'] = f'http://localhost:8000/media/imagenes/studentDefault.png'
+
+        dataEstud['imagen'] = f'http://localhost:8000/media/{urlImg}'
         
         template = get_template("informe.html")
         #OBJETO INICIAL EN EL CUAL 
