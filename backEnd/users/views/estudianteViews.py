@@ -9,16 +9,15 @@ from ..serialzer.direccionSerializer import DireccionSerializer
 from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
 from ..serialzer.telefonosSerializer import TelefonosSerializer
 
-from ..models import Estudiante
+from ..models import Estudiante, Usuario
 from ..querySql import querySql
 
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def EstudianteCreateView(request):
     
     if request.method == 'POST':
         datos = request.data
-        #2223456789
         
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
@@ -43,7 +42,6 @@ def EstudianteCreateView(request):
                 "erorr" : serializerFechas.errors
             }, status=status.HTTP_400_BAD_REQUEST)
         
-        
         #----------DIRECCION----------
         direccionSerializer = DireccionSerializer(data = datos)
         if not direccionSerializer.is_valid():
@@ -51,8 +49,6 @@ def EstudianteCreateView(request):
                 "message" : "Insert en direccion cancelado",
                 "error" : direccionSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST)
-        
-        
         
         #----------DATOS MEDICOS----------
         datosMedicosSerializer = DatosMedicosSerializer(data = datos)
@@ -62,8 +58,6 @@ def EstudianteCreateView(request):
                 "error" : datosMedicosSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST)
         
-        
-        
         #----------TELEFONOS----------
         telefonoSerializer = TelefonosSerializer(data = datos)
         if not telefonoSerializer.is_valid():
@@ -71,7 +65,6 @@ def EstudianteCreateView(request):
                 "message" : "Insert en telefonos cancelado",
                 "error" : telefonoSerializer.errors
             },status=status.HTTP_400_BAD_REQUEST) 
-        
         
         #----------ESTUDIANTE----------
         estudianteSerializer = EstudianteSerializer(data = datos)
@@ -98,11 +91,65 @@ def EstudianteCreateView(request):
             "estudiante" : estudianteSerializer.data
         }, status=status.HTTP_201_CREATED)
 
+    if request.method == 'PUT':
+        
+        idEstud = request.data.get('idestudiante')
+        
+        if not idEstud:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "El id del estudiante es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        data = request.data
+        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
+        queryEstud = Estudiante.objects.select_related('idusuario').filter(idestudiante=idEstud).first()
+        #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
+        if not queryEstud : 
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "Estudiante no encontrado"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        #OBTENEMOS EL ID DEL USUARIO PARA CONTINUAR CON LA ACTUALIZACION
+        idUsuario = queryEstud.idusuario.idusuario
+        
+        #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
+        data['idusuario'] = idUsuario
+         
+        srEstud = EstudianteSerializer(queryEstud, data = data)
+        
+        if not srEstud.is_valid():
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : srEstud.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        queryUsuario = Usuario.objects.filter(idusuario = idUsuario).first()
+        
+        srUsuario = UsuarioSerializer(queryUsuario, data = data, partial = True)
+        
+        if not srUsuario.is_valid():
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : srUsuario.errors
+            })
+        
+        srEstud.save()
+        srUsuario.save()
+        
+        return Response({
+            "message" : "Actualizacion realizada con exito",
+            "data" : {
+                "usuario" : srUsuario.data,
+                "estudiante" : srEstud.data
+            }
+        },status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def EstudianteDataPersonal(request,id):
     if request.method == 'GET':
-        query = querySql("SELECT `usuario`.`nombre`, `usuario`.`apellido`,`usuario`.`correo`, `usuario`.`documento`, `usuario`.`edad`, `estudiante`.`tallaCamisa`, `estudiante`.`institutoProcedencia`,`sexo`.`sexo`, `matriculas`.`matricula` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `sexo` ON `usuario`.`idSexo` = `sexo`.`idSexo` LEFT JOIN `matriculas` ON `estudiante`.`idMatricula` = `matriculas`.`idMatricula` WHERE `estudiante`.`idEstudiante` = %s;", [id])
+        query = querySql("SELECT `estudiante`.*, `matriculas`.`matricula`, `usuario`.`nombre`,`usuario`.`apellido`,`usuario`.`correo`, `usuario`.`documento`,`usuario`.`idTipoDocumento`, `tipodocumento`.`tipoDocumento`, `usuario`.`edad`, `usuario`.`idSexo`,`sexo`.`sexo` FROM `estudiante` LEFT JOIN `matriculas` ON `estudiante`.`idMatricula` = `matriculas`.`idMatricula` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `tipodocumento` ON `usuario`.`idTipoDocumento` = `tipodocumento`.`idTipoDocumento` LEFT JOIN `sexo` ON `usuario`.`idSexo` = `sexo`.`idSexo` WHERE `estudiante`.`idEstudiante` = %s;", [id])
         
         return Response({
             "message" : "Datos encontrados",
