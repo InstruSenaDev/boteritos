@@ -23,7 +23,7 @@ const Detail = () => {
   const [selectedSection, setSelectedSection] = useState(null);//Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const dataFormInd = new FormData();
   const [errors, setErrors]=useState({})
 
   const { id } = useParams();
@@ -62,9 +62,6 @@ const Detail = () => {
       const dataDirecciones = await DataDireccionesEstudiante(
         `direccion/estudiante/${id}`
       );
-
-      console.log(dataResponsable);
-      
 
       const DataPersonalEstudiante = await DataPersonal(
         `estudiante/${id}`);
@@ -154,26 +151,33 @@ const Detail = () => {
   };
 
   const handleSave = async () => {
-      // Verifica si hay errores antes de continuar
-  const hasErrors = Object.values(errors).some((error) => error);
-  if (hasErrors) {
-    console.error("Errores presentes, no se puede guardar.");
-    return; // Detiene el proceso de guardado
-  }
-
-  // Lógica de guardado si no hay errores
-  const newData = {
-    section: selectedSection,
-    data: sectionData,
-    idestudiante: id
-  };
-
+    const hasErrors = Object.values(errors).some((error) => error);
+    if (hasErrors) {
+      console.error("Errores presentes, no se puede guardar.");
+      return;
+    }
   
- 
+    // Crear un nuevo FormData
+    const newData = new FormData();
+    newData.append('section', selectedSection);
+    newData.append('idestudiante', id);
+    
+    // Agregar los datos de la sección
+    for (const key in sectionData) {
+      if (sectionData.hasOwnProperty(key)) {
+        newData.append(key, sectionData[key]);
+      }
+    }
+  
+    // Agregar el archivo, si existe
+    if (dataFormInd.has('archivo')) {
+      newData.append('archivo', dataFormInd.get('archivo'));
+    }
+  
     let endpoint = '';
     switch (selectedSection) {
       case "Datos personales":
-        endpoint = `personal/`;
+        endpoint = `registro/estudiante/`;
         break;
       case "Responsables":
         endpoint = `registro/responsable/`;
@@ -196,19 +200,8 @@ const Detail = () => {
   
     if (endpoint) {
       // Realizar la solicitud PUT
-      const result = await putUpdate(newData.data, endpoint, id);
-  
+      const result = await putUpdate(newData, endpoint, id); 
       if (result.status === 200) {
-        // // Actualizar el estado global con los nuevos datos editados
-        // setDataDetail((prevDataDetail) => ({
-        //   ...prevDataDetail,
-        //   [selectedSection.toLowerCase()]: prevDataDetail[
-        //     selectedSection.toLowerCase()
-        //   ].map((item, index) =>
-        //     index === sectionData.index ? sectionData : item
-        //   ),
-        // }));
-  
         console.log("Datos guardados", newData);
       } else {
         console.error("Error al guardar los datos", result.data);
@@ -217,6 +210,13 @@ const Detail = () => {
   
     closeModal();
   };
+  
+   // Handle file changes
+   const handleFileChange = (name, file) => {
+    dataFormInd.set(name, file);
+    console.log(file);
+  };
+
 
   const handleInputChange = (e, key) => {
     const { name, value } = e.target;
@@ -637,6 +637,7 @@ const Detail = () => {
             section={selectedSection}
             data={sectionData}
             onChange={handleInputChange}
+            handleFileChange={handleFileChange}
             errores={errors}
           />
         </UpdateModal>

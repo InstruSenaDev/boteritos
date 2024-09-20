@@ -13,9 +13,13 @@ import {
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
 
-export const ModalContentUpdate = ({ section, data, onChange,errores }) => {
-  const dataFormInd = new FormData();
-
+export const ModalContentUpdate = ({
+  section,
+  data,
+  onChange,
+  handleFileChange,
+  errores,
+}) => {
   const [values, setValues] = useState({});
 
   const [dataDropdown, setDataDropdown] = useState({
@@ -27,12 +31,6 @@ export const ModalContentUpdate = ({ section, data, onChange,errores }) => {
     dataRh: [],
     dataEps: [],
   });
-
-  // Handle file changes
-  const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
-  };
 
   useEffect(() => {
     const getDataDropdown = async () => {
@@ -226,7 +224,7 @@ export const ModalContentUpdate = ({ section, data, onChange,errores }) => {
 
           <UploadFile
             typefile={".pdf"}
-            title={"Historia Clinica"}
+            title={"Historia clinica"}
             id="archivo"
             onFileChange={(file) => handleFileChange("archivo", file)}
           />

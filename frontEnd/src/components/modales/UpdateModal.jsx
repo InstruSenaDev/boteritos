@@ -1,7 +1,11 @@
 import React from "react";
 import { Dialog, DialogPanel, Button } from "@tremor/react";
 
-export function UpdateModal({ isOpen, onClose, children, onSave }) {
+export function UpdateModal({
+  isOpen,
+  onClose, 
+  children, 
+  onSave }) {
   return (
     <Dialog open={isOpen} onClose={onClose} static={true}>
       <DialogPanel className="bg-white p-6 rounded-lg max-w-screen-sm shadow-lg mx-auto">

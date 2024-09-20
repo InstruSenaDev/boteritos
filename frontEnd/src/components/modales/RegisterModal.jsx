@@ -47,7 +47,7 @@ export function RegisterModal({
 
               <div
                 className={`w-full grid grid-cols-1 lg:grid-cols-${cols} 
-                            lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify`}
+                            lg:gap-x-[30px] gap-y-[20px] place-items-center text-justify `}
               >
                 {children}
               </div>
