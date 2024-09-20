@@ -24,36 +24,42 @@ def InformeList(request,idtrim,idarea,idestud):
 def CreateInforme(request):
     if request.method == 'POST':
         
+        #OBTENCIOND DE DATOS
+        idEstudiante = request.data['idestudiante']
+        observacion = request.data['observacion']
+        
+        #BUSCAMOS LA INFORMACION DEL ESTUDIANTE
+        queryEstud = querySql("SELECT CONCAT(`usuario`.`nombre`, ' ' ,`usuario`.`apellido`) AS `nombre`, `usuario`.`documento`, `usuario`.`edad`, `usuario`.`imagen`, `diagnostico`.`diagnostico` FROM `estudiante` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` WHERE `estudiante`.`idEstudiante` = %s;" , [idEstudiante])
+        
+        if len(queryEstud) == 0:
+            return Response({
+                "message" : "Creacion del informe cancelada",
+                "error" : "Estudiante no existe"
+            },status=status.HTTP_404_NOT_FOUND)
+        
+        #MODIFICAR LA URL DE LA IMAGEN PARA SEA FUNCIONAL
+        dataEstud = queryEstud[0]
+        dataEstud['imagen'] = f'http://localhost:8000/media/{dataEstud['imagen']}'
+        
         template = get_template("informe.html")
         #OBJETO INICIAL EN EL CUAL 
         
         calificaciones = [ [], [], [], [], [], [] ]
-        print(calificaciones[1])
-        areas = ['Socio - Afectiva', 'Vida diaria', 'Teatro', 'Danza', 'Música', 'Pintura']
         
-        for i in range(1,7):
-            print('----------------------------------------------')
-            
+        areas = ['Socio - Afectiva', 'Vida diaria', 'Teatro', 'Danza', 'Música', 'Pintura']
+
+        
+        for i in range(0,6):
             #query = querySql("%s", [i]) #i corresponde al area
-            
-            print(logrosInforme[i])
-            
             calificaciones[i] = logrosInforme[i]
             
-            """
-            for values in logrosInforme[i]:
-                print('----------')
-                print(values)
-            """
+        combinados = list(zip(areas, calificaciones))
         
-        print('/////////////////////////////////////////////////////////')
-        print(calificaciones)            
-        print('/////////////////////////////////////////////////////////')
-        
-        for i in calificaciones:
-            print(i)
-
-        html_template = template.render(context = {"calificaciones" : calificaciones, "areas" : areas})
+        html_template = template.render(context = {
+            "combinados" : combinados, 
+            "estudiante" : dataEstud, 
+            "observacion" : observacion
+            })
         
         HTML(string=html_template).write_pdf(target="prueba.pdf")
         

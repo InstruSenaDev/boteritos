@@ -100,3 +100,15 @@ class Logroestudiante(models.Model):
     class Meta:
         managed = False
         db_table = 'logroestudiante'
+        
+
+class Informes(models.Model):
+    idinforme = models.AutoField(db_column='idInforme', primary_key=True)
+    informe = models.TextField()
+    fecha = models.DateField()
+    observacion = models.TextField()
+    idestudiante = models.ForeignKey(Estudiante, models.DO_NOTHING, db_column='idEstudiante')
+    
+    class Meta:
+        managed = False
+        db_table = 'informes'

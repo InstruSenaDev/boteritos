@@ -62,6 +62,7 @@
 
         td,th {
             border: solid 1px #010101;
+            padding: 2px 1px;
             /*border-collapse: collapse;*/
         }
 
@@ -77,12 +78,24 @@
             text-transform: uppercase;
         }
 
+        .headResult{
+            text-align: center;
+        }
+
         .tableDataBody{
             font-size: 12px;
         }
 
         .dataBodyResult{
             text-align: center;
+        }
+
+        .containerTable{
+            width: 100%;
+        }
+
+        .tableData{
+            width: 100%;
         }
 
     </style>
@@ -99,26 +112,26 @@
             <table>
                 <tr>
                     <td class="keyTableHead">NOMBRE:</td>
-                    <td class="valueTableHead">BRYAN SEBASTIAN ARIAS MUÑOZ</td>
+                    <td class="valueTableHead">{{estudiante.nombre}}</td>
                 </tr>
                 <tr>
                     <td class="keyTableHead">DOCUMENTO:</td>
-                    <td class="valueTableHead">1114542999</td>
+                    <td class="valueTableHead">{{estudiante.documento}}</td>
                 </tr>
                 <tr>
                     <td class="keyTableHead">EDAD:</td>
-                    <td class="valueTableHead">19</td>
+                    <td class="valueTableHead">{{estudiante.edad}}</td>
                 </tr>
                 <tr>
                     <td class="keyTableHead">DIAGNOSTICO:</td>
-                    <td class="valueTableHead">SINDROME DE DOWN</td>
+                    <td class="valueTableHead">{{estudiante.diagnostico}}</td>
                 </tr>
                 <tr>
                     <td class="keyTableHead">FECHA:</td>
                     <td class="valueTableHead">2024-09-01 - 2024-11-01</td>
                 </tr>
             </table>
-            <img src="http://localhost:8000/media/imagenes/descarga.jpg" alt="Foto del participante" class="fotoEstudiante">
+            <img src={{estudiante.imagen}} alt="Foto del participante" class="fotoEstudiante">
         </div>
 
         <p class="textObserv">Durante este periodo seguimos trabajando alrededor de las fiestas y celebraciones populares como eje integrador de contenidos y competencias. En septiembre se trabajó el día de amor y amistad; en octubre la fiesta del Halloween con una adaptación, convirtiéndola en una divertida fiesta de colores, en noviembre recordamos a los parientes fallecidos a través de la película Coco de Disney y la celebración del día de los muertos y en diciembre las celebraciones de navidad. Con estas actividades se incluyeron canciones, bailes, preparación de alimentos y productos artesanales vinculados a cada una de las fechas especiales.</p>
@@ -133,13 +146,13 @@
 
         <table class="tableData">
             <!--recorrer el objeto que contiene los arrays de los datos-->
-            {% for data in calificaciones %}
+            {% for area, data in combinados %}
             <thead class="tableDataHead">
                 <tr>
-                    <th>ÁREA SOCIO - AFECTIVA</th>
-                    <th>L.A</th>
-                    <th>L.P</th>
-                    <th>L.N</th>
+                    <th>{{area}}</th>
+                    <th class="headResult">L.A</th>
+                    <th class="headResult">L.P</th>
+                    <th class="headResult">L.N</th>
                 </tr>
             </thead>
             <!--ACCEDEMOS PUNTUALMENTE A CADA DATOS CON RESPECTO A UN AREA-->
@@ -149,7 +162,7 @@
                         <td>{{values.logro}}</td>
                         <!--LOGRO APROBADO-->
                         <td class="dataBodyResult">
-                            {% if values.resultado == 1 %}
+                            {% if values.resultado == "1" %}
                             X
                             {% else %}
                             
@@ -157,7 +170,7 @@
                         </td>
                         <!--LOGRO EN PROCESO-->
                         <td class="dataBodyResult">
-                            {% if values.resultado == 2 %}
+                            {% if values.resultado == "2" %}
                             X
                             {% else %}
                             
@@ -165,7 +178,7 @@
                         </td>
                         <!--LOGRO NO ARPOBADO-->
                         <td class="dataBodyResult">
-                            {% if values.resultado == 0 %}
+                            {% if values.resultado == "0" %}
                             X
                             {% else %}
                             
@@ -175,6 +188,15 @@
                     {% endfor %}
                 </tbody>
             {% endfor %}
+        </table>
+
+        <table>
+            <tr>
+                <td>OBSERVACIONES</td>
+            </tr>
+            <tr>
+                <td>{{observacion}}</td>
+            </tr>
         </table>
     </div>
 
