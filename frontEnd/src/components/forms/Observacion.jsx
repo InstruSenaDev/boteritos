@@ -10,7 +10,7 @@ export const Observacion = ({ texto, placeholder, name, value, onChange }) => {
             id={name}
             name={name}
             placeholder={placeholder}
-            className="rounded-xl w-full px-5 text-paragraph3 border-none font-cocogooseLight border-[1.5px] resize-none focus:outline-none"
+            className="rounded-xl w-full px-5 pt-2 text-paragraph2 border-none font-cocogooseLight border-[1.5px] resize-none focus:outline-none"
             value={value}
             rows="5"
             onChange={onChange}

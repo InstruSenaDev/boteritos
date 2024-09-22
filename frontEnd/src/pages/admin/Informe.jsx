@@ -10,10 +10,10 @@ import {
 import { GrupoDatoElemento } from "../../components/datosEstudiante/GrupoDatoElemento";
 import HeaderData from "../../components/list/headerData/HeaderData";
 import { InformeIndividual } from "../../components/informe/InformeIndividual";
-import { Observacion } from "../../components/informe/Observacion";
 import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { useParams } from "react-router-dom";
 import { Boton } from "../../components/forms/Boton"
+import { Observacion } from "../../components/forms/Observacion";
 
 const Informe = () => {
   const trimestre = JSON.parse(localStorage.getItem("trimestre"));
@@ -77,6 +77,8 @@ const Informe = () => {
           idestud={idestud}
         >
         </InformeIndividual>
+
+        <Observacion texto={"Observación"} placeholder={"Ingrese la observación del estudiante"} name={"observacion"} onChange={""}/>
 
       </div>
       <div className="mt-7 flex justify-center">
