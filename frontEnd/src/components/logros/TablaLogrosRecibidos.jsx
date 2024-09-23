@@ -152,7 +152,7 @@ export const TablaLogrosRecibidos = () => {
     setIsRejectedModalOpen(false)
   }
 
-  // Función para actualizar el estado del logro
+  // Función para actualizar el estado del logro a 1 (modal de confirmación)
   const updateLogroState = async (logro) => {
     try {
       const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
