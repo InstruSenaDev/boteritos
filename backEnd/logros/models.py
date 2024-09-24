@@ -55,6 +55,8 @@ class Trimestres(models.Model):
     descripcion = models.TextField()
     fechainicio = models.DateField(db_column='fechaInicio')
     fechafin = models.DateField(db_column='fechaFin')
+    estado = models.TextField()
+    
     class Meta:
         managed = False
         db_table = 'trimestres'
