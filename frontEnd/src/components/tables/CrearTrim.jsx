@@ -48,60 +48,59 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const hasEmptyFields = trimestres.some(
-        ({ inicio, fin }) => !inicio || !fin
-    );
-
+    // Verificar si la descripción general está vacía
     if (!descripcionGeneral) {
         setMensajeError("La descripción general es obligatoria.");
         return;
     }
 
+    // Verificar si algún trimestre tiene campos vacíos de fechas
+    const hasEmptyFields = trimestres.some(({ inicio, fin }) => !inicio || !fin);
     if (hasEmptyFields) {
         setMensajeError("Todos los trimestres deben tener fechas de inicio y fin.");
         return;
     }
 
+    // Limpiar mensajes de error anteriores
     setMensajeError("");
 
+    // Validar que las fechas de inicio sean anteriores o iguales a las de fin
     const trimestresValidos = trimestres.filter(({ inicio, fin }) => {
         const inicioDate = new Date(inicio);
         const finDate = new Date(fin);
-        return inicioDate <= finDate;
+        return inicioDate <= finDate;  // Solo mantener los trimestres válidos
     });
 
-    if (trimestresValidos.length === trimestres.length) {
-        try {
-            // Crear el objeto con la descripción y trimestres
-            const body = {
-                descripcion: descripcionGeneral,
-                trimestres: trimestresValidos.map((trimestre, index) => ({
-                    trimestre: `Trimestre ${index + 1}`,
-                    fechainicio: format(new Date(trimestre.inicio), "yyyy-MM-dd"),
-                    fechafin: format(new Date(trimestre.fin), "yyyy-MM-dd"),
-                })),
-            };
+    if (trimestresValidos.length !== trimestres.length) {
+        setMensajeError("Hay trimestres con fechas inválidas (la fecha de inicio debe ser anterior o igual a la de fin).");
+        return;
+    }
 
-            console.log("Objeto enviado al backend:", body);
+    // Si todas las validaciones se pasan, proceder con el envío
+    try {
+        const body = {
+            descripcion: descripcionGeneral,
+            trimestres: trimestresValidos.map((trimestre, index) => ({
+                trimestre: index === 0 ? "I" : index === 1 ? "II" : index === 2 ? "III" : "IV",  // Asignación del trimestre
+                fechainicio: format(new Date(trimestre.inicio), "yyyy-MM-dd"),  // Formato de fecha para la API
+                fechafin: format(new Date(trimestre.fin), "yyyy-MM-dd"),
+            })),
+        };
 
-            // Realizar POST
-            const response = await postTrimestres(JSON.stringify(body), "logros/trimestre/");
-            console.log("Respuesta del servidor:", response);
+        // Realizar el POST al backend
+        const response = await postTrimestres(body, "trimestre/");
+        console.log("Respuesta del servidor:", response);
 
-            if (response && response.success) {
-                onTrimestresCompletos();
-            } else {
-                setMensajeError("Error al guardar los trimestres.");
-            }
-        } catch (error) {
-            console.error("Error al hacer POST de los trimestres:", error);
-            setMensajeError("Error de conexión. Inténtalo más tarde.");
+        if (response && response.success) {
+            onTrimestresCompletos();  // Acción si los trimestres se guardan correctamente
+        } else {
+            setMensajeError("Error al guardar los trimestres.");
         }
-    } else {
-        setMensajeError("Hay trimestres con fechas inválidas.");
+    } catch (error) {
+        console.error("Error al hacer POST de los trimestres:", error);
+        setMensajeError("Error de conexión. Inténtalo más tarde.");
     }
 };
-
 
   return (
     <div className="flex justify-center items-center h-full w-full">
