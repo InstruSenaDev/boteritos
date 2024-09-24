@@ -5,8 +5,9 @@ import { objTrimestres } from "../../../helper/objects/Trimestres";
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Input } from "../../forms/Input";
 import { Switch } from "../../forms/Switch";
+import { DatePicker2 } from "../../forms/DatePicker";
 
-const TableTrimestres =() => {
+const TableTrimestres = () => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
@@ -39,12 +40,11 @@ const TableTrimestres =() => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setValues({
-      ...values,
+  const handleDateChange = (name, value) => {
+    setValues((prevValues) => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
   };
 
   return (
@@ -131,25 +131,23 @@ const TableTrimestres =() => {
         onSubmit={handleForm}
         isConfirm={isConfirm}
       >
-        <Input
-          texto={"Fecha inicio"}
-          placeholder={"Ingresa la fecha de inicio"}
-          name={"fechainicio"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.fechainicio || ""}
-        />
-
-        <Input
-          texto={"Fecha final"}
-          placeholder={"Ingresa la fecha final"}
-          name={"fechafinal"}
-          tipo={"text"}
-          onChange={handleInputChange}
-          value={values.fechafinal || ""}
-        />
+        <div className="grid grid-cols-1 w-full">
+          <DatePicker2
+            name="inicio"
+            texto="Seleccione la Fecha inicial"
+            value={values.fechainicio}
+            onChange={(e) => handleDateChange("fechainicio", e.target.value)}
+          />
+            <DatePicker2
+            name="Fin"
+            texto="Seleccione la Fecha Final"
+            value={values.fechafinal}
+            onChange={(e) => handleDateChange("fechafinal", e.target.value)}
+          />
+          
+        </div>
       </ModalCreacion>
     </>
   );
-}
+};
 export default TableTrimestres;

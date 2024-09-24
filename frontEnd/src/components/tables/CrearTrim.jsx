@@ -1,9 +1,15 @@
 import { Button } from "@tremor/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import InputTrimestre from "../forms/InputTrimestre";
+import { postTrimestres } from "../../api/post";
+import { format } from "date-fns";
+import { Input } from "../forms/Input";
 
 const CrearTrim = ({ onTrimestresCompletos }) => {
-  const [trimestres, setTrimestres] = useState([{ id: 1, inicio: "", fin: "" }]);
+  const [trimestres, setTrimestres] = useState([
+    { id: 1, inicio: "", fin: "" },
+  ]);
+  const [descripcionGeneral, setDescripcionGeneral] = useState(""); // Estado para la descripción general
   const [mensajeError, setMensajeError] = useState("");
 
   const agregarTrimestre = () => {
@@ -11,9 +17,11 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
       setMensajeError("No puedes crear más de 4 trimestres");
       return;
     }
-
     setMensajeError("");
-    const nuevosTrimestres = [...trimestres, { id: trimestres.length + 1, inicio: "", fin: "" }];
+    const nuevosTrimestres = [
+      ...trimestres,
+      { id: trimestres.length + 1, inicio: "", fin: "" },
+    ];
     setTrimestres(nuevosTrimestres);
   };
 
@@ -33,39 +41,67 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
     setTrimestres(nuevosTrimestres);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleDescripcionChange = (event) => {
+    setDescripcionGeneral(event.target.value);
+  };
+
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    
-    const hasEmptyFields = trimestres.some(({ inicio, fin }) => !inicio || !fin);
+
+    const hasEmptyFields = trimestres.some(
+        ({ inicio, fin }) => !inicio || !fin
+    );
+
+    if (!descripcionGeneral) {
+        setMensajeError("La descripción general es obligatoria.");
+        return;
+    }
 
     if (hasEmptyFields) {
-      setMensajeError("Todos los trimestres deben tener fechas de inicio y fin.");
-      return;
+        setMensajeError("Todos los trimestres deben tener fechas de inicio y fin.");
+        return;
     }
 
     setMensajeError("");
 
     const trimestresValidos = trimestres.filter(({ inicio, fin }) => {
-      const inicioDate = new Date(inicio);
-      const finDate = new Date(fin);
-      return inicioDate <= finDate;
+        const inicioDate = new Date(inicio);
+        const finDate = new Date(fin);
+        return inicioDate <= finDate;
     });
 
     if (trimestresValidos.length === trimestres.length) {
-      localStorage.setItem("trimestres", JSON.stringify(trimestresValidos));
-      console.log("Trimestres en el localStorage:", trimestresValidos);
-      if (trimestresValidos.length >= 3) {
-        onTrimestresCompletos();  // Llamar a esta función solo al hacer clic en "Crear"
-      }
-    } else {
-      setMensajeError("Hay trimestres con fechas inválidas.");
-    }
-  };
+        try {
+            // Crear el objeto con la descripción y trimestres
+            const body = {
+                descripcion: descripcionGeneral,
+                trimestres: trimestresValidos.map((trimestre, index) => ({
+                    trimestre: `Trimestre ${index + 1}`,
+                    fechainicio: format(new Date(trimestre.inicio), "yyyy-MM-dd"),
+                    fechafin: format(new Date(trimestre.fin), "yyyy-MM-dd"),
+                })),
+            };
 
-  useEffect(() => {
-    const trimestresGuardados = JSON.parse(localStorage.getItem("trimestres")) || [];
-    setTrimestres(trimestresGuardados.length > 0 ? trimestresGuardados : [{ id: 1, inicio: "", fin: "" }]);
-  }, []);
+            console.log("Objeto enviado al backend:", body);
+
+            // Realizar POST
+            const response = await postTrimestres(JSON.stringify(body), "logros/trimestre/");
+            console.log("Respuesta del servidor:", response);
+
+            if (response && response.success) {
+                onTrimestresCompletos();
+            } else {
+                setMensajeError("Error al guardar los trimestres.");
+            }
+        } catch (error) {
+            console.error("Error al hacer POST de los trimestres:", error);
+            setMensajeError("Error de conexión. Inténtalo más tarde.");
+        }
+    } else {
+        setMensajeError("Hay trimestres con fechas inválidas.");
+    }
+};
+
 
   return (
     <div className="flex justify-center items-center h-full w-full">
@@ -87,6 +123,18 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
         )}
 
         <div className="flex flex-col gap-5 justify-items-center items-center">
+          {/* Input para la descripción general */}
+          <div className="w-full flex justify-center">
+            <Input
+              texto="Descripción general"
+              placeholder="Ingresa una descripción general de los trimestres"
+              name="descripcionGeneral"
+              tipo="text"
+              onChange={handleDescripcionChange}
+              value={descripcionGeneral || ""}
+            />
+          </div>
+
           <div id="dinamic" className="flex flex-col gap-5 w-full">
             {trimestres.map((trimestre, index) => (
               <InputTrimestre

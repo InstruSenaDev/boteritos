@@ -15,7 +15,7 @@ const InputTrimestre = ({ total, eliminar, onChange, trimestre }) => {
         value={trimestre.inicio}
       />
       <DatePicker2
-        name={`inicio${total}`}
+        name={`fin${total}`}
         texto={"Seleccione la Fecha Final"}
         onChange={(e) => onChange("fin", e.target.value)}
         value={trimestre.fin}

@@ -17,4 +17,7 @@ export const postModales = async (body, url) => {
   return data;
 };
 
-
+export const postTrimestres = async (body, url) => {
+  const data = await fetchFunction("POST", body, null, `logros/trimestre/`);
+  return data;
+}
