@@ -86,7 +86,13 @@ export const Calificar = () => {
   return (
     <>
       <main className="flex flex-col w-full gap-y-8">
-        <HeaderData />
+        <HeaderData 
+        id={id}
+        urlApi={"sql/estudiantes/header/"}
+        typeLink={"back"}
+        urlGo={"listaestudiantes"}
+        />
+
         <TableCalificarEstudiante setSelectedLogros={setSelectedLogros} />
 
         <div className="w full flex justify-end gap-x-3">

@@ -22,7 +22,7 @@ export const LogrosRecibidosModal = ({ txtmodal, isOpen, onClose, tipo, nombre, 
             </div>
 
             <div className="text-paragraph font-cocogooseLight">
-              <p className="text-darkBlue">Descripción:</p>
+              <p className="text-darkBlue">Observación:</p>
               <p className="text-black ">{descripcion}</p>
             </div>
           </div>
