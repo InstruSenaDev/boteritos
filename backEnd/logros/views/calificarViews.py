@@ -6,7 +6,7 @@ from ..serializers.logrosSerializer import CalificarSerializer
 from ..models import Logros, Estudiante, Logroestudiante
        
 #LOGROS YA APROBADOS LISTOS PARA QUE SEAN CALIFICADOS
-@api_view(['GET', 'PUT'])
+@api_view(['GET'])
 def CalificarList(request,idtrim,idprof,idestud):
     
     if request.method == 'GET':

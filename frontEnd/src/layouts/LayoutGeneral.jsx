@@ -34,7 +34,7 @@ export const LayoutGeneral = ({ titleHeader, children }) => {
       <div
         className={`fixed inset-0 bg-black transition-opacity h-full duration-300 ${
           isSidebarExpanded ? "opacity-50" : "opacity-0 pointer-events-none"
-        }`}
+        } z-10`}
       ></div>
 
       {/* Contenido principal */}

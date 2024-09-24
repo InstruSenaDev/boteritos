@@ -4,7 +4,7 @@ from rest_framework import status
 from ..serializers.trimestreSerializer import TrimestreSerializer
 from ..models import Trimestres
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def TrimestresView(request):
         
     if request.method == 'POST':
@@ -49,6 +49,47 @@ def TrimestresView(request):
             "error" : srTrimestre.data
         },status=status.HTTP_201_CREATED)
 
+    if request.method == 'PUT':
+        #partial=True
+        
+        idTrim = request.data.get('idtrimestre')
+        
+        if not idTrim:
+            return Response({
+                "message" : "Actualizacion de estado cancelada",
+                "error" : "El id del trimestre es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        estado = request.data.get('estado')
+        
+        if not estado:
+            return Response({
+                "message" : "Actualizacion de estado cancelada",
+                "error" : "El estado es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        query = Trimestres.objects.filter(idtrimestre = idTrim).first()
+        
+        if not query:
+            return Response({
+                "message" : "Actualizacion de estado cancelada",
+                "error" : "Trimestre no existe"
+            },status=status.HTTP_404_NOT_FOUND)
+        
+        srTrimestre = TrimestreSerializer(query, data = request.data, partial=True)
+        
+        if srTrimestre.is_valid():
+            srTrimestre.save()
+            return Response({
+                "message" : "Actualizacion de trimestre con exito",
+                "data" : srTrimestre.data
+            },status=status.HTTP_201_CREATED)
+        
+        return Response({
+            "message" : "Actualizacion de trimestre cancelada",
+            "error" : srTrimestre.errors
+        },status=status.HTTP_400_BAD_REQUEST)
+        
 
 @api_view(['GET'])
 def TrimestresList(request,fecha):

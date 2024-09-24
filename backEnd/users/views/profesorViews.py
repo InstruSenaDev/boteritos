@@ -1,4 +1,4 @@
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -11,6 +11,7 @@ from ..serialzer.direccionSerializer import DireccionSerializer
 from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
 from ..serialzer.fechasSerizalizer import FechasSerializer
 from ..serialzer.telefonosSerializer import TelefonosSerializer
+from ..querySql import querySql
 
 @api_view(['POST'])
 def ProfesorCreateView(request):
@@ -90,22 +91,39 @@ def ProfesorCreateView(request):
             "profesor" : profesorSerializer.data
         }, status=status.HTTP_201_CREATED)
 
-
-class ProfesorViewSets(viewsets.ModelViewSet):
-    serializer_class = ProfesorSerializer
-    queryset = Profesor.objects.all()
-    
-    def create(self, request):
-        serializer = self.serializer_class(data = request.data)
+@api_view(['GET'])
+def ProfesorTable(request):
+    if request.method == 'GET':
+        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` , `profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario`", [])
         
-        if serializer.is_valid():
-            serializer.save()
+        if len(query) == 0:
             return Response({
-                "message" : "¡Profesor creado con exito!",
-                "data" : serializer.data
-            }, status=status.HTTP_201_CREATED)
-            
+                "message" : "Datos vacios",
+                "error" : "No se encontraron profesores"
+            },status=status.HTTP_404_NOT_FOUND)
+        
         return Response({
-            "message" : "Creacion cancelada",
-            "error" : serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message" : "Profesores encontrados",
+            "data" : query
+        },status=status.HTTP_200_OK)
+        
+@api_view(['GET'])
+def ProfesorHead(request, id):
+    
+    if request.method == 'GET':
+        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` ,`usuario`.`imagen`, `usuario`.`documento`, `usuario`.`edad` ,`profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idProfesor` = %s;", [id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "No se encontro el profesor"
+            },status=status.HTTP_404_NOT_FOUND)
+        
+        dataProf = query[0]
+        
+        dataProf['imagen'] = f"http://localhost:8000/media/{dataProf['imagen']}"
+        
+        return Response({
+            "message" : "Profesores encontrados",
+            "data" : dataProf
+        },status=status.HTTP_200_OK)

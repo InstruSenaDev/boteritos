@@ -156,15 +156,17 @@ def EstudianteDataPersonal(request,id):
             "datos" : query
         })
 
+#ENDPOINT PARA LISTAR LOS ESTUDIANTES PARA LA TABLA DE ADMIN
 @api_view(['GET'])
-def EstudianteTableAdmin(request):
+def EstudianteTable(request):
     if request.method == "GET":
         query = querySql("SELECT `idUsuario`, `idEstudiante`, `nombre`, `apellido`, `diagnostico` FROM ( SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `usuario`.`nombre`, `usuario`.`apellido`, `diagnostico`.`diagnostico` AS `diagnostico`, ROW_NUMBER() OVER (PARTITION BY `usuario`.`idUsuario` ORDER BY `usuario`.`idUsuario`) AS row_num FROM `estudiante` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` ) AS subquery WHERE row_num = 1;", [])
         
         return Response(query)
-    
+
+#ENDPOINT PARA MOSTRAR INFORMACION EN EL HEAD DE CADA LISTA DE ESTUDIANTES
 @api_view(['GET'])
-def EstudianteHeaderAdmin(request,id):
+def EstudianteHeader(request,id):
     
     if request.method == "GET":
                 

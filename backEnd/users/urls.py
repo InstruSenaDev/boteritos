@@ -2,9 +2,9 @@ from django.urls import path, include
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from .views.estudianteViews import EstudianteTableAdmin, EstudianteHeaderAdmin, EstudianteCreateView, EstudianteDataPersonal
+from .views.estudianteViews import EstudianteTable, EstudianteHeader, EstudianteCreateView, EstudianteDataPersonal
 from .views.historiaClinicaViews import HistoriaClinicaOne, HistoriaClinica
-from .views.profesorViews import ProfesorCreateView
+from .views.profesorViews import ProfesorCreateView, ProfesorTable, ProfesorHead
 from .views.usuarioViews import AdminCreateView
 from .views.responsableViews import ResponsableOne, ResponsableView
 from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosUpdate
@@ -22,12 +22,17 @@ def prueba(request):
 
 urlpatterns= [
     
+    #---------------USUARIOS---------------
+    #ESTUDIANTES
     path('estudiante/', EstudianteCreateView), #REGISTRO DE ESTUDIANTE
     path('estudiante/<int:id>', EstudianteDataPersonal),
-    path('estudiantes/tabla', EstudianteTableAdmin),
-    path('estudiantes/header/<int:id>', EstudianteHeaderAdmin),
+    path('estudiantes/tabla', EstudianteTable),
+    path('estudiantes/header/<int:id>', EstudianteHeader),
     
+    #---------------PROFESOR---------------
     path('profesor/', ProfesorCreateView),
+    path('profesor/tabla', ProfesorTable),
+    path('profesor/header/<int:id>', ProfesorHead),
     
     path('admin/', AdminCreateView),
     
@@ -37,6 +42,7 @@ urlpatterns= [
     path('historiaclinica/', HistoriaClinica),
     path('historiaclinica/<int:id>', HistoriaClinicaOne), #SE PASA EL ID DEL ESTUDIANTE
     
+    #DATOS EXTRA DE ESTUDIANTES
     path('datosmedicos/', DatosMedicosUpdate),
     path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne), #SE PASA EL ID DEL ESTUDIANE
     
@@ -52,5 +58,6 @@ urlpatterns= [
     path('checkdoc/<int:doc>', searchDocument),
     path('prueba/', prueba),
     
+    #DATOS EXTRA DE PROFESORES
     #path('docs/', include_docs_urls(title='Boteritos API'))
 ]
