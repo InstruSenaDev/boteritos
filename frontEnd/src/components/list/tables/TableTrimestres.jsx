@@ -13,7 +13,9 @@ const TableTrimestres = () => {
   // const [isConfirm, setIsConfirm] = useState(false);
   // const [isOpen, setIsOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
-  const [dataTrim, setDatatrim] = ([])
+
+  const anoActual = getYear();
+  const [dataTrim, setDatatrim] = useState([])
   // const [values, setValues] = useState({
   //   fechainicio: "",
   //   fechafinal: "",
@@ -52,12 +54,12 @@ const TableTrimestres = () => {
 
 useEffect (()=>{
   const obtainData = async () =>{
-    const dataApi = await getTrimestres(`trimestre/${getYear}`)
+    const dataApi = await getTrimestres(`trimestre/${anoActual}/`)
     console.log(dataApi);
     setDatatrim(dataApi.data)
   };
   obtainData();
-}, [])
+}, [anoActual])
 
   return (
     <>
@@ -84,7 +86,7 @@ useEffect (()=>{
             <p>Estado</p>
           </div>
           {/*CUERPO DE LA TABLA */}
-          {objTrimestres.map((data, index) => (
+          {dataTrim.map((data, index) => (
             <div
               className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,_1fr)_repeat(2,_minmax(350px,_1fr))_minmax(150px,_1fr)] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
                 openAcc === index ? "open" : "close"

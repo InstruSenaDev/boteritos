@@ -14,7 +14,7 @@ export const getDate = ()=>{
 
 //función para obtener el año
 export const getYear = () => {
-    const añoActual = new Date();
-    const ano = añoActual.getFullYear();
-    return ano; 
+    const anoActual = new Date();
+    const año = anoActual.getFullYear();
+    return año; 
 }

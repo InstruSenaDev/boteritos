@@ -28,11 +28,13 @@ export const CrearTrimestre = () => {
 
   return (
     <main className="flex flex-col gap-8">
-      {hasTrimestres ? (
+      {/* {hasTrimestres ? (
         <VerTrimestres />
       ) : (
         <CrearTrim onTrimestresCompletos={handleTrimestresCompletos} />
-      )}
+      )} */}
+
+      <VerTrimestres/>
     </main>
   );
 };
