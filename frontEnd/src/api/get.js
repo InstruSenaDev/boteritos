@@ -17,6 +17,8 @@ export const getDropdown = async (url) => {
   return data;
 };
 
+// GETS DE LA INFORMACIÓN ADICCIONAL DE LOS ESTUDIANTES
+
 //http://localhost:8000/api/v3/usuarios/historiaclinica/?idestudiante=2
 export const dataDetailEstudiante = async (url) => {
   const data = await fetchFunction("GET", null, null, `registro/${url}`);
@@ -47,3 +49,12 @@ export const DataPersonal = async (url) => {
   const data = await fetchFunction("GET", null, null, `registro/${url}`);
   return data;
 };
+
+
+//GET PARA LOS TRIMESTRES
+
+
+export const getTrimestres = async (url) =>{
+  const data = await fetchFunction ("GET", null, null, `logros/${url}`);
+  return data;
+}

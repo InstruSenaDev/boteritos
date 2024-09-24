@@ -26,8 +26,8 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
   };
 
   const eliminarTrimestre = (index) => {
-    if (trimestres.length <= 1) {
-      setMensajeError("Debe haber al menos 1 trimestre");
+    if (trimestres.length <= 3) {
+      setMensajeError("Debe haber al menos 3 trimestre");
       return;
     }
     setMensajeError("");
@@ -48,59 +48,67 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // Verificar si la descripción general está vacía
+    // Validaciones previas
     if (!descripcionGeneral) {
         setMensajeError("La descripción general es obligatoria.");
         return;
     }
 
-    // Verificar si algún trimestre tiene campos vacíos de fechas
     const hasEmptyFields = trimestres.some(({ inicio, fin }) => !inicio || !fin);
     if (hasEmptyFields) {
         setMensajeError("Todos los trimestres deben tener fechas de inicio y fin.");
         return;
     }
+    
+    if (trimestres.length < 3) {
+      setMensajeError("Debes crear al menos 3 trimestres.");
+      return;
+  }
 
-    // Limpiar mensajes de error anteriores
     setMensajeError("");
 
-    // Validar que las fechas de inicio sean anteriores o iguales a las de fin
     const trimestresValidos = trimestres.filter(({ inicio, fin }) => {
         const inicioDate = new Date(inicio);
         const finDate = new Date(fin);
-        return inicioDate <= finDate;  // Solo mantener los trimestres válidos
+        return inicioDate <= finDate;
     });
 
     if (trimestresValidos.length !== trimestres.length) {
-        setMensajeError("Hay trimestres con fechas inválidas (la fecha de inicio debe ser anterior o igual a la de fin).");
+        setMensajeError("Hay trimestres con fechas inválidas.");
         return;
     }
 
-    // Si todas las validaciones se pasan, proceder con el envío
     try {
         const body = {
             descripcion: descripcionGeneral,
             trimestres: trimestresValidos.map((trimestre, index) => ({
-                trimestre: index === 0 ? "I" : index === 1 ? "II" : index === 2 ? "III" : "IV",  // Asignación del trimestre
-                fechainicio: format(new Date(trimestre.inicio), "yyyy-MM-dd"),  // Formato de fecha para la API
+                trimestre: index === 0 ? "I" : index === 1 ? "II" : index === 2 ? "III" : "IV",
+                fechainicio: format(new Date(trimestre.inicio), "yyyy-MM-dd"),
                 fechafin: format(new Date(trimestre.fin), "yyyy-MM-dd"),
             })),
         };
 
-        // Realizar el POST al backend
         const response = await postTrimestres(body, "trimestre/");
         console.log("Respuesta del servidor:", response);
 
-        if (response && response.success) {
-            onTrimestresCompletos();  // Acción si los trimestres se guardan correctamente
-        } else {
-            setMensajeError("Error al guardar los trimestres.");
-        }
+        // Comprobar si no hay errores en la respuesta
+        if (response && (response.status === 200 || response.status === 201) && response.data) {
+          const trimestresCreado = response.data;
+    
+          if (trimestresCreado) {
+              onTrimestresCompletos();
+          } else {
+              setMensajeError("Algunos trimestres no se crearon correctamente.");
+          }
+      } else {
+          setMensajeError("Error al guardar los trimestres.");
+      }
     } catch (error) {
         console.error("Error al hacer POST de los trimestres:", error);
         setMensajeError("Error de conexión. Inténtalo más tarde.");
     }
 };
+
 
   return (
     <div className="flex justify-center items-center h-full w-full">

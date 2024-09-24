@@ -1,51 +1,63 @@
 import { Button } from "@tremor/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Buscador from "../../search/Buscador";
 import { objTrimestres } from "../../../helper/objects/Trimestres";
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Input } from "../../forms/Input";
 import { Switch } from "../../forms/Switch";
 import { DatePicker2 } from "../../forms/DatePicker";
+import { getTrimestres } from "../../../api/get";
+import { getYear } from "../../../helper/functions/getDate";
 
 const TableTrimestres = () => {
-  const [isConfirm, setIsConfirm] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isConfirm, setIsConfirm] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
-  const [values, setValues] = useState({
-    fechainicio: "",
-    fechafinal: "",
-  });
+  const [dataTrim, setDatatrim] = ([])
+  // const [values, setValues] = useState({
+  //   fechainicio: "",
+  //   fechafinal: "",
+  // });
 
-  const handleForm = (event) => {
-    event.preventDefault();
-    console.log(values);
-    setValues({
-      fechainicio: "",
-      fechafinal: "",
-    });
-    setIsConfirm(true);
-  };
+  // const handleForm = (event) => {
+  //   event.preventDefault();
+  //   console.log(values);
+  //   setValues({
+  //     fechainicio: "",
+  //     fechafinal: "",
+  //   });
+  //   setIsConfirm(true);
+  // };
 
-  const handleOpenModal = () => {
-    setIsOpen(true);
-    setIsConfirm(false);
-  };
+  // const handleOpenModal = () => {
+  //   setIsOpen(true);
+  //   setIsConfirm(false);
+  // };
 
-  const handleCloseModal = () => {
-    setIsOpen(false);
-    setIsConfirm(false);
-  };
+  // const handleCloseModal = () => {
+  //   setIsOpen(false);
+  //   setIsConfirm(false);
+  // };
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const handleDateChange = (name, value) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
+  // const handleDateChange = (name, value) => {
+  //   setValues((prevValues) => ({
+  //     ...prevValues,
+  //     [name]: value,
+  //   }));
+  // };
+
+useEffect (()=>{
+  const obtainData = async () =>{
+    const dataApi = await getTrimestres(`trimestre/${getYear}`)
+    console.log(dataApi);
+    setDatatrim(dataApi.data)
   };
+  obtainData();
+}, [])
 
   return (
     <>
@@ -54,12 +66,12 @@ const TableTrimestres = () => {
 
         <header className="flex gap-2 justify-between w-full pb-5">
           <Buscador />
-          <Button onClick={handleOpenModal}>
+          {/* <Button onClick={handleOpenModal}>
             <div className="flex gap-2 w-fit">
               <i className="fa-solid fa-plus border-2 rounded-full p-0.5"></i>{" "}
               <span className="hidden sm:block">Crear trimestre</span>
             </div>
-          </Button>
+          </Button> */}
         </header>
 
         <section className="max-h-[80vh] overflow-y-scroll">
@@ -124,7 +136,7 @@ const TableTrimestres = () => {
           ))}
         </section>
       </main>
-      <ModalCreacion
+      {/* <ModalCreacion
         txtmodal={"Crear nuevo trimestre"}
         isOpen={isOpen}
         onClose={handleCloseModal}
@@ -146,7 +158,7 @@ const TableTrimestres = () => {
           />
           
         </div>
-      </ModalCreacion>
+      </ModalCreacion> */}
     </>
   );
 };

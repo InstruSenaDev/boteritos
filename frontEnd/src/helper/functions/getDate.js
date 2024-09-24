@@ -11,3 +11,10 @@ export const getDate = ()=>{
     const fechaFormateada = año + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia
     return fechaFormateada
 }
+
+//función para obtener el año
+export const getYear = () => {
+    const añoActual = new Date();
+    const ano = añoActual.getFullYear();
+    return ano; 
+}
