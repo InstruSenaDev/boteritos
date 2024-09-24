@@ -67,7 +67,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
           const xs = renderXs(dataKey.resultado);
           return (
             <div key={dataKey.idlogro} className="w-full py-5 gap-y-2 flex flex-col justify-between">
-              <p className="font-cocogooseLight text-paragraph">{dataKey.logro}</p>
+              <p className="font-cocogooseLight text-paragraph2">{dataKey.logro}</p>
               <div className="text-darkBlue flex font-cocogooseSemiLight text-subTitle max-w-[250px] w-full justify-between">
                 <p>L.A</p>
                 <p>L.P</p>
@@ -97,7 +97,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
           const xs = renderXs(dataKey.resultado);
           return (
             <div key={dataKey.idlogro} className=" w-full py-5 flex justify-between items-center">
-              <p className="font-cocogooseLight text-paragraph pr-2">{dataKey.logro}</p>
+              <p className="font-cocogooseLight text-paragraph2 pr-2">{dataKey.logro}</p>
               <div className="leading-none flex font-cocogooseSemiLight text-title2 text-orange max-w-[250px] w-full justify-between px-[10px]">
                 <p>{xs[0]}</p> {/* L.A */}
                 <p>{xs[1]}</p> {/* L.P */}

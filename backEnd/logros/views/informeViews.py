@@ -4,7 +4,6 @@ from django.template.loader import get_template
 from rest_framework import status
 from datetime import date
 from weasyprint import HTML
-from .objPrueba import logrosInforme
 
 from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer
 from ..models import Logros, Estudiante, Logroestudiante, Trimestres
@@ -59,7 +58,16 @@ def CreateInforme(request):
         #VARIABLES QUE NOS AYUDARAN CON EL MANEJOS DE LOS DATOS PARA LOS LOGROS
         calificaciones = [ [], [], [], [], [], [] ] #ALMACENAMIENTO DE LOGRO POR AREA
         areas = ['Socio - Afectiva', 'Vida diaria', 'Teatro', 'Danza', 'Música', 'Pintura']
-            
+        
+        #BUSCAMOS LA INFORMACION DEL TRIMESTRE
+        trim = Trimestres.objects.filter(idtrimestre = idTrim).first()
+        
+        if not trim:
+            return Response({
+                "message" : "Creacion del informe cancelada",
+                "error" : "El trimestre no existe"
+            },status=status.HTTP_404_NOT_FOUND) 
+        
         #BUSCAMOS LA INFORMACION DEL ESTUDIANTE
         queryEstud = querySql("SELECT CONCAT(`usuario`.`nombre`, ' ' ,`usuario`.`apellido`) AS `nombre`, `usuario`.`documento`, `usuario`.`edad`, `usuario`.`imagen`, `diagnostico`.`diagnostico` FROM `estudiante` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` WHERE `estudiante`.`idEstudiante` = %s;" , [idEstudiante])
         
@@ -82,18 +90,18 @@ def CreateInforme(request):
         dataEstud['imagen'] = f'http://localhost:8000/media/{urlImg}'
         
         for i in range(0,6):
-            #query = querySql("%s", [i]) #i corresponde al area
             #calificaciones[i] = logrosInforme[i]
-            
+            idArea = i + 1
             #CONSULTA PARA OBTENER LOS LOGROS
-            calificaciones[i] = querySql("SELECT `areas`.`area`, `profesor`.`idProfesor`, `logros`.`idLogro`,`logros`.`logro`, `logros`.`idTrimestre`, `logroestudiante`.* FROM `areas` LEFT JOIN `profesor` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `logros` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `logroestudiante` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE (`areas`.`idArea` = %s AND `logroestudiante`.`idEstudiante` = %s AND `logros`.`idTrimestre` = %s AND (`logroestudiante`.`estado` = 1));",[i,idEstudiante,idTrim])
-            
+            calificaciones[i] = querySql("SELECT `areas`.`area`, `profesor`.`idProfesor`, `logros`.`idLogro`,`logros`.`logro`, `logros`.`idTrimestre`, `logroestudiante`.* FROM `areas` LEFT JOIN `profesor` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `logros` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `logroestudiante` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE (`areas`.`idArea` = %s AND `logroestudiante`.`idEstudiante` = %s AND `logros`.`idTrimestre` = %s AND (`logroestudiante`.`estado` = 1));",[idArea,idEstudiante,idTrim])
+        
         combinados = list(zip(areas, calificaciones))
         
         html_template = template.render(context = {
             "combinados" : combinados, 
             "estudiante" : dataEstud, 
-            "observacion" : observacion
+            "observacion" : observacion,
+            "tematica" : trim.descripcion
             })
         
         HTML(string=html_template).write_pdf(target="prueba.pdf")
