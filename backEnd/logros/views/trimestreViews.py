@@ -45,8 +45,8 @@ def TrimestresView(request):
         srTrimestre = TrimestreSerializer(trimestres, many=True)
                     
         return Response({
-            "message" : "Creacion de trimestres cancelada",
-            "error" : srTrimestre.data
+            "message" : "Creacion de trimestres realizada con exito",
+            "data" : srTrimestre.data
         },status=status.HTTP_201_CREATED)
 
     if request.method == 'PUT':
