@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views.trimestreViews import TrimestresCreate, TrimestresList
+from .views.trimestreViews import TrimestresView, TrimestresList
 from .views.logrosViews import LogrosViews, ListLogrosAdmin, ListLogrosProfesor
 from .views.calificarViews import CalificarList, CalificarSave, CalificarSend
 from .views.informeViews import InformeList, CreateInforme
 
 urlpatterns= [
-    path('trimestre/', TrimestresCreate),
+    path('trimestre/', TrimestresView),
     path('trimestre/<str:fecha>/', TrimestresList),
     path('logro/', LogrosViews), #CREAR Y ACTUALIZAR LOGROS
     path('listlogros/admin/<int:idtrim>/', ListLogrosAdmin), #LISTADO DE LOGROS PARA QUE EL ADMIN LO VISUALICE

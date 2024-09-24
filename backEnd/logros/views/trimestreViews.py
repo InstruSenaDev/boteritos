@@ -4,24 +4,51 @@ from rest_framework import status
 from ..serializers.trimestreSerializer import TrimestreSerializer
 from ..models import Trimestres
 
-
 @api_view(['POST'])
-def TrimestresCreate(request):
+def TrimestresView(request):
         
     if request.method == 'POST':
-        serializer = TrimestreSerializer(data = request.data)
         
-        if serializer.is_valid():
-            serializer.save()
+        descripTrim = request.data.get('descripcion')
+        
+        if not descripTrim:
             return Response({
-                "message" : "¡Trimestre creado!",
-                "data" : serializer.data
-            },status=status.HTTP_201_CREATED)
+                "message" : "Creacion de trimestres cancelada",
+                "error" : "La descripcion de la tematica es obligatoria"
+            },status=status.HTTP_400_BAD_REQUEST)
+         
+        dataTrim = request.data.get('trimestres')
         
+        if not dataTrim or len(dataTrim) == 0:
+            return Response({
+                "message" : "Crecion de trimestres cancelada",
+                "error" : "Los datos de cada trimestre son obligatorios"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        nuevosTrim = []
+        
+        for trimestre in dataTrim:
+            nuevoTrim = Trimestres(
+                trimestre = trimestre['trimestre'],
+                descripcion = descripTrim,
+                fechainicio = trimestre['fechainicio'],
+                fechafin = trimestre['fechafin'],
+                estado = 0
+            )
+            
+            nuevosTrim.append(nuevoTrim)
+        
+        # INSERTAR SIMULTANEAMENTE LOS TRIMESTRES
+        trimestres = Trimestres.objects.bulk_create(nuevosTrim)
+
+        # Serializar los objetos creados
+        srTrimestre = TrimestreSerializer(trimestres, many=True)
+                    
         return Response({
-            "message" : "Creacion del trimestre cancelada",
-            "error" : serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message" : "Creacion de trimestres cancelada",
+            "error" : srTrimestre.data
+        },status=status.HTTP_201_CREATED)
+
 
 @api_view(['GET'])
 def TrimestresList(request,fecha):

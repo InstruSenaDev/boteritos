@@ -69,21 +69,21 @@ def LogrosViews(request):
                 
                 getAllEstudiantes = Estudiante.objects.all()
                 
-                nuevos_logros_estudiantes = []
+                nuevosLogrosEstudiantes = []
                 
                 # Iterar sobre los estudiantes y crear las entradas
                 for estudiante in getAllEstudiantes:
-                    nuevo_logro_estudiante = Logroestudiante(
+                    nuevoLogroEstudiante = Logroestudiante(
                         resultado='2',  # Ajusta según lo que necesitas guardar
                         fecha=date.today(),  # Usa la fecha actual
                         idlogro=query,   # Relacionar con el logro actualizado
                         idestudiante=estudiante,  # Relacionar con cada estudiante
                         estado = '0' #Definir el estado inicial (GUARDADO)
                     )
-                    nuevos_logros_estudiantes.append(nuevo_logro_estudiante)
+                    nuevosLogrosEstudiantes.append(nuevoLogroEstudiante)
                 
                 # Insertar todas las instancias de Logroestudiante de una sola vez
-                calificaciones = Logroestudiante.objects.bulk_create(nuevos_logros_estudiantes)
+                calificaciones = Logroestudiante.objects.bulk_create(nuevosLogrosEstudiantes)
 
                 srCalificacion = CalificarSerializer(calificaciones, many = True)
             
