@@ -111,8 +111,8 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
 
 
   return (
-    <div className="flex justify-center items-center h-full w-full">
-      <main className="bg-white rounded-xl py-7 px-8 w-fit h-full space-y-5">
+    <div className="flex justify-center items-center h-full sm:h-[calc(100vh-150px)] w-full">
+      <main className="bg-white rounded-xl py-7 px-8 w-fit h-fit space-y-5">
         <div className="w-full text-center">
           <h1 className="text-darkBlue font-cocogooseRegular text-title">
             No hay Trimestres Creados
@@ -155,7 +155,7 @@ const CrearTrim = ({ onTrimestresCompletos }) => {
               />
             ))}
           </div>
-          <div className="flex flex-row w-full justify-center gap-6">
+          <div className="flex flex-col sm:flex-row w-full justify-center gap-6">
             <Button
               onClick={agregarTrimestre}
               id="agregar"

@@ -1,13 +1,12 @@
-import { Button } from "@tremor/react";
 import React, { useEffect, useState } from "react";
 import Buscador from "../../search/Buscador";
-import { objTrimestres } from "../../../helper/objects/Trimestres";
-import { ModalCreacion } from "../../modales/ModalCreacion";
-import { Input } from "../../forms/Input";
 import { Switch } from "../../forms/Switch";
-import { DatePicker2 } from "../../forms/DatePicker";
 import { getTrimestres } from "../../../api/get";
 import { getYear } from "../../../helper/functions/getDate";
+import { putUpdate } from "../../../api/put";
+import { Button } from "@tremor/react";
+import { DatePicker2 } from "../../forms/DatePicker";
+import { ModalCreacion } from "../../modales/ModalCreacion";
 
 const TableTrimestres = () => {
   // const [isConfirm, setIsConfirm] = useState(false);
@@ -52,15 +51,35 @@ const TableTrimestres = () => {
   //   }));
   // };
 
-useEffect (()=>{
-  const obtainData = async () =>{
-    const dataApi = await getTrimestres(`trimestre/${anoActual}/`)
-    console.log(dataApi);
-    setDatatrim(dataApi.data)
-  };
-  obtainData();
-}, [anoActual])
+//Función para manejar el cambio de estado del switch
+ const handleSwitchChange = async (idtrimestre, nuevoEstado) =>{
+  const body = {estado: nuevoEstado, idtrimestre};
+  try {
+    await putUpdate(JSON.stringify(body), `logros/trimestre/`);
+    setDatatrim((prevData)=>
+    prevData.map((trim)=>
+    trim.idtrimestre === idtrimestre ? {...trim, estado: nuevoEstado}:trim
+    )
+  );
+  } catch (error) {
+    console.error("Error al actualizar el estado:", error);
+  }
+ }
 
+  useEffect(() => {
+    const obtainData = async () => {
+      try {
+        const dataApi = await getTrimestres(`trimestre/${anoActual}/`);
+        console.log(dataApi); // Verifica qué datos estás obteniendo
+        setDatatrim(dataApi.data.data || []); // Establece un array vacío por defecto
+      } catch (error) {
+        console.error("Error al obtener los trimestres:", error);
+      }
+    };
+
+    obtainData();
+  }, [anoActual]);
+  
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-3 w-full overflow-y-hidden">
@@ -78,7 +97,7 @@ useEffect (()=>{
 
         <section className="max-h-[80vh] overflow-y-scroll">
           {/* HEADER TABLA */}
-          <div className="sticky top-0 lg:grid grid-cols-[150px_minmax(400px,_1fr)_repeat(2,_minmax(350px,_1fr))_minmax(150px,_1fr)] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+          <div className="sticky top-0 lg:grid grid-cols-[150px_minmax(400px,_1fr)_repeat(2,_minmax(350px,_1fr))_minmax(150px,_1fr)] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden bg-white ">
             <p>No°</p>
             <p>Trimestre</p>
             <p>Fecha inicio</p>
@@ -124,14 +143,18 @@ useEffect (()=>{
               <div className="flex gap-2 lg:gap-0 acc-body">
                 <p className="text-darkBlue lg:hidden">Fecha final:</p>
                 <div className="w-full">
-                  <p>{`${data.fechafinal}`}</p>{" "}
+                  <p>{`${data.fechafin}`}</p>{" "}
                 </div>
               </div>
 
               <div className="flex gap-2 lg:gap-0 acc-body">
                 <p className="text-darkBlue lg:hidden">Estado:</p>
                 <div className="w-full">
-                  <Switch />
+                  <Switch  
+                  checked={data.estado}
+                  idtrimestre={data.idtrimestre}
+                  onChange={handleSwitchChange}
+                  />
                 </div>
               </div>
             </div>
