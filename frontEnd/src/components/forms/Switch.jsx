@@ -1,11 +1,9 @@
-import React from 'react';
-
 export const Switch = ({ checked, idtrimestre, onChange }) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer">
       <input 
         type="checkbox" 
-        checked={checked === 1} // Si el estado es 1, el switch estará activado
+        checked={checked === 1} 
         onChange={() => onChange(idtrimestre, checked === 1 ? 0 : 1)} // Alterna entre 1 y 0
         className="sr-only peer"
       />
