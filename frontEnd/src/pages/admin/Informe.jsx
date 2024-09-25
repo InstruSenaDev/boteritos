@@ -33,22 +33,19 @@ const Informe = () => {
         },
         body: JSON.stringify(data),
       });
-
+  
       console.log("Encabezados de la respuesta:", response.headers);
   
       if (response.ok) {
         const contentType = response.headers.get("content-type");
+        console.log("Tipo de contenido:", contentType);
         if (contentType && contentType.includes("application/pdf")) {
-          const contentDisposition = response.headers.get("content-disposition");
-          console.log("Content-Disposition:", contentDisposition);
-          
-          // Extraer el nombre del archivo del encabezado Content-Disposition
+          // Extraer el nombre del archivo del encabezado x-textfile
+          const fileNameHeader = response.headers.get("x-textfile");
           let filename = "descarga.pdf"; // Nombre de archivo por defecto
-          if (contentDisposition && contentDisposition.includes("filename=")) {
-            const matches = contentDisposition.match(/filename="(.+)"/);
-            if (matches.length > 1) {
-              filename = matches[1]; // Obtener el nombre del archivo
-            }
+          if (fileNameHeader) {
+            filename = fileNameHeader.trim(); // Obtener el nombre del archivo y eliminar espacios
+            console.log("Nombre del archivo extraído:", filename); // Log del nombre extraído
           }
   
           // Descargar el archivo
@@ -57,7 +54,7 @@ const Informe = () => {
           const a = document.createElement("a");
           a.style.display = "none";
           a.href = url;
-          a.download = filename;
+          a.download = filename; // Utilizar el nombre extraído del encabezado
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
