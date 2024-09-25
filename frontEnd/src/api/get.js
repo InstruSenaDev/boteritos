@@ -52,9 +52,15 @@ export const DataPersonal = async (url) => {
 
 
 //GET PARA LOS TRIMESTRES
-
-
 export const getTrimestres = async (url) =>{
   const data = await fetchFunction ("GET", null, null, `logros/${url}`);
   return data;
 }
+
+//GET PARA LOS PROFESORES
+export const getAllTeachers = async (url) => {
+  const data = await fetchFunction("GET", null, null, `registro/${url}`);
+  return data;
+};
+
+
