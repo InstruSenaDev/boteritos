@@ -1,9 +1,13 @@
-export const Switch = ({ checked, idtrimestre, onChange }) => {
+export const Switch = ({ 
+  checked,
+   idtrimestre, 
+   onChange  // Define una función que se ejecuta cuando el estado del checkbox cambia (cuando se hace clic).
+  }) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer">
       <input 
         type="checkbox" 
-        checked={checked === 1} 
+        checked={checked === 1} //Evalúa si checked es igual a 1. Si es así, el checkbox estará marcado (activo); de lo contrario, estará desmarcado (inactivo).
         onChange={() => onChange(idtrimestre, checked === 1 ? 0 : 1)} // Alterna entre 1 y 0
         className="sr-only peer"
       />
