@@ -1,54 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Buscador from "../../search/Buscador";
 import { ConfirmationModal } from "../../modales/ConfirmationModal";
 
-const TableListTeachers = (getId) => {
+const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
   const [openAcc, setOpenAcc] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
+  const [dataTeacher, setDataTeacher] = useState([]); // Estado para almacenar los profesores.
 
-  const handleOpen = () =>{
-   setIsOpen(true);
-  }
-  const handleClose = () =>{
-   setIsOpen(false);
-  }
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
 
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const dataTeacher = [
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-  ];
+  // Función para obtener los profesores desde la API
+  const getTeachers = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/v3/registro/profesor/tabla",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Datos recibidos:", data);
+
+        // Accediendo a data
+        return Array.isArray(data.data) ? data.data : [];
+      } else {
+        console.error("Error al obtener los datos:", response.statusText);
+        return []; // Retorna un array vacío si la solicitud falla
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error.message);
+      return []; // Retorna un array vacío en caso de error
+    }
+  };
+
+  // useEffect para cargar los profesores
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      const data = await getTeachers();
+      console.log("Profesores recibidos:", data); // Se verifica que aquí lleguen los datos
+      setDataTeacher(data || []); // Almacena los profesores en el estado
+    };
+
+    fetchTeachers(); // Ejecuta la función
+  }, []);
 
   return (
     <>
@@ -86,20 +95,21 @@ const TableListTeachers = (getId) => {
                 </div>
               </div>
 
+              {/* Cambiado: getId se llama al hacer clic en el nombre */}
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p className="underline cursor-pointer">{`${data.nombre}`}</p>
+                <div
+                  className="acc-header w-full flex justify-between items-center cursor-pointer underline"
+                  onClick={() => getId(data.idprofesor)} 
+                >
+                  <p>{`${data.nombre}`}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Título:</p>
                 <div className=" w-full flex justify-between items-center ">
-                  <p
-                    className="unerline cursor-pointer"
-                    onClick={() => getId(data.idprofesor)}
-                  >{`${data.titulo}`}</p>
+                  <p>{`${data.titulo}`}</p>
                 </div>
               </div>
 
@@ -110,10 +120,13 @@ const TableListTeachers = (getId) => {
                 </div>
               </div>
 
-              <div className="acc-body flex gap-2 lg:gap-0 items-center">
+              <div className="acc-body flex gap-2 lg:gap-0 items-end">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
-                <div className=" w-full flex justify-between items-center ">
-                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpen}></i>
+                <div className="w-full flex items-center ">
+                  <i
+                    className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"
+                    onClick={handleOpen}
+                  ></i>
                 </div>
               </div>
             </div>
