@@ -11,7 +11,7 @@ from ..serialzer.telefonosSerializer import TelefonosSerializer
 
 from ..models import Estudiante, Usuario
 from ..querySql import querySql
-
+from url import urlHost
 
 @api_view(['POST', 'PUT'])
 def EstudianteCreateView(request):
@@ -203,7 +203,7 @@ def EstudianteHeader(request,id):
             'dataEstudiante' : {
                 "id" : infoEstudiante['idestudiante'],
                 "nombre" : infoEstudiante['estudiante'],
-                "imagen" : f"http://localhost:8000/media/{infoEstudiante['imagenestudiante']}",
+                "imagen" : f"{urlHost}{infoEstudiante['imagenestudiante']}",
                 "documento" : infoEstudiante['documentoestudiante'],
                 "edad" : infoEstudiante['edadestudiante']
             },
