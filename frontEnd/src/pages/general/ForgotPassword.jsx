@@ -1,34 +1,20 @@
 import { useState } from "react";
-import { ForgotLayout } from "../../layouts/ForgotLayout.jsx";
+
 import { Boton } from "../../components/forms/Boton";
 import { Input } from "../../components/forms/Input.jsx";
 import { Link } from "react-router-dom";
 
 export const ForgotPassword = () => {
-  const [documentNumber, setDocumentNumber] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleChange = (e) => {
-    setDocumentNumber(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Número de documento:", documentNumber);
+    console.log("Número de documento:", );
     setIsSubmitted(true);
   };
 
-  const handleResend = () => {
-    console.log("Reenviando enlace...");
-  };
-
-  const handleCorrect = () => {
-    setDocumentNumber(""); // Limpia el input
-    setIsSubmitted(false);  // Vuelve a mostrar el formulario
-  };
-
   return (
-    <ForgotLayout title="¿Olvidó su contraseña?">
+   
       <main className="w-full h-screen flex justify-center items-center p-4 text-black">
         <form
           onSubmit={handleSubmit}
@@ -46,16 +32,21 @@ export const ForgotPassword = () => {
             {!isSubmitted ? (
               <>
                 <h1 className="text-title font-cocogooseRegular tracking-normal text-darkBlue">
-                  Recuperar contraseña
+                  nueva contraseña
                 </h1>
                 <Input
-                  texto="Número de documento"
-                  placeholder="Ingresa tu documento"
+                  texto="Nueva contraseña"
+                  placeholder="Ingresa tu Nueva contraseña"
                   icon=""
-                  value={documentNumber}
-                  onChange={handleChange}
+                 
                 />
-                <Boton text="Continuar" type="blue" />
+                <Input
+                  texto="Confirmar contraseña"
+                  placeholder="Confirma tu nueva contraseña"
+                  icon=""
+                 
+                />
+                <Boton text="Cambiar contraseña" type="blue" />
               </>
             ) : (
               <div className="text-center">
@@ -65,31 +56,18 @@ export const ForgotPassword = () => {
                 <p className="text-paragraph font-cocogooseLight">
                   Puedes cerrar esta página y reanudar la recuperación de tu cuenta desde el enlace.
                 </p>
+               
                 <div className="flex justify-center mt-4">
-                  <Boton text="Reenviar enlace" type="blue" onClick={handleResend} />
-                </div>
-                
-                <div className="flex justify-center mt-4">
-                    <a 
-                      href="#" 
-                      className="text-paragraph2 font-cocogooseLight text-darkBlue underline" 
-                      onClick={handleCorrect}
-                    >
-                      Corregir documento
-                    </a>
+
                  
                 </div>
               </div>
             )}
-            <div className="flex justify-center">
-              <Link to="/" className="text-paragraph2 font-cocogooseLight text-darkBlue underline">
-                Volver al inicio de sesión
-              </Link>
-            </div>
+           
           </div>
         </form>
       </main>
-    </ForgotLayout>
+
   );
 };
 
