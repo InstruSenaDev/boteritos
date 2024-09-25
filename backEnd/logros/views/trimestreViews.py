@@ -62,7 +62,8 @@ def TrimestresView(request):
             
         estado = request.data.get('estado')
         
-        if not estado:
+        #TOCA CON NONE PORQUE TOMA 0 COMO FALSY
+        if estado == None:
             return Response({
                 "message" : "Actualizacion de estado cancelada",
                 "error" : "El estado es obligatorio"

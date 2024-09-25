@@ -21,6 +21,22 @@ def DatosMedicosEstudianteOne(request,id):
             "message" : "¡Datos encontrados!",
             "data" : query
         }, status=status.HTTP_200_OK)
+        
+@api_view(['GET'])
+def DatosMedicosProfesor(request,id):
+    if request.method == 'GET':
+        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `datosmedicos`.*, `eps`.*, `rh`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `datosmedicos` ON `datosmedicos`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `eps` ON `datosmedicos`.`idEps` = `eps`.`idEps` LEFT JOIN `rh` ON `datosmedicos`.`idRh` = `rh`.`idRh` WHERE `profesor`.`idProfesor` = %s;",[id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Datos no encontrados"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "¡Datos encontrados!",
+            "data" : query
+        }, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def DatosMedicosUpdate(request):

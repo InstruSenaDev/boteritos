@@ -6,9 +6,10 @@ from rest_framework import status
 from datetime import date
 from weasyprint import HTML
 
-from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer
+from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer, InformesSerializer
 from ..models import Logros, Estudiante, Logroestudiante, Trimestres
 from helper.querySql import querySql
+from url import urlHost
 
 #NOMBRE DEL ESTUDIANTE, TRIMESTRE, FECHA DE CREACION
 def namePdf(estud,trim,fecha):
@@ -19,15 +20,13 @@ def namePdf(estud,trim,fecha):
     return f"{nombre}_{trim.trimestre}_{fecha}"
 
 #ID DEL ESTUDIANTE, INFO DEL TRIMESTRE, OBSERVACION
-def generarInforme(idEstudiante, idTrim, observacion):
+def generarInforme(idEstudiante, idTrim, observacion, fecha):
     #DECLARACION DE VARIABLES
     template = get_template("informe.html") #PLANITLLA HTML
     
     #VARIABLES QUE NOS AYUDARAN CON EL MANEJOS DE LOS DATOS PARA LOS LOGROS
     calificaciones = [ [], [], [], [], [], [] ] #ALMACENAMIENTO DE LOGRO POR AREA
     areas = ['Socio - Afectiva', 'Vida diaria', 'Teatro', 'Danza', 'Música', 'Pintura']
-    #OBTENCION DE LA FECHA EN LA CUAL SE ESTA CREANDO EL INFORME
-    fecha = date.today()
     
     #BUSCAMOS LA INFORMACION DEL TRIMESTRE
     trim = Trimestres.objects.filter(idtrimestre = idTrim).first()
@@ -54,10 +53,10 @@ def generarInforme(idEstudiante, idTrim, observacion):
     
     #ASIGNAR IMAGEN PREDETERMINADA SI NO SE ENCUENTRA
     if not urlImg :
-        dataEstud['imagen'] = f'http://localhost:8000/media/imagenes/studentDefault.png'
+        dataEstud['imagen'] = f'{urlHost}imagenes/studentDefault.png'
 
     #DEFINIR LA URL DE LA IMAGEN DEL ESTUDIANTE
-    dataEstud['imagen'] = f'http://localhost:8000/media/{urlImg}'
+    dataEstud['imagen'] = f'{urlHost}{urlImg}'
     
     for i in range(0,6):
         #AGREGAMOS UN +1 YA QUE LAS AREAS EMPIEZAN DESDE 1
@@ -75,9 +74,7 @@ def generarInforme(idEstudiante, idTrim, observacion):
         "tematica" : trim.descripcion
         })
     
-    textFile = namePdf(dataEstud, trim, fecha)
-    print(textFile)
-    
+    textFile = namePdf(dataEstud, trim, fecha)    
     pdf = HTML(string=html_template).write_pdf()
     
     return pdf, textFile
@@ -107,6 +104,8 @@ def CreateInforme(request):
         observacion = request.data.get('observacion')
         idTrim = request.data.get('idtrimestre')
         idEstudiante = request.data.get('idestudiante')
+        #OBTENCION DE LA FECHA EN LA CUAL SE ESTA CREANDO EL INFORME
+        fecha = date.today()
         
         if not observacion:
             return Response({
@@ -114,21 +113,37 @@ def CreateInforme(request):
                 "error" : "La observacion es obligatoria"
             },status=status.HTTP_400_BAD_REQUEST)
         
-        if not idTrim:
+        if not idTrim or (not str(idTrim).isdigit()):
             return Response({
                 "message" : "Creacion del informe cancelada",
                 "error" : "El id del trimestre es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
         
-        if not idEstudiante:
+        if not idEstudiante or (not str(idEstudiante).isdigit()):
             return Response({
                 "message" : "Creacion del informe cancelada",
                 "error" : "el id del estudiante es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
         
-        pdf, textFile = generarInforme(idEstudiante, idTrim, observacion)
+        
+        pdf, textFile = generarInforme(idEstudiante, idTrim, observacion, fecha)
+        
+        dataInforme = request.data
+        dataInforme['fecha'] = fecha
+        dataInforme['informe'] = textFile
+        
+        srInformes = InformesSerializer(data = dataInforme)
+        
+        if not srInformes.is_valid():
+            return Response({
+                "message" : "Error al crear el informe",
+                "error" : srInformes.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        srInformes.save()    
         
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = f'inline; filename="{textFile}.pdf"'
+        response['X-textfile'] = textFile
+        
         return response
-        #return Response(calificaciones)

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correo de Prueba</title>
+    <style>
+        body{
+            color: #0E0E0E;
+            
+        }
+        .containerAll {
+            max-width: 400px;
+            margin: 0 auto;
+            /*
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            */
+            font-family: Arial, sans-serif;
+        }
+        .container{
+            width: 100%;
+            background-color: #206AC425;
+            padding: 60px;
+            border-radius: 8px;
+        }
+        .textSaludo{
+            color: #206AC4;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .textAccion{
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .textAlert{
+            font-size: 16px;
+        }
+        .containerSaludo{
+            border-left: 1px #206AC4 solid;
+            padding-left: 10px;
+        }
+        h1 {
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="containerAll">
+        <div class="container">
+
+            <img src="http://localhost:8000/media/imagenes/IconBoteritos.png" alt="Icono Boteritos">
+            <p class="textSaludo">Hola, {{ nombre }}</p>
+            <p class="textAccion">Haz clic en el enlace de abajo para recuperar tu contraseña y poder iniciar sesión</p>
+
+            <button>ENLACE</button>
+
+            <p class="textAlert">Si no estás tratando de recuperar tu contraseña de inicio de sesión, por favor, ignora este correo electrónico. Es posible que otro usuario haya introducido su información de inicio de sesión de manera incorrecta.</p>
+
+            <div class="containerSaludo">
+                <p>Saludos</p>
+                <p>El equipo de Boteritos</p>
+            </div>
+
+        </div>
+        <!--
+            <p>{{ asunto }}</p>
+            <p>{{ mensaje }}</p>
+        -->
+    </div>
+</body>
+</html>

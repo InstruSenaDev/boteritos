@@ -22,7 +22,23 @@ def TelefonosEstudiante(request,id):
             "message" : "Telefonos encontrados",
             "data" : query
         }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def TelefonosProfesor(request,id):
+    
+    if request.method == 'GET':
+        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `telefonos`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = %s;", [id])
         
+        if len(query) == 0:
+            return Response({
+                "message" : "Telefonos no encontrados",
+                "error" : "Datos vacios"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "Telefonos encontrados",
+            "data" : query
+        }, status=status.HTTP_200_OK) 
         
 @api_view(['PUT'])
 def TelefonosUpdate(request):

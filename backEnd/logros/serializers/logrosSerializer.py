@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Logros, Logroestudiante
+from ..models import Logros, Logroestudiante, Informes
 
 class LogrosSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -15,5 +15,11 @@ class CalificarSerializer(serializers.ModelSerializer):
     
     class Meta:
         model =  Logroestudiante
+        fields = '__all__'
+        
+class InformesSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Informes
         fields = '__all__'
     

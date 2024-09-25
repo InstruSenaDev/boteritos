@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'userAuth',
     'users',
     'logros',
-    'dropdowns'
+    'dropdowns',
+    'correos'
     #'coreapi'
 ]
 
@@ -152,3 +153,13 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.ScryptPasswordHasher',
 ]
+
+#CONFIGURACION PARA EL MANEJO DE CORREOS
+
+DEFAULT_FROM_EMAIL = 'boteritosteam@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL 
+EMAIL_HOST_PASSWORD = 'l g o r p z f l t m b k v w e j'

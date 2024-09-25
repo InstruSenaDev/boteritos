@@ -8,6 +8,7 @@ from rest_framework import status
 
 from .models import Usuario, Profesor, Admin , Estudiante, Trimestres
 from .querySql import querySql
+from url import urlHost
 
 def searchRol(idrol,idusuario):
     
@@ -93,7 +94,7 @@ def Login(request):
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
             'idjob' : rol,
-            'img' : f'http://localhost:8000/media/{usuario.imagen}',
+            'img' : f'{urlHost}{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_ACCESS_EXPIRATION_TIME),
             'iat': utc_now
         }
@@ -107,7 +108,7 @@ def Login(request):
             'apellido' : usuario.apellido,
             'rol' : usuario.idrol,
             'idjob' : rol,
-            'img' : f'http://localhost:8000/media/{usuario.imagen}',
+            'img' : f'{urlHost}{usuario.imagen}',
             'exp': utc_now + timedelta(seconds=settings.JWT_REFRESH_EXPIRATION_TIME),
             'iat': utc_now
         }

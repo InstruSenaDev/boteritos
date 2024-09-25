@@ -11,7 +11,7 @@ from ..serialzer.telefonosSerializer import TelefonosSerializer
 
 from ..models import Estudiante, Usuario
 from ..querySql import querySql
-
+from url import urlHost
 
 @api_view(['POST', 'PUT'])
 def EstudianteCreateView(request):
@@ -157,12 +157,49 @@ def EstudianteDataPersonal(request,id):
         })
 
 #ENDPOINT PARA LISTAR LOS ESTUDIANTES PARA LA TABLA DE ADMIN
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def EstudianteTable(request):
+    
     if request.method == "GET":
-        query = querySql("SELECT `idUsuario`, `idEstudiante`, `nombre`, `apellido`, `diagnostico` FROM ( SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `usuario`.`nombre`, `usuario`.`apellido`, `diagnostico`.`diagnostico` AS `diagnostico`, ROW_NUMBER() OVER (PARTITION BY `usuario`.`idUsuario` ORDER BY `usuario`.`idUsuario`) AS row_num FROM `estudiante` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` ) AS subquery WHERE row_num = 1;", [])
+        query = querySql("SELECT `idUsuario`, `idEstudiante`, `nombre`, `apellido`, `diagnostico` FROM ( SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `usuario`.`nombre`, `usuario`.`apellido`, `diagnostico`.`diagnostico` AS `diagnostico`, ROW_NUMBER() OVER (PARTITION BY `usuario`.`idUsuario` ORDER BY `usuario`.`idUsuario`) AS row_num FROM `estudiante` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` WHERE `usuario`.`estado` = 1) AS subquery WHERE row_num = 1;", [])
         
         return Response(query)
+
+    #DESACTIVAR ESTUDIANTE
+    if request.method == 'PUT':
+        dataEstud = request.data
+        
+        queryEstud = Estudiante.objects.filter(idestudiante = dataEstud['idestudiante']).first()
+        
+        if not queryEstud:
+            return Response({
+                "message" : "Desactivacion cancelada",
+                "error" : "Profesor no encontrado"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        idUsuario = queryEstud.idusuario.idusuario 
+        
+        queryUser = Usuario.objects.filter(idusuario = idUsuario).first()
+        
+        if not queryUser:
+            return Response({
+                "message" : "Desactivacion cancelada",
+                "error" : "Usuario no encontrado"
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        srUsuario = UsuarioSerializer(queryUser, data = dataEstud, partial= True)
+        
+        if srUsuario.is_valid():
+            srUsuario.save()
+            return Response({
+                "message" : "Desactivacion realizada con exito",
+                "data" : srUsuario.data
+            },status=status.HTTP_200_OK)
+            
+        return Response({
+            "message" : "Desactivacion cancelada",
+            "error" : srUsuario.errors
+        },status=status.HTTP_400_BAD_REQUEST)
 
 #ENDPOINT PARA MOSTRAR INFORMACION EN EL HEAD DE CADA LISTA DE ESTUDIANTES
 @api_view(['GET'])
@@ -203,7 +240,7 @@ def EstudianteHeader(request,id):
             'dataEstudiante' : {
                 "id" : infoEstudiante['idestudiante'],
                 "nombre" : infoEstudiante['estudiante'],
-                "imagen" : f"http://localhost:8000/media/{infoEstudiante['imagenestudiante']}",
+                "imagen" : f"{urlHost}{infoEstudiante['imagenestudiante']}",
                 "documento" : infoEstudiante['documentoestudiante'],
                 "edad" : infoEstudiante['edadestudiante']
             },
