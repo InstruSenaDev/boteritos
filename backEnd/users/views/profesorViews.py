@@ -12,6 +12,7 @@ from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
 from ..serialzer.fechasSerizalizer import FechasSerializer
 from ..serialzer.telefonosSerializer import TelefonosSerializer
 from ..querySql import querySql
+from url import urlHost
 
 @api_view(['POST'])
 def ProfesorCreateView(request):
@@ -119,11 +120,34 @@ def ProfesorHead(request, id):
                 "error" : "No se encontro el profesor"
             },status=status.HTTP_404_NOT_FOUND)
         
-        dataProf = query[0]
+        data = query[0]
         
-        dataProf['imagen'] = f"http://localhost:8000/media/{dataProf['imagen']}"
+        data['imagen'] = f"{urlHost}{data['imagen']}"
         
         return Response({
             "message" : "Profesores encontrados",
-            "data" : dataProf
+            "data" : data
         },status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def ProfesorDataPersonal(request,id):
+    
+    if request.method == 'GET':
+        
+        query = querySql("SELECT `profesor`.*, `areas`.*, `usuario`.`nombre`,`usuario`.`apellido`, `usuario`.`correo`, `usuario`.`documento`, `usuario`.`edad`, `usuario`.`idSexo`, `usuario`.`idTipoDocumento` , `sexo`.`sexo`, `tipodocumento`.`tipoDocumento` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `sexo` ON `usuario`.`idSexo` = `sexo`.`idSexo` LEFT JOIN `tipodocumento` ON `usuario`.`idTipoDocumento` = `tipodocumento`.`idTipoDocumento` WHERE `profesor`.`idProfesor` = %s;",[id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Datos no existen"
+            },status=status.HTTP_404_NOT_FOUND)
+        
+        data = query[0]
+        
+        data['hojavida'] = f"{urlHost}{data['hojavida']}"
+        
+        return Response({
+            "message" : "Consulta realizada con exito",
+            "data" : data
+        },status=status.HTTP_200_OK)
+    

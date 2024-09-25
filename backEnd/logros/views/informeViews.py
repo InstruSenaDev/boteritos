@@ -9,6 +9,7 @@ from weasyprint import HTML
 from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer, InformesSerializer
 from ..models import Logros, Estudiante, Logroestudiante, Trimestres
 from helper.querySql import querySql
+from url import urlHost
 
 #NOMBRE DEL ESTUDIANTE, TRIMESTRE, FECHA DE CREACION
 def namePdf(estud,trim,fecha):
@@ -52,10 +53,10 @@ def generarInforme(idEstudiante, idTrim, observacion, fecha):
     
     #ASIGNAR IMAGEN PREDETERMINADA SI NO SE ENCUENTRA
     if not urlImg :
-        dataEstud['imagen'] = f'http://localhost:8000/media/imagenes/studentDefault.png'
+        dataEstud['imagen'] = f'{urlHost}imagenes/studentDefault.png'
 
     #DEFINIR LA URL DE LA IMAGEN DEL ESTUDIANTE
-    dataEstud['imagen'] = f'http://localhost:8000/media/{urlImg}'
+    dataEstud['imagen'] = f'{urlHost}{urlImg}'
     
     for i in range(0,6):
         #AGREGAMOS UN +1 YA QUE LAS AREAS EMPIEZAN DESDE 1
@@ -143,5 +144,6 @@ def CreateInforme(request):
         
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = f'inline; filename="{textFile}.pdf"'
+        response['X-TextFile'] = textFile
+        
         return response
-        #return Response(calificaciones)

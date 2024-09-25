@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from ..models import Historiaclinica, Condicion
 from ..serialzer.historiaClinicaSerializer import HistoriaClinicaSerializer, CondicionSerializer
 from ..querySql import querySql
+from url import urlHost
 
 @api_view(['GET'])
 def HistoriaClinicaOne(request,id):
@@ -19,7 +20,7 @@ def HistoriaClinicaOne(request,id):
         historClinica = []
 
         for values in query:
-            values['archivo'] = f"http://localhost:8000/media/{values['archivo']}"
+            values['archivo'] = f"{urlHost}{values['archivo']}"
             historClinica.append(values)
             
         return Response({

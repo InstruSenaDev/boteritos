@@ -4,11 +4,11 @@ from rest_framework.decorators import api_view
 
 from .views.estudianteViews import EstudianteTable, EstudianteHeader, EstudianteCreateView, EstudianteDataPersonal
 from .views.historiaClinicaViews import HistoriaClinicaOne, HistoriaClinica
-from .views.profesorViews import ProfesorCreateView, ProfesorTable, ProfesorHead
+from .views.profesorViews import ProfesorCreateView, ProfesorTable, ProfesorHead, ProfesorDataPersonal
 from .views.usuarioViews import AdminCreateView
 from .views.responsableViews import ResponsableOne, ResponsableView
-from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosUpdate
-from .views.telefonosViews import TelefonosEstudiante, TelefonosUpdate
+from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosProfesor, DatosMedicosUpdate
+from .views.telefonosViews import TelefonosEstudiante, TelefonosProfesor,TelefonosUpdate
 from .views.fechasViews import FechasEstudiantesOne, FechasUpdate
 from .views.direccionViews import DireccionEstudianteOne, DireccionUpdate
 
@@ -22,38 +22,39 @@ def prueba(request):
 
 urlpatterns= [
     
-    #---------------USUARIOS---------------
-    #ESTUDIANTES
+    ##---------------ESTUDIANTES---------------
     path('estudiante/', EstudianteCreateView), #REGISTRO DE ESTUDIANTE
     path('estudiante/<int:id>', EstudianteDataPersonal),
     path('estudiantes/tabla', EstudianteTable),
     path('estudiantes/header/<int:id>', EstudianteHeader),
-    
-    #---------------PROFESOR---------------
-    path('profesor/', ProfesorCreateView),
-    path('profesor/tabla', ProfesorTable),
-    path('profesor/header/<int:id>', ProfesorHead),
-    
-    path('admin/', AdminCreateView),
-    
+    #DATOS EXTRA DE ESTUDIANTES
+    path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne), #SE PASA EL ID DEL ESTUDIANTE
+    path('telefono/estudiante/<int:id>', TelefonosEstudiante),#SE PASA EL ID DEL ESTUDIANTE
+    path('fechas/estudiante/<int:id>', FechasEstudiantesOne),
+    path('direccion/estudiante/<int:id>', DireccionEstudianteOne),
     path('responsable/', ResponsableView),
     path('responsable/<int:id>', ResponsableOne),#SE PASA EL ID DEL ESTUDIANTE  
-    
     path('historiaclinica/', HistoriaClinica),
     path('historiaclinica/<int:id>', HistoriaClinicaOne), #SE PASA EL ID DEL ESTUDIANTE
     
-    #DATOS EXTRA DE ESTUDIANTES
+    #---------------PROFESOR---------------
+    path('profesor/', ProfesorCreateView),
+    path('profesor/<int:id>', ProfesorDataPersonal),
+    path('profesor/tabla', ProfesorTable),
+    path('profesor/header/<int:id>', ProfesorHead),
+    #DATOS EXTRA DE PROFESORES
+    path('datosmedicos/profesor/<int:id>', DatosMedicosProfesor), #SE PASA EL ID DEL PROFESOR
+    path('telefono/profesor/<int:id>', TelefonosProfesor),#SE PASA EL ID DEL PROFESOR
+    path('fechas/profesor/<int:id>', FechasEstudiantesOne), #SE PASA EL ID DEL PROFESOR
+    
+    
+    #ADMINISTRADOR
+    path('admin/', AdminCreateView),
+    
     path('datosmedicos/', DatosMedicosUpdate),
-    path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne), #SE PASA EL ID DEL ESTUDIANE
-    
     path('telefono/', TelefonosUpdate),
-    path('telefono/estudiante/<int:id>', TelefonosEstudiante),#SE PASA EL ID DEL ESTUDIANTE
-    
     path('fechas/', FechasUpdate),
-    path('fechas/estudiante/<int:id>', FechasEstudiantesOne),
-    
     path('direccion/', DireccionUpdate),
-    path('direccion/estudiante/<int:id>', DireccionEstudianteOne),
     
     path('checkdoc/<int:doc>', searchDocument),
     path('prueba/', prueba),
