@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from ..models import Profesor
+from ..models import Profesor, Usuario
 
 from ..serialzer.profesorSerializer import ProfesorSerializer
 from ..serialzer.usuarioSerializer import UsuarioSerializer
@@ -147,10 +147,10 @@ def ProfesorCreateView(request):
             }
         },status=status.HTTP_201_CREATED)
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def ProfesorTable(request):
     if request.method == 'GET':
-        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` , `profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario`", [])
+        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` , `profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `usuario`.`estado` = 1", [])
         
         if len(query) == 0:
             return Response({
@@ -162,6 +162,42 @@ def ProfesorTable(request):
             "message" : "Profesores encontrados",
             "data" : query
         },status=status.HTTP_200_OK)
+    
+    #DESACTIVAR PROFESOR
+    if request.method == 'PUT':
+        dataProf = request.data
+        
+        queryProf = Profesor.objects.filter(idprofesor = dataProf['idprofesor']).first()
+        
+        if not queryProf:
+            return Response({
+                "message" : "Desactivacion cancelada",
+                "error" : "Profesor no encontrado"
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        idUsuario = queryProf.idusuario.idusuario 
+                
+        queryUser = Usuario.objects.filter(idusuario = idUsuario).first()
+        
+        if not queryUser:
+            return Response({
+                "message" : "Desactivacion cancelada",
+                "error" : "Usuario no encontrado"
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        srUsuario = UsuarioSerializer(queryUser, data = dataProf, partial =True)
+        
+        if srUsuario.is_valid():
+            srUsuario.save()
+            return Response({
+                "message" : "Desactivacion realizada con exito",
+                "data" : srUsuario.data
+            },status=status.HTTP_200_OK)
+            
+        return Response({
+            "message" : "Desactivacion cancelada",
+            "error" : srUsuario.errors
+        },status=status.HTTP_400_BAD_REQUEST)
         
 @api_view(['GET'])
 def ProfesorHead(request, id):
