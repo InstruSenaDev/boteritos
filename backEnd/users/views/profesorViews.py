@@ -14,7 +14,7 @@ from ..serialzer.telefonosSerializer import TelefonosSerializer
 from ..querySql import querySql
 from url import urlHost
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def ProfesorCreateView(request):
     
     if request.method == 'POST':
@@ -91,6 +91,61 @@ def ProfesorCreateView(request):
             "telefono" : telefonoSerializer.data,
             "profesor" : profesorSerializer.data
         }, status=status.HTTP_201_CREATED)
+    
+    if request.method == 'PUT':
+        
+        idProf = request.data.get('idestudiante')
+        
+        if not idProf:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "El id del estudiante es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        data = request.data
+        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
+        queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
+        #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
+        if not queryProf : 
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : "Profesor no encontrado"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        #OBTENEMOS EL ID DEL USUARIO PARA CONTINUAR CON LA ACTUALIZACION
+        idUsuario = queryProf.idusuario.idusuario
+        
+        #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
+        data['idusuario'] = idUsuario
+         
+        srProf = ProfesorSerializer(queryProf, data = data)
+        #VALIDACION
+        if not srProf.is_valid():
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : srProf.errors
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        queryUsuario = Profesor.objects.filter(idusuario = idUsuario).first()
+        
+        srUsuario = UsuarioSerializer(queryUsuario, data = data, partial = True)
+        
+        if not srUsuario.is_valid():
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : srUsuario.errors
+            })
+        #INSERCION DE DATOS EN AMBAS TABLAS
+        srProf.save()
+        srUsuario.save()
+        
+        return Response({
+            "message" : "Actualizacion realizada con exito",
+            "data" : {
+                "usuario" : srUsuario.data,
+                "profesor" : srProf.data
+            }
+        },status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def ProfesorTable(request):

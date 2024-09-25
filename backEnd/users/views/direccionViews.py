@@ -21,7 +21,22 @@ def DireccionEstudianteOne(request,id):
             "message" : "¡Datos encontrados!",
             "data" : query
         },status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+def DireccionProfesor(request,id):
+    if request.method == 'GET':
+        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `direccion`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `direccion` ON `direccion`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = %s;" , [id])
         
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Datos no encontrados"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "¡Datos encontrados!",
+            "data" : query
+        },status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def DireccionUpdate(request):
