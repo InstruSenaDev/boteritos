@@ -4,16 +4,8 @@ from rest_framework import status
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 
-@api_view(['POST'])
-def EnviarCorreo(request):
+def GenerarCorreos(asunto, texto, nombre, email):
     
-    if request.method == 'POST':
-        
-        email = "juansatizabal2701@gmail.com"
-        asunto = "Pruebas Correos"
-        texto = "Mensaje de pruebaaaaaaaaaa WIIIIIIIIIIIIIIII"
-        nombre = 'Juan Jose Cuartas'
-        
         html_content = render_to_string('recupContra.html', {
             'asunto': asunto,
             'mensaje': texto,
@@ -22,6 +14,19 @@ def EnviarCorreo(request):
         
         #ASUNTO, MENSAJE, CORREO DE ENVIO, CORREOS QUE RECIBEN
         send_mail(asunto, texto, None, [email], html_message=html_content)
+    
+
+@api_view(['POST'])
+def RecuperarContrasena(request):
+    
+    if request.method == 'POST':
+        
+        documento = request.data.get('documento')
+        asunto = "Recuperacion de contrasena"
+        texto = "Mensaje de pruebaaaaaaaaaa WIIIIIIIIIIIIIIII"
+        nombre = request.data.get('nombre')
+        
+        #GenerarCorreos(asunto,texto,nombre,email)
         
         return Response({
             "message" : "Correo enviado con exito!" 

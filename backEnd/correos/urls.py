@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import EnviarCorreo
+from .views import RecuperarContrasena
 
 urlpatterns = [
-    path('prueba/', EnviarCorreo)
+    path('recuperar/', RecuperarContrasena)
 ]
