@@ -31,10 +31,10 @@ def EncriptarCorreo(correo):
         
     return f"{encriptado}@{type}" 
     
-@api_view(['POST'])
+@api_view(['PUT'])
 def RecuperarContrasena(request):
     
-    if request.method == 'POST':
+    if request.method == 'PUT':
         
         documento = request.data.get('documento')
         
@@ -65,23 +65,43 @@ def RecuperarContrasena(request):
             }
         },status=status.HTTP_200_OK)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def CambiarContrasena(request):
     
-    if request.method == 'POST':
+    if request.method == 'PUT':
         idUsuario = request.data.get('idusuario')
         contrasena = request.data.get('contrasena')
+        nuevaContra = request.data.get('nuevacontrasena')
         
         if not idUsuario:
             return Response({
                 "message" : "Cambio de contraseña cancelado",
-                "error": "El id del usuario es obligatorio"
+                "error": {
+                    "idusuario" : "El id del usuario es obligatorio"
+                    }
             },status=status.HTTP_400_BAD_REQUEST)
             
         if not contrasena:
             return Response({
                 "message" : "Cambio de contraseña cancelado",
-                "error" : "La contraseña es obligatoria"
+                "error" : {
+                    "contrasena" : "La contraseña es obligatoria"
+                }
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        if not nuevaContra:
+            return Response({
+                "message" : "Cambio de contraseña cancelado",
+                "error" : {
+                    "nuevacontrasena" : "La nueva contraseña es obligatoria"
+                }
+            })
+            
+        #VALIDAMOS QUE LA NUEVA CONTRASENA NO SEA IGUAL A LA ANTERIOR
+        if contrasena == nuevaContra:
+            return Response({
+                "message" : "Cambio de contraseña cancelado",
+                "error" : "La nueva contraseña no puede ser igual a la actual"
             },status=status.HTTP_400_BAD_REQUEST)
         
         query = Usuario.objects.filter(idusuario = idUsuario).first()
@@ -102,34 +122,26 @@ def CambiarContrasena(request):
                 "error" : "Contraseña incorrecta"
             },status=status.HTTP_400_BAD_REQUEST)
         
-        correo = query.correo
-        #Encriptacion del correo
-        correoEncriptado = EncriptarCorreo(correo)
+        srUsuario = UsuarioSerializer(query, data = {"contrasena" : nuevaContra}, partial = True)
         
-        #VARIABLES PARA EL CORREO
-        asunto = "Cambio de contraseña"
-        nombre = f"{query.nombre} {query.apellido}"
-        texto = "Haz clic en el enlace de abajo para cambiar tu contraseña"
-        
-        #CREAMOS EL TOKEN QUE IRA EN EL CORREO
-        token = CreateToken(idUsuario)
-        
-        #GENERAMOS CORREO
-        GenerarCorreos(asunto,texto,nombre,correo,token)
+        if srUsuario.is_valid():
+            srUsuario.save() 
+            
+            return Response({
+                "message" : "Contraseña cambiada con exito"
+            },status=status.HTTP_200_OK)
         
         return Response({
-            "message" : "Correo enviado con exito!" ,
-            "data" : {
-                "correo" : correoEncriptado
-            }
-        },status=status.HTTP_200_OK)
+            "message" : "Cambio de contraseña cancelado",
+            "error" : srUsuario.errors
+        },status=status.HTTP_400_BAD_REQUEST)
         
 
 
 #ENDPOINT QUE CAMBIA LA CONTRASENA
-@api_view(['POST'])
+@api_view(['PUT'])
 def ActualizarContrasena(request):
-    if request.method == 'POST':
+    if request.method == 'PUT':
         token = request.data.get('token')
         #VALIDAR QUE EL TOKEN ESTE PRESENTE
         if not token:

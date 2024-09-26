@@ -22,17 +22,6 @@ class Areaslogros(models.Model):
         managed = False
         db_table = 'areaslogros'
 
-class Informe(models.Model):
-    idinforme = models.AutoField(db_column='idInforme', primary_key=True)   
-    nombreinforme = models.TextField(db_column='nombreInforme')   
-    url = models.TextField()
-    fecha = models.DateField()
-    idusuario = models.IntegerField(db_column='idUsuario')   
-
-    class Meta:
-        managed = False
-        db_table = 'informe'
-
 class Logros(models.Model):
     idlogro = models.AutoField(db_column='idLogro', primary_key=True)
     logro = models.TextField()
