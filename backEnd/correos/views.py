@@ -31,10 +31,10 @@ def EncriptarCorreo(correo):
         
     return f"{encriptado}@{type}" 
     
-@api_view(['POST'])
+@api_view(['PUT'])
 def RecuperarContrasena(request):
     
-    if request.method == 'POST':
+    if request.method == 'PUT':
         
         documento = request.data.get('documento')
         
@@ -65,10 +65,10 @@ def RecuperarContrasena(request):
             }
         },status=status.HTTP_200_OK)
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def CambiarContrasena(request):
     
-    if request.method == 'POST':
+    if request.method == 'PUT':
         idUsuario = request.data.get('idusuario')
         contrasena = request.data.get('contrasena')
         nuevaContra = request.data.get('nuevacontrasena')
@@ -139,9 +139,9 @@ def CambiarContrasena(request):
 
 
 #ENDPOINT QUE CAMBIA LA CONTRASENA
-@api_view(['POST'])
+@api_view(['PUT'])
 def ActualizarContrasena(request):
-    if request.method == 'POST':
+    if request.method == 'PUT':
         token = request.data.get('token')
         #VALIDAR QUE EL TOKEN ESTE PRESENTE
         if not token:
