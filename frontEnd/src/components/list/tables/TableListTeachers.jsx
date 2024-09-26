@@ -16,16 +16,21 @@ const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
     setIsOpen(false);
   };
 
-  const toogleRow = (index) => {
+  const toggleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
   // useEffect para cargar los profesores
   useEffect(() => {
     const fetchTeachers = async () => {
-      const dataApi = await getAllTeachers("profesor/tabla");
-      console.log(dataApi)
-      setDataTeacher(dataApi.data)
+      try {
+        const dataApi = await getAllTeachers("profesor/tabla");
+        console.log(dataApi)
+        setDataTeacher(dataApi.data.data || []);
+      }
+      catch (error) {
+        console.error("Error al obtener los profesores:", error);
+      };
     };
     fetchTeachers(); // Ejecuta la función
   }, []);

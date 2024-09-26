@@ -14,3 +14,10 @@ export const putUpdate = async (data, endpoint,) => {
   });
   return response;
 };
+
+//PUT PARA CAMBIAR EL ESTADO DE LOGRO A 0
+export const putEstadoCero = async (url) => {
+  const data = await fetchFunction("PUT", body, null, `logros/${url}`);
+  return data;
+}
+

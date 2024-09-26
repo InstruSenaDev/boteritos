@@ -63,4 +63,10 @@ export const getAllTeachers = async (url) => {
   return data;
 };
 
+//GET PARA AREAS CON LOGROS CALIFICADOS
+export const getAllAreas = async (url) => {
+  const data = await fetchFunction("GET", null, null, `logros/informe/${url}`);
+  return data;
+};
+
 

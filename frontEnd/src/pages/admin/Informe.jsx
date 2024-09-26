@@ -34,20 +34,20 @@ const Informe = () => {
         body: JSON.stringify(data),
       });
   
-      console.log("Encabezados de la respuesta:", response.headers);
+      
   
       if (response.ok) {
         const contentType = response.headers.get("content-type");
         console.log("Tipo de contenido:", contentType);
-        if (contentType && contentType.includes("application/pdf")) {
-          // Extraer el nombre del archivo del encabezado x-textfile
-          const fileNameHeader = response.headers.get("x-textfile");
-          let filename = "descarga.pdf"; // Nombre de archivo por defecto
-          if (fileNameHeader) {
-            filename = fileNameHeader.trim(); // Obtener el nombre del archivo y eliminar espacios
-            console.log("Nombre del archivo extraído:", filename); // Log del nombre extraído
-          }
   
+        // encabezados de respuesta (segun)
+      console.log("Encabezados de la respuesta:", response.headers);
+        
+        if (contentType && contentType.includes("application/pdf")) {
+          const fileNameHeader = response.headers.get("x-textfile");
+          console.log("Nombre del archivo desde el encabezado:", fileNameHeader);
+          let filename = fileNameHeader || "informe.pdf"; // Asignar un valor predeterminado si es null
+          
           // Descargar el archivo
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
@@ -134,7 +134,7 @@ const Informe = () => {
       </div>
 
       <div className="mt-7 flex justify-center">
-        <Boton text={"Confirmar"} type={"blue"} onClick={handleSubmit} />
+        <Boton text={"Descargar"} type={"blue"} onClick={handleSubmit} />
       </div>
     </LayoutGeneral>
   );
