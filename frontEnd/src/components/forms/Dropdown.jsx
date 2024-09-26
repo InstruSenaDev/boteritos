@@ -1,6 +1,6 @@
 import { Select, SelectItem } from "@tremor/react";
 
-export function Dropdown({ label, name, data, onChange, placeholder, error }) {
+export function Dropdown({ label, name, data = [], onChange, placeholder, error }) {
   // Función para manejar cambios en el dropdown
   const handleChange = (value) => {
     onChange(value);
@@ -21,15 +21,22 @@ export function Dropdown({ label, name, data, onChange, placeholder, error }) {
           name={name}
           onValueChange={handleChange} // Manejador de cambios asignado
         >
-          {data.map((dropdownKey, index) => (
-            <SelectItem
-              key={index}
-              className="cursor-pointer"
-              value={dropdownKey.value}
-            >
-              {dropdownKey.option}
+          {/* Verificamos que `data` sea un array antes de mapearlo */}
+          {Array.isArray(data) && data.length > 0 ? (
+            data.map((dropdownKey, index) => (
+              <SelectItem
+                key={index}
+                className="cursor-pointer"
+                value={dropdownKey.value}
+              >
+                {dropdownKey.option}
+              </SelectItem>
+            ))
+          ) : (
+            <SelectItem disabled value="">
+              No hay opciones disponibles
             </SelectItem>
-          ))}
+          )}
         </Select>
       </div>
       {error && (

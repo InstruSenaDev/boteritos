@@ -5,11 +5,6 @@ export const caseCondicionMedica = (name, value) => {
     const trimmedValue = typeof value === "string" ? value.trim() : value;
 
     switch (name) {
-        case "parentesco":
-            if (!trimmedValue) {
-                error = "El campo parentesco es obligatorio.";
-            }
-            break;
         case "lugaratencion":
             if (!trimmedValue) {
                 error = "El campo lugar de atención es obligatorio.";

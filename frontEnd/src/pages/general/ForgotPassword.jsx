@@ -1,38 +1,74 @@
+import { useState } from "react";
 
-import {Boton} from "../../components/forms/Boton";
-import {Input} from "../../components/forms/Input.jsx";
-import {ForgotLayout} from "../../layouts/ForgotLayout.jsx";
-import {ShowPassword} from "../../components/forms/ShowPassword";
+import { Boton } from "../../components/forms/Boton";
+import { Input } from "../../components/forms/Input.jsx";
+import { Link } from "react-router-dom";
 
-const ForgotPassword = () =>{
-  return(
-<ForgotLayout title="¿Olvidó su contraseña?" titulo="Recuperar contraseña">
-  <Input
-  texto="Nueva contraseña"
-  placeholder="Ingresa tu nueva contraseña"
-  icon=""
-  slot="inputs"
-/>
-  <Input
-  texto="Numero de documento"
-  placeholder="Ingresa tu documento"
-  icon=""
-  slot="inputs"
-  />
+export const ForgotPassword = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  <ShowPassword slot="footer"/>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Número de documento:", );
+    setIsSubmitted(true);
+  };
 
+  return (
+   
+      <main className="w-full h-screen flex justify-center items-center p-4 text-black">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white md:p-20 p-7 flex gap-20 rounded-xl shadow-[0_0_20px_0px_rgba(94,175,232,0.5)]"
+        >
+          <div className="max-h-96 max-w-[520px] w-full md:block hidden">
+            <img
+              src="../../../public/img/Forgotimg.png"
+              alt="Forgot password"
+              className="object-contain w-full h-full"
+            />
+          </div>
 
-  <Boton text="Iniciar Sesión" type="blue" slot="boton"/>
-  <img
-    src="../../../public/img/Forgotimg.png"
-    alt="Forgot password"
-    className="object-contain w-full h-full"
-    slot="imagen"
-  />
-  <a href="" slot="return" className="text-paragraph2 font-cocogooseLight text-darkBlue">Volver al inicio de sesión</a>
-</ForgotLayout>
-  )
-}
+          <div className="flex flex-col gap-7 max-w-[400px] w-full order-3 justify-center">
+            {!isSubmitted ? (
+              <>
+                <h1 className="text-title font-cocogooseRegular tracking-normal text-darkBlue">
+                  nueva contraseña
+                </h1>
+                <Input
+                  texto="Nueva contraseña"
+                  placeholder="Ingresa tu Nueva contraseña"
+                  icon=""
+                 
+                />
+                <Input
+                  texto="Confirmar contraseña"
+                  placeholder="Confirma tu nueva contraseña"
+                  icon=""
+                 
+                />
+                <Boton text="Cambiar contraseña" type="blue" />
+              </>
+            ) : (
+              <div className="text-center">
+                <h1 className="text-title font-cocogooseRegular tracking-normal text-darkBlue">
+                  Se envió un enlace a tu correo para que restablezcas tu contraseña.
+                </h1>
+                <p className="text-paragraph font-cocogooseLight">
+                  Puedes cerrar esta página y reanudar la recuperación de tu cuenta desde el enlace.
+                </p>
+               
+                <div className="flex justify-center mt-4">
+
+                 
+                </div>
+              </div>
+            )}
+           
+          </div>
+        </form>
+      </main>
+
+  );
+};
 
 export default ForgotPassword;

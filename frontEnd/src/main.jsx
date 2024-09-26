@@ -58,7 +58,9 @@ const router = createBrowserRouter([
     path: "",
     element: <App />,
     children: [
-      { path: "", element: <FormLogin /> }
+      { path: "", element: <FormLogin /> },
+      { path: "ayudacontrasena", element: <PasswordHelp/>},
+      { path: "recuperarcontrasena", element: <ForgotPassword/> },
     ],
   },
   {
@@ -68,9 +70,8 @@ const router = createBrowserRouter([
       { path: '', element: <AdminMain /> },
       { path: "perfil", element: <Perfil/>},
       { path: "listaprofesores", element: <ListProfesores/> },
-      { path: "ayudacontrasena", element: <PasswordHelp/>},
       { path: "cambiarcontrasena", element: <ChangePassword/> },
-      { path: "recuperarcontrasena", element: <ForgotPassword/> },
+     
       { path: "registro", element: <Registro /> },
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       { path: "listaestudiantes/datoestudiante/:id", element: <DatosEstudiante /> },
@@ -116,8 +117,7 @@ const router = createBrowserRouter([
       { path: "crearlogro", element: <CrearLogros /> },
       { path: "listaestudiantes", element: <ListEstudents /> },
       { path: "perfil", element: <Perfil /> },
-      { path: "ayudacontrasena", element: <PasswordHelp/>},
-      { path: "recuperarcontrasena", element: <ForgotPassword/> },
+  
       { path: "cambiarcontrasena", element: <ChangePassword/> },
     ]
   },
@@ -127,8 +127,7 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <StudentMain/> },
       { path: "perfil", element: <Perfil/>},
-      { path: "ayudacontrasena", element: <PasswordHelp/>},
-      { path: "recuperarcontrasena", element: <ForgotPassword/> },
+    
       { path: "cambiarcontrasena", element: <ChangePassword/> },
     ]
   }

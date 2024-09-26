@@ -4,7 +4,7 @@ import React from "react";
 
 const InputTrimestre = ({ total, eliminar, onChange, trimestre }) => {
   return (
-    <div className="flex flex-row w-full justify-center items-center gap-6 ">
+    <div className="flex flex-row w-full justify-center items-center gap-6 mb-6 ">
       <label className="text-paragraph font-cocogooseLight">
         Trimestre {total}
       </label>{" "}
@@ -15,7 +15,7 @@ const InputTrimestre = ({ total, eliminar, onChange, trimestre }) => {
         value={trimestre.inicio}
       />
       <DatePicker2
-        name={`inicio${total}`}
+        name={`fin${total}`}
         texto={"Seleccione la Fecha Final"}
         onChange={(e) => onChange("fin", e.target.value)}
         value={trimestre.fin}

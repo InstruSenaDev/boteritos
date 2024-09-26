@@ -16,13 +16,20 @@ import {
   DataPersonal,
 } from "../../../api/get";
 import { ModalContentUpdate } from "../../../components/modales/ModalContentUpdate";
+import { putUpdate } from "../../../api/put";
+import { UpdateModalesValidators } from "../../../helper/validators/UpdateModalesValidators";
 
 const Detail = () => {
-  const [selectedSection, setSelectedSection] = useState(null);
+  const [selectedSection, setSelectedSection] = useState(null);//Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
+  const dataFormInd = new FormData();
+  const [errors, setErrors]=useState({})
+
   const { id } = useParams();
+
   //ESTADO PARA GET
+  //Para almacenar los datos obtenidos del API para diferentes secciones.
   const [dataDetail, setDataDetail] = useState({
     historiaClinica: [],
     responsables: [],
@@ -56,7 +63,8 @@ const Detail = () => {
         `direccion/estudiante/${id}`
       );
 
-      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
+      const DataPersonalEstudiante = await DataPersonal(
+        `estudiante/${id}`);
 
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
@@ -139,34 +147,96 @@ const Detail = () => {
     setModalOpen(false);
     setSelectedSection(null);
     setSectionData(null);
+    setErrors({});
   };
 
-  const handleSave = () => {
-    const newData = {
-      section: selectedSection,
-      data: sectionData,
-    };
-
-    // Actualiza el estado global con los nuevos datos editados
-    setDataDetail((prevDataDetail) => ({
-      ...prevDataDetail,
-      [selectedSection.toLowerCase()]: prevDataDetail[
-        selectedSection.toLowerCase()
-      ].map((item, index) =>
-        index === sectionData.index ? sectionData : item
-      ),
-    }));
-
-    console.log("Datos guardados", newData);
+  const handleSave = async () => {
+    const hasErrors = Object.values(errors).some((error) => error);
+    if (hasErrors) {
+      console.error("Errores presentes, no se puede guardar.");
+      return;
+    }
+  
+    // Crear un nuevo FormData
+    const newData = new FormData();
+    newData.append('section', selectedSection);
+    newData.append('idestudiante', id);
+    
+    // Agregar los datos de la sección
+    for (const key in sectionData) {
+      if (sectionData.hasOwnProperty(key)) {
+        newData.append(key, sectionData[key]);
+      }
+    }
+  
+    // Agregar el archivo, si existe
+    if (dataFormInd.has('archivo')) {
+      newData.append('archivo', dataFormInd.get('archivo'));
+    }
+  
+    let endpoint = '';
+    switch (selectedSection) {
+      case "Datos personales":
+        endpoint = `registro/estudiante/`;
+        break;
+      case "Responsables":
+        endpoint = `registro/responsable/`;
+        break;
+      case "Historia clinica":
+        endpoint = `registro/historiaclinica/`;
+        break;
+      case "Datos Medicos":
+        endpoint = `registro/datosmedicos/`;
+        break;
+      case "Contactos":
+        endpoint = `registr/telefono/`;
+        break;
+      case "Dirección":
+        endpoint = `registro/direccion/`;
+        break;
+      default:
+        endpoint = '';
+    }
+  
+    if (endpoint) {
+      // Realizar la solicitud PUT
+      const result = await putUpdate(newData, endpoint, id); 
+      if (result.status === 200) {
+        console.log("Datos guardados", newData);
+      } else {
+        console.error("Error al guardar los datos", result.data);
+      }
+    }
+  
     closeModal();
   };
+  
+   // Handle file changes
+   const handleFileChange = (name, file) => {
+    dataFormInd.set(name, file);
+    console.log(file);
+  };
+
 
   const handleInputChange = (e, key) => {
-    setSectionData({
-      ...sectionData,
-      [key]: e.target.value,
-    });
+    const { name, value } = e.target;
+    const content = selectedSection || "default"; // Sección actual
+  
+    // implementar tu lógica de validación
+    const error = UpdateModalesValidators(content, name, value);
+  
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error, // Almacena el error en el estado
+    }));
+  
+    setSectionData((prevData) => ({
+      ...prevData,
+      [key]: value, // Actualiza el valor en la sección
+    }));
   };
+
+
 
   const filterData = (data) => {
     // Filtra los campos que contienen Ids
@@ -242,7 +312,7 @@ const Detail = () => {
                     Tipo documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.tipodocumento}
+                    {value.idTipodocumento}
                   </p>
                 </div>
                 <div>
@@ -426,6 +496,15 @@ const Detail = () => {
                     {value.observacion}
                   </p>
                 </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Archivo:
+                  </p>
+                  <a download="Archivo boterito" href={value.archivo} className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.archivo}
+                  </a>
+                </div>
               </div>
             </GrupoDatos>
           ))}
@@ -558,6 +637,8 @@ const Detail = () => {
             section={selectedSection}
             data={sectionData}
             onChange={handleInputChange}
+            handleFileChange={handleFileChange}
+            errores={errors}
           />
         </UpdateModal>
     </div>
