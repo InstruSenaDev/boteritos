@@ -11,7 +11,7 @@ def GenerarCorreos(asunto, texto, nombre, email,token):
     html_content = render_to_string('recupContra.html', {
         'mensaje': texto,
         'nombre' : nombre,
-        'token' : token
+        'token' : 'PITOOOOOOO'
     })
     
     #ASUNTO, MENSAJE, CORREO DE ENVIO, CORREOS QUE RECIBEN
