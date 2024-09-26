@@ -34,7 +34,7 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
       <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
         {Object.keys(dataCard2).length != 0 ? (
           dataCard2.map((values, index) => (
-            <div className="flex justify-between items-center w-full" key={index}>
+            <div className="flex flex-col lg:flex-row items-start justify-between lg:items-center w-full" key={index}>
               <p className="text-paragraph text-darkBlue">{values.name}:</p>
               <p className="text-paragraph2">{values.value}</p>
             </div>
