@@ -85,6 +85,12 @@ export const caseAdmin = (name, value) => {
         error = "Ingrese un documento valido.";
       }
       break;
+
+      case "observacion":
+      if (!stringValue) {
+        error = "La observación es obligatoria.";
+      }
+      break;
   }
   return error;
 };

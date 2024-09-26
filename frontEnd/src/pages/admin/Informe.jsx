@@ -6,20 +6,40 @@ import { LayoutGeneral } from "../../layouts/LayoutGeneral";
 import { useParams } from "react-router-dom";
 import { Boton } from "../../components/forms/Boton";
 import { Observacion } from "../../components/forms/Observacion";
+import { caseAdmin } from "../../helper/validators/case/admin";
 
 
 const Informe = () => {
   const [observacion, setObservacion] = useState("");
   const trimestre = JSON.parse(localStorage.getItem("trimestre"));
+  const [errors, setErrors] = useState({});
   const { id } = useParams();
   const idestud = id;
 
   const handleObservacionChange = (event) => {
-    setObservacion(event.target.value);
+    const { value } = event.target;
+    setObservacion(value);
+
+    // Validar observación en tiempo real
+    const error = caseAdmin("observacion", value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      observacion: error,
+    }));
   };
 
   
   const handleSubmit = async () => {
+    // Validar antes de enviar
+    const error = caseAdmin("observacion", observacion);
+    if (error) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        observacion: error,
+      }));
+      return;
+    }
+
     const data = {
       idestudiante: idestud,
       idtrimestre: trimestre,
@@ -40,14 +60,14 @@ const Informe = () => {
       if (response.ok) {
         const contentType = response.headers.get("content-type");
         console.log("Tipo de contenido:", contentType);
-  
+        
         // encabezados de respuesta (segun)
         console.log("Encabezados de la respuesta:", response.headers);
         
         if (contentType && contentType.includes("application/pdf")) {
 
           const textfile = response.headers.get("textfile");
-
+          
           console.log("Nombre del archivo desde el encabezado:", textfile);
           
           let filename = textfile || "informe.pdf"; // Asignar un valor predeterminado si es null
@@ -134,6 +154,8 @@ const Informe = () => {
           placeholder={"Ingrese la observación del estudiante"}
           name={"observacion"}
           onChange={handleObservacionChange}
+          value={observacion}
+          error={errors.observacion}
         />
       </div>
 

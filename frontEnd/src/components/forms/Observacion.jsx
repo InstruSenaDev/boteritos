@@ -1,4 +1,4 @@
-export const Observacion = ({ texto, placeholder, name, value, onChange }) => {
+export const Observacion = ({ texto, placeholder, name, value, onChange, error }) => {
     return (
       <div className="flex flex-col gap-2 w-full">
         <div className="border-b-2 border-b-placeholderBlue p-2 w-full">
@@ -16,6 +16,7 @@ export const Observacion = ({ texto, placeholder, name, value, onChange }) => {
             onChange={onChange}
           />
         </div>
+        {error && <p className="font-cocogooseLight text-paragraph2 text-red-500">{error}</p>}
       </div>
     );
   };
