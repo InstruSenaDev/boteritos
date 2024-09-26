@@ -1,3 +1,4 @@
+import re
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
@@ -7,7 +8,7 @@ from datetime import date
 from weasyprint import HTML
 
 from ..serializers.logrosSerializer import LogrosSerializer, CalificarSerializer, InformesSerializer
-from ..models import Logros, Estudiante, Logroestudiante, Trimestres
+from ..models import Logros, Estudiante, Logroestudiante, Trimestres, Informes
 from helper.querySql import querySql
 from url import urlHost
 
@@ -86,6 +87,7 @@ def InformeList(request,idtrim,idarea,idestud):
     
     if request.method == 'GET':
         
+        #OBTENEMOS TODOS LOS LOGROS
         query = querySql("SELECT `areas`.`area`, `profesor`.`idProfesor`, `logros`.`idLogro`,`logros`.`logro`, `logros`.`idTrimestre`, `logroestudiante`.* FROM `areas` LEFT JOIN `profesor` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `logros` ON `logros`.`idProfesor` = `profesor`.`idProfesor` LEFT JOIN `logroestudiante` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE (`areas`.`idArea` = %s AND `logroestudiante`.`idEstudiante` = %s AND `logros`.`idTrimestre` = %s AND (`logroestudiante`.`estado` = 1));",[idarea,idestud,idtrim])
         
         if len(query) == 0:
@@ -94,7 +96,31 @@ def InformeList(request,idtrim,idarea,idestud):
                 "error" : "El profesor no ha enviado las calificacione de este estudiante"
             },status=status.HTTP_404_NOT_FOUND)
         
-        return Response(query)
+        #----------LOGICA PARA VALIDAR SI EL INFORME YA HA SIDO CREADO O NO----------
+        #BUSCAMOS EL TRIMESTRE
+        queryTrim = Trimestres.objects.filter(idtrimestre = idtrim).first()
+        #OBTENEMOS LOS DATOS DEL TRIMESTRE        
+        fechaTrimInicio = queryTrim.fechainicio
+        fechaTrimFin = queryTrim.fechafin
+        
+        #BUSCAMOS EL INFORME
+        queryInfor = Informes.objects.filter(idestudiante = idestud)
+                
+        for informe in queryInfor:
+                        
+            if fechaTrimInicio <= informe.fecha <= fechaTrimFin:
+                return Response({
+                    "message" : "El informe ya ha sido creado",
+                    "data" : {
+                        "calificaciones" : query,
+                        "observacion" : informe.observacion
+                    }
+                },status=status.HTTP_208_ALREADY_REPORTED)
+                
+        return Response({
+            "message" : "Calificaciones encontradas",
+            "data" : query
+        },status=status.HTTP_200_OK)
     
 @api_view(['POST'])
 def CreateInforme(request):
@@ -125,7 +151,7 @@ def CreateInforme(request):
                 "error" : "el id del estudiante es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
         
-        
+        #LLAMADO Y DESTRUCTURACION PARA GENERAR EL INFORME
         pdf, textFile = generarInforme(idEstudiante, idTrim, observacion, fecha)
         
         dataInforme = request.data
