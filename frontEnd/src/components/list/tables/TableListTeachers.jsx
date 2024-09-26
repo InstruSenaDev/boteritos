@@ -1,54 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Buscador from "../../search/Buscador";
 import { ConfirmationModal } from "../../modales/ConfirmationModal";
+import { getAllTeachers } from "../../../api/get";
 
-const TableListTeachers = (getId) => {
+const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
   const [openAcc, setOpenAcc] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
+  const [dataTeacher, setDataTeacher] = useState([]); // Estado para almacenar los profesores.
 
-  const handleOpen = () =>{
-   setIsOpen(true);
-  }
-  const handleClose = () =>{
-   setIsOpen(false);
-  }
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
 
-  const toogleRow = (index) => {
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const toggleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const dataTeacher = [
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-    {
-      idprofesor: 1,
-      nombre: "JUAN ALBERTO",
-      titulo: "Artista",
-      area: "Artes",
-    },
-  ];
+  // useEffect para cargar los profesores
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      try {
+        const dataApi = await getAllTeachers("profesor/tabla");
+        console.log(dataApi)
+        setDataTeacher(dataApi.data.data || []);
+      }
+      catch (error) {
+        console.error("Error al obtener los profesores:", error);
+      };
+    };
+    fetchTeachers(); // Ejecuta la función
+  }, []);
 
   return (
     <>
@@ -67,20 +52,14 @@ const TableListTeachers = (getId) => {
           </div>
           {dataTeacher.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-                openAcc === index ? "open" : "close"
-              }`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"}`}
               key={index}
             >
-              <div className="flex gap-2 lg:gap-0 ">
+              <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">No°</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p>
-                    {data.idprofesor.toString().length == 2
-                      ? data.idprofesor
-                      : `0${data.idprofesor}`}
-                  </p>
-                  <button onClick={() => toogleRow(index)}>
+                <div className="acc-header w-full flex justify-between items-center">
+                  <p>{data.idprofesor.toString().length === 2 ? data.idprofesor : `0${data.idprofesor}`}</p>
+                  <button onClick={() => toggleRow(index)}>
                     <i className="fa-solid fa-angle-down block lg:hidden"></i>
                   </button>
                 </div>
@@ -88,31 +67,28 @@ const TableListTeachers = (getId) => {
 
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
-                <div className="acc-header w-full flex justify-between items-center ">
-                  <p className="underline cursor-pointer">{`${data.nombre}`}</p>
+                <div className="acc-header w-full flex justify-between items-center cursor-pointer underline" onClick={() => getId(data.idprofesor)}>
+                  <p>{`${data.nombre}`}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Título:</p>
-                <div className=" w-full flex justify-between items-center ">
-                  <p
-                    className="unerline cursor-pointer"
-                    onClick={() => getId(data.idprofesor)}
-                  >{`${data.titulo}`}</p>
+                <div className="w-full flex justify-between items-center">
+                  <p>{`${data.titulo}`}</p>
                 </div>
               </div>
 
               <div className="acc-body flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Área:</p>
-                <div className=" w-full flex justify-between items-center ">
+                <div className="w-full flex justify-between items-center">
                   <p>{`${data.area}`}</p>
                 </div>
               </div>
 
-              <div className="acc-body flex gap-2 lg:gap-0 items-center">
+              <div className="acc-body flex gap-2 lg:gap-0 items-end">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
-                <div className=" w-full flex justify-between items-center ">
+                <div className="w-full flex items-center">
                   <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpen}></i>
                 </div>
               </div>

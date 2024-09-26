@@ -235,6 +235,7 @@ export const GrupoDatoElemento = () => {
         onSubmit={handleForm}
         isConfirm={isConfirm}
         selectedContent={selectedContent}
+        textButton={"Confirmar"}
       >
         <ModalContent
           selectedContent={selectedContent}

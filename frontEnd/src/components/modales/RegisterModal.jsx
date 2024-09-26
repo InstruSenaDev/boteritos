@@ -52,8 +52,8 @@ export function RegisterModal({
                 {children}
               </div>
 
-              <div className="flex justify-center w-full mt-4">
-                <Button className="max-w-[400px] w-full" type="submit">
+              <div className="flex justify-center text-white w-full mt-4">
+                <Button className="max-w-[400px] font-cocogooseSemiLight text-subTitle2 w-full" type="submit">
                   {textButton}
                 </Button>
               </div>
