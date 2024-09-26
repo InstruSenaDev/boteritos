@@ -3,7 +3,7 @@ import { Boton } from "../components/forms/Boton.jsx";
 import { useState } from "react";
 import { postLogin } from "../api/post.js";
 import { defRol } from "../helper/functions/defRol.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorWarning from "../components/messages/error.jsx";
 import { getDate } from "../helper/functions/getDate.js";
 
@@ -130,9 +130,9 @@ const FormLogin = () => {
                 Ver contraseña
               </label>
             </div>
-            <a className="text-paragraph2 font-cocogooseLight text-darkBlue">
-              ¿Olvidaste tu contraseña?
-            </a>
+            <Link to="/ayudacontrasena" className="text-paragraph2 font-cocogooseLight text-darkBlue underline">
+               ¿Olvidaste tu contraseña?
+              </Link>
           </div>
 
           <Boton text="Iniciar Sesión" type="blue" />

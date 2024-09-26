@@ -10,7 +10,8 @@ urlpatterns = [
     path('api/v3/dropdowns/', include('dropdowns.urls')),
     path('api/v3/sql/', include('users.urls')),
     path('api/v3/registro/', include('users.urls')),
-    path('api/v3/logros/', include('logros.urls'))
+    path('api/v3/logros/', include('logros.urls')),
+    path('api/v3/correo/',include('correos.urls'))
 ] 
 
 urlpatterns += [

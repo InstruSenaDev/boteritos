@@ -9,8 +9,8 @@ from .views.usuarioViews import AdminCreateView
 from .views.responsableViews import ResponsableOne, ResponsableView
 from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosProfesor, DatosMedicosUpdate
 from .views.telefonosViews import TelefonosEstudiante, TelefonosProfesor,TelefonosUpdate
-from .views.fechasViews import FechasEstudiantesOne, FechasUpdate
-from .views.direccionViews import DireccionEstudianteOne, DireccionUpdate
+from .views.fechasViews import FechasEstudiantesOne, FechasProfesor,FechasUpdate
+from .views.direccionViews import DireccionEstudianteOne, DireccionProfesor,DireccionUpdate
 
 from .middleware import searchDocument
 
@@ -45,8 +45,8 @@ urlpatterns= [
     #DATOS EXTRA DE PROFESORES
     path('datosmedicos/profesor/<int:id>', DatosMedicosProfesor), #SE PASA EL ID DEL PROFESOR
     path('telefono/profesor/<int:id>', TelefonosProfesor),#SE PASA EL ID DEL PROFESOR
-    path('fechas/profesor/<int:id>', FechasEstudiantesOne), #SE PASA EL ID DEL PROFESOR
-    
+    path('fechas/profesor/<int:id>', FechasProfesor), #SE PASA EL ID DEL PROFESOR
+    path('direccion/profesor/<int:id>', DireccionProfesor),
     
     #ADMINISTRADOR
     path('admin/', AdminCreateView),

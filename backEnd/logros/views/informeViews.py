@@ -144,6 +144,6 @@ def CreateInforme(request):
         
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = f'inline; filename="{textFile}.pdf"'
-        response['X-TextFile'] = textFile
+        response['X-textfile'] = textFile
         
         return response
