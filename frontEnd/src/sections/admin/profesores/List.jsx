@@ -1,19 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderData from "../../../components/list/headerData/HeaderData";
 import TableListTeacher from "../../../components/list/tables/TableListTeachers";
+
 const List = () => {
   const [idProfesor, setIdProfesor] = useState("");
+  const [headerData, setHeaderData] = useState(null);
 
-  //ID QUE IRÁ CAMBIANDO, ESTE ES EL ID QUE ENVIA LA LISTA Y VA A RECIBIR EL HEAD
+  // Función que recibe el ID del profesor desde la tabla
   const getId = (value) => {
     setIdProfesor(value);
   };
 
+  // Efecto para hacer la solicitud GET cuando cambie idProfesor
+  useEffect(() => {
+    if (idProfesor) {
+      const fetchHeaderData = async () => {
+        try {
+          const response = await fetch(`http://localhost:8000/api/v3/registro/profesor/header/${idProfesor}`);
+          if (!response.ok) {
+            throw new Error("Error al obtener los datos del profesor");
+          }
+          const data = await response.json();
+          console.log("Datos recibidos del header:", data);
+          setHeaderData(data);
+        } catch (error) {
+          console.error("Error fetching header data:", error);
+        }
+      };
+
+      fetchHeaderData();
+    }
+  }, [idProfesor]);
+
   return (
     <>
+    {/* datoprofesor no existe, provicional por ahora, no me regañe */}
       <main className="flex flex-col gap-8">
-        <HeaderData
-        />
+        <HeaderData data={headerData} urlApi={`http://localhost:8000/api/v3/registro/profesor/header/${idProfesor}`} typeLink={'go'} urlGo={'datoprofesor'} typeHeaderdata={"view1"}/> 
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE PROFESORES
         </p>

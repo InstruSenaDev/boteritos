@@ -11,6 +11,7 @@
         }
         .containerAll {
             max-width: 400px;
+            width: 100%;
             margin: 0 auto;
             /*
             display: flex;
@@ -41,8 +42,22 @@
             border-left: 1px #206AC4 solid;
             padding-left: 10px;
         }
+        .logo{
+            max-width: 200px;
+            width: 100%;
+        }
         h1 {
             color: white;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .containerAll{
+                max-width: 300px;
+                margin: 0;
+            }
+            .container{
+                padding: 20px;
+            }
         }
 
     </style>
@@ -51,11 +66,11 @@
     <div class="containerAll">
         <div class="container">
 
-            <img src="http://localhost:8000/media/imagenes/IconBoteritos.png" alt="Icono Boteritos">
+            <img src="https://boteritos.org/wp-content/uploads/2018/04/logo.png" alt="Icono Boteritos" class="logo">
             <p class="textSaludo">Hola, {{ nombre }}</p>
-            <p class="textAccion">Haz clic en el enlace de abajo para recuperar tu contraseña y poder iniciar sesión</p>
+            <p class="textAccion">{{ mensaje }}</p>
 
-            <button>ENLACE</button>
+            <a href="http://localhost:5173/recuperarcontrasena/{{ token }}">INGRESAR</a>
 
             <p class="textAlert">Si no estás tratando de recuperar tu contraseña de inicio de sesión, por favor, ignora este correo electrónico. Es posible que otro usuario haya introducido su información de inicio de sesión de manera incorrecta.</p>
 

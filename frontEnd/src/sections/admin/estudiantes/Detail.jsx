@@ -632,6 +632,8 @@ const Detail = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           onSave={handleSave}
+        
+          
         >
           <ModalContentUpdate
             section={selectedSection}
@@ -639,6 +641,7 @@ const Detail = () => {
             onChange={handleInputChange}
             handleFileChange={handleFileChange}
             errores={errors}
+
           />
         </UpdateModal>
     </div>
