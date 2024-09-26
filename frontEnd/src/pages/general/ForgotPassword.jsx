@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Boton } from "../../components/forms/Boton";
 import { Input } from "../../components/forms/Input.jsx";
 import { Link } from "react-router-dom";
+import { Button } from "@tremor/react";
 
 export const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -49,19 +50,19 @@ export const ForgotPassword = () => {
                 <Boton text="Cambiar contraseña" type="blue" />
               </>
             ) : (
-              <div className="text-center">
-                <h1 className="text-title font-cocogooseRegular tracking-normal text-darkBlue">
-                  Se envió un enlace a tu correo para que restablezcas tu contraseña.
-                </h1>
-                <p className="text-paragraph font-cocogooseLight">
-                  Puedes cerrar esta página y reanudar la recuperación de tu cuenta desde el enlace.
-                </p>
-               
-                <div className="flex justify-center mt-4">
-
-                 
-                </div>
+              <div className="w-full h-full flex items-center justify-center flex-col gap-10">
+              <img src="../../../public/img/zG59fyltWB.gif" alt=""></img>
+              <div className="font-cocogooseRegular text-darkBlue text-title text-center">
+                <h1>Contraseña cambiada con éxito</h1>
               </div>
+              <Button
+                className="max-w-[400px] w-full"
+                type="submit"
+               
+              >
+                Iniciar sesión 
+              </Button>
+            </div>
             )}
            
           </div>
