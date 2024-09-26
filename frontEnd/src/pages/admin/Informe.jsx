@@ -42,12 +42,15 @@ const Informe = () => {
         console.log("Tipo de contenido:", contentType);
   
         // encabezados de respuesta (segun)
-      console.log("Encabezados de la respuesta:", response.headers);
+        console.log("Encabezados de la respuesta:", response.headers);
         
         if (contentType && contentType.includes("application/pdf")) {
-          const fileNameHeader = response.headers.get("x-textfile");
-          console.log("Nombre del archivo desde el encabezado:", fileNameHeader);
-          let filename = fileNameHeader || "informe.pdf"; // Asignar un valor predeterminado si es null
+
+          const textfile = response.headers.get("textfile");
+
+          console.log("Nombre del archivo desde el encabezado:", textfile);
+          
+          let filename = textfile || "informe.pdf"; // Asignar un valor predeterminado si es null
           
           // Descargar el archivo
           const blob = await response.blob();
