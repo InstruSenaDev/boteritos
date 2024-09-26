@@ -144,6 +144,7 @@ def CreateInforme(request):
         
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = f'inline; filename="{textFile}.pdf"'
-        response['X-textfile'] = textFile
+        response['textfile'] = textFile
+        response['Access-Control-Expose-Headers'] = 'textfile, Content-Disposition'
         
         return response
