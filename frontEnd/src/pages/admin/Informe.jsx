@@ -18,6 +18,7 @@ const Informe = () => {
     setObservacion(event.target.value);
   };
 
+  
   const handleSubmit = async () => {
     const data = {
       idestudiante: idestud,
