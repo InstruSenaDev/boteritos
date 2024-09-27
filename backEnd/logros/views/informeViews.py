@@ -119,7 +119,9 @@ def InformeList(request,idtrim,idarea,idestud):
                 
         return Response({
             "message" : "Calificaciones encontradas",
-            "data" : query
+            "data" : {
+                "calificaciones" : query
+            }
         },status=status.HTTP_200_OK)
     
 @api_view(['POST'])
