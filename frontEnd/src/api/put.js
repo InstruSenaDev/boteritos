@@ -26,3 +26,16 @@ export const putUpdateTrim = async (data, endpoint) => {
   });
   return response;
 };
+
+
+export const putPassword = async (data, endpoint) => {
+  const response = await fetch(`${urlApi}${endpoint}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json', 
+    },
+    body: data, 
+  });
+  return response;
+};
+
