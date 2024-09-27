@@ -40,7 +40,6 @@ const [dataStudents, setDataStudents] = useState([]);
             <p>Nombre</p>
             <p>Diagnóstico</p>
             <p >Calificación</p>
-            <p >Area</p>
           </div>
 
           {/*CUERPO DE LA TABLA */}
@@ -83,13 +82,6 @@ const [dataStudents, setDataStudents] = useState([]);
                   <DataState state={data.calificado} />
                 </div>
               </div>
-            
-            <div className="flex gap-2 lg:gap-0 acc-body">
-              <p className="text-darkBlue lg:hidden">Area:</p>
-              <div className="flex justify-self-center">
-                <p className="justify-self-center">{`${data.area}`}</p>
-              </div>
-            </div>
           </div>
         ))
       ):(
