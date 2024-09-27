@@ -11,6 +11,7 @@ export const Calificar = () => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
+  const [isSubmitted, setIsSubmitted] = useState(false); // Estado para verificar si ya se envió la calificación
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -36,7 +37,7 @@ export const Calificar = () => {
 
       if (response.ok) {
         console.log("Logros guardados exitosamente");
-        // Puedes realizar acciones adicionales aquí, como actualizar el estado o mostrar una notificación.
+        
       } else {
         console.error("Error al guardar los logros:", response.statusText);
       }
@@ -72,6 +73,7 @@ export const Calificar = () => {
     
         if (response.ok) {
           console.log("Logros enviados exitosamente");
+          setIsSubmitted(true); // Actualizar el estado para indicar que ya se envió
 
         } else {
           console.error("Error al enviar los logros:", response.statusText);
@@ -86,11 +88,11 @@ export const Calificar = () => {
   return (
     <>
       <main className="flex flex-col w-full gap-y-8">
-        <HeaderData 
-        id={id}
-        urlApi={"sql/estudiantes/header/"}
-        typeLink={"back"}
-        urlGo={"listaestudiantes"}
+        <HeaderData
+          id={id}
+          urlApi={"sql/estudiantes/header/"}
+          typeLink={"back"}
+          urlGo={"listaestudiantes"}
         />
 
         <TableCalificarEstudiante setSelectedLogros={setSelectedLogros} />
@@ -102,22 +104,26 @@ export const Calificar = () => {
           >
             Guardar
           </Button>
-          <Button
-            onClick={handleOpenModal}
-            className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button text-white"
-          >
-            Enviar
-          </Button>
+
+          {!isSubmitted && ( // Ocultamos el botón de enviar si ya se ha enviado
+            <Button
+              onClick={handleOpenModal}
+              className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button text-white"
+            >
+              Enviar
+            </Button>
+          )}
         </div>
+
         <ConfirmationModal
-        onConfirm={handleSubmit}
+          onConfirm={handleSubmit}
           isOpen={isOpen}
           onClose={handleCloseModal}
           txtQuestion={"¿Está seguro de enviarlo?"}
           txtWarning={
-            "Una vez enviada, no podrás modificar esta calificación. Por favor,  asegúrate de que toda la información es correcta antes de continuar."
+            "Una vez enviada, no podrás modificar esta calificación. Por favor, asegúrate de que toda la información es correcta antes de continuar."
           }
-        ></ConfirmationModal>
+        />
       </main>
     </>
   );

@@ -30,15 +30,21 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
     const fetchData = async () => {
       try {
         const dataApi = await getAllAreas(`list/${idtrim}/${idArea}/${idestud}/`);
-        console.log(dataApi)
-        setData(dataApi.data || []);
+        console.log(dataApi);
+
+        
+        const calificaciones = dataApi?.data?.data || [];
+
+        // Asegúrate de que calificaciones es un array antes de asignarlo
+        setData(Array.isArray(calificaciones) ? calificaciones : []);
+      } catch (error) {
+        console.error("Error al obtener las áreas:", error);
+        // En caso de error, asegúrate de que `data` sigue siendo un array vacío
+        setData([]);
       }
-      catch (error) {
-        console.error("Error al obtener las areas:", error);
-      };
     };
     fetchData();
-  }, [idArea, idtrim, idestud])
+  }, [idArea, idtrim, idestud]);
 
   const size = useWindowSize();
 
@@ -56,26 +62,30 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
 
   return (
     size.width <= 800 ? (
-      <div className="w-full divide-y-2 divide-placeholderBlue bg-white rounded-xl flex flex-col px-10 py-5 ">
+      <div className="w-full divide-y-2 divide-placeholderBlue bg-white rounded-xl flex flex-col px-10 py-5">
         <p className="text-darkBlue font-cocogooseSemiLight text-subTitle">{tituloArea}</p>
-        {data.map((data) => {
-          const xs = renderXs(data.resultado);
-          return (
-            <div key={data.idlogro} className="w-full py-5 gap-y-2 flex flex-col justify-between">
-              <p className="font-cocogooseLight text-paragraph2">{data.logro}</p>
-              <div className="text-darkBlue flex font-cocogooseSemiLight text-subTitle max-w-[250px] w-full justify-between">
-                <p>L.A</p>
-                <p>L.P</p>
-                <p>L.N</p>
+        {data.length === 0 ? (
+          <p className="font-cocogooseLight text-paragraph text-gray text-center py-5">Área no calificada aún</p>
+        ) : (
+          data.map((dataItem) => {
+            const xs = renderXs(dataItem.resultado);
+            return (
+              <div key={dataItem.idlogro} className="w-full py-5 gap-y-2 flex flex-col justify-between">
+                <p className="font-cocogooseLight text-paragraph2">{dataItem.logro}</p>
+                <div className="text-darkBlue flex font-cocogooseSemiLight text-subTitle max-w-[250px] w-full justify-between">
+                  <p>L.A</p>
+                  <p>L.P</p>
+                  <p>L.N</p>
+                </div>
+                <div className="flex leading-none font-cocogooseSemiLight text-subTitle text-orange max-w-[250px] w-full justify-between px-[10px]">
+                  <p>{xs[0]}</p> {/* L.A */}
+                  <p>{xs[1]}</p> {/* L.P */}
+                  <p>{xs[2]}</p> {/* L.N */}
+                </div>
               </div>
-              <div className="flex leading-none font-cocogooseSemiLight text-subTitle text-orange max-w-[250px] w-full justify-between px-[10px]">
-                <p>{xs[0]}</p> {/* L.A */}
-                <p>{xs[1]}</p> {/* L.P */}
-                <p>{xs[2]}</p> {/* L.N */}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
         <div>{children}</div>
       </div>
     ) : (
@@ -88,19 +98,23 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
             <p>L.N</p>
           </div>
         </div>
-        {data.map((data) => {
-          const xs = renderXs(data.resultado);
-          return (
-            <div key={data.idlogro} className=" w-full py-5 flex justify-between items-center">
-              <p className="font-cocogooseLight text-paragraph2 pr-2">{data.logro}</p>
-              <div className="leading-none flex font-cocogooseSemiLight text-title2 text-orange max-w-[250px] w-full justify-between px-[10px]">
-                <p>{xs[0]}</p> {/* L.A */}
-                <p>{xs[1]}</p> {/* L.P */}
-                <p>{xs[2]}</p> {/* L.N */}
+        {data.length === 0 ? (
+          <p className="font-cocogooseLight text-paragraph text-gray text-center py-5">Área no calificada aún</p>
+        ) : (
+          data.map((dataItem) => {
+            const xs = renderXs(dataItem.resultado);
+            return (
+              <div key={dataItem.idlogro} className=" w-full py-5 flex justify-between items-center">
+                <p className="font-cocogooseLight text-paragraph2 pr-2">{dataItem.logro}</p>
+                <div className="leading-none flex font-cocogooseSemiLight text-title2 text-orange max-w-[250px] w-full justify-between px-[10px]">
+                  <p>{xs[0]}</p> {/* L.A */}
+                  <p>{xs[1]}</p> {/* L.P */}
+                  <p>{xs[2]}</p> {/* L.N */}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     )
   );

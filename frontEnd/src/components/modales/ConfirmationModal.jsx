@@ -10,7 +10,7 @@ export function ConfirmationModal({
     return (
         <Dialog open={isOpen} onClose={onClose} static={true}>
             <DialogPanel className="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg max-w-[calc(450px*2+16px)]">
-                <img src="../../../public/img/Alert.png" alt="" />
+                <img src="../../../../public/img/Alert.png" alt="AdvertenceIcon" />
                 <div className="text-center mb-4">
                     <h1 className="text-title text-darkBlue font-cocogooseRegular mb-2">{txtQuestion}</h1>
                     <h2 className="text-gray-700">{txtWarning}</h2>
