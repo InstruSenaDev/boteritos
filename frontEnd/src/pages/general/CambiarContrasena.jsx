@@ -93,7 +93,7 @@ const CambiarContrasena = () => {
     <LayoutGeneral title="Cambiar contraseña" titleHeader="Cambiar Contraseña">
       <main className="w-full h-full sm:h-[calc(100vh-150px)] flex items-center justify-center">
         {showSuccessMessage ? (
-          // Mostrar el mensaje de éxito p
+          // Mostrar el mensaje de éxito 
           <div className="w-full h-full flex items-center justify-center flex-col">
             <div className="bg-white flex flex-col items-center justify-center gap-10 rounded-2xl p-8">
               <img src="../../../public/img/zG59fyltWB.gif" alt="Éxito"></img>

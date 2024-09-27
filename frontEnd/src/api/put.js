@@ -27,7 +27,7 @@ export const putUpdateTrim = async (data, endpoint) => {
   return response;
 };
 
-
+//PUT para cambiar contraseña estando logueado
 export const putPassword = async (data, endpoint) => {
   const response = await fetch(`${urlApi}${endpoint}`, {
     method: 'PUT',
@@ -39,6 +39,19 @@ export const putPassword = async (data, endpoint) => {
   return response;
 };
 
+//put para enviar el correo de recuperación
+export const putCambiarPwd = async (data, endpoint) => {
+  const response = await fetch(`${urlApi}${endpoint}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json', 
+    },
+    body: data, 
+  });
+  return response;
+};
+
+//PUT para el recuperar Contraseña
 export const putRecuperarPwd = async (data, endpoint) => {
   const response = await fetch(`${urlApi}${endpoint}`, {
     method: 'PUT',
