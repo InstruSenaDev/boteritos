@@ -17,6 +17,7 @@ const Informe = () => {
   const [errors, setErrors] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Estado para el modal de carga
+  const [isInformeCreado, setIsInformeCreado] = useState(false); // Estado para saber si el informe ya ha sido creado
   const { id } = useParams();
   const idestud = id;
 
@@ -41,6 +42,15 @@ const Informe = () => {
         try {
           const response = await getAllAreas(`list/${trimestre}/${idArea}/${idestud}/`);
           const calificaciones = Array.isArray(response.data.data.calificaciones) ? response.data.data.calificaciones : [];
+  
+          // Si el informe ya ha sido creado, marcarlo y cargar la observación
+          if (response.status === 208) {
+            setIsInformeCreado(true);
+            // Cargar la observación si está disponible en la respuesta
+            if (response.data.data.observacion) {
+              setObservacion(response.data.data.observacion);
+            }
+          }
           
           // Añadir la data del área al array total
           allAreasData.push({ idArea, calificaciones });
@@ -167,12 +177,16 @@ const Informe = () => {
           onChange={handleObservacionChange}
           value={observacion}
           error={errors.observacion}
+          disabled={isInformeCreado}  // Deshabilitar si el informe ya está creado
         />
       </div>
 
-      <div className="mt-7 flex justify-center">
-        <Boton text={"Enviar y Descargar"} type={"blue"} onClick={openModal} />
-      </div>
+      {/* Solo mostrar el botón si el informe no ha sido creado */}
+      {!isInformeCreado && (
+        <div className="mt-7 flex justify-center">
+          <Boton text={"Enviar y Descargar"} type={"blue"} onClick={openModal} />
+        </div>
+      )}
 
       <ConfirmationModal
         txtQuestion="¿Está seguro de crear el informe?"
