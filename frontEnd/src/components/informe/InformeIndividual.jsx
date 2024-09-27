@@ -30,16 +30,15 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
     const fetchData = async () => {
       try {
         const dataApi = await getAllAreas(`list/${idtrim}/${idArea}/${idestud}/`);
-        console.log(dataApi);
+        console.log("Lo que recibo",dataApi);
 
-        // data.calificaciones
-        const calificaciones = dataApi?.data?.calificaciones || [];
-
-        // Asegurarse de que calificaciones es un array antes de asignarlo
-        setData(Array.isArray(calificaciones) ? calificaciones : []);
+        
+        const calificaciones = Array.isArray(dataApi.data.data.calificaciones) ? dataApi.data.data.calificaciones : [];
+        setData(calificaciones);
+        console.log("Lo que le entrego a calificaciones", calificaciones); //que tiene calificaciones
       } catch (error) {
         console.error("Error al obtener las áreas:", error);
-        // data como array vacio por si no hay datos
+        // array vacío de default
         setData([]);
       }
     };
