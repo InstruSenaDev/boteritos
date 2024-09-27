@@ -203,7 +203,7 @@ const Informe = () => {
           closeModal();  // Cierra el modal después de la confirmación
         }} />
 
-<LoadingModal isOpen={isLoading} onClose={() => {}} />
+<LoadingModal isOpen={isLoading} onClose={() => {}} text={"Espera mientras se genera el informe, este proceso puede durar dependiendo de la velocidad de tu internet."}/>
 
 
     </LayoutGeneral>

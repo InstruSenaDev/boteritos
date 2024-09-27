@@ -32,14 +32,14 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
         const dataApi = await getAllAreas(`list/${idtrim}/${idArea}/${idestud}/`);
         console.log(dataApi);
 
-        
-        const calificaciones = dataApi?.data?.data || [];
+        // data.calificaciones
+        const calificaciones = dataApi?.data?.calificaciones || [];
 
-        // Asegúrate de que calificaciones es un array antes de asignarlo
+        // Asegurarse de que calificaciones es un array antes de asignarlo
         setData(Array.isArray(calificaciones) ? calificaciones : []);
       } catch (error) {
         console.error("Error al obtener las áreas:", error);
-        // En caso de error, asegúrate de que `data` sigue siendo un array vacío
+        // data como array vacio por si no hay datos
         setData([]);
       }
     };
