@@ -3,24 +3,28 @@ import { getAllUser } from "../../../api/get.js";
 import DataState from "../dataStates/DataState.jsx";
 import { ModalInformes } from "../../modales/ModalInformes";
 import { ConfirmationModal } from "../../modales/ConfirmationModal.jsx";
+import { putDeleteStudents } from "../../../api/put.js";
 
 export default function TableStudents({ getId }) {
   const [dataStudents, setDataStudents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
-  const [selectedInforme, setSelectedInforme] = useState(null); // Agregado
+  const [selectedInforme, setSelectedInforme] = useState(null);
+  const [selectedStudentId, setSelectedStudentId] = useState(null); //ID seleccionado en el boton de eliminar
 
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
   };
 
-  const handleOpenConfirmationModal = () => {
-    setIsConfirmationModalOpen(true);
+  const handleOpenConfirmationModal = (idestudiante) => {
+    setSelectedStudentId(idestudiante); // Almacena el ID del estudiante
+    setIsConfirmationModalOpen(true); // Abre el modal de confirmación
   };
 
   const handleCloseConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
+    setSelectedStudentId(null); // Limpia el ID al cerrar el modal
   };
 
   const handleOpenInformeModal = (informe) => {
@@ -42,6 +46,30 @@ export default function TableStudents({ getId }) {
     obtainData();
   }, []);
 
+  const handleDeleteStudent = async () => {
+    if (selectedStudentId) {
+      const body = {
+        idestudiante: selectedStudentId,
+        estado: 0, // Establece el estado en 0 para eliminar
+      };
+  
+      try {
+        const result = await putDeleteStudents(body); // Llama a la función con body 
+        console.log(result);
+  
+        // Actualiza el estado de los estudiantes
+        setDataStudents((prevData) => 
+          prevData.filter(student => student.idestudiante !== selectedStudentId)
+        );
+  
+        handleCloseConfirmationModal(); // Cierra el modal de confirmación
+        
+      } catch (error) {
+        console.error("Error eliminando estudiante:", error);
+      }
+    }
+  };
+
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-3 w-full overflow-y-hidden">
@@ -61,7 +89,7 @@ export default function TableStudents({ getId }) {
             <p>Acción</p>
           </div>
 
-          {dataStudents ? (
+          {dataStudents.length > 0 ? (
             dataStudents.map((data, index) => (
               <div
                 className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(350px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
@@ -73,7 +101,7 @@ export default function TableStudents({ getId }) {
                   <p className="text-darkBlue lg:hidden">No°</p>
                   <div className="acc-header w-full flex justify-between items-center ">
                     <p>
-                      {data.idestudiante.toString().length == 2
+                      {data.idestudiante.toString().length === 2
                         ? data.idestudiante
                         : `0${data.idestudiante}`}
                     </p>
@@ -115,7 +143,7 @@ export default function TableStudents({ getId }) {
                       ></i>
                       <i
                         className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"
-                        onClick={handleOpenConfirmationModal}
+                        onClick={() => handleOpenConfirmationModal(data.idestudiante)} // Pasa el id del estudiante
                       ></i>
                     </div>
                   </div>
@@ -142,6 +170,7 @@ export default function TableStudents({ getId }) {
         onClose={handleCloseConfirmationModal}
         txtQuestion={`¿Está seguro de eliminar este usuario?`}
         txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+        onConfirm={handleDeleteStudent}
       />
     </>
   );
