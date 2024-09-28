@@ -1,6 +1,7 @@
 import pytz
 import jwt
 from django.conf import settings
+from jwt import InvalidSignatureError, ExpiredSignatureError
 from datetime import datetime, timedelta
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -123,3 +124,54 @@ def Login(request):
                 'trimestre' : trimestre
             }
         },status= status.HTTP_202_ACCEPTED)
+        
+@api_view(['POST'])
+def ValidarToken(request):
+    if request.method == 'POST':
+        try:
+            token = request.data.get('token')            
+            if not token:
+                return Response({
+                    "message" : "Autorizacion cancelada",
+                    "error" : "El token es obligatorio"
+                },status=status.HTTP_401_UNAUTHORIZED)
+                
+            payload = jwt.decode(token, settings.JWT_ACCESS_SECRET_KEY, algorithms=settings.JWT_ALGORITHM)
+            
+            fechaActual = datetime.now(pytz.utc)
+            exp = payload.get('exp')
+            
+            if not exp:  
+                return Response({
+                    "message" : "Verificacion cancelada",
+                    "error" : "El token no cuenta con fecha de expiracion"
+                },status=status.HTTP_401_UNAUTHORIZED)
+            
+            fechaExp = datetime.fromtimestamp(exp, pytz.utc)
+            
+            #LA FECHA DE CADUCIDAD DEL TOKEN ES MENOR A LA ACTUAL?
+            if fechaExp < fechaActual:
+                return Response({
+                    "message": "Verificacion cancelada",
+                    "error" : "El token ha caducado"
+                },status=status.HTTP_401_UNAUTHORIZED)
+            
+            #EL TOKEN NO EXPIRO
+            return Response({
+                "message" : "Verificacion con exito",
+                "data" : payload.get('rol')
+            })
+
+        #FIRMAS INVALIDAS
+        except InvalidSignatureError:
+            return Response({
+                    "message": "El token es invalido",
+                    "error" : "El token ha caducado"
+                },status=status.HTTP_401_UNAUTHORIZED)
+            
+        #TOKEN EXPIRADO
+        except ExpiredSignatureError:
+            return Response({
+                    "message": "Verificacion cancelada",
+                    "error" : "El token ha caducado"
+                },status=status.HTTP_401_UNAUTHORIZED)

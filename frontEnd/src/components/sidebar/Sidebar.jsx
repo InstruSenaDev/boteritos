@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { Elemento } from "./Elemento";
 import { useState } from "react";
 
 export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(""); // Estado para la sección activa
+  const navegar = useNavigate()
 
   const toggleSidebar = () => {
     const newExpandedState = !isExpanded;
@@ -15,6 +17,14 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
   const handleSectionClick = (sectionText) => {
     setActiveSection(sectionText);
   };
+
+  const cerrarSesion = () => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('fecha');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('trimestre')
+    navegar('')
+  }
 
   return (
     <>
@@ -76,7 +86,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
                 link={""}
                 isExpanded={isExpanded}
                 isActive={activeSection === "Salir"} // Para la sección de salir
-                onClick={() => handleSectionClick("Salir")}
+                onClick={() => cerrarSesion()}
               />
             </div>
           </div>
