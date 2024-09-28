@@ -122,14 +122,28 @@ export default function TableStudents({ getId }) {
                 <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Diagnostico:</p>
                   <div className="w-full flex justify-between items-center">
-                    <p>{data.diagnostico}</p>
+                    {data.diagnostico ? (
+                      <p>{data.diagnostico}</p>
+                    ) : (
+                      <div className="bg-redOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
+                        <div className="w-[15px] h-[15px] bg-orange rounded-full"></div>
+                        <p className="text-orange">Sin datos</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div className="acc-body flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">Calificación:</p>
                   <div className="w-full flex justify-between items-center">
-                    <DataState state={data.calificado} />
+                    {data.calificado ? (
+                      <DataState state={data.calificado} />
+                    ) : (
+                      <div className="bg-redOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
+                        <div className="w-[15px] h-[15px] bg-orange rounded-full"></div>
+                        <p className="text-orange">Sin datos</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
