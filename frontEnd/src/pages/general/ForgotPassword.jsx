@@ -2,20 +2,20 @@ import { useState } from "react";
 import { Boton } from "../../components/forms/Boton";
 import { Input } from "../../components/forms/Input.jsx";
 import { useNavigate, useParams } from "react-router-dom";
-import { putRecuperarPwd } from "../../api/put.js"; 
+import { putRecuperarPwd } from "../../api/put.js";
+import { recuperarPwdValidator } from "../../helper/validators/recuperarPwdValidator.js";
+
 
 export const ForgotPassword = () => {
-  // Estado para controlar el tipo de contraseña (texto o password)
   const [typeContrasena, setTypeContrasena] = useState("password");
-  // Obtiene el token desde la URL
-  const { token } = useParams(); 
-  // Estado para saber si la contraseña ha sido cambiada
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  // Estados para almacenar las nuevas contraseñas
-  const [newPassword, setNewPassword] = useState("");
+  // Estado para controlar el tipo de contraseña (texto o password)
+  const { token } = useParams(); // Obtiene el token desde la URL
+  const [isSubmitted, setIsSubmitted] = useState(false); // Estado para saber si la contraseña ha sido cambiada
+  const [newPassword, setNewPassword] = useState(""); // Estados para almacenar las nuevas contraseñas
   const [confirmPassword, setConfirmPassword] = useState("");
-  // Estado para manejar mensajes de error
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorNewPassword, setErrorNewPassword] = useState("");
+  const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para manejar mensajes de error
   const navigate = useNavigate(); // Para redirigir al usuario
 
   // Función para mostrar/ocultar la contraseña
@@ -27,41 +27,59 @@ export const ForgotPassword = () => {
   // Maneja el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorNewPassword("");
+    setErrorConfirmPassword("");
 
-    // Validar que las contraseñas coincidan
-    if (newPassword !== confirmPassword) {
-      setErrorMessage("Las contraseñas no coinciden"); // Mensaje de error
-      return;
-    }
+    //Validación de contraseñas
+    const { isValid, errors } = recuperarPwdValidator(
+      newPassword,
+      confirmPassword
+    );
 
-    // Preparar los datos para la solicitud PUT
-    const data = JSON.stringify({
-      token: token, 
-      contrasena: newPassword,
-    });
+    if (!isValid) {
+      setErrorNewPassword(errors.new);
+      setErrorConfirmPassword(errors.confirm);
+    } else {
+      // Preparar los datos para la solicitud PUT
+      const data = JSON.stringify({
+        token: token,
+        contrasena: newPassword,
+      });
 
-    try {
-      const response = await putRecuperarPwd(data, `correo/actualizar/`);
-      const responseData = await response.json();
+      try {
+        //Aquí se realiza la solicitud Put
+        const response = await putRecuperarPwd(data, `correo/actualizar/`);
+        const responseData = await response.json();
 
-      // Manejar errores de token expirado
-      if (response.status === 400 && responseData.error === "El token ha caducado") {
-        setErrorMessage("El tiempo para restablecer la contraseña ha expirado. Por favor, haz una nueva solicitud.");
-      } else if (response.ok) {
-        setIsSubmitted(true); // Indica que la contraseña se ha cambiado con éxito
-      } else {
-        // Muestra un mensaje de error si falla el cambio de contraseña
-        setErrorMessage(responseData.message || "Error al cambiar la contraseña. Inténtalo de nuevo.");
+        // Manejar errores de token expirado
+        if (
+          response.status === 400 &&
+          responseData.error === "El token ha caducado"
+        ) {
+          setErrorMessage(
+            "El tiempo para restablecer la contraseña ha expirado. Por favor, haz una nueva solicitud."
+          );
+        } else if (response.ok) {
+          setIsSubmitted(true); // Indica que la contraseña se ha cambiado con éxito
+          setNewPassword("");
+          setConfirmPassword("");
+        } else {
+          // Muestra un mensaje de error si falla el cambio de contraseña
+          setErrorMessage(
+            responseData.message ||
+              "Error al cambiar la contraseña. Inténtalo de nuevo."
+          );
+        }
+      } catch (error) {
+        console.error("Error al hacer la solicitud:", error);
+        setErrorMessage("Ocurrió un error inesperado. Inténtalo más tarde."); // Mensaje de error genérico
       }
-    } catch (error) {
-      console.error("Error al hacer la solicitud:", error);
-      setErrorMessage("Ocurrió un error inesperado. Inténtalo más tarde."); // Mensaje de error genérico
     }
   };
-  
+
   // Redirige al usuario a la página de inicio de sesión
   const handleLoginRedirect = () => {
-    navigate("/"); 
+    navigate("/");
   };
 
   // Función para manejar cambios en los campos de entrada
@@ -97,21 +115,28 @@ export const ForgotPassword = () => {
                 placeholder="Ingrese nueva contraseña"
                 icon=""
                 tipo={typeContrasena}
-                onChange={handleInputChange(setNewPassword)} // Actualiza el estado y borra el error
+                onChange={(e) => {
+                  setNewPassword(e.target.value);
+                  setErrorNewPassword(""); // Limpia el error al escribir
+                }} // Actualiza el estado y borra el error
                 value={newPassword}
-                error={errorMessage} // Muestra el mensaje de error si existe
+                error={errorNewPassword} // Muestra el mensaje de error si existe
               />
-              
+
               {/* Campo para confirmar contraseña */}
               <Input
                 texto="Confirmar contraseña"
                 placeholder="Confirme nueva contraseña"
                 icon=""
                 tipo={typeContrasena}
-                onChange={handleInputChange(setConfirmPassword)} // Actualiza el estado y borra el error
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  setErrorConfirmPassword(""); // Limpia el error al escribir
+                }}
                 value={confirmPassword}
+                error={errorConfirmPassword}
               />
-              
+
               {/* Opción para mostrar/ocultar la contraseña */}
               <div className="flex gap-3">
                 <input
@@ -128,6 +153,12 @@ export const ForgotPassword = () => {
                 </label>
               </div>
 
+              {errorMessage && (
+                <div className="text-red-600 mt-2">
+                  {errorMessage}
+                </div>
+              )}
+
               {/* Botón para cambiar la contraseña */}
               <Boton text="Cambiar contraseña" type="blue" />
             </>
@@ -137,11 +168,16 @@ export const ForgotPassword = () => {
               <div className="font-cocogooseRegular text-darkBlue text-title text-center">
                 <h1>Contraseña cambiada con éxito</h1>
                 <p className="text-paragraph2 font-cocogooseLight text-black">
-                  Su contraseña se cambió éxitosamente, presione el botón de abajo e inicie sesión con su nueva contraseña.
+                  Su contraseña se cambió éxitosamente, presione el botón de
+                  abajo e inicie sesión con su nueva contraseña.
                 </p>
               </div>
               {/* Botón para redirigir al inicio de sesión */}
-              <Boton text="Iniciar sesión" type="blue" onClick={handleLoginRedirect} />
+              <Boton
+                text="Iniciar sesión"
+                type="blue"
+                onClick={handleLoginRedirect}
+              />
             </div>
           )}
         </div>
