@@ -17,6 +17,11 @@ export const getDropdown = async (url) => {
   return data;
 };
 
+// GETS DE LA INFORMACIÓN ADICCIONAL DE LOS PROFESORES
+export const dataDetailProfesores = async (url) => {
+  const data = await fetchFunction("GET", null, null, `registro/${url}`);
+  return data;
+};
 // GETS DE LA INFORMACIÓN ADICCIONAL DE LOS ESTUDIANTES
 
 //http://localhost:8000/api/v3/usuarios/historiaclinica/?idestudiante=2

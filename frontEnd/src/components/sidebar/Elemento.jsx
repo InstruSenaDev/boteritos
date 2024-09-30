@@ -48,7 +48,7 @@ export const Elemento = ({ icon, text, isExpanded, link, onClick }) => {
               >
                 {text}
               </span>
-            </div>
+            </div> 
           </div>
         </Link>
       )}
