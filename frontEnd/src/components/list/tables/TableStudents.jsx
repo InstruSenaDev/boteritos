@@ -170,12 +170,12 @@ export default function TableStudents({ getId }) {
         </section>
       </main>
 
-      {selectedInforme && (
+      {isOpen && (
         <ModalInformes
           isOpen={isOpen}
           onClose={handleCloseModal}
           txtmodal="Informes del Estudiante"
-          informes={selectedInforme}
+          informes={selectedInforme || []}
         />
       )}
 
