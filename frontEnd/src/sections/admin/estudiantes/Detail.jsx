@@ -104,7 +104,7 @@ const Detail = () => {
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
-        usuario: DataPersonalEstudiante.data.data,
+        usuario: DataPersonalEstudiante.data.datos,
       });
     };
 
@@ -189,7 +189,7 @@ const Detail = () => {
         endpoint = `registro/datosmedicos/`;
         break;
       case "Contactos":
-        endpoint = `registr/telefono/`;
+        endpoint = `registro/telefono/`;
         break;
       case "Dirección":
         endpoint = `registro/direccion/`;
@@ -222,7 +222,7 @@ const Detail = () => {
     const { name, value } = e.target;
     const content = selectedSection || "default"; // Sección actual
   
-    // implementar tu lógica de validación
+  
     const error = UpdateModalesValidators(content, name, value);
   
     setErrors((prevErrors) => ({
@@ -312,7 +312,7 @@ const Detail = () => {
                     Tipo documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.idTipodocumento}
+                    {value.tipodocumento}
                   </p>
                 </div>
                 <div>
@@ -320,17 +320,10 @@ const Detail = () => {
                     Documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.numerodocumento}
+                    {value.documento}
                   </p>
                 </div>
-                <div>
-                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                    Telefono:
-                  </p>
-                  <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.telefono}
-                  </p>
-                </div>
+                
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     edad:
@@ -497,7 +490,7 @@ const Detail = () => {
                   </p>
                 </div>
 
-                <div>
+                <div  className="break-words">
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Archivo:
                   </p>
