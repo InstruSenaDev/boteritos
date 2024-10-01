@@ -30,7 +30,7 @@ export const caseResponsable = (name, value) => {
       }
       break;
 
-    case "idtipodocumento":
+    case "tipodocumento":
       if (value.trim() === "") {
         return "El documento no puede estar vacío";
       }
