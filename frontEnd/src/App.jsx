@@ -11,7 +11,8 @@ export const Informe = lazy(() => import("./pages/admin/Informe.jsx"));
 export const Trimestre = lazy (()=>import("./pages/admin/Trimestres.jsx"));
 export const ListProfesores = lazy (()=>import("./pages/admin/profesores/ListTeachers.jsx"));
 export const ListAdmins = lazy (()=>import("./pages/admin/administradores/ListAdmins.jsx"));
-export const Informes = lazy (()=>import("./pages/admin/Informe.jsx"))
+export const Informes = lazy (()=>import("./pages/admin/Informe.jsx"));
+export const DatosProfesor = lazy(()=> import("./pages/admin/profesores/DatesTeacher.jsx"))
 //GENERAL
 export const Perfil = lazy(() => import("./pages/general/Profile.jsx"));
 export const PasswordHelp = lazy(() => import("./pages/general/PasswordHelp.jsx"));

@@ -42,7 +42,7 @@ urlpatterns= [
     path('profesor/', ProfesorCreateView),
     path('profesor/<int:id>', ProfesorDataPersonal),
     path('profesor/tabla', ProfesorTable),
-    path('profesor/header/<int:id>', ProfesorHead),
+    path('profesor/header/<int:idprof>/<int:idtrim>', ProfesorHead),
     
     #DATOS EXTRA DE PROFESORES
     path('datosmedicos/profesor/<int:id>', DatosMedicosProfesor), #SE PASA EL ID DEL PROFESOR

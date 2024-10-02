@@ -42,6 +42,7 @@ import {
   TeacherMain,
   TeacherRegister,
   Trimestre,
+  DatosProfesor
 } from "./App.jsx";
 
 import Loading from "./components/loaders/loading.jsx";
@@ -66,7 +67,6 @@ const router = createBrowserRouter([
       { path: "listaprofesores", element: <ListProfesores /> },
       { path: "cambiarcontrasena", element: <ChangePassword /> },
 
-      { path: "registro", element: <Registro /> },
       { path: "listaestudiantes", element: <ListEstudiantes /> },
       {
         path: "listaestudiantes/datoestudiante/:id",
@@ -80,6 +80,11 @@ const router = createBrowserRouter([
         path: "listaestudiantes/datoestudiante/informe/:id",
         element: <Informes />,
       },
+      {
+        path: "listaprofesores/datosprofesor/:id",
+        element: <DatosProfesor />,
+      },
+      { path: "registro", element: <Registro /> },
       {
         path: "registro",
         element: <RegFormLayout />,
