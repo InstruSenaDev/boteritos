@@ -94,18 +94,18 @@ def ProfesorCreateView(request):
     
     if request.method == 'PUT':
         
-        idProf = request.data.get('idestudiante')
+        idProf = request.data.get('idprofesor')
         
         if not idProf:
             return Response({
                 "message" : "Actualizacion cancelada",
-                "error" : "El id del estudiante es obligatorio"
+                "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
             
         data = request.data
-        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
+        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
-        #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
+        #VALIDAMOS QUE SE ENCUENTRE EL PROFESOR
         if not queryProf : 
             return Response({
                 "message" : "Actualizacion cancelada",
@@ -200,10 +200,23 @@ def ProfesorTable(request):
         },status=status.HTTP_400_BAD_REQUEST)
         
 @api_view(['GET'])
-def ProfesorHead(request, id):
+def ProfesorHead(request, idprof ,idtrim):
     
     if request.method == 'GET':
-        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` ,`usuario`.`imagen`, `usuario`.`documento`, `usuario`.`edad` ,`profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idProfesor` = %s;", [id])
+
+        if not idprof:
+            return Response({
+                "message" : "Consulta fallida",
+                "error" : "El id del estudiante es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+
+        if not idtrim:
+            return Response({
+                "message" : "Consulta fallida",
+                "error" : "El id del trimestre es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+
+        query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` ,`usuario`.`imagen`, `usuario`.`documento`, `usuario`.`edad` ,`profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idProfesor` = %s;", [idprof])
         
         if len(query) == 0:
             return Response({
@@ -215,9 +228,52 @@ def ProfesorHead(request, id):
         
         data['imagen'] = f"{urlHost}{data['imagen']}"
         
+        queryLogros = querySql("SELECT `logroestudiante`.`estado`,`logroestudiante`.`idLogroEstudiante`, `logros`.`logro` FROM `logroestudiante` LEFT JOIN `logros` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE `logros`.`idProfesor` = %s AND `logros`.`idTrimestre` = %s;", [idprof, idtrim])
+
+        sumEnviados = 0
+        sumGuardados = 0
+
+        for values in queryLogros:
+
+            if str(values["estado"]) == "1":
+                sumEnviados+= 1
+
+            if str(values["estado"]) == "0":
+                sumGuardados+= 1
+        
+        dataHead = {
+            "card1" : {
+                "id": data["idprofesor"],
+                "nombre": data["nombre"],
+                "imagen": f"{urlHost}{data['imagen']}",
+                "documento" : data["documento"],
+                "edad": data["edad"]
+            },
+            "card2" : [
+                {
+                    "name" : "Titulo",
+                    "value" : data["titulo"]
+                },
+                {
+                    "name" : "Area",
+                    "value" : data["area"]
+                }
+            ],
+            "card3": [
+                {
+                    "name" : "Enviados",
+                    "value" : sumEnviados
+                },
+                {
+                    "name" : "Guardados",
+                    "value" : sumGuardados
+                }
+            ]
+        }
+
         return Response({
             "message" : "Profesores encontrados",
-            "data" : data
+            "data" : dataHead
         },status=status.HTTP_200_OK)
 
 @api_view(['GET'])

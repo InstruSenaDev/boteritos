@@ -31,7 +31,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
 
   const handleConfirmLogout = () => {
     localStorage.clear(); // Limpiar el local storage cuando se confirme el cierre
-    navigate("/"); // Redirigir a la página de inicio
+    navigate(0); // Redirigir a la página de inicio
     setIsOpen(false); // Cerrar el modal
   };
 
