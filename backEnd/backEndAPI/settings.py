@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,13 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'rest_framework_simplejwt',
+    'userAuth',
     'users',
-    'system'
+    'logros',
+    'dropdowns',
+    'correos'
     #'coreapi'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+#DATA ABOUT TOKEN
+JWT_ACCESS_SECRET_KEY = "2CEqW>I.d^Nzww>>mKP=R8UvaoG|wEMw"
+JWT_REFRESH_SECRET_KEY = "7znz.,XQbr=]'s==KGz,-x$zx,maX`df"
+JWT_ALGORITHM = "HS256"
+JWT_ACCESS_EXPIRATION_TIME = 3600  # Expiración en segundos (1 hora en este caso) 3600
+JWT_REFRESH_EXPIRATION_TIME = 86400 # Expiracion en segundos (1 dia en este caso)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,7 +84,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backEndAPI.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -122,7 +131,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -132,11 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Que servidores se podrán conectar con nuestro backend
 CORS_ALLOWED_ORIGINS = []
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-}
+REST_FRAMEWORK = {}
 
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
@@ -145,3 +153,13 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.ScryptPasswordHasher',
 ]
+
+#CONFIGURACION PARA EL MANEJO DE CORREOS
+
+DEFAULT_FROM_EMAIL = 'boteritosteam@gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = DEFAULT_FROM_EMAIL 
+EMAIL_HOST_PASSWORD = 'l g o r p z f l t m b k v w e j'
