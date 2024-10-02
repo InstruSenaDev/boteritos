@@ -7,7 +7,7 @@ export const putModales = async (body, url) => {
 };
 
 
-export const putUpdate = async (data, endpoint,) => {
+export const putUpdate = async (data, endpoint) => {
   const response = await fetch(`${urlApi}${endpoint}`, {
     method: 'PUT',
     body: data,

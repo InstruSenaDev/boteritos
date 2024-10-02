@@ -4,7 +4,7 @@ import { putUpdate } from "../../../api/put";
 export const updateSectionData = async (selectedSection, sectionData, id, dataFormInd) => {
   const newData = new FormData();
   newData.append('section', selectedSection);
-  newData.append('idprofesor', id);
+  //newData.append('idprofesor', id);
   
   for (const key in sectionData) {
     if (sectionData.hasOwnProperty(key)) {
@@ -12,8 +12,8 @@ export const updateSectionData = async (selectedSection, sectionData, id, dataFo
     }
   }
   
-  if (dataFormInd.has('archivo')) {
-    newData.append('archivo', dataFormInd.get('archivo'));
+  if (dataFormInd.has('hojavida')) {
+    newData.append('hojavida', dataFormInd.get('hojavida'));
   }
   
   let endpoint = '';

@@ -94,15 +94,16 @@ def ProfesorCreateView(request):
     
     if request.method == 'PUT':
         
-        idProf = request.data.get('idestudiante')
+        idProf = request.data.get('idprofesor')
         
         if not idProf:
             return Response({
                 "message" : "Actualizacion cancelada",
-                "error" : "El id del estudiante es obligatorio"
+                "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
             
-        data = request.data
+        data = request.data     
+        print(data,' ',  type(data))
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
         #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
@@ -116,8 +117,14 @@ def ProfesorCreateView(request):
         idUsuario = queryProf.idusuario.idusuario
         
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
-        data['idusuario'] = idUsuario
-         
+        #data['idusuario'] = idUsuario
+        
+        myDict = dict(data)
+        print('------------------------------')
+        print(myDict)
+
+        """
+        
         srProf = ProfesorSerializer(queryProf, data = data)
         #VALIDACION
         if not srProf.is_valid():
@@ -138,7 +145,7 @@ def ProfesorCreateView(request):
         #INSERCION DE DATOS EN AMBAS TABLAS
         srProf.save()
         srUsuario.save()
-        
+
         return Response({
             "message" : "Actualizacion realizada con exito",
             "data" : {
@@ -146,6 +153,10 @@ def ProfesorCreateView(request):
                 "profesor" : srProf.data
             }
         },status=status.HTTP_201_CREATED)
+
+        """
+        return Response('AAAAAAAAAAA')
+        
 
 @api_view(['GET', 'PUT'])
 def ProfesorTable(request):
