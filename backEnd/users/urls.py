@@ -26,7 +26,7 @@ urlpatterns= [
     path('estudiante/', EstudianteCreateView), #REGISTRO DE ESTUDIANTE
     path('estudiante/<int:id>', EstudianteDataPersonal),
     path('estudiantes/tabla', EstudianteTable),
-    path('estudiantes/header/<int:id>', EstudianteHeader),
+    path('estudiantes/header/<int:idstud>/<int:idtrim>', EstudianteHeader),
     
     #DATOS EXTRA DE ESTUDIANTES
     path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne), #SE PASA EL ID DEL ESTUDIANTE

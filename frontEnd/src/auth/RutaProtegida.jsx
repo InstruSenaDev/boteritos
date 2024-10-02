@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet, Navigate, useLocation  } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import { AutorizarVista } from "./AutorizarVista";
+import Loading from "../components/loaders/loading";
 
 const RutaProtegida = () => {
     // Lógica para determinar las rutas accesibles según el rol
@@ -9,22 +10,23 @@ const RutaProtegida = () => {
     
     const [ accesRol, setAcces ] = useState('')
     const [ rol, setRol ] = useState('')
+    const [verifCompleta, setVerifCompleta] = useState(false)
 
     console.log(rutaActual);
     
     let esRutaAccesible = false;
 
     useEffect(()=>{
-        const getRol =async ()=>{
+        const getRol = async () => {
             //LLAMAMOS A LA FUNCION QUE VALIDA EL TOKEN Y DESTRUCTURAMOS
             const [ acces, rolU ] = await AutorizarVista();
 
             console.log(acces);
             console.log(rolU);
-            
-
+    
             setAcces(acces)
             setRol(rolU)
+            setVerifCompleta(true)
         }
         getRol()
     },[])
@@ -33,7 +35,7 @@ const RutaProtegida = () => {
 
     switch (accesRol) {
         case 'notLogin':
-            esRutaAccesible = ['/', '/ayudacontrasena' , '/recuperarcontrasena'].includes(rutaActual)
+            esRutaAccesible = ['/', '/ayudacontrasena'].includes(rutaActual) || /^\/recuperarcontrasena\/[^/]+$/.test(rutaActual);
             break;
 
         case 'loginAdmin':    
@@ -53,7 +55,18 @@ const RutaProtegida = () => {
     }
     console.log(esRutaAccesible)
     return (
-        esRutaAccesible ?  <Outlet /> : accesRol == 'notLogin' ? <Navigate to={'/'} /> : <Navigate to={`/${rol}`} />
+        verifCompleta ? (
+            esRutaAccesible ? (
+              <Outlet />
+            ) : (
+              accesRol === 'notLogin' ? (
+                <Navigate to={'/'} />
+              ) : (
+                <Navigate to={`/${rol}`} />
+              )
+            )
+          ) : <Loading />
+          
     )
 }
 

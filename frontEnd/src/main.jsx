@@ -54,7 +54,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <FormLogin /> },
       { path: "ayudacontrasena", element: <PasswordHelp /> },
-      { path: "recuperarcontrasena/:token", element: <ForgotPassword /> },
+      { path: "recuperarcontrasena/:token", element: <ForgotPassword /> }
     ],
   },
   {
