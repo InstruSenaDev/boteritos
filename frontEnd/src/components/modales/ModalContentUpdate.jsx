@@ -10,6 +10,7 @@ import {
   dataDiscapacidad,
   dataRh,
   dataEps,
+  dataArea,
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
 
@@ -30,6 +31,7 @@ export const ModalContentUpdate = ({
     dataDiscapacidad: [],
     dataRh: [],
     dataEps: [],
+    dropdownArea: [],
   });
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export const ModalContentUpdate = ({
       const resultDiscapacidad = await dataDiscapacidad();
       const resultRh = await dataRh();
       const resultEps = await dataEps();
+      const resultArea = await dataArea();
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
@@ -49,6 +52,7 @@ export const ModalContentUpdate = ({
         dataDiscapacidad: resultDiscapacidad,
         dataRh: resultRh,
         dataEps: resultEps,
+        dropdownArea: resultArea,
       });
     };
 
@@ -136,14 +140,15 @@ export const ModalContentUpdate = ({
             value={data.titulo || ""}
             error={errores.titulo}
           />
-              <Input
-            texto="Área"
-            placeholder="Ingresa el Area"
-            name="titulo"
-            tipo="text"
-            onChange={(e) => onChange(e, "area")}
-            value={data.area || ""}
-            error={errores.telefono}
+
+          <Dropdown
+            name="idarea"
+            label="Área"
+            data={dataDropdown.dropdownArea}
+            onChange={(value) => handleDropdownChange("idarea", value)}
+            value={data.idarea || ""}
+            placeholder="Seleccione el Área"
+      
           />
 
           <UploadFile

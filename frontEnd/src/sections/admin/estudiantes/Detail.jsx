@@ -95,7 +95,7 @@ const Detail = () => {
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
-      console.log("Datos personales:", DataPersonalEstudiante.data.data);
+      console.log("Datos personales:", DataPersonalEstudiante.data.datos);
 
       setDataDetail({
         ...dataDetail,
@@ -236,8 +236,6 @@ const Detail = () => {
     }));
   };
 
-
-
   const filterData = (data) => {
     // Filtra los campos que contienen Ids
     return Object.keys(data)
@@ -332,6 +330,34 @@ const Detail = () => {
                     {value.edad}
                   </p>
                 </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Talla de la camisa:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.tallacamisa}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Tipo de matricula:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.matricula}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Institución de procedencia:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.institutoprocedencia}
+                  </p>
+                </div>
+
               </div>
             </GrupoDatos>
           ))}
