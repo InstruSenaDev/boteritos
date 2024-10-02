@@ -94,18 +94,18 @@ def ProfesorCreateView(request):
     
     if request.method == 'PUT':
         
-        idProf = request.data.get('idestudiante')
+        idProf = request.data.get('idprofesor')
         
         if not idProf:
             return Response({
                 "message" : "Actualizacion cancelada",
-                "error" : "El id del estudiante es obligatorio"
+                "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
             
         data = request.data
-        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
+        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
-        #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
+        #VALIDAMOS QUE SE ENCUENTRE EL PROFESOR
         if not queryProf : 
             return Response({
                 "message" : "Actualizacion cancelada",
