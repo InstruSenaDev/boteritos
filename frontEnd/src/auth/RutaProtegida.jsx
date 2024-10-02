@@ -19,6 +19,10 @@ const RutaProtegida = () => {
             //LLAMAMOS A LA FUNCION QUE VALIDA EL TOKEN Y DESTRUCTURAMOS
             const [ acces, rolU ] = await AutorizarVista();
 
+            console.log(acces);
+            console.log(rolU);
+            
+
             setAcces(acces)
             setRol(rolU)
         }

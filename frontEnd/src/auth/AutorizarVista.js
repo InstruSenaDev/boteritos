@@ -4,17 +4,16 @@ export const AutorizarVista = async () => {
 
     const tokenUser = JSON.parse(localStorage.getItem("access_token"));
     console.log(tokenUser);
+
     if (!tokenUser) {
-        setRol('notLogin');
-        setVerificacionCompleta(true);
-        return
+        return ['notLogin']
     }
 
     //VALIDAMOS TOKEN
     const data = await authToken({"token" : tokenUser}, 'token/')
 
     if(data.status != 200){
-        return 'notLogin'
+        return ['notLogin']
     }
 
     //OBTENEMOS EL ROL
