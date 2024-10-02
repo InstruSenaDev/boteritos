@@ -26,7 +26,8 @@ urlpatterns= [
     path('estudiante/', EstudianteCreateView), #REGISTRO DE ESTUDIANTE
     path('estudiante/<int:id>', EstudianteDataPersonal),
     path('estudiantes/tabla', EstudianteTable),
-    path('estudiantes/header/<int:id>', EstudianteHeader),
+    path('estudiantes/header/<int:idstud>/<int:idtrim>', EstudianteHeader),
+    
     #DATOS EXTRA DE ESTUDIANTES
     path('datosmedicos/estudiante/<int:id>', DatosMedicosEstudianteOne), #SE PASA EL ID DEL ESTUDIANTE
     path('telefono/estudiante/<int:id>', TelefonosEstudiante),#SE PASA EL ID DEL ESTUDIANTE
@@ -41,7 +42,8 @@ urlpatterns= [
     path('profesor/', ProfesorCreateView),
     path('profesor/<int:id>', ProfesorDataPersonal),
     path('profesor/tabla', ProfesorTable),
-    path('profesor/header/<int:id>', ProfesorHead),
+    path('profesor/header/<int:idprof>/<int:idtrim>', ProfesorHead),
+    
     #DATOS EXTRA DE PROFESORES
     path('datosmedicos/profesor/<int:id>', DatosMedicosProfesor), #SE PASA EL ID DEL PROFESOR
     path('telefono/profesor/<int:id>', TelefonosProfesor),#SE PASA EL ID DEL PROFESOR

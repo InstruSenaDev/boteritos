@@ -8,8 +8,9 @@ from ..serialzer.fechasSerizalizer import FechasSerializer
 from ..serialzer.direccionSerializer import DireccionSerializer
 from ..serialzer.datosMedicosSerializer import DatosMedicosSerializer
 from ..serialzer.telefonosSerializer import TelefonosSerializer
+from ..serialzer.logrosEstudiante import CalificarSerializer
 
-from ..models import Estudiante, Usuario
+from ..models import Estudiante, Usuario, Logroestudiante
 from ..querySql import querySql
 from url import urlHost
 
@@ -203,11 +204,24 @@ def EstudianteTable(request):
 
 #ENDPOINT PARA MOSTRAR INFORMACION EN EL HEAD DE CADA LISTA DE ESTUDIANTES
 @api_view(['GET'])
-def EstudianteHeader(request,id):
+def EstudianteHeader(request,idstud,idtrim):
     
     if request.method == "GET":
-                
-        query = querySql("SELECT CONCAT(`responsable`.`nombre`, ' ',`responsable`.`apellido` ) AS `responsable`,`tipoparentesco`.`tipoParentesco`, CONCAT(`usuario`.`nombre` , ' ', `usuario`.`apellido`) AS `estudiante`, `usuario`.`documento` AS `documentoestudiante`, `usuario`.`edad` AS `edadestudiante`, `usuario`.`imagen` AS `imagenestudiante`, `estudiante`.`idestudiante` FROM `estudiante` LEFT JOIN `responsable` ON `responsable`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idEstudiante` = %s LIMIT 2;",[id])
+        
+        if not idstud:
+            return Response({
+                "message" : "Consulta fallida",
+                "error" : "El id del estudiante es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+
+        if not idtrim:
+            return Response({
+                "message" : "Consulta fallida",
+                "error" : "El id del trimestre es obligatorio"
+            },status=status.HTTP_400_BAD_REQUEST)
+
+        #CONSULTA PARA OBTENER LOS DATOS DEL ESTUDIANTE
+        query = querySql("SELECT CONCAT(`responsable`.`nombre`, ' ',`responsable`.`apellido` ) AS `responsable`,`tipoparentesco`.`tipoParentesco`, CONCAT(`usuario`.`nombre` , ' ', `usuario`.`apellido`) AS `estudiante`, `usuario`.`documento` AS `documentoestudiante`, `usuario`.`edad` AS `edadestudiante`, `usuario`.`imagen` AS `imagenestudiante`, `estudiante`.`idestudiante` FROM `estudiante` LEFT JOIN `responsable` ON `responsable`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `tipoparentesco` ON `responsable`.`idTipoParentesco` = `tipoparentesco`.`idTipoParentesco` LEFT JOIN `usuario` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idEstudiante` = %s LIMIT 2;",[idstud])
         
         if len(query) == 0:
             return Response({
@@ -219,32 +233,67 @@ def EstudianteHeader(request,id):
         
         #Logica para obtener obtener unicamente la informacion de los responsables del estudiante
         arrayResponsable = []
-        for keysSql in query:
+        for keysSql in query: #RECORREMOS LA CONSULTA
             objVacio = {}
             for values in keysSql:                
                 if not "estudiante" in values:
-                    objVacio[values] = keysSql[values]
+                    objVacio[values] = keysSql[values] #ASIGNAMOS LOS VALORES
                 
             arrayResponsable.append(objVacio)
         
         arrayModif = []
+
         for values in arrayResponsable:
             objVacio = {}
+            #ASIGNAMOS LOS VALORES EN UN OBJETO PERSONALIZADO
             objVacio ={
                 "name" : values['tipoparentesco'] ,
                 "value" : values['responsable']
             }
             arrayModif.append(objVacio)
-                    
+
+        #CONSULTA PARA OBTENER TODOS LOS LOGROS RELACIONADOS AL ESTUDIANTE
+        queryLogros = querySql("SELECT `logroestudiante`.`idLogroEstudiante`, `logroestudiante`.`resultado`, `logroestudiante`.`idEstudiante` FROM `logroestudiante` LEFT JOIN `logros` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE `logroestudiante`.`idEstudiante` = %s AND `logros`.`idTrimestre` =%s;", [idstud, idtrim])
+        
+        #VARIABLES QUE NOS AYUDARAN CON LA SUMATORIA
+        sumAprobados = 0
+        sumNoAprobados = 0
+        sumProceso = 0
+
+        for values in queryLogros:
+
+            if str(values['resultado']) == '0':
+                sumNoAprobados += 1 #AUTOINCREMENTAMOS LOS LOGROS NO APROBADOS
+
+            if str(values['resultado']) == '1':
+                sumAprobados += 1 #AUTOINCREMENTAMOS LOS LOGROS APROBADOS
+
+            if str(values['resultado']) == '2':
+                sumProceso += 1 #AUTOINCREMENTAMOS LOS LOGROS EN PROCESO
+
         dataHead = {
-            'dataEstudiante' : {
+            'card1' : {
                 "id" : infoEstudiante['idestudiante'],
                 "nombre" : infoEstudiante['estudiante'],
                 "imagen" : f"{urlHost}{infoEstudiante['imagenestudiante']}",
                 "documento" : infoEstudiante['documentoestudiante'],
                 "edad" : infoEstudiante['edadestudiante']
             },
-            'dataResponsable' : arrayModif
+            'card2' : arrayModif,
+            'card3' : [
+                  {
+                    "name": "LA",
+                    "value": sumAprobados,
+                },
+                {
+                    "name": "LP",
+                    "value": sumProceso,
+                },
+                {
+                    "name": "LN",
+                    "value": sumNoAprobados,
+                },
+            ]
         }
    
         return Response({

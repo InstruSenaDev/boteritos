@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { getAllAreas } from '../../api/get';
 
 // Hook para detectar el tamaño de la pantalla
 const useWindowSize = () => {
@@ -23,39 +22,18 @@ const useWindowSize = () => {
   return windowSize;
 };
 
-export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, children }) => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const dataApi = await getAllAreas(`list/${idtrim}/${idArea}/${idestud}/`);
-        console.log(dataApi);
-
-        // data.calificaciones
-        const calificaciones = dataApi?.data?.calificaciones || [];
-
-        // Asegurarse de que calificaciones es un array antes de asignarlo
-        setData(Array.isArray(calificaciones) ? calificaciones : []);
-      } catch (error) {
-        console.error("Error al obtener las áreas:", error);
-        // data como array vacio por si no hay datos
-        setData([]);
-      }
-    };
-    fetchData();
-  }, [idArea, idtrim, idestud]);
-
+export const InformeIndividual = ({ tituloArea, children, data }) => {
   const size = useWindowSize();
 
+  // Función para renderizar las X según el resultado
   const renderXs = (resultado) => {
-    const xs = ["", "", ""]; // Array con posiciones vacías para las 3 "X"
+    const xs = ["", "", ""]; // Array con 3 posiciones vacías para las "X"
     if (resultado === "0") {
-      xs[2] = "X"; // LN
+      xs[2] = "X"; // LN (No alcanzado)
     } else if (resultado === "1") {
-      xs[0] = "X"; // LA
+      xs[0] = "X"; // LA (Alcanzado)
     } else if (resultado === "2") {
-      xs[1] = "X"; // LP
+      xs[1] = "X"; // LP (En proceso)
     }
     return xs;
   };
@@ -104,7 +82,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
           data.map((dataItem) => {
             const xs = renderXs(dataItem.resultado);
             return (
-              <div key={dataItem.idlogro} className=" w-full py-5 flex justify-between items-center">
+              <div key={dataItem.idlogro} className="w-full py-5 flex justify-between items-center">
                 <p className="font-cocogooseLight text-paragraph2 pr-2">{dataItem.logro}</p>
                 <div className="leading-none flex font-cocogooseSemiLight text-title2 text-orange max-w-[250px] w-full justify-between px-[10px]">
                   <p>{xs[0]}</p> {/* L.A */}
@@ -115,6 +93,7 @@ export const InformeIndividual = ({ idArea, idtrim, idestud, tituloArea, childre
             );
           })
         )}
+        <div>{children}</div>
       </div>
     )
   );
