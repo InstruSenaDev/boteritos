@@ -20,6 +20,7 @@ export const GrupoDatoElemento = () => {
   const formData = new FormData();
   const [errors, setErrors] = useState({});
 
+
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;

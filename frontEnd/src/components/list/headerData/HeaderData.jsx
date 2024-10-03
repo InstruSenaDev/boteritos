@@ -23,7 +23,7 @@ const logros = [
 export const HeaderData = ({ id, urlApi, urlGo ,typeLink, typeHeaderdata }) => {
 
   const [dataCard1, setDataCard1] = useState({});
-  const [dataCard2, setDataCard2] = useState({});
+  const [dataCard2, setDataCard2] = useState([]);
 
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ export const HeaderData = ({ id, urlApi, urlGo ,typeLink, typeHeaderdata }) => {
         const response = await getOneUser(`${urlApi}${id}`);
         
         setDataCard1(response.data.data.dataEstudiante);
-        setDataCard2(response.data.data.dataResponsable);
+        setDataCard2(response.data.data.dataResponsable || []);
       }
     };
     getData();
