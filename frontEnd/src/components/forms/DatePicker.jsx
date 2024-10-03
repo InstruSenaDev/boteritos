@@ -5,7 +5,7 @@ export function DatePicker2({ name, texto, value, onChange, error }) {
   // Manejador de cambio de fecha
   const handleDateChange = (date) => {
     if (date) {
-      onChange({ target: { name, value: date } }); // Guardar la fecha directamente como objeto Date
+      onChange({ target: { name, value: date } }); // Guardar la fecha como objeto Date
     }
   };
 
@@ -23,10 +23,10 @@ export function DatePicker2({ name, texto, value, onChange, error }) {
         }`}
       >
         <DatePicker
-        enableYearNavigation={true}
+          enableYearNavigation={true}
           locale={es}
           placeholder="Selecciona la fecha"
-          value={value ? new Date(value) : null} // Mostrar la fecha seleccionada
+          value={value ? new Date(value) : null} // Convierte la fecha a un objeto Date
           onValueChange={handleDateChange}
           className="w-full h-full "
         />
