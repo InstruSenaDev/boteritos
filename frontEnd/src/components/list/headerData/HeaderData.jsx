@@ -23,6 +23,8 @@ const logros = [
 export const HeaderData = ({ id, urlApi, urlGo ,typeLink, typeHeaderdata }) => {
 
   const idTrimestre = JSON.parse(localStorage.getItem("trimestre"))
+  console.log(urlApi);
+  console.log(urlGo);
   
   const [dataCard1, setDataCard1] = useState({});
   const [dataCard2, setDataCard2] = useState({});

@@ -168,8 +168,9 @@ export const DetailsTeachers = () => {
     <div className="w-full space-y-2 grid gap-10">
       <HeaderData
         id={id}
-        urlApi={"sql/estudiantes/header/"}
+        urlApi={"sql/profesor/header/"}
         typeLink={"back"}
+        prueba="AAAAAAAAAAAAA"
       />
 
       {dataDetail.personal &&

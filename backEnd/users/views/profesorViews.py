@@ -19,7 +19,7 @@ def ProfesorCreateView(request):
     
     if request.method == 'POST':
         datos = request.data
-                
+        print(datos)
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
         
@@ -119,13 +119,11 @@ def ProfesorCreateView(request):
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
         #data['idusuario'] = idUsuario
         
-        myDict = dict(data)
+        dataDict = dict(data)
         print('------------------------------')
-        print(myDict)
-
-        """
+        print(dataDict)
         
-        srProf = ProfesorSerializer(queryProf, data = data)
+        srProf = ProfesorSerializer(queryProf, data = dataDict)
         #VALIDACION
         if not srProf.is_valid():
             return Response({
@@ -135,7 +133,7 @@ def ProfesorCreateView(request):
         
         queryUsuario = Profesor.objects.filter(idusuario = idUsuario).first()
         
-        srUsuario = UsuarioSerializer(queryUsuario, data = data, partial = True)
+        srUsuario = UsuarioSerializer(queryUsuario, data = dataDict, partial = True)
         
         if not srUsuario.is_valid():
             return Response({
@@ -154,8 +152,6 @@ def ProfesorCreateView(request):
             }
         },status=status.HTTP_201_CREATED)
 
-        """
-        return Response('AAAAAAAAAAA')
         
 
 @api_view(['GET', 'PUT'])
