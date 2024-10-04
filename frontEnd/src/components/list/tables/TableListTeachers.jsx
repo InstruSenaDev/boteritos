@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import Buscador from "../../search/Buscador";
 import { ConfirmationModal } from "../../modales/ConfirmationModal";
 import { getAllTeachers } from "../../../api/get";
+import { putDeleteTeacher } from "../../../api/put";
 
-const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
+const TableListTeachers = ({ getId }) => {
   const [openAcc, setOpenAcc] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
   const [dataTeacher, setDataTeacher] = useState([]); // Estado para almacenar los profesores.
+  const [selectedIdTeacher, setSelectedIdTeacher] = useState(null); 
 
-  const handleOpen = () => {
+  const handleOpen = (idprofesor) => {
+    setSelectedIdTeacher(idprofesor);
     setIsOpen(true);
   };
 
   const handleClose = () => {
     setIsOpen(false);
+    setSelectedIdTeacher(null); //Limpiar id
   };
 
   const toggleRow = (index) => {
@@ -25,15 +29,38 @@ const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
     const fetchTeachers = async () => {
       try {
         const dataApi = await getAllTeachers("profesor/tabla");
-        console.log(dataApi)
+        console.log(dataApi);
         setDataTeacher(dataApi.data.data || []);
-      }
-      catch (error) {
+      } catch (error) {
         console.error("Error al obtener los profesores:", error);
-      };
+      }
     };
     fetchTeachers(); // Ejecuta la función
   }, []);
+
+  const handleDeleteTeacher = async () => {
+    if (selectedIdTeacher) {
+      const body = {
+        idprofesor: selectedIdTeacher,
+        estado: 0, // Establece el estado en 0 para eliminar
+      };
+
+      try {
+        const result = await putDeleteTeacher(body); // Llama a la función con body 
+        console.log(result);
+
+        // Actualiza el estado de los profesores
+        setDataTeacher((prevData) => 
+          prevData.filter(teacher => teacher.idprofesor !== selectedIdTeacher)
+        );
+
+        handleClose(); // Cierra el modal de confirmación
+        
+      } catch (error) {
+        console.error("Error eliminando profesor:", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -89,7 +116,7 @@ const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
               <div className="acc-body flex gap-2 lg:gap-0 items-end">
                 <p className="text-darkBlue lg:hidden">Acción:</p>
                 <div className="w-full flex items-center">
-                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={handleOpen}></i>
+                  <i className="fa-solid fa-trash text-2xl cursor-pointer text-redFull" onClick={() => handleOpen(data.idprofesor)}></i>
                 </div>
               </div>
             </div>
@@ -101,6 +128,7 @@ const TableListTeachers = ({ getId }) => {  // Desestructurar getId de los props
         onClose={handleClose}
         txtQuestion={`¿Está seguro de eliminar este usuario?`}
         txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
+        onConfirm={handleDeleteTeacher}
       />
     </>
   );

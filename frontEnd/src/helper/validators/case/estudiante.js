@@ -73,6 +73,7 @@ export const caseEstudiante = (name, value) => {
       }
       break;
 
+    
     case "idrol":
       if (!value) {
         error = "Seleccione un rol.";

@@ -60,28 +60,29 @@ export default function TableListaLogros() {
     getDataDropdown();
   }, []);
   
-  useEffect(() => {
-    const getLogros = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/api/v3/logros/listlogros/profesor/${trimestre}/${idprofesor}/`
-        );
-  
-        if (response.ok) {
-          const result = await response.json();
-          console.log(result); // Verifica la estructura de result
-          if (Array.isArray(result.data)) { // Asegúrate de acceder a la propiedad data
-            setLogros(result.data); // Almacena el array en el estado
-          } else {
-            console.error("La propiedad 'data' no es un array:", result.data);
-          }
+  // Función para obtener logros (extraída para reutilizar)
+  const getLogros = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v3/logros/listlogros/profesor/${trimestre}/${idprofesor}/`
+      );
+      if (response.ok) {
+        const result = await response.json();
+        if (Array.isArray(result.data)) {
+          setLogros(result.data);
         } else {
-          console.error("Error al obtener los logros:", response.status);
+          console.error("La propiedad 'data' no es un array:", result.data);
         }
-      } catch (error) {
-        console.error("Error al obtener los logros:", error.message);
+      } else {
+        console.error("Error al obtener los logros:", response.status);
       }
-    };
+    } catch (error) {
+      console.error("Error al obtener los logros:", error.message);
+    }
+  };
+
+  // Obtener logros al cargar la página
+  useEffect(() => {
     getLogros();
   }, [idprofesor, trimestre]);
 
@@ -155,7 +156,10 @@ export default function TableListaLogros() {
         // Verifica si la respuesta fue exitosa (status en el rango 200-299)
         const data = await response.json();
         console.log("Datos enviados correctamente:", data);
-        setEstadoValida(true); // Cambiar estado cuando el usuario se cree exitosamente
+        await getLogros();
+        setIsConfirm(true);
+        setEstadoValida(true); // Cambiar estado cuando el logro se cree exitosamente
+        
       }
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
