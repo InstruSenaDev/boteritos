@@ -39,17 +39,17 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
           dataCard2.map((values, index) => (
             <div className="flex flex-col lg:flex-row items-start justify-between  w-full" key={index}>
               <p className="text-paragraph text-darkBlue">{values.name}:</p>
-              <p className="text-paragraph2 text-right">{values.value}</p>
+              <p className="text-paragraph2 lg:text-right">{values.value}</p>
             </div>
           ))
         ) : (
           <>
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col xl:flex-row justify-between items-center w-full">
               <p className="text-paragraph text-darkBlue">{"Responsable:"}</p>
               <p className="text-paragraph2">{"--------------"}</p>
             </div>
 
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col xl:flex-row justify-between items-center w-full">
               <p className="text-paragraph text-darkBlue">{"Responsable:"}</p>
               <p className="text-paragraph2">{"--------------"}</p>
             </div>
