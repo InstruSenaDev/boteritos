@@ -201,7 +201,7 @@ const Detail = () => {
     if (endpoint) {
       // Realizar la solicitud PUT
       const result = await putUpdate(newData, endpoint, id); 
-      if (result.status === 200) {
+      if (result.status === 201) {
         console.log("Datos guardados", newData);
       } else {
         console.error("Error al guardar los datos", result.data);
