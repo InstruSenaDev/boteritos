@@ -21,3 +21,8 @@ export const postTrimestres = async (body, url) => {
   const data = await fetchFunction("POST", body, null, `logros/${url}`);
   return data;
 }
+
+export const authToken = async (body, url) => {
+  const data = await fetchFunction("POST", body, null, `auth/${url}`);
+  return data;
+}

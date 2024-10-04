@@ -12,31 +12,31 @@ const List = () => {
   };
 
   // Efecto para hacer la solicitud GET cuando cambie idProfesor
-  useEffect(() => {
-    if (idProfesor) {
-      const fetchHeaderData = async () => {
-        try {
-          const response = await fetch(`http://localhost:8000/api/v3/registro/profesor/header/${idProfesor}`);
-          if (!response.ok) {
-            throw new Error("Error al obtener los datos del profesor");
-          }
-          const data = await response.json();
-          console.log("Datos recibidos del header:", data);
-          setHeaderData(data);
-        } catch (error) {
-          console.error("Error fetching header data:", error);
-        }
-      };
+  // useEffect(() => {
+  //   if (idProfesor) {
+  //     const fetchHeaderData = async () => {
+  //       try {
+  //         const response = await fetch(`http://localhost:8000/api/v3/registro/profesor/header/${idProfesor}`);
+  //         if (!response.ok) {
+  //           throw new Error("Error al obtener los datos del profesor");
+  //         }
+  //         const data = await response.json();
+  //         console.log("Datos recibidos del header:", data);
+  //         setHeaderData(data);
+  //       } catch (error) {
+  //         console.error("Error fetching header data:", error);
+  //       }
+  //     };
 
-      fetchHeaderData();
-    }
-  }, [idProfesor]);
+  //     fetchHeaderData();
+  //   }
+  // }, [idProfesor]);
 
   return (
     <>
     {/* datoprofesor no existe, provicional por ahora, no me regañe */}
       <main className="flex flex-col gap-8">
-        <HeaderData data={headerData} urlApi={`http://localhost:8000/api/v3/registro/profesor/header/${idProfesor}`} typeLink={'go'} urlGo={'datoprofesor'} typeHeaderdata={"view1"}/> 
+      <HeaderData id={idProfesor} urlApi={'sql/estudiantes/header/'} typeLink={'go'} urlGo={'datosprofesor'} typeHeaderdata={"view1"}/>
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE PROFESORES
         </p>

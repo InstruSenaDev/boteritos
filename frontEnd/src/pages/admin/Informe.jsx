@@ -40,9 +40,15 @@ const Informe = () => {
       let allAreasData = [];
       for (let idArea = 1; idArea <= 6; idArea++) {
         try {
-          const response = await getAllAreas(`list/${trimestre}/${idArea}/${idestud}/`);
-          const calificaciones = Array.isArray(response.data.data.calificaciones) ? response.data.data.calificaciones : [];
-  
+          const response = await getAllAreas(
+            `list/${trimestre}/${idArea}/${idestud}/`
+          );
+          const calificaciones = Array.isArray(
+            response.data.data.calificaciones
+          )
+            ? response.data.data.calificaciones
+            : [];
+
           // Si el informe ya ha sido creado, marcarlo y cargar la observación
           if (response.status === 208) {
             setIsInformeCreado(true);
@@ -51,18 +57,21 @@ const Informe = () => {
               setObservacion(response.data.data.observacion);
             }
           }
-          
+
           // Añadir la data del área al array total
           allAreasData.push({ idArea, calificaciones });
         } catch (error) {
-          console.error(`Error al obtener los datos del área ${idArea}:`, error);
+          console.error(
+            `Error al obtener los datos del área ${idArea}:`,
+            error
+          );
           // Asegurar que si hay error, se incluya el área con calificaciones vacías
           allAreasData.push({ idArea, calificaciones: [] });
         }
       }
       setAreasData(allAreasData);
     };
-  
+
     fetchAllAreas();
   }, [trimestre, idestud]);
 
@@ -73,7 +82,7 @@ const Informe = () => {
     if (errors.observacion) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        observacion: undefined, // Elimina el error de observación
+        observacion: "", // Elimina el error de observación
       }));
     }
   };
@@ -114,13 +123,16 @@ const Informe = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch("http://localhost:8000/api/v3/logros/informe/create/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/v3/logros/informe/create/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         const contentType = response.headers.get("content-type");
@@ -154,7 +166,11 @@ const Informe = () => {
   return (
     <LayoutGeneral title="InformeObservacion" titleHeader="Informe">
       <div className="w-full space-y-7">
-        <HeaderData id={id} urlApi={"sql/estudiantes/header/"} typeLink={"back"} />
+        <HeaderData
+          id={id}
+          urlApi={"sql/estudiantes/header/"}
+          typeLink={"back"}
+        />
         <GrupoDatoElemento />
         <div className="w-full h-0 border-darkBlue border-2"></div>
 
@@ -162,11 +178,11 @@ const Informe = () => {
         {areasData.map(({ idArea, calificaciones }, index) => (
           <InformeIndividual
             key={idArea}
-            tituloArea={titulosAreas[index]}  // Obtener el título del área según el índice
+            tituloArea={titulosAreas[index]} // Obtener el título del área según el índice
             idArea={idArea}
             idtrim={trimestre}
             idestud={idestud}
-            data={calificaciones}  // Pasar las calificaciones obtenidas
+            data={calificaciones} // Pasar las calificaciones obtenidas
           />
         ))}
 
@@ -177,14 +193,18 @@ const Informe = () => {
           onChange={handleObservacionChange}
           value={observacion}
           error={errors.observacion}
-          disabled={isInformeCreado}  // Deshabilitar si el informe ya está creado
+          disabled={isInformeCreado} // Deshabilitar si el informe ya está creado
         />
       </div>
 
       {/* Solo mostrar el botón si el informe no ha sido creado */}
       {!isInformeCreado && (
         <div className="mt-7 flex justify-center">
-          <Boton text={"Enviar y Descargar"} type={"blue"} onClick={openModal} />
+          <Boton
+            text={"Enviar y Descargar"}
+            type={"blue"}
+            onClick={openModal}
+          />
         </div>
       )}
 
@@ -199,7 +219,11 @@ const Informe = () => {
         }}
       />
 
-      <LoadingModal isOpen={isLoading} onClose={() => {}} text={"Espera mientras se genera el informe..."} />
+      <LoadingModal
+        isOpen={isLoading}
+        onClose={() => {}}
+        text={"Espera mientras se genera el informe..."}
+      />
     </LayoutGeneral>
   );
 };

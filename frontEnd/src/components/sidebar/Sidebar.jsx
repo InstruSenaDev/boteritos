@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import { Elemento } from "./Elemento";
 import { useState } from "react";
+import { Modal } from "../modales/Modal";
 
 export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState(""); // Estado para la sección activa
+  const [ isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
 
   const toggleSidebar = () => {
     const newExpandedState = !isExpanded;
@@ -13,7 +18,21 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
 
   // Función para manejar cuando se selecciona una sección
   const handleSectionClick = (sectionText) => {
-    setActiveSection(sectionText);
+    if (sectionText === "Salir") {
+      setIsOpen(true); // Abre el modal de confirmación
+    } else {
+      setActiveSection(sectionText);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  const handleConfirmLogout = () => {
+    localStorage.clear(); // Limpiar el local storage cuando se confirme el cierre
+    navigate(0); // Redirigir a la página de inicio
+    setIsOpen(false); // Cerrar el modal
   };
 
   return (
@@ -137,6 +156,16 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
           </div>
         </div>
       </div>
+
+    {/* modal de confirmación de cerrar sesión */}
+        <Modal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmLogout}
+        txtmodal={"¿Estas seguro de que deseas cerrar sesión?"}
+        txtbutton2={"Cerrar sesión"}
+        txtboton={"Cancelar"}
+        />
     </>
   );
 };

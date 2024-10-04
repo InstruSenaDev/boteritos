@@ -39,6 +39,21 @@ const FormLogin = () => {
   const validateLogin = async (data) => {
     console.log(data);
 
+    if(!data.contrasena && !data.documento){
+      setError('Todos los campos son obligatorios')
+      return
+    }
+
+    if(!data.documento){
+      setError('El documento es obligatorio')
+      return
+    }
+
+    if(!data.contrasena){
+      setError('La contraseña es obligatoria')
+      return
+    }
+
     const response = await postLogin(data, "auth/login/");
 
     if (response.data.error) {
@@ -65,13 +80,15 @@ const FormLogin = () => {
       "refresh_token",
       JSON.stringify(dataResponse.data.data.refresh_token)
     );
+
     localStorage.setItem(
       "trimestre",
       JSON.stringify(dataResponse.data.data.trimestre) // Guardar el trimestre
     );
+
     //Define para donde va
     const rol = defRol();
-    navigate(rol);
+    navigate(0);
   };
 
   //Mostrar contraseña

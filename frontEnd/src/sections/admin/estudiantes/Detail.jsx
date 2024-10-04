@@ -95,7 +95,7 @@ const Detail = () => {
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
-      console.log("Datos personales:", DataPersonalEstudiante.data.data);
+      console.log("Datos personales:", DataPersonalEstudiante.data.datos);
 
       setDataDetail({
         ...dataDetail,
@@ -104,7 +104,7 @@ const Detail = () => {
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
-        usuario: DataPersonalEstudiante.data.data,
+        usuario: DataPersonalEstudiante.data.datos,
       });
     };
 
@@ -116,7 +116,7 @@ const Detail = () => {
 
     switch (sectionId) {
       case "Datos personales":
-        data = dataDetail.personal[index];
+        data = dataDetail.usuario[index];
         break;
       case "Responsables":
         data = dataDetail.responsables[index];
@@ -189,7 +189,7 @@ const Detail = () => {
         endpoint = `registro/datosmedicos/`;
         break;
       case "Contactos":
-        endpoint = `registr/telefono/`;
+        endpoint = `registro/telefono/`;
         break;
       case "Dirección":
         endpoint = `registro/direccion/`;
@@ -201,7 +201,7 @@ const Detail = () => {
     if (endpoint) {
       // Realizar la solicitud PUT
       const result = await putUpdate(newData, endpoint, id); 
-      if (result.status === 200) {
+      if (result.status === 201) {
         console.log("Datos guardados", newData);
       } else {
         console.error("Error al guardar los datos", result.data);
@@ -222,7 +222,7 @@ const Detail = () => {
     const { name, value } = e.target;
     const content = selectedSection || "default"; // Sección actual
   
-    // implementar tu lógica de validación
+  
     const error = UpdateModalesValidators(content, name, value);
   
     setErrors((prevErrors) => ({
@@ -235,8 +235,6 @@ const Detail = () => {
       [key]: value, // Actualiza el valor en la sección
     }));
   };
-
-
 
   const filterData = (data) => {
     // Filtra los campos que contienen Ids
@@ -270,7 +268,7 @@ const Detail = () => {
           dataDetail.usuario.map((value, index) => (
             <GrupoDatos
               titulo={"Datos personales"}
-              update={() => update("Datos Personales", index)}
+              update={() => update("Datos personales", index)}
               data={dataDetail.usuario}
               key={index}
             >
@@ -312,7 +310,7 @@ const Detail = () => {
                     Tipo documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.idTipodocumento}
+                    {value.tipodocumento}
                   </p>
                 </div>
                 <div>
@@ -320,17 +318,10 @@ const Detail = () => {
                     Documento:
                   </p>
                   <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.numerodocumento}
+                    {value.documento}
                   </p>
                 </div>
-                <div>
-                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                    Telefono:
-                  </p>
-                  <p className="font-cocogooseLight text-paragraph2 flex-1">
-                    {value.telefono}
-                  </p>
-                </div>
+                
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     edad:
@@ -339,6 +330,34 @@ const Detail = () => {
                     {value.edad}
                   </p>
                 </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Talla de la camisa:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.tallacamisa}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Tipo de matricula:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.matricula}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Institución de procedencia:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.institutoprocedencia}
+                  </p>
+                </div>
+
               </div>
             </GrupoDatos>
           ))}
@@ -497,7 +516,7 @@ const Detail = () => {
                   </p>
                 </div>
 
-                <div>
+                <div  className="break-words">
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Archivo:
                   </p>

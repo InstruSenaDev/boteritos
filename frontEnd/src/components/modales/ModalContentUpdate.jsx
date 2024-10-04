@@ -10,6 +10,7 @@ import {
   dataDiscapacidad,
   dataRh,
   dataEps,
+  dataArea,
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
 
@@ -30,6 +31,7 @@ export const ModalContentUpdate = ({
     dataDiscapacidad: [],
     dataRh: [],
     dataEps: [],
+    dropdownArea: [],
   });
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export const ModalContentUpdate = ({
       const resultDiscapacidad = await dataDiscapacidad();
       const resultRh = await dataRh();
       const resultEps = await dataEps();
+      const resultArea = await dataArea();
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
@@ -49,6 +52,7 @@ export const ModalContentUpdate = ({
         dataDiscapacidad: resultDiscapacidad,
         dataRh: resultRh,
         dataEps: resultEps,
+        dropdownArea: resultArea,
       });
     };
 
@@ -57,12 +61,104 @@ export const ModalContentUpdate = ({
 
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
-    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+    onChange({ target: { name, value } }, name); 
   };
 
   switch (section) {
     case "Datos personales":
-      return <div className="space-y-4"></div>;
+      return (
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Input
+            texto="Nombre"
+            placeholder="Ingresa el nombre"
+            name="nombre"
+            tipo="text"
+            onChange={(e) => onChange(e, "nombre")}
+            value={data.nombre || ""}
+            error={errores.nombre}
+          />
+          <Input
+            texto="Apellido"
+            placeholder="Ingresa el apellido"
+            name="apellido"
+            tipo="text"
+            onChange={(e) => onChange(e, "apellido")}
+            value={data.apellido || ""}
+            error={errores.apellido}
+          />
+          <Input
+            texto="Edad"
+            placeholder="Ingresa la edad"
+            name="edad"
+            tipo="text"
+            onChange={(e) => onChange(e, "edad")}
+            value={data.edad || ""}
+            error={errores.edad}
+          />
+          <Dropdown
+            name="idtipodocumento"
+            label="Tipo de documento"
+            data={dataDropdown.dropdownDocumento}
+            onChange={(value) => handleDropdownChange("idtipodocumento", value)}
+            value={data.tipodocumento || ""}
+            placeholder="Seleccione el tipo de documento"
+            error={errores.tipodocumento}
+          />
+          <Input
+            texto="Número de documento"
+            placeholder="Ingresa el número de documento"
+            name="numerodocumento"
+            tipo="text"
+            onChange={(e) => onChange(e, "numerodocumento")}
+            value={data.documento || ""}
+            error={errores.documento}
+          />
+          <Dropdown
+            name="idsexo"
+            label="Sexo"
+            data={dataDropdown.dropdownSexo}
+            onChange={(value) => handleDropdownChange("idsexo", value)}
+            value={data.idsexo || ""}
+            placeholder="Seleccione el sexo"
+            error={errores.idsexo}
+          />
+          <Input
+            texto="Correo"
+            placeholder="Ingresa el correo"
+            name="correo"
+            tipo="text"
+            onChange={(e) => onChange(e, "correo")}
+            value={data.correo || ""}
+            error={errores.correo}
+          />
+          <Input
+            texto="Título"
+            placeholder="Ingresa el título"
+            name="titulo"
+            tipo="text"
+            onChange={(e) => onChange(e, "titulo")}
+            value={data.titulo || ""}
+            error={errores.titulo}
+          />
+
+          <Dropdown
+            name="idarea"
+            label="Área"
+            data={dataDropdown.dropdownArea}
+            onChange={(value) => handleDropdownChange("idarea", value)}
+            value={data.idarea || ""}
+            placeholder="Seleccione el Área"
+          />
+
+          <UploadFile
+            typefile={".pdf"}
+            title={"Hoja de vida"}
+            id="hojavida"
+            onFileChange={(file) => handleFileChange("hojavida", file)}
+            error={errores.area}
+          />
+        </div>
+      );
 
     case "Responsables":
       return (
@@ -274,12 +370,13 @@ export const ModalContentUpdate = ({
             error={errores.eps}
           />
 
+
           <Dropdown
             name="idrh"
             label="Tipo de sangre"
             data={dataDropdown.dataRh}
             onChange={(value) => handleDropdownChange("idrh", value)}
-            value={data.rh || ""}
+            value={values.idrh || ""}
             placeholder="Seleccione el tipo de sangre"
             error={errores.idrh}
           />

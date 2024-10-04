@@ -16,9 +16,9 @@ export const caseHistoriaClinica = (name, value) => {
       }
       break;
 
-    case "medicamentos":
+    case "cantidadmedicamentos":
       if (!trimmedValue) {
-        error = "El campo medicamentos es obligatorio.";
+        error = "El campo Cantidad medicamentos es obligatorio.";
       }
       break;
 

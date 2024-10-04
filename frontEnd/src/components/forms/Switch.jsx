@@ -16,3 +16,8 @@ export const Switch = ({
     </label>
   );
 };
+
+
+
+/*onChange(idtrimestre, checked === 1 ? 0 : 1)}
+Llama a la función onChange, pasando el idtrimestre y el nuevo estado. Si checked es 1 (activo), se pasará 0 (inactivo), y viceversa. Esto permite alternar entre los estados 1 y 0.*/
