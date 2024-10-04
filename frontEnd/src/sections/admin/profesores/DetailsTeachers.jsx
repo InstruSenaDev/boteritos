@@ -18,7 +18,7 @@ export const DetailsTeachers = () => {
   const [selectedSection, setSelectedSection] = useState(null); //Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const dataFormInd = new FormData();
-  const [errors, setErrors]=useState({})
+  const [errors, setErrors] = useState({});
   const { id } = useParams();
 
   //almacenar los datos obtenidos del API para diferentes secciones.
@@ -146,14 +146,19 @@ export const DetailsTeachers = () => {
       console.error("Errores presentes, no se puede guardar.");
       return;
     }
-  
-    const result = await updateSectionData(selectedSection, sectionData, id, dataFormInd);
+
+    const result = await updateSectionData(
+      selectedSection,
+      sectionData,
+      id,
+      dataFormInd
+    );
     if (result.status === 201) {
       console.log("Datos guardados", result.data);
     } else {
       console.error("Error al guardar los datos", result.data);
     }
-  
+
     closeModal();
   };
 
@@ -161,9 +166,7 @@ export const DetailsTeachers = () => {
     dataFormInd.set(name, file);
     console.log(file);
   };
-  
 
-  
   return (
     <div className="w-full space-y-2 grid gap-10">
       <HeaderData
@@ -247,7 +250,7 @@ export const DetailsTeachers = () => {
                   {value.titulo}
                 </p>
               </div>
-              
+
               <div>
                 <p className="font-cocogooseLight text-paragraph text-darkBlue">
                   Área:
@@ -259,10 +262,16 @@ export const DetailsTeachers = () => {
 
               <div className="break-words">
                 <p className="font-cocogooseLight text-paragraph text-darkBlue">
-                  archivo:
+                  Hoja de vida:
                 </p>
                 <p className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.hojavida}
+                  <a
+                    download="Archivo boterito"
+                    href={value.hojavida}
+                    className="font-cocogooseLight text-paragraph2 flex-1"
+                  >
+                    {value.hojavida}
+                  </a>
                 </p>
               </div>
             </div>
@@ -389,10 +398,10 @@ export const DetailsTeachers = () => {
             </GrupoDatos>
           ))}
       </div>
-      <UpdateModal 
-      isOpen={isModalOpen} 
-      onClose={closeModal}
-      onSave={handleSave}
+      <UpdateModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={handleSave}
       >
         <ModalContentUpdate
           section={selectedSection}
