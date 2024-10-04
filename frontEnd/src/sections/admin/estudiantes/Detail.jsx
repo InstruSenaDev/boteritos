@@ -116,7 +116,7 @@ const Detail = () => {
 
     switch (sectionId) {
       case "Datos personales":
-        data = dataDetail.personal[index];
+        data = dataDetail.usuario[index];
         break;
       case "Responsables":
         data = dataDetail.responsables[index];
@@ -268,7 +268,7 @@ const Detail = () => {
           dataDetail.usuario.map((value, index) => (
             <GrupoDatos
               titulo={"Datos personales"}
-              update={() => update("Datos Personales", index)}
+              update={() => update("Datos personales", index)}
               data={dataDetail.usuario}
               key={index}
             >
