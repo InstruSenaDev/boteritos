@@ -71,6 +71,10 @@ export const MedicalInfoSection = () => {
   // Función genérica para manejar cambios en otros dropdowns
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Eliminar mensaje de error
+  }));
   };
 
   // Maneja el envío del formulario

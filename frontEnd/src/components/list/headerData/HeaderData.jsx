@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getOneUser } from "../../../api/get";
 import { useNavigate } from "react-router-dom";
 import CardsData from "./CardsData";
-import ActionData from "./actionData";
+import ActionData from "./ActionData";
 
 const logros = [
   {
