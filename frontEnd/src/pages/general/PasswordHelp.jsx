@@ -143,7 +143,8 @@ export const PasswordHelp = () => {
               <Boton text="Continuar" type="blue" />
             </>
           ) : (
-            <div className="text-center">
+            <div className="text-center grid gap-2
+            ">
               <h1 className="text-title2 font-cocogooseRegular tracking-normal text-darkBlue break-words">
                 Se envió un enlace al correo, {correoEncriptado}, con el cúal
                 podrás recuperar tu contraseña.
@@ -181,9 +182,27 @@ export const PasswordHelp = () => {
                   Corregir documento
                 </a>
               </div>
+
+              <div
+                className={`flex justify-center ${
+                  isSubmitted ? "block" : "hidden"
+                }`}
+              >
+                <Link
+                  to="/"
+                  className="text-paragraph2 font-cocogooseLight text-darkBlue underline"
+                >
+                  Volver al inicio de sesión
+                </Link>
+              </div>
             </div>
           )}
-          <div className="flex justify-center">
+
+          <div
+            className={`flex justify-center ${
+              isSubmitted ? "hidden" : "block"
+            }`}
+          >
             <Link
               to="/"
               className="text-paragraph2 font-cocogooseLight text-darkBlue underline"
