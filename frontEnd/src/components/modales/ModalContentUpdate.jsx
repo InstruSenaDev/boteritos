@@ -61,7 +61,7 @@ export const ModalContentUpdate = ({
 
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
-    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+    onChange({ target: { name, value } }, name); 
   };
 
   switch (section) {
@@ -148,7 +148,6 @@ export const ModalContentUpdate = ({
             onChange={(value) => handleDropdownChange("idarea", value)}
             value={data.idarea || ""}
             placeholder="Seleccione el Área"
-      
           />
 
           <UploadFile
@@ -371,12 +370,13 @@ export const ModalContentUpdate = ({
             error={errores.eps}
           />
 
+
           <Dropdown
             name="idrh"
             label="Tipo de sangre"
             data={dataDropdown.dataRh}
             onChange={(value) => handleDropdownChange("idrh", value)}
-            value={data.rh || ""}
+            value={values.idrh || ""}
             placeholder="Seleccione el tipo de sangre"
             error={errores.idrh}
           />
