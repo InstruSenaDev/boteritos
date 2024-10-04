@@ -11,6 +11,7 @@ import { ConfirmationModal } from "../../components/modales/ConfirmationModal";
 import { LoadingModal } from "../../components/modales/LoadingModal";
 import { getAllAreas } from "../../api/get";
 
+
 const Informe = () => {
   const [observacion, setObservacion] = useState("");
   const trimestre = JSON.parse(localStorage.getItem("trimestre"));
@@ -224,6 +225,9 @@ const Informe = () => {
         onClose={() => {}}
         text={"Espera mientras se genera el informe..."}
       />
+
+      
+
     </LayoutGeneral>
   );
 };
