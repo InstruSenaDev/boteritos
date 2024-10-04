@@ -23,7 +23,7 @@ export function RegisterModal({
         className="w-full flex items-center justify-center"
       >
         <DialogPanel
-          className={`flex flex-col gap-8 items-center lg:items-start 
+          className={`flex flex-col gap-6 items-center lg:items-start 
                             ${
                               cols === 1 ? "w-full" : "max-w-[800px] w-full"
                             } py-[40px] px-[30px]`}
@@ -42,7 +42,7 @@ export function RegisterModal({
                   cols === 1 ? "text-center" : "text-start"
                 }`}
               >
-                <h1>{txtmodal}</h1>
+                <p className="text-center text-title text-darkBlue font-cocogooseRegular ">{txtmodal}</p>
               </div>
 
               <div

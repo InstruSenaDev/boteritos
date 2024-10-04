@@ -4,12 +4,15 @@ import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 import { ConfirmationModal } from "../modales/ConfirmationModal";
 import { RegisterModal } from "../modales/RegisterModal";
 import { Input } from "../forms/Input"
+import { CheckGiftModal } from "../modales/CheckGiftModal";
+
 import { jwtDecode } from "jwt-decode";
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
   const [isLogroModalOpen, setIsLogroModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
 
   const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
   
@@ -73,6 +76,7 @@ export const TablaLogrosRecibidos = () => {
           );
           setLogros(updatedLogros);
           handleCloseRejectedModal(); // Cierra el modal al completar
+          setIsCheckModalOpen(true)
         } else {
           console.error("Error al actualizar el logro:", response.statusText);
         }
@@ -80,6 +84,7 @@ export const TablaLogrosRecibidos = () => {
         console.error("Error al realizar la solicitud:", error.message);
       }
     }
+    
   };
 
 
@@ -193,8 +198,12 @@ export const TablaLogrosRecibidos = () => {
       updateLogroState(selectedLogro);
     }
     handleCloseConfirmationModal();
+    setIsCheckModalOpen(true)
   };
 
+  const closeCheckModal = () => {
+    setIsCheckModalOpen(false)
+  }
 
   return (
     <>
@@ -302,6 +311,13 @@ export const TablaLogrosRecibidos = () => {
         txtWarning={`Si presionas ${modalAction.toLowerCase()}, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
         onConfirm={handleConfirm}
       />
+
+      <CheckGiftModal text={"Respuesta enviada"}
+      isOpen={isCheckModalOpen}
+        onClose={closeCheckModal}
+        
+      />
+
     </>
   );
 };
