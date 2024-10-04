@@ -10,7 +10,7 @@ export function RegisterModal({
   values,
   onSubmit, // Recibe la función handleForm como prop
   isConfirm,
-  textButton
+  textButton,
 }) {
   {
     /* const [isConfirm, setIsConfirm] = useState(false);*/
@@ -53,7 +53,10 @@ export function RegisterModal({
               </div>
 
               <div className="flex justify-center text-white w-full mt-4">
-                <Button className="max-w-[400px] font-cocogooseSemiLight text-subTitle2 w-full" type="submit">
+                <Button
+                  className="max-w-[400px] font-cocogooseSemiLight text-subTitle2 w-full"
+                  type="submit"
+                >
                   {textButton}
                 </Button>
               </div>

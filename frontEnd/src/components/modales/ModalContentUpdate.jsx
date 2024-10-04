@@ -13,6 +13,7 @@ import {
   dataArea,
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
+import { jwtDecode } from "jwt-decode";
 
 export const ModalContentUpdate = ({
   section,
@@ -61,7 +62,7 @@ export const ModalContentUpdate = ({
 
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
-    onChange({ target: { name, value } }, name); 
+    onChange({ target: { name, value } }, name);
   };
 
   switch (section) {
@@ -369,7 +370,6 @@ export const ModalContentUpdate = ({
             placeholder="Seleccione la eps"
             error={errores.eps}
           />
-
 
           <Dropdown
             name="idrh"

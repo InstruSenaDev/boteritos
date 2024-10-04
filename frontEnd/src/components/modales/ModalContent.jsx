@@ -227,6 +227,7 @@ export const ModalContent = ({
             title={"Archivo"}
             id="archivo"
             onFileChange={(file) => handleFileChange("archivo", file)}
+            validationText={"Tamaño maximo de archivo: 5MB"}
           />
         </>
       );
