@@ -7,6 +7,7 @@ import { putUpdateTrim } from "../../../api/put";
 import { Button } from "@tremor/react";
 import { DatePicker2 } from "../../forms/DatePicker";
 import { UpdateModal } from "../../modales/UpdateModal";
+import { format, formatDate } from "date-fns";
 
 const TableTrimestres = () => {
   const [isConfirm, setIsConfirm] = useState(false);
@@ -37,14 +38,13 @@ const TableTrimestres = () => {
     });
     setIsOpen(true); // Abre el modal
     setIsConfirm(false);
-};
-
-
+  };
 
   const handleCloseModal = () => {
     setIsOpen(false);
     setIsConfirm(false);
   };
+
   // Alterna la fila expandida en la tabla
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
@@ -94,30 +94,37 @@ const TableTrimestres = () => {
 
   // Función para guardar las fechas modificadas
   const handleSaveChanges = async () => {
+    // Guardar el estado actual de dataTrim
+    const previousDataTrim = [...dataTrim];
+
     try {
       const body = {
-        fechainicio: values.fechainicio,
-        fechafinal: values.fechafinal,
+        fechainicio: formatDate(values.fechainicio, "yyyy-MM-dd"),
+        fechafin: formatDate(values.fechafinal, "yyyy-MM-dd"),
+        idtrimestre: selectedTrim.idtrimestre,
+        estado: selectedTrim.estado,
       };
-      // Aquí puedes hacer el PUT para actualizar las fechas en la base de datos
-      await putUpdateTrim(
-        JSON.stringify(body),
-        `trimestre/${selectedTrim.idtrimestre}/`
-      );
+
+      await putUpdateTrim(JSON.stringify(body), `logros/trimestre/`);
+
       setDatatrim((prevData) =>
         prevData.map((trim) =>
           trim.idtrimestre === selectedTrim.idtrimestre
             ? {
                 ...trim,
-                fechainicio: values.fechainicio,
-                fechafinal: values.fechafinal,
+                fechainicio: body.fechainicio,
+                fechafin: body.fechafin,
+                estado: body.estado,
               }
             : trim
         )
       );
-      handleCloseModal(); // Cierra el modal después de guardar
+
+      handleCloseModal();
     } catch (error) {
       console.error("Error al actualizar las fechas:", error);
+      // Si hay un error, restaurar el estado anterior
+      setDatatrim(previousDataTrim);
     }
   };
 
@@ -172,14 +179,14 @@ const TableTrimestres = () => {
               <div className="flex gap-2 lg:gap-0 acc-body">
                 <p className="text-darkBlue lg:hidden">Fecha inicio:</p>
                 <div className="w-full">
-                  <p>{`${data.fechainicio}`}</p>{" "}
+                  <p>{`${data.fechainicio}`}</p>
                 </div>
               </div>
 
               <div className="flex gap-2 lg:gap-0 acc-body">
                 <p className="text-darkBlue lg:hidden">Fecha final:</p>
                 <div className="w-full">
-                  <p>{`${data.fechafin}`}</p>{" "}
+                  <p>{`${data.fechafin}`}</p>
                 </div>
               </div>
 
@@ -216,13 +223,13 @@ const TableTrimestres = () => {
           <DatePicker2
             name="fechainicio"
             texto="Seleccione la Fecha inicial"
-            value={values.fechainicio} // Debe mostrar la fecha de inicio del trimestre seleccionado
+            value={values.fechainicio}
             onChange={(e) => handleDateChange("fechainicio", e.target.value)}
           />
           <DatePicker2
             name="fechafinal"
             texto="Seleccione la Fecha Final"
-            value={values.fechafinal} // Debe mostrar la fecha final del trimestre seleccionado
+            value={values.fechafinal}
             onChange={(e) => handleDateChange("fechafinal", e.target.value)}
           />
         </div>
