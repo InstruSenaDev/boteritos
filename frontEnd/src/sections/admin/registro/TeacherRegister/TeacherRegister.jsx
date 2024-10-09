@@ -69,11 +69,34 @@ export const TeacherRegister = () => {
   // Función genérica para manejar cambios en otros dropdowns
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Eliminar mensaje de error
+    }));
   };
 
   // Handle file changes
   const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
+    const maxFileSize = 5 * 1024 * 1024; // 5MB en bytes
+
+  // Verificar si el archivo es mayor a 5MB
+  if (file.size > maxFileSize) {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "El tamaño del archivo no debe ser mayor a 10MB.",
+    }));
+    return;
+  }
+
+  
+  // Eliminar cualquier error anterior asociado al archivo si es válido
+  setErrors((prevErrors) => ({
+    ...prevErrors,
+    [name]: "", // Eliminar mensaje de error
+  }));
+  dataFormInd.set(name, file);
+  setValues({ ...values, hojavida: file });
+  console.log(file);
   };
 
   // Maneja el envío del formulario
@@ -90,6 +113,11 @@ export const TeacherRegister = () => {
           newErrors[key] = error;
         }
       }
+    }
+
+    // Verificar si la imagen ha sido seleccionada
+    if (!values.hojavida) {
+      newErrors.hojavida = "La hoja de vida es obligatoria.";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -173,6 +201,8 @@ export const TeacherRegister = () => {
             title={"Hoja de vida"}
             id="hojavida"
             onFileChange={(file) => handleFileChange("hojavida", file)}
+            validationText={"Tamaño maximo del archivo: 10MB"}
+            error={errors.hojavida}
           />
         </div>
         <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

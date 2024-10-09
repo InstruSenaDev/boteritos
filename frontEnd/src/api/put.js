@@ -27,6 +27,18 @@ export const putUpdateTrim = async (data, endpoint) => {
   return response;
 };
 
+
+//ELIMINAR ESTUDIANTES
+export const putDeleteStudents = async (body) => {
+  const data = await fetchFunction("PUT", body, null, "sql/estudiantes/tabla");
+  return data;
+}
+
+//ELIMINAR PROFESORES
+export const putDeleteTeacher = async (body) => {
+  const data = await fetchFunction("PUT", body, null, "sql/profesor/tabla");
+  return data;
+}
 //PUT para cambiar contraseña estando logueado
 export const putPassword = async (data, endpoint) => {
   const response = await fetch(`${urlApi}${endpoint}`, {

@@ -1,22 +1,27 @@
 // updateLogic.js
 import { putUpdate } from "../../../api/put";
 
-export const updateSectionData = async (selectedSection, sectionData, id, dataFormInd) => {
+export const updateSectionData = async (
+  selectedSection,
+  sectionData,
+  id,
+  dataFormInd
+) => {
   const newData = new FormData();
-  newData.append('section', selectedSection);
-  //newData.append('idprofesor', id);
-  
+  newData.append("section", selectedSection);
+  // newData.append('idprofesor', id);
+
   for (const key in sectionData) {
     if (sectionData.hasOwnProperty(key)) {
       newData.append(key, sectionData[key]);
     }
   }
-  
-  if (dataFormInd.has('hojavida')) {
-    newData.append('hojavida', dataFormInd.get('hojavida'));
+
+  if (dataFormInd.has("hojavida")) {
+    newData.append("hojavida", dataFormInd.get("hojavida"));
   }
-  
-  let endpoint = '';
+
+  let endpoint = "";
   switch (selectedSection) {
     case "Datos personales":
       endpoint = `registro/profesor/`;
@@ -35,6 +40,6 @@ export const updateSectionData = async (selectedSection, sectionData, id, dataFo
   }
 
   const result = await putUpdate(newData, endpoint, id);
-  
+
   return result;
 };

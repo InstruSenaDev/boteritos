@@ -4,7 +4,7 @@ const ActionData = ({ data, type, goTo, typeHeaderData }) => {
 
   return (
     <div
-      className={`min-h-[130px] grow ${
+      className={`min-h-[130px] h-full grow ${
         data ? "bg-darkBlue cursor-pointer" : "bg-gray"
       } rounded-xl max-w-[100px] p-4 text-white flex flex-col items-center justify-center gap-3`}
       onClick={() => goTo(data)}

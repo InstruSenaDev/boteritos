@@ -211,7 +211,7 @@ export const ModalContent = ({
             tipo="text"
             onChange={handleInputChange}
             value={values.cantidadmedicamentos || ""}
-            error={errores.medicamentos}
+            error={errores.cantidadmedicamentos}
           />
           <Input
             texto="Observacion"
@@ -227,6 +227,7 @@ export const ModalContent = ({
             title={"Archivo"}
             id="archivo"
             onFileChange={(file) => handleFileChange("archivo", file)}
+            validationText={"Tamaño maximo de archivo: 5MB"}
           />
         </>
       );

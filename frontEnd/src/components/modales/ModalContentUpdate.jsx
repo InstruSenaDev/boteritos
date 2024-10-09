@@ -10,8 +10,10 @@ import {
   dataDiscapacidad,
   dataRh,
   dataEps,
+  dataArea,
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
+import { jwtDecode } from "jwt-decode";
 
 export const ModalContentUpdate = ({
   section,
@@ -30,6 +32,7 @@ export const ModalContentUpdate = ({
     dataDiscapacidad: [],
     dataRh: [],
     dataEps: [],
+    dropdownArea: [],
   });
 
   useEffect(() => {
@@ -41,6 +44,7 @@ export const ModalContentUpdate = ({
       const resultDiscapacidad = await dataDiscapacidad();
       const resultRh = await dataRh();
       const resultEps = await dataEps();
+      const resultArea = await dataArea();
       setDataDropdown({
         dropdownDocumento: resultDocumento,
         dropdownSexo: resultSexo,
@@ -49,6 +53,7 @@ export const ModalContentUpdate = ({
         dataDiscapacidad: resultDiscapacidad,
         dataRh: resultRh,
         dataEps: resultEps,
+        dropdownArea: resultArea,
       });
     };
 
@@ -57,7 +62,7 @@ export const ModalContentUpdate = ({
 
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
-    console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+    onChange({ target: { name, value } }, name);
   };
 
   switch (section) {
@@ -136,14 +141,14 @@ export const ModalContentUpdate = ({
             value={data.titulo || ""}
             error={errores.titulo}
           />
-              <Input
-            texto="Área"
-            placeholder="Ingresa el Area"
-            name="titulo"
-            tipo="text"
-            onChange={(e) => onChange(e, "area")}
-            value={data.area || ""}
-            error={errores.telefono}
+
+          <Dropdown
+            name="idarea"
+            label="Área"
+            data={dataDropdown.dropdownArea}
+            onChange={(value) => handleDropdownChange("idarea", value)}
+            value={data.idarea || ""}
+            placeholder="Seleccione el Área"
           />
 
           <UploadFile
@@ -371,7 +376,7 @@ export const ModalContentUpdate = ({
             label="Tipo de sangre"
             data={dataDropdown.dataRh}
             onChange={(value) => handleDropdownChange("idrh", value)}
-            value={data.rh || ""}
+            value={values.idrh || ""}
             placeholder="Seleccione el tipo de sangre"
             error={errores.idrh}
           />

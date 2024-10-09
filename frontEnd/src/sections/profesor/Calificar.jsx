@@ -52,7 +52,7 @@ export const Calificar = () => {
       logros: selectedLogros,
     };
 
-    console.log("Datos a guardar:", dataToSend);
+    console.log("Datos a enviar:", dataToSend);
     setIsOpen(false); 
 
     

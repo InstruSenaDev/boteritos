@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export const UploadFile = ({ title, onFileChange, id, typefile, error }) => {
+export const UploadFile = ({ title, onFileChange, id, typefile, error, validationText }) => {
     const [fileName, setFileName] = useState("");
 
     // Maneja el cambio de archivo
@@ -30,7 +30,7 @@ export const UploadFile = ({ title, onFileChange, id, typefile, error }) => {
                     <p className="font-cocogooseLight text-paragraph3"><span className="text-orange">Click para subir</span> o arrastre y suelte</p>
                     <input type="file" accept={typefile} onChange={handleFileChange} id={id} className="hidden"/> {/* Input oculto con ID único */}
                 </div>
-                <p className="font-cocogooseUltraLight text-paragraphSmall">{fileName ? `Archivo seleccionado: ${fileName}` : "(Tamaño maximo del archivo: 5MB)"}</p> {/* Muestra el nombre del archivo seleccionado */}
+                <p className="font-cocogooseUltraLight text-paragraphSmall">{fileName ? `Archivo seleccionado: ${fileName}` : `${validationText}`}</p> {/* Muestra el nombre del archivo seleccionado */}
             </div>
             {error && <p className="font-cocogooseLight text-paragraph3 text-red-500">{error}</p>}
         </div>

@@ -3,21 +3,27 @@ import Buscador from "../search/Buscador";
 import { LogrosRecibidosModal } from "../modales/LogrosRecibidosModal";
 import { ConfirmationModal } from "../modales/ConfirmationModal";
 import { RegisterModal } from "../modales/RegisterModal";
-import { Input } from "../forms/Input"
-import { jwtDecode } from "jwt-decode";
+import { Input } from "../forms/Input";
+import ReactPaginate from 'react-paginate';
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
   const [isLogroModalOpen, setIsLogroModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isCheckModalOpen, setIsCheckModalOpen] = useState(false);
+  const [confirm, setIsConfirm] = useState(false);
 
   const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
-  
 
   const [selectedLogro, setSelectedLogro] = useState(null);
   const [estadoValida, setEstadoValida] = useState(false);
   const [modalAction, setModalAction] = useState(""); // Nuevo estado para definir si es "aceptar" o "rechazar"
   const [logros, setLogros] = useState([]); // Estado para almacenar los logros.
+
+  // Paginación
+  const [pageCount, setPageCount] = useState(0); // número total de páginas
+  const [currentPage, setCurrentPage] = useState(0); //  rastrear la página actual
+  const itemsPerPage = 10; // Cambia este valor según lo necesites
 
   const toggleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
@@ -35,6 +41,19 @@ export const TablaLogrosRecibidos = () => {
       [name]: value,
     });
   };
+
+  // Función para actualizar el estado de un logro y guardarlo en localStorage
+  const updateLogroStatus = (idlogro, estado) => {
+    // Actualiza el estado del logro en el array
+    const updatedLogros = logros.map((logro) =>
+      logro.idlogro === idlogro ? { ...logro, estado } : logro
+    );
+    setLogros(updatedLogros);
+
+    // Almacena el estado en localStorage
+    localStorage.setItem("logrosStatus", JSON.stringify(updatedLogros));
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log({
@@ -44,35 +63,41 @@ export const TablaLogrosRecibidos = () => {
       idtrimestre: selectedLogro.idtrimestre,
       idtipologro: selectedLogro.idtipologro,
       idprofesor: selectedLogro.idprofesor,
-      logro: selectedLogro.logro
+      logro: selectedLogro.logro,
     });
     if (selectedLogro) {
       // Realiza la solicitud PUT para el RegisterModal
       try {
-        const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            idlogro: selectedLogro.idlogro,
-            estado: 0, // Cambia el estado a 0
-            observacion: values.observacion, // Envia la observación
-            idtrimestre: selectedLogro.idtrimestre,
-            idtipologro: selectedLogro.idtipologro,
-            idprofesor: selectedLogro.idprofesor,
-            logro: selectedLogro.logro,
-          }),
-        });
+        const response = await fetch(
+          `http://localhost:8000/api/v3/logros/logro/`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              idlogro: selectedLogro.idlogro,
+              estado: 0, // Cambia el estado a 0
+              observacion: values.observacion, // Envia la observación
+              idtrimestre: selectedLogro.idtrimestre,
+              idtipologro: selectedLogro.idtipologro,
+              idprofesor: selectedLogro.idprofesor,
+              logro: selectedLogro.logro,
+            }),
+          }
+        );
 
         if (response.ok) {
           console.log("Logro actualizado exitosamente");
           // Actualiza la lista de logros
           const updatedLogros = logros.map((logro) =>
-            logro.idlogro === selectedLogro.idlogro ? { ...logro, estado: 0 } : logro
+            logro.idlogro === selectedLogro.idlogro
+              ? { ...logro, estado: 0 }
+              : logro
           );
           setLogros(updatedLogros);
           handleCloseRejectedModal(); // Cierra el modal al completar
+          setIsCheckModalOpen(true);
         } else {
           console.error("Error al actualizar el logro:", response.statusText);
         }
@@ -82,18 +107,21 @@ export const TablaLogrosRecibidos = () => {
     }
   };
 
-
   // Función para obtener los logros desde la API
   const getLogros = async () => {
     try {
       const trimestre = JSON.parse(localStorage.getItem("trimestre"));
 
-      const response = await fetch(`http://localhost:8000/api/v3/logros/listlogros/admin/${trimestre}`, { //OBTENER TRIMESTRE MAMAGUEVO
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:8000/api/v3/logros/listlogros/admin/${trimestre}`,
+        {
+          //OBTENER TRIMESTRE MAMAGUEVO
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -111,15 +139,23 @@ export const TablaLogrosRecibidos = () => {
     }
   };
 
+  // Esto se llama cada vez que se cambia la página
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
+  };
+
   useEffect(() => {
     const fetchLogros = async () => {
       const data = await getLogros();
-      console.log('Logros recibidos:', data); // Verifica que aquí lleguen los logros
+      console.log("Logros recibidos:", data); // Verifica que aquí lleguen los logros
       setLogros(data || []); // Almacena los logros en el estado
+      setPageCount(Math.ceil(data.length / itemsPerPage)); // Establece el conteo de páginas, divide la cantidad total de logros por la cantidad de logros por página y redondea hacia arriba para asegurar que cualquier logros restantes formen una nueva página.
     };
 
     fetchLogros(); // Ejecuta la función cuando el componente se monta
   }, []);
+
+
 
   // const handleOpenLogroModal = (logro) => {
   //   console.log("ID del logro seleccionado:", logro.idlogro);
@@ -136,6 +172,7 @@ export const TablaLogrosRecibidos = () => {
     setModalAction(action);
     setSelectedLogro(logro); // Guarda el logro seleccionado
     setIsConfirmationModalOpen(true);
+    setIsConfirm(false);
   };
 
   const handleCloseConfirmationModal = () => {
@@ -143,39 +180,44 @@ export const TablaLogrosRecibidos = () => {
   };
 
   const handleRejectedModalOpen = (logro) => {
-    console.log("ID del logro para rechazo:", logro.idlogro); 
+    console.log("ID del logro para rechazo:", logro.idlogro);
     setSelectedLogro(logro); // Guarda el logro seleccionado
     setIsRejectedModalOpen(true);
-  }
+  };
 
   const handleCloseRejectedModal = () => {
-    setIsRejectedModalOpen(false)
-  }
+    setIsRejectedModalOpen(false);
+  };
 
   // Función para actualizar el estado del logro a 1 (modal de confirmación)
   const updateLogroState = async (logro) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/v3/logros/logro/`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          idlogro: logro.idlogro,
-          estado: 1,
-          observacion: "Aceptado",
-          idtrimestre: logro.idtrimestre,
-          idtipologro: logro.idtipologro,
-          idprofesor: logro.idprofesor,
-          logro: logro.logro
-        }), 
-      });
-    
+      const response = await fetch(
+        `http://localhost:8000/api/v3/logros/logro/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idlogro: logro.idlogro,
+            estado: 1,
+            observacion: "Aceptado",
+            idtrimestre: logro.idtrimestre,
+            idtipologro: logro.idtipologro,
+            idprofesor: logro.idprofesor,
+            logro: logro.logro,
+          }),
+        }
+      );
+
       if (response.ok) {
         console.log("Logro actualizado exitosamente");
         // Actualiza la lista de logros
         const updatedLogros = logros.map((logro) =>
-          logro.idlogro === selectedLogro.idlogro ? { ...logro, estado: 1 } : logro
+          logro.idlogro === selectedLogro.idlogro
+            ? { ...logro, estado: 1 }
+            : logro
         );
         setLogros(updatedLogros);
       } else {
@@ -184,17 +226,25 @@ export const TablaLogrosRecibidos = () => {
     } catch (error) {
       console.error("Error al realizar la solicitud:", error.message);
     }
+
+    setIsConfirm(true);
   };
-  
 
   // Manejador del botón de "Continuar" en el modal de confirmación
   const handleConfirm = () => {
     if (selectedLogro) {
       updateLogroState(selectedLogro);
     }
-    handleCloseConfirmationModal();
+
+    setIsConfirm(true);
   };
 
+  const closeCheckModal = () => {
+    setIsCheckModalOpen(false);
+  };
+
+  // Calcular los logros a mostrar en la página actual
+  const displayedLogros = logros.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
   return (
     <>
@@ -212,15 +262,18 @@ export const TablaLogrosRecibidos = () => {
             <p className="text-center">Acción</p>
           </div>
           {/* Reemplazar el mapeo de dataTeacher con logros */}
-          {logros.map((logro, index) => (
+          {displayedLogros.map((logro, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"}`}
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                }`}
               key={index}
             >
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">No°</p>
                 <div className="acc-header w-full flex justify-between items-center">
-                  <p className="pl-2">{logro.idlogro.toString().length === 2 ? logro.idlogro : `${logro.idlogro}`}</p>
+                  <p className="pl-2">
+                    {logro.idlogro.toString().length === 2 ? logro.idlogro : `${logro.idlogro}`}
+                  </p>
                   <button onClick={() => toggleRow(index)}>
                     <i className="fa-solid fa-angle-down block lg:hidden"></i>
                   </button>
@@ -230,7 +283,7 @@ export const TablaLogrosRecibidos = () => {
               <div className="flex gap-2 lg:gap-0">
                 <p className="text-darkBlue lg:hidden">Nombre:</p>
                 <div className="acc-header max-w-[300px] w-full flex justify-between items-center">
-                  <p className="">{logro.logro}</p>
+                  <p>{logro.logro}</p>
                 </div>
               </div>
 
@@ -251,18 +304,55 @@ export const TablaLogrosRecibidos = () => {
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden text-center">Acción:</p>
                 <div className="w-full flex justify-center items-center gap-3">
-                  <i
-                    className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
-                    onClick={() => handleOpenConfirmationModal("Aceptar", logro)}
-                  ></i>
-                  <i
-                    className="fa-solid fa-circle-xmark text-2xl cursor-pointer text-redFull"
-                    onClick={() => handleRejectedModalOpen(logro)}
-                  ></i>
+                  {logro.estado !== 0 && logro.estado !== 1 ? (
+                    <>
+                      <i
+                        className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
+                        onClick={() => handleOpenConfirmationModal("Aceptar", logro)}
+                      ></i>
+                      <i
+                        className="fa-solid fa-circle-xmark text-2xl cursor-pointer text-redFull"
+                        onClick={() => handleRejectedModalOpen(logro)}
+                      ></i>
+                    </>
+                  ) : (
+                    <div className="bg-greenOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
+                      <div className="w-[15px] h-[15px] bg-greenFull rounded-full"></div>
+                      <p className="text-greenFull">OK</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           ))}
+          {/* Controles de paginación */}
+          {/* Agregar el componente de paginación */}
+          <ReactPaginate
+            previousLabel={
+              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                Anterior
+              </div>
+            }
+            nextLabel={
+              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                Siguiente
+              </div>
+            }
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName={"flex justify-center items-center space-x-2 py-4"}
+            previousClassName={"cursor-pointer"}
+            nextClassName={"cursor-pointer"}
+            pageClassName={"cursor-pointer"}
+            pageLinkClassName={"flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"} // Estilo de enlace de página
+            activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
+            activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
+          />
+
         </section>
       </main>
 
@@ -284,16 +374,17 @@ export const TablaLogrosRecibidos = () => {
         onSubmit={handleFormSubmit}
         textButton={"Agregar y enviar"}
       >
-        <p>Al hacer clic en "Agregar", se rechazará el logro y se le enviará la observación al profesor</p>
+        <p>
+          Al hacer clic en "Agregar", se rechazará el logro y se le enviará la
+          observación al profesor
+        </p>
         <Input
           placeholder={"Observación o recomendación"}
           texto={"Agregue una observación al logro"}
           name={"observacion"}
           onChange={handleInputChange}
         />
-
       </RegisterModal>
-
 
       <ConfirmationModal
         isOpen={isConfirmationModalOpen}
@@ -301,6 +392,8 @@ export const TablaLogrosRecibidos = () => {
         txtQuestion={`¿Está seguro de ${modalAction} este logro?`}
         txtWarning={`Si presionas ${modalAction.toLowerCase()}, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
         onConfirm={handleConfirm}
+        isConfirm={confirm}
+        textCheck={"Logro aceptado"}
       />
     </>
   );

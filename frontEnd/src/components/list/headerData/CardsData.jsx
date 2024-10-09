@@ -8,9 +8,9 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
   return (
     <div className="flex gap-3 text-black font-cocogooseLight sm:flex-row flex-col">
       {/*IMAGEN DEL ESTUDIANTE*/}
-      <div className="flex flex-row gap-x-3">
+      <div className="min-h-[130px] h-full  flex flex-row gap-x-3">
 
-        <div className="min-h-[130px] grow bg-white rounded-xl max-w-[100px] p-4">
+        <div className="min-h-[130px] h-full grow bg-white rounded-xl max-w-[100px] p-4">
           <img
             src={
               isObj1
@@ -23,7 +23,7 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
         </div>
 
         {/* INFORMACION */}
-        <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
+        <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
           <p className="text-paragraph text-darkBlue">
             {isObj1 ? dataCard1.nombre : "Nombre Completo"}
           </p>
@@ -34,22 +34,22 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
         </div>
       </div>
 
-      <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
+      <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
         {Object.keys(dataCard2).length != 0 ? (
           dataCard2.map((values, index) => (
             <div className="flex flex-col lg:flex-row items-start justify-between  w-full" key={index}>
               <p className="text-paragraph text-darkBlue">{values.name}:</p>
-              <p className="text-paragraph2 text-right">{values.value}</p>
+              <p className="text-paragraph2 lg:text-right">{values.value}</p>
             </div>
           ))
         ) : (
           <>
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col xl:flex-row justify-between items-center w-full">
               <p className="text-paragraph text-darkBlue">{"Responsable:"}</p>
               <p className="text-paragraph2">{"--------------"}</p>
             </div>
 
-            <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col xl:flex-row justify-between items-center w-full">
               <p className="text-paragraph text-darkBlue">{"Responsable:"}</p>
               <p className="text-paragraph2">{"--------------"}</p>
             </div>
@@ -58,7 +58,7 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
       </div>
 
       {/* ESTADISTICAS */}
-      <div className="min-h-[130px] grow bg-white rounded-xl p-4 flex justify-start">
+      <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex justify-start">
         <GraphicPie data={dataGraphic} />
       </div>
 

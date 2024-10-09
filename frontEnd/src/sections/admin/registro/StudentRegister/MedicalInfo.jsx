@@ -68,6 +68,10 @@ export const MedicalInfoSection = () => {
   const handleDropdownChange = (name, value) => {
     setValues({ ...values, [name]: value });
     console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Eliminar mensaje de error
+  }));
   };
 
   // Maneja el envío del formulario

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Boton } from "../../components/forms/Boton";
 import { Input } from "../../components/forms/Input.jsx";
 import { Link } from "react-router-dom";
 import { putCambiarPwd } from "../../api/put.js";
 import { LoadingModal } from "../../components/modales/LoadingModal.jsx";
+import ErrorWarning from "../../components/messages/error.jsx";
+import SuccessWarning from "../../components/messages/SuccessWarning.jsx";
 
 export const PasswordHelp = () => {
   const [documentNumber, setDocumentNumber] = useState("");
@@ -36,17 +38,20 @@ export const PasswordHelp = () => {
     try {
       setIsLoading(true);
       const response = await putCambiarPwd(body, "correo/recuperar/");
-
       const data = await response.json();
 
       if (response.status === 200) {
         setIsSubmitted(true);
         setCorreoEncriptado(data.data.correo); // Almacena el correo encriptado recibido
       } else {
-        setErrorMessage("No hay cuentas vinculadas con ese número de documento.");
+        setErrorMessage(
+          "No hay cuentas vinculadas con ese número de documento."
+        );
       }
     } catch (error) {
-      setErrorMessage("Hubo un problema al enviar el correo. Intenta de nuevo más tarde");
+      setErrorMessage(
+        "Hubo un problema al enviar el correo. Intenta de nuevo más tarde"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +66,9 @@ export const PasswordHelp = () => {
       const data = await response.json();
 
       if (response.status === 200) {
-        setSuccessMessage("El enlace de recuperación ha sido reenviado a tu correo.");
+        setSuccessMessage(
+          "El enlace de recuperación ha sido reenviado a tu correo."
+        );
         setResendAttempts((prev) => prev + 1); // Incrementa el contador de intentos
 
         // Si se alcanza el límite de intentos, comienza el temporizador
@@ -70,10 +77,14 @@ export const PasswordHelp = () => {
           setIsButtonDisabled(true); // Desactiva el botón
         }
       } else {
-        setErrorMessage("Hubo un problema al enviar el correo. Intenta de nuevo más tarde.");
+        setErrorMessage(
+          "Hubo un problema al enviar el correo. Intenta de nuevo más tarde."
+        );
       }
     } catch (error) {
-      setErrorMessage("Hubo un problema al enviar el correo. Intenta de nuevo más tarde.");
+      setErrorMessage(
+        "Hubo un problema al enviar el correo. Intenta de nuevo más tarde."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -132,22 +143,30 @@ export const PasswordHelp = () => {
               <Boton text="Continuar" type="blue" />
             </>
           ) : (
-            <div className="text-center">
+            <div className="text-center grid gap-2
+            ">
               <h1 className="text-title2 font-cocogooseRegular tracking-normal text-darkBlue break-words">
                 Se envió un enlace al correo, {correoEncriptado}, con el cúal
                 podrás recuperar tu contraseña.
               </h1>
               <p className="text-paragraph font-cocogooseLight">
                 Puedes cerrar esta página y reanudar la recuperación de tu
-                cuenta desde el enlace. Si no recibiste un correo puedes presionar el botón reenviar
+                cuenta desde el enlace. Si no recibiste un correo puedes
+                presionar el botón reenviar
               </p>
 
-              {successMessage && (
-                <p className="mt-2 text-green-500">{successMessage}</p>
-              )}
+              {successMessage ? <SuccessWarning text={successMessage} /> : null}
+              {errorMessage ? <ErrorWarning text={errorMessage} /> : null}
+
               <div className="flex justify-center mt-4">
                 <Boton
-                  text={timer > 0 ? `Reenviar (${Math.floor(timer / 60)}:${(timer % 60).toString().padStart(2, '0')})` : "Reenviar enlace"}
+                  text={
+                    timer > 0
+                      ? `Reenviar (${Math.floor(timer / 60)}:${(timer % 60)
+                          .toString()
+                          .padStart(2, "0")})`
+                      : "Reenviar enlace"
+                  }
                   type="blue"
                   onClick={handleResend}
                   disabled={isButtonDisabled} // Desactiva el botón si se han hecho 2 intentos
@@ -163,9 +182,27 @@ export const PasswordHelp = () => {
                   Corregir documento
                 </a>
               </div>
+
+              <div
+                className={`flex justify-center ${
+                  isSubmitted ? "block" : "hidden"
+                }`}
+              >
+                <Link
+                  to="/"
+                  className="text-paragraph2 font-cocogooseLight text-darkBlue underline"
+                >
+                  Volver al inicio de sesión
+                </Link>
+              </div>
             </div>
           )}
-          <div className="flex justify-center">
+
+          <div
+            className={`flex justify-center ${
+              isSubmitted ? "hidden" : "block"
+            }`}
+          >
             <Link
               to="/"
               className="text-paragraph2 font-cocogooseLight text-darkBlue underline"
@@ -175,10 +212,12 @@ export const PasswordHelp = () => {
           </div>
         </div>
       </form>
-      <LoadingModal 
-        text={"Estamos procesando tu solicitud y enviando el enlace de recuperación. Por favor, espera un momento."}
+      <LoadingModal
+        text={
+          "Estamos procesando tu solicitud y enviando el enlace de recuperación. Por favor, espera un momento."
+        }
         isOpen={isLoading}
-        onClose={() => {}} 
+        onClose={() => {}}
       />
     </main>
   );

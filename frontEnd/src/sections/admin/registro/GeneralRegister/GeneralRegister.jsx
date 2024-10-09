@@ -89,11 +89,33 @@ export const GeneralRegister = () => {
     const handleDropdownChange = (name, value) => {
         setValues({ ...values, [name]: value });
         console.log("dropdowns value:", value); // Mostrar el valor seleccionado de los otros dropdowns en la consola
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: "", // Eliminar mensaje de error
+        }));
     };
 
     // Handle file changes
     const handleFileChange = (name, file) => {
+        const maxFileSize = 1 * 1024 * 1024; // 5MB en bytes
+
+        // Verificar si el archivo es mayor a 5MB
+        if (file.size > maxFileSize) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                [name]: "El tamaño de la imagen no debe ser mayor a 5MB.",
+            }));
+            return;
+        }
+
+
+        // Eliminar cualquier error anterior asociado al archivo si es válido
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: "", // Eliminar mensaje de error
+        }));
         dataFormInd.set(name, file);
+        setValues({ ...values, imagen: file });
         console.log(file);
     };
 
@@ -111,6 +133,11 @@ export const GeneralRegister = () => {
                     newErrors[key] = error;
                 }
             }
+        }
+
+        // Verificar si la imagen ha sido seleccionada
+        if (!values.imagen) {
+            newErrors.imagen = "La imagen es obligatoria.";
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -141,11 +168,11 @@ export const GeneralRegister = () => {
         if (data.error) {
             // Si el documento ya existe, mostramos el error en el campo 'documento'
             setErrors((prevErrors) => ({
-              ...prevErrors,
-              documento: "El número de documento ya existe.",
+                ...prevErrors,
+                documento: "El número de documento ya existe.",
             }));
             return;
-          }
+        }
 
         //Recorrido del objeto para añadirlo al formData
         for (const key in value) {
@@ -236,6 +263,8 @@ export const GeneralRegister = () => {
                         title={"Foto"}
                         id="imagen"
                         onFileChange={(file) => handleFileChange("imagen", file)}
+                        validationText={"Tamaño maximo del archivo: 5MB"}
+                        error={errors.imagen}
                     />
                 </div>
                 <div className="w-full flex flex-col gap-y-5 xl:gap-y-0 xl:flex-row justify-between">

@@ -10,7 +10,7 @@ export function RegisterModal({
   values,
   onSubmit, // Recibe la función handleForm como prop
   isConfirm,
-  textButton
+  textButton,
 }) {
   {
     /* const [isConfirm, setIsConfirm] = useState(false);*/
@@ -23,7 +23,7 @@ export function RegisterModal({
         className="w-full flex items-center justify-center"
       >
         <DialogPanel
-          className={`flex flex-col gap-8 items-center lg:items-start 
+          className={`flex flex-col gap-6 items-center lg:items-start 
                             ${
                               cols === 1 ? "w-full" : "max-w-[800px] w-full"
                             } py-[40px] px-[30px]`}
@@ -42,7 +42,7 @@ export function RegisterModal({
                   cols === 1 ? "text-center" : "text-start"
                 }`}
               >
-                <h1>{txtmodal}</h1>
+                <p className="text-center text-title text-darkBlue font-cocogooseRegular ">{txtmodal}</p>
               </div>
 
               <div
@@ -53,7 +53,10 @@ export function RegisterModal({
               </div>
 
               <div className="flex justify-center text-white w-full mt-4">
-                <Button className="max-w-[400px] font-cocogooseSemiLight text-subTitle2 w-full" type="submit">
+                <Button
+                  className="max-w-[400px] font-cocogooseSemiLight text-subTitle2 w-full"
+                  type="submit"
+                >
                   {textButton}
                 </Button>
               </div>
