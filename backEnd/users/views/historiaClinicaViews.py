@@ -9,6 +9,7 @@ from url import urlHost
 @api_view(['GET'])
 def HistoriaClinicaOne(request,id):
     if request.method == 'GET':
+        
         query = querySql("SELECT `historiaclinica`.`medicamentos`,`historiaclinica`.`archivo`, `historiaclinica`.`restriccionesAlimenticias`, `historiaclinica`.`observacion`, `condicion`.`idHistoriaClinica`,`condicion`.`idDiagnostico`, `condicion`.`idDiscapacidad`, `diagnostico`.`diagnostico`, `discapacidad`.`discapacidad` FROM `estudiante` LEFT JOIN `historiaclinica` ON `historiaclinica`.`idEstudiante` = `estudiante`.`idEstudiante` LEFT JOIN `condicion` ON `condicion`.`idHistoriaClinica` = `historiaclinica`.`idHistoriaClinica` LEFT JOIN `diagnostico` ON `condicion`.`idDiagnostico` = `diagnostico`.`idDiagnostico` LEFT JOIN `discapacidad` ON `condicion`.`idDiscapacidad` = `discapacidad`.`idDiscapacidad` WHERE `historiaclinica`.`idEstudiante` = %s", [id])
         
         if len(query) == 0:
