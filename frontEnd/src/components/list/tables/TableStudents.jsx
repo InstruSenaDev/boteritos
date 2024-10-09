@@ -5,10 +5,12 @@ import { ModalInformes } from "../../modales/ModalInformes";
 import { ConfirmationModal } from "../../modales/ConfirmationModal.jsx";
 import { putDeleteStudents } from "../../../api/put.js";
 import ReactPaginate from "react-paginate";
+import { LoadingModal } from "../../modales/LoadingModal.jsx";
 
 export default function TableStudents({ getId }) {
   const [dataStudents, setDataStudents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [openAcc, setOpenAcc] = useState(-1);
   const [selectedInforme, setSelectedInforme] = useState(null);
@@ -107,6 +109,10 @@ export default function TableStudents({ getId }) {
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
+  const handleDownloadStart = (isLoading) => {
+    setIsLoading(isLoading); // Muestra o cierra el modal de carga basado en el valor
+  };
 
   return (
     <>
@@ -244,10 +250,11 @@ export default function TableStudents({ getId }) {
 
       {isOpen && (
         <ModalInformes
-          isOpen={isOpen}
-          onClose={handleCloseModal}
-          txtmodal="Informes del Estudiante"
-          informes={selectedInforme || []}
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        txtmodal="Informes del Estudiante"
+        informes={selectedInforme || []}
+        onDownloadStart={handleDownloadStart}
         />
       )}
 
@@ -258,6 +265,14 @@ export default function TableStudents({ getId }) {
         txtWarning={`Si presionas continuar, no podrás modificar esta selección. Por favor, asegúrate de que la acción es correcta antes de continuar.`}
         onConfirm={handleDeleteStudent}
       />
+
+{isLoading && (
+        <LoadingModal
+          isOpen={isLoading}
+          onClose={() => setIsLoading(false)} 
+          text="Espera mientras se descarga el informe..."
+        />
+      )}
     </>
   );
 }

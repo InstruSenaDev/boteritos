@@ -2,12 +2,25 @@ import { Button, Dialog, DialogPanel } from "@tremor/react";
 import React from "react";
 import { downloadInforme } from "../../api/get";
 
-export const ModalInformes = ({ isOpen, onClose, txtmodal, informes }) => {
+export const ModalInformes = ({ isOpen, onClose, txtmodal, informes, onDownloadStart }) => {
   
   const downloadInform = async (idinforme) =>{
-    console.log(idinforme);
-    const data = await downloadInforme(`informe/estudiante/one/${idinforme}/`);
-    //VALIDACIONES Y CARGANDO
+    if (onDownloadStart) onDownloadStart(true); // Muestra el modal de carga
+
+    try {
+      console.log(idinforme);
+      const data = await downloadInforme(`informe/estudiante/one/${idinforme}/`);
+      //VALIDACIONES Y CARGANDO
+      console.log("Descarga completada", data);
+
+      // Llama al callback para indicar que la descarga ha terminado
+      onDownloadStart(false); // cerrar el modal de carga
+    } catch (error) {
+      console.error("Error al descargar el informe:", error);
+      // por si algo lo cierro si hay error, por si algo
+      onDownloadStart(false); 
+    }
+   
   }
 
   return (
