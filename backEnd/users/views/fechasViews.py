@@ -9,7 +9,7 @@ from ..querySql import querySql
 def FechasEstudiantesOne(request,id):
     
     if request.method == 'GET':
-        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `fechas`.* FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `fechas` ON `fechas`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idUsuario` = %s;",[id])
+        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `fechas`.* FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `fechas` ON `fechas`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idUsuario` = `usuario`.`idUsuario` AND `estudiante`.`idEstudiante` = %s;",[id])
         
         if len(query) == 0:
             return Response({
@@ -26,7 +26,7 @@ def FechasEstudiantesOne(request,id):
 def FechasProfesor(request,id):
     
     if request.method == 'GET':
-        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `fechas`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `fechas` ON `fechas`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = %s;",[id])
+        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `fechas`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `fechas` ON `fechas`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = `usuario`.`idUsuario` AND `profesor`.`idProfesor` = %s;",[id])
         
         if len(query) == 0:
             return Response({
