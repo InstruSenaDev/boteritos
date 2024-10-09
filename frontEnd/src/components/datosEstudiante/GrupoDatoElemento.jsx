@@ -5,8 +5,6 @@ import { RegisterModal } from "../modales/RegisterModal";
 import { ModalContent } from "../modales/ModalContent";
 import { getModalConfig } from "../../helper/modales/getModalConfig";
 import { Link } from "react-router-dom";
-
-import { defaultValues } from "../../helper/modales/objectsModal";
 import { useParams } from "react-router-dom";
 import { modaleValidators } from "../../helper/validators/modalesValidator";
 
@@ -74,38 +72,6 @@ export const GrupoDatoElemento = () => {
       acc[key] = typeof value === "string" ? value.trim() : value;
       return acc;
     }, {});
-
-    console.log("Valores después de aplicar .trim():", trimmedValues); // Imprime los valores del formulario
-
-    // Verificar si hay algún valor vacío después de aplicar .trim()
-    /*
-    const hasEmptyFields = Object.values(trimmedValues).some(
-      (value) => value === ""
-    );
-
-    const newErrors = {};
-    for (const key in values){
-      if (Object.hasOwn(values,key)){
-        const error = modaleValidators(key, values[key]);
-        if(error){
-          newErrors[key] = error;        
-        }
-      }
-    }
-
-
-    if (Object.keys(newErrors).length>0){
-      setErrors(newErrors);
-      return;
-    }
-
-    if (hasEmptyFields) {
-      console.error(
-        "Error: Existen campos vacíos después de recortar los espacios en blanco."
-      );
-      return; // Detiene el proceso si se encuentran campos vacíos
-    }
-    */
 
     // Convertir idtipodocumento e idparentesco a enteros si existen
     if (trimmedValues.idtipodocumento) {
@@ -219,7 +185,7 @@ export const GrupoDatoElemento = () => {
         />
         <Link
           to={`/admin/listaestudiantes/datoestudiante/informe/${id}`}
-          className="xl:max-w-[340px] 2xl:max-w-[520px] w-full"
+          className="xl:max-w-[340px] 2xl:max-w-[440px] w-full"
         >
           <DatoElemento icon={"fa-solid fa-file-lines"} texto={"Informes"} />
         </Link>

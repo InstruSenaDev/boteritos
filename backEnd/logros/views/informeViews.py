@@ -16,7 +16,7 @@ from url import urlHost
 def namePdf(estud,trim,fecha):
     #CONVERTIMOS EL NOMBRE EN UN ARRAY
     nombreArray = estud['nombre'].lower().split()
-    nombre = '_'.join(nombreArray)#SEPARARLO CON UN CARACTER EN ESPECIFICO => _
+    nombre = '_'.join(nombreArray) #SEPARARLO CON UN CARACTER EN ESPECIFICO => _
     
     return f"{nombre}_{trim.trimestre}_{fecha}"
 
@@ -82,6 +82,7 @@ def generarInforme(idEstudiante, idTrim, observacion, fecha):
     
 
 #TRIMESTRE, AREA, ID ESTUDIANTE, (CONDICION QUE SEA ESTADO = 1)
+#ESTE ENDPOINT LO VISUALIZA EL ADMINISTRADOR CUANDO LOS PROFESORES YA HAN ENVIADO SUS CALIFICACIONES
 @api_view(['GET'])
 def InformeList(request,idtrim,idarea,idestud):
     
@@ -123,7 +124,8 @@ def InformeList(request,idtrim,idarea,idestud):
                 "calificaciones" : query
             }
         },status=status.HTTP_200_OK)
-    
+
+#ENDPOINT CUANDO EL ADMIN YA DESEA GENERAR EL INFORME
 @api_view(['POST'])
 def CreateInforme(request):
     if request.method == 'POST':
@@ -138,19 +140,25 @@ def CreateInforme(request):
         if not observacion:
             return Response({
                 "message" : "Creacion del informe cancelada",
-                "error" : "La observacion es obligatoria"
+                "error" : {
+                    "observacion" : ["La observacion es obligatoria"]
+                    }
             },status=status.HTTP_400_BAD_REQUEST)
         
         if not idTrim or (not str(idTrim).isdigit()):
             return Response({
                 "message" : "Creacion del informe cancelada",
-                "error" : "El id del trimestre es obligatorio"
+                "error" : {
+                    "idtrimestre" : ["El id del trimestre es obligatorio"]
+                    }
             },status=status.HTTP_400_BAD_REQUEST)
         
         if not idEstudiante or (not str(idEstudiante).isdigit()):
             return Response({
                 "message" : "Creacion del informe cancelada",
-                "error" : "el id del estudiante es obligatorio"
+                "error" : {
+                    "idestudiante" : ["el id del estudiante es obligatorio"]
+                    }
             },status=status.HTTP_400_BAD_REQUEST)
         
         #LLAMADO Y DESTRUCTURACION PARA GENERAR EL INFORME
@@ -176,3 +184,84 @@ def CreateInforme(request):
         response['Access-Control-Expose-Headers'] = 'textfile, Content-Disposition'
         
         return response
+    
+#LISTAR TODOS LOS INFORMES CREADOS DE UN ESTUDIANTE
+@api_view(['GET'])
+def InformesEstudiantesList(request,idstud):
+    if request.method == 'GET':
+        if not idstud:
+            return Response({
+                "message" : "Consulta fallida",
+                "error" : {
+                    "idestudiante" : ["El id del estudiante es obligatorio"]
+                    }
+            },status=status.HTTP_400_BAD_REQUEST)
+    
+        query = Informes.objects.filter(idestudiante = idstud)
+        
+        if not query:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Informes no creados"
+            },status=status.HTTP_404_NOT_FOUND)
+        
+        srInformes = InformesSerializer(query, many = True)
+    
+        return Response({
+            "message" : "Consulta realizada",
+            "data" : srInformes.data
+        },status=status.HTTP_200_OK)
+        
+#ENDPOINT PARA GENERAR UN INFORME YA CREADO DE UN ESTUDIANTE
+@api_view(['GET'])
+def InformeEstudianteOne(request,idinform):
+    
+    if request.method == 'GET':
+                
+        if not idinform:
+            return Response({
+                "message" : "Descarga cancelada",
+                "error" : {
+                    "idtrimestre" : ["El id del informe es obligatoria"]
+                }
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        queryInform = Informes.objects.filter(idinforme = idinform).first()
+        
+        if not queryInform:
+            return Response({
+                "message" : "Descarga cancelada",
+                "error" : "Informe no encontrado"
+            },status=status.HTTP_404_NOT_FOUND)
+        #OBTENEMOS LA FECHA DE CREACION DEL TRIMESTRE
+        fecha = queryInform.fecha
+               
+        #BUSCAMOS EL TRIMESTRE DEL INFORME
+        queryTrim = querySql("SELECT `trimestres`.* FROM `trimestres` WHERE %s BETWEEN `trimestres`.`fechaInicio` AND `trimestres`.`fechaFin`;", [fecha])
+        
+        if len(queryTrim) == 0:
+            return Response({
+                "message" : "Descarga cancelada",
+                "error" : "Trimestre no encontrado"
+            },status=status.HTTP_404_NOT_FOUND)
+            
+        #OBTENEMOS EL ID DEL TRIMESTRE
+        idTrim = queryTrim[0]['idtrimestre']
+        
+        #OBTENEMOS EL ID DEL ESTUDIANTE
+        idStud = queryInform.idestudiante.idestudiante
+        
+        #OBTENEMOS LA OBSERVACION
+        observacion = queryInform.observacion
+        
+        #INVOCAMOS LA FUNCION QUE CREA EL INFORME
+        pdf, textFile = generarInforme(idStud, idTrim, observacion, fecha)
+        
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f'inline; filename="{textFile}.pdf"'
+        response['textfile'] = textFile
+        response['Access-Control-Expose-Headers'] = 'textfile, Content-Disposition'
+        
+        return response
+        
+        

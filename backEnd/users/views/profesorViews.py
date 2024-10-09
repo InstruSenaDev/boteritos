@@ -19,7 +19,7 @@ def ProfesorCreateView(request):
     
     if request.method == 'POST':
         datos = request.data
-                
+        print(datos)
         #----------USUARIO----------
         serializerUsuario = UsuarioSerializer(data = datos)
         
@@ -101,10 +101,12 @@ def ProfesorCreateView(request):
                 "message" : "Actualizacion cancelada",
                 "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
-            
+     
         data = request.data
+        
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
+        
         #VALIDAMOS QUE SE ENCUENTRE EL PROFESOR
         if not queryProf : 
             return Response({
@@ -117,8 +119,9 @@ def ProfesorCreateView(request):
         
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
         data['idusuario'] = idUsuario
-         
+        
         srProf = ProfesorSerializer(queryProf, data = data)
+        
         #VALIDACION
         if not srProf.is_valid():
             return Response({
@@ -126,8 +129,9 @@ def ProfesorCreateView(request):
                 "error" : srProf.errors
             },status=status.HTTP_400_BAD_REQUEST)
         
-        queryUsuario = Profesor.objects.filter(idusuario = idUsuario).first()
-        
+        #CONSULTA AL USUARIO
+        queryUsuario = Usuario.objects.filter(idusuario = idUsuario).first()
+                
         srUsuario = UsuarioSerializer(queryUsuario, data = data, partial = True)
         
         if not srUsuario.is_valid():
@@ -135,10 +139,11 @@ def ProfesorCreateView(request):
                 "message" : "Actualizacion cancelada",
                 "error" : srUsuario.errors
             })
+            
         #INSERCION DE DATOS EN AMBAS TABLAS
-        srProf.save()
         srUsuario.save()
-        
+        srProf.save()
+    
         return Response({
             "message" : "Actualizacion realizada con exito",
             "data" : {
@@ -225,9 +230,7 @@ def ProfesorHead(request, idprof ,idtrim):
             },status=status.HTTP_404_NOT_FOUND)
         
         data = query[0]
-        
-        data['imagen'] = f"{urlHost}{data['imagen']}"
-        
+                
         queryLogros = querySql("SELECT `logroestudiante`.`estado`,`logroestudiante`.`idLogroEstudiante`, `logros`.`logro` FROM `logroestudiante` LEFT JOIN `logros` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE `logros`.`idProfesor` = %s AND `logros`.`idTrimestre` = %s;", [idprof, idtrim])
 
         sumEnviados = 0

@@ -8,9 +8,9 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
   return (
     <div className="flex gap-3 text-black font-cocogooseLight sm:flex-row flex-col">
       {/*IMAGEN DEL ESTUDIANTE*/}
-      <div className="min-h-[130px] h-full  flex flex-row gap-x-3">
+      <div className="max-h-[130px] flex flex-row gap-x-3">
 
-        <div className="min-h-[130px] h-full grow bg-white rounded-xl max-w-[100px] p-4">
+        <div className="max-h-[130px] grow bg-white rounded-xl max-w-[100px] p-4">
           <img
             src={
               isObj1
@@ -18,12 +18,12 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
                 : `../../../../public/img/studentDefault.png`
             }
             alt=""
-            className="w-full h-full object-cover rounded-xl"
+            className="w-full h-full object-fill rounded-xl"
           />
         </div>
 
         {/* INFORMACION */}
-        <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
+        <div className="max-h-[130px] grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
           <p className="text-paragraph text-darkBlue">
             {isObj1 ? dataCard1.nombre : "Nombre Completo"}
           </p>
@@ -34,7 +34,7 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
         </div>
       </div>
 
-      <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
+      <div className="max-h-[130px] grow bg-white rounded-xl p-4 flex flex-col justify-center gap-1">
         {Object.keys(dataCard2).length != 0 ? (
           dataCard2.map((values, index) => (
             <div className="flex flex-col lg:flex-row items-start justify-between  w-full" key={index}>
@@ -58,7 +58,7 @@ const CardsData = ({ dataCard1, dataCard2, dataGraphic, children }) => {
       </div>
 
       {/* ESTADISTICAS */}
-      <div className="min-h-[130px] h-full grow bg-white rounded-xl p-4 flex justify-start">
+      <div className="max-h-[130px] grow bg-white rounded-xl p-4 flex justify-start">
         <GraphicPie data={dataGraphic} />
       </div>
 

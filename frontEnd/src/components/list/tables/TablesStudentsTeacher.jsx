@@ -55,9 +55,9 @@ const [dataStudents, setDataStudents] = useState([]);
               <p className="text-darkBlue lg:hidden">No°:</p>
               <div className="acc-header w-full flex justify-between items-center">
                 <p>
-                  {(index + 1).toString().length == 2
-                    ? index + 1
-                    : `0${index + 1}`}
+                  {(data.idestudiante).toString().length == 2
+                    ? data.idestudiante
+                    : `0${data.idestudiante}`}
                 </p>
                 <button onClick={() => toogleRow(index)}><i className="fa-solid fa-angle-down block lg:hidden"></i></button>
               </div>
