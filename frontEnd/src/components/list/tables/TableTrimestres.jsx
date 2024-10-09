@@ -222,6 +222,7 @@ const TableTrimestres = () => {
         onClose={handleCloseModal}
         onSave={handleSaveChanges}
         isConfirm={isConfirm}
+        textConfirmation={"Fechas actualizadas con éxito"}
       >
         <div className="grid grid-cols-2 gap-8 w-full">
           <DatePicker2
