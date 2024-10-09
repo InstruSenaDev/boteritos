@@ -10,7 +10,7 @@ from ..querySql import querySql
 def TelefonosEstudiante(request,id):
     
     if request.method == 'GET':
-        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `telefonos`.`telefono1`, `telefonos`.`telefono2`, `telefonos`.`idTelefonos` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE ( (`telefonos`.`telefono1` IS NOT NULL) AND (`telefonos`.`telefono1` IS NOT NULL) AND `estudiante`.`idUsuario` = %s);", [id])
+        query = querySql("SELECT `usuario`.`idUsuario`, `estudiante`.`idEstudiante`, `telefonos`.`telefono1`, `telefonos`.`telefono2`, `telefonos`.`idTelefonos` FROM `usuario` LEFT JOIN `estudiante` ON `estudiante`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE `estudiante`.`idUsuario` = `usuario`.`idUsuario` AND `estudiante`.`idEstudiante` = %s;", [id])
         
         if len(query) == 0:
             return Response({
@@ -27,7 +27,7 @@ def TelefonosEstudiante(request,id):
 def TelefonosProfesor(request,id):
     
     if request.method == 'GET':
-        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `telefonos`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = %s;", [id])
+        query = querySql("SELECT `profesor`.`idProfesor`, `usuario`.`idUsuario`, `telefonos`.* FROM `profesor` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE `profesor`.`idUsuario` = `usuario`.`idUsuario` AND `profesor`.`idProfesor` = %s;", [id])
         
         if len(query) == 0:
             return Response({
