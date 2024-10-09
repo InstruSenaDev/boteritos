@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.http import QueryDict
 from ..serialzer.estudianteSerializer import EstudianteSerializer
 from ..serialzer.usuarioSerializer import UsuarioSerializer
 from ..serialzer.fechasSerizalizer import FechasSerializer
@@ -95,6 +95,7 @@ def EstudianteCreateView(request):
     if request.method == 'PUT':
         
         idEstud = request.data.get('idestudiante')
+        data = QueryDict(mutable=True)
         
         if not idEstud:
             return Response({
@@ -102,7 +103,7 @@ def EstudianteCreateView(request):
                 "error" : "El id del estudiante es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
             
-        data = request.data.copy()
+        data = request.data
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
         queryEstud = Estudiante.objects.select_related('idusuario').filter(idestudiante=idEstud).first()
         #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
