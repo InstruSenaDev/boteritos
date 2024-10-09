@@ -123,6 +123,7 @@ const Informe = () => {
 
     try {
       setIsLoading(true);
+      setIsModalOpen(false);
 
       const response = await fetch(
         "http://localhost:8000/api/v3/logros/informe/create/",

@@ -169,11 +169,7 @@ export const DetailsTeachers = () => {
 
   return (
     <div className="w-full space-y-2 grid gap-10">
-      <HeaderData
-        id={id}
-        urlApi={"sql/estudiantes/header/"}
-        typeLink={"back"}
-      />
+      <HeaderData id={id} urlApi={"sql/profesor/header/"} typeLink={"back"} />
 
       {dataDetail.personal &&
         dataDetail.personal.map((value, index) => (

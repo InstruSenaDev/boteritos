@@ -20,7 +20,6 @@ export const GrupoDatoElemento = () => {
   const formData = new FormData();
   const [errors, setErrors] = useState({});
 
-
   // Maneja cambios en campos de texto
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -218,13 +217,11 @@ export const GrupoDatoElemento = () => {
           texto={"Historia clinica"}
           onClick={() => handleOpenModal("historiaclinica")}
         />
-        <Link to={`/admin/listaestudiantes/datoestudiante/informe/${id}`} className="xl:max-w-[340px] 2xl:max-w-[520px] w-full">
-        
-        <DatoElemento
-          icon={"fa-solid fa-file-lines"}
-          texto={"Informes"}
-
-        />
+        <Link
+          to={`/admin/listaestudiantes/datoestudiante/informe/${id}`}
+          className="xl:max-w-[340px] 2xl:max-w-[520px] w-full"
+        >
+          <DatoElemento icon={"fa-solid fa-file-lines"} texto={"Informes"} />
         </Link>
       </div>
       <RegisterModal
