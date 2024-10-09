@@ -1,4 +1,4 @@
-import { fetchFunction } from "./fetch";
+import { fetchFunction, fetchFunctionPDF } from "./fetch";
 
 //const fetchFunction = async (method, body, header, url)
 
@@ -90,4 +90,43 @@ export const getAllAreas = async (url) => {
   return data;
 };
 
+//GET PARA LISTAR INFORMES DE UN ESTUDIANTE
+export const getInformesEstudiante = async (url) => {
+  const data = await fetchFunction("GET", null, null, `logros/${url}`);
+  return data
+}
 
+//GET PARA DESCARGAR EL INFORME DE UN ESTUDIANTE
+export const downloadInforme = async (url) => {
+  const response = await fetchFunctionPDF("GET", null, null, `logros/${url}`);
+  
+  console.log(response);
+
+  //RESPUESTA ERRONEA
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error("Error al enviar el informe", errorData);
+    return errorData;
+  }
+  
+  //RESPUESTA CORRECTA
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/pdf")) {
+    const textfile = response.headers.get("textfile");
+    let filename = textfile || "informe.pdf";
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+    return "valido"
+  } else {
+    console.log("La respuesta no es un PDF");
+  }
+
+}

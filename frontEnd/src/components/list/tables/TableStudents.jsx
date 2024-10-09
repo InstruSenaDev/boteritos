@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUser } from "../../../api/get.js";
+import { getAllUser, getInformesEstudiante } from "../../../api/get.js";
 import DataState from "../dataStates/DataState.jsx";
 import { ModalInformes } from "../../modales/ModalInformes";
 import { ConfirmationModal } from "../../modales/ConfirmationModal.jsx";
@@ -14,9 +14,9 @@ export default function TableStudents({ getId }) {
   const [selectedInforme, setSelectedInforme] = useState(null);
   const [selectedStudentId, setSelectedStudentId] = useState(null); //ID seleccionado en el boton de eliminar
 
-   // Paginación
-   const [currentPage, setCurrentPage] = useState(0);
-   const itemsPerPage = 10;
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
   const toogleRow = (index) => {
     setOpenAcc(openAcc !== index ? index : -1);
@@ -32,8 +32,26 @@ export default function TableStudents({ getId }) {
     setSelectedStudentId(null); // Limpia el ID al cerrar el modal
   };
 
-  const handleOpenInformeModal = (informe) => {
-    setSelectedInforme(informe);
+  //ABRIR MODAL DE INFORMES
+  const handleOpenInformeModal = async (idstudiante) => {
+    //LISTAR INFORMES
+    const listInformes = await getInformesEstudiante(
+      `informe/estudiante/${idstudiante}/`
+    );
+
+    console.log(listInformes);
+
+    //INFORMES NO ENCONTRADOS
+    if (listInformes.status != 200) {
+      setSelectedInforme([]);
+      setIsOpen(true);
+      return;
+    }
+    //DATOS DE LOS INFORMES
+    const data = listInformes.data.data;
+    console.log(data);
+
+    setSelectedInforme(data);
     setIsOpen(true);
   };
 
@@ -57,34 +75,38 @@ export default function TableStudents({ getId }) {
         idestudiante: selectedStudentId,
         estado: 0, // Establece el estado en 0 para eliminar
       };
-  
+
       try {
-        const result = await putDeleteStudents(body); // Llama a la función con body 
+        const result = await putDeleteStudents(body); // Llama a la función con body
         console.log(result);
-  
+
         // Actualiza el estado de los estudiantes
-        setDataStudents((prevData) => 
-          prevData.filter(student => student.idestudiante !== selectedStudentId)
+        setDataStudents((prevData) =>
+          prevData.filter(
+            (student) => student.idestudiante !== selectedStudentId
+          )
         );
-  
+
         handleCloseConfirmationModal(); // Cierra el modal de confirmación
-        
       } catch (error) {
         console.error("Error eliminando estudiante:", error);
       }
     }
   };
 
-   // Calcula la paginación
-   const pageCount = Math.ceil(dataStudents.length / itemsPerPage);
+  // Calcula la paginación
+  const pageCount = Math.ceil(dataStudents.length / itemsPerPage);
 
-   const handlePageClick = (event) => {
-     const selectedPage = event.selected;
-     setCurrentPage(selectedPage);
-   };
- 
-   // Obtiene los datos de la página actual
-   const displayedStudents = dataStudents.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+  };
+
+  // Obtiene los datos de la página actual
+  const displayedStudents = dataStudents.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
     <>
@@ -169,11 +191,15 @@ export default function TableStudents({ getId }) {
                     <div className="justify-self-center flex gap-3">
                       <i
                         className="fa-solid fa-file-lines text-2xl cursor-pointer text-darkBlue"
-                        onClick={() => handleOpenInformeModal(data.informes)}
+                        onClick={() =>
+                          handleOpenInformeModal(data.idestudiante)
+                        }
                       ></i>
                       <i
                         className="fa-solid fa-trash text-2xl cursor-pointer text-redFull"
-                        onClick={() => handleOpenConfirmationModal(data.idestudiante)} // Pasa el id del estudiante
+                        onClick={() =>
+                          handleOpenConfirmationModal(data.idestudiante)
+                        } // Pasa el id del estudiante
                       ></i>
                     </div>
                   </div>
@@ -181,35 +207,39 @@ export default function TableStudents({ getId }) {
               </div>
             ))
           ) : (
-            <p className="text-center text-darkBlue font-cocogooseLight text-paragraph">¡No hay estudiantes registrados!</p>
+            <p className="text-center text-darkBlue font-cocogooseLight text-paragraph">
+              ¡No hay estudiantes registrados!
+            </p>
           )}
         </section>
         {/* Agregar el componente de paginación */}
         <ReactPaginate
-            previousLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Anterior
-              </div>
-            }
-            nextLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Siguiente
-              </div>
-            }
-            breakLabel={"..."}
-            breakClassName={"break-me"}
-            pageCount={pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={5}
-            onPageChange={handlePageClick}
-            containerClassName={"flex justify-center items-center space-x-2 py-4"}
-            previousClassName={"cursor-pointer"}
-            nextClassName={"cursor-pointer"}
-            pageClassName={"cursor-pointer"}
-            pageLinkClassName={"flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"} // Estilo de enlace de página
-            activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
-            activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
-          />
+          previousLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              Anterior
+            </div>
+          }
+          nextLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              Siguiente
+            </div>
+          }
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"flex justify-center items-center space-x-2 py-4"}
+          previousClassName={"cursor-pointer"}
+          nextClassName={"cursor-pointer"}
+          pageClassName={"cursor-pointer"}
+          pageLinkClassName={
+            "flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"
+          } // Estilo de enlace de página
+          activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
+          activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
+        />
       </main>
 
       {isOpen && (
@@ -231,4 +261,3 @@ export default function TableStudents({ getId }) {
     </>
   );
 }
-

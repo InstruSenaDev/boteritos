@@ -1,6 +1,6 @@
 export const caseAdmin = (name, value) => {
   let error = "";
-  
+
   // Asegurarse de que value sea una cadena
   const stringValue = String(value).trim();
 
@@ -86,7 +86,7 @@ export const caseAdmin = (name, value) => {
       }
       break;
 
-      case "observacion":
+    case "observacion":
       if (!stringValue) {
         error = "La observación es obligatoria.";
       }

@@ -1,7 +1,15 @@
 import { Button, Dialog, DialogPanel } from "@tremor/react";
 import React from "react";
+import { downloadInforme } from "../../api/get";
 
 export const ModalInformes = ({ isOpen, onClose, txtmodal, informes }) => {
+  
+  const downloadInform = async (idinforme) =>{
+    console.log(idinforme);
+    const data = await downloadInforme(`informe/estudiante/one/${idinforme}/`);
+    //VALIDACIONES Y CARGANDO
+  }
+
   return (
     <Dialog open={isOpen} onClose={onClose} static={true} >
       <DialogPanel className="relative flex flex-col gap-4 items-start py-6 px-4 w-auto max-w-screen-md mx-auto bg-white rounded-lg shadow-lg">
@@ -27,7 +35,7 @@ export const ModalInformes = ({ isOpen, onClose, txtmodal, informes }) => {
               <React.Fragment key={index}>
                 <p>{informe.informe}</p>
                 <p>{informe.fecha}</p>
-                <Button className="rounded-2xl">
+                <Button className="rounded-2xl transition ease-in-out" onClick={() => downloadInform(informe.idinforme)}>
                   <div className="flex gap-2 w-fit items-center">
                     <i className="fa-regular fa-eye"></i>
                     <span className="hidden sm:block">Descargar</span>
