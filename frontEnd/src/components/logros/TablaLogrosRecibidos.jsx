@@ -253,8 +253,8 @@ export const TablaLogrosRecibidos = () => {
           <Buscador />
         </div>
 
-        <section className="max-h[80vh] overflow-y-scroll">
-          <div className="sticky top-0 lg:grid grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
+        <section className="max-h-[800px] sm:max-h-[500px] overflow-y-scroll">
+          <div className="sticky bg-white top-0 lg:grid grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] gap-x-3 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue hidden">
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Profesor</p>

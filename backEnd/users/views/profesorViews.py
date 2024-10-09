@@ -101,12 +101,13 @@ def ProfesorCreateView(request):
                 "message" : "Actualizacion cancelada",
                 "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
-            
-        data = request.data     
-        print(data,' ',  type(data))
-        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
+     
+        data = request.data
+        
+        #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
-        #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
+        
+        #VALIDAMOS QUE SE ENCUENTRE EL PROFESOR
         if not queryProf : 
             return Response({
                 "message" : "Actualizacion cancelada",
@@ -117,13 +118,10 @@ def ProfesorCreateView(request):
         idUsuario = queryProf.idusuario.idusuario
         
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
-        #data['idusuario'] = idUsuario
+        data['idusuario'] = idUsuario
         
-        dataDict = dict(data)
-        print('------------------------------')
-        print(dataDict)
+        srProf = ProfesorSerializer(queryProf, data = data)
         
-        srProf = ProfesorSerializer(queryProf, data = dataDict)
         #VALIDACION
         if not srProf.is_valid():
             return Response({
@@ -131,19 +129,21 @@ def ProfesorCreateView(request):
                 "error" : srProf.errors
             },status=status.HTTP_400_BAD_REQUEST)
         
-        queryUsuario = Profesor.objects.filter(idusuario = idUsuario).first()
-        
-        srUsuario = UsuarioSerializer(queryUsuario, data = dataDict, partial = True)
+        #CONSULTA AL USUARIO
+        queryUsuario = Usuario.objects.filter(idusuario = idUsuario).first()
+                
+        srUsuario = UsuarioSerializer(queryUsuario, data = data, partial = True)
         
         if not srUsuario.is_valid():
             return Response({
                 "message" : "Actualizacion cancelada",
                 "error" : srUsuario.errors
             })
+            
         #INSERCION DE DATOS EN AMBAS TABLAS
-        srProf.save()
         srUsuario.save()
-
+        srProf.save()
+    
         return Response({
             "message" : "Actualizacion realizada con exito",
             "data" : {
