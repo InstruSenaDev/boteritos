@@ -38,7 +38,7 @@ export const Sidebar = ({ img, name, rol, sidebarSection = [], onToggle }) => {
   return (
     <>
       {/* Sidebar visible en pantallas grandes */}
-      <div className={`hidden xl:flex w-[95px] h-screen sticky top-0 z-20`}>
+      <div className={`hidden xl:flex w-[95px] h-screen sticky top-0 z-50`}>
         <div className="w-full h-screen sticky top-0">
           <div
             className={`absolute sidebar h-screen bg-white flex-col items-center flex-shrink-0 transition-all duration-300 ${

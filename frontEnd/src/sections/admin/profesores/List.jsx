@@ -34,9 +34,15 @@ const List = () => {
 
   return (
     <>
-    {/* datoprofesor no existe, provicional por ahora, no me regañe */}
+      {/* datoprofesor no existe, provicional por ahora, no me regañe */}
       <main className="flex flex-col gap-8">
-      <HeaderData id={idProfesor} urlApi={'sql/estudiantes/header/'} typeLink={'go'} urlGo={'datosprofesor'} typeHeaderdata={"view1"}/>
+        <HeaderData
+          id={idProfesor}
+          urlApi={"sql/profesor/header/"}
+          typeLink={"go"}
+          urlGo={"datosprofesor"}
+          typeHeaderdata={"view1"}
+        />
         <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
           LISTA DE PROFESORES
         </p>

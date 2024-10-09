@@ -152,8 +152,6 @@ def ProfesorCreateView(request):
             }
         },status=status.HTTP_201_CREATED)
 
-        
-
 @api_view(['GET', 'PUT'])
 def ProfesorTable(request):
     if request.method == 'GET':
@@ -232,9 +230,7 @@ def ProfesorHead(request, idprof ,idtrim):
             },status=status.HTTP_404_NOT_FOUND)
         
         data = query[0]
-        
-        data['imagen'] = f"{urlHost}{data['imagen']}"
-        
+                
         queryLogros = querySql("SELECT `logroestudiante`.`estado`,`logroestudiante`.`idLogroEstudiante`, `logros`.`logro` FROM `logroestudiante` LEFT JOIN `logros` ON `logroestudiante`.`idLogro` = `logros`.`idLogro` WHERE `logros`.`idProfesor` = %s AND `logros`.`idTrimestre` = %s;", [idprof, idtrim])
 
         sumEnviados = 0

@@ -9,12 +9,12 @@ export default function GraphicPie({data}) {
           category="value"
           index="name"
           colors={['green', 'yellow', 'red']}
-          className="w-20 h-20 "
+          className="w-20 h-20 z-10"
         />
         <Legend
           categories={['Alcanzado', 'En proceso', 'No alcanzado']}
           colors={['green', 'yellow', 'red']}
-          className="max-w-[150px]"
+          className="max-w-[150px] z-0"
         />
       </div>
     </>

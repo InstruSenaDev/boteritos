@@ -4,21 +4,6 @@ import { useNavigate } from "react-router-dom";
 import CardsData from "./CardsData";
 import ActionData from "./actionData";
 
-const logros = [
-  {
-    name: "LA",
-    value: 2,
-  },
-  {
-    name: "LP",
-    value: 2,
-  },
-  {
-    name: "LN",
-    value: 2,
-  },
-];
-
 //ESTUDIANTES
 export const HeaderData = ({ id, urlApi, urlGo ,typeLink, typeHeaderdata }) => {
 
