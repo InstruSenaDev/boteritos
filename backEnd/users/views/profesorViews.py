@@ -120,7 +120,7 @@ def ProfesorCreateView(request):
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
         data['idusuario'] = idUsuario
         
-        srProf = ProfesorSerializer(queryProf, data = data)
+        srProf = ProfesorSerializer(queryProf, data = data, partial = True)
         
         #VALIDACION
         if not srProf.is_valid():

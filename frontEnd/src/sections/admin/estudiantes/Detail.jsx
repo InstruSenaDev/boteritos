@@ -480,6 +480,7 @@ const Detail = () => {
                     {value.medicamentos}
                   </p>
                 </div>
+
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Restricciones Alimenticias:

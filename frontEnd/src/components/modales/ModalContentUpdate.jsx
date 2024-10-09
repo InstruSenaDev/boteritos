@@ -151,6 +151,7 @@ export const ModalContentUpdate = ({
             placeholder="Seleccione el Área"
           />
 
+        
           <UploadFile
             typefile={".pdf"}
             title={"Hoja de vida"}
@@ -158,6 +159,7 @@ export const ModalContentUpdate = ({
             onFileChange={(file) => handleFileChange("hojavida", file)}
             error={errores.area}
           />
+        
         </div>
       );
 
@@ -313,8 +315,8 @@ export const ModalContentUpdate = ({
             name="iddiscapacidad"
             label="Discapacidad"
             data={dataDropdown.dataDiscapacidad}
-            onChange={(value) => handleDropdownChange("ididiscapacidad", value)}
-            value={data.iddiscapacidad || ""}
+            onChange={(value) => handleDropdownChange("iddiscapacidad", value)}
+            value={values.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
             error={errores.iddiscapacidad}
           />
