@@ -3,33 +3,36 @@ import { ObjLogros } from "../../../helper/objects/logrosCalificar";
 import Buscador from "../../search/Buscador";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { getLogrosEstudiante } from "../../../api/get";
 
-export default function TableCalificarEstudiante({ setSelectedLogros, data: propData }) {
+export default function TableCalificarEstudiante({ setSelectedLogros}) {
   const { id } = useParams();
+
   const [openAcc, setOpenAcc] = useState(-1);
   const [selectedLogros, setLocalSelectedLogros] = useState({});
-  const [fetchedData, setFetchedData] = useState(null);
+  const [datosLogros, setDatosLogros] = useState(null);
 
+  //OBTENEMOS EL ID DEL PROFESOR
   const access_token = JSON.parse(localStorage.getItem("access_token"));
   const decodedToken = jwtDecode(access_token);
   const idprofesor = decodedToken.idjob;
+
   const trimestre = JSON.parse(localStorage.getItem("trimestre")); // Trimestre
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8000/api/v3/logros/calificar/${trimestre}/${idprofesor}/${id}/`
-      );
-      const result = await response.json();
-      setFetchedData(result);
-      console.log("Datos recibidos:", result);
-    } catch (error) {
-      console.error("Error al obtener los datos:", error);
-    }
-  };
-
+  //CONSULTA
   useEffect(() => {
-    fetchData();
+    const dataLogros = async () =>{
+      const data = await getLogrosEstudiante(`calificar/${trimestre}/${idprofesor}/${id}/`);
+
+      //NO HAY LOGROS PARA CALIFICAR
+      if(data.status != 200){
+        console.log('Datos vacios');
+        setDatosLogros([])
+        return
+      }
+      setDatosLogros(data.data);
+    }
+    dataLogros(); 
   }, [id, idprofesor]);
 
   const handleRadioChange = (idLogro, idLogroEstudiante, resultadoTexto) => {
@@ -44,7 +47,6 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
         idlogroestudiante: idLogro,
         idlogro: idLogroEstudiante,
         resultado,
-        estado: 1,
         fecha: date,
       },
     };
@@ -57,8 +59,6 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
   const toogleRow = (index) => {
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
   };
-
-  const logros = fetchedData || propData;
 
   return (
     <>
@@ -80,8 +80,8 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
           </div>
 
           {/* CUERPO DE LA TABLA */}
-          {logros && logros.length > 0 ? (
-            logros.map((logro, index) => (
+          {datosLogros && datosLogros.length > 0 ? (
+            datosLogros.map((logro, index) => (
               <div
                 className={`acc-item lg:grid grid-cols-1 lg:grid-cols-[50px_minmax(550px,_1fr)_minmax(150px,_1fr)_minmax(250px,_1fr)] items-center gap-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"}`}
                 key={index}

@@ -1,10 +1,8 @@
 import TableCalificarEstudiante from "../../components/list/tables/TableCalificarEstudiante";
-import { Observacion } from "../../components/forms/Observacion";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { ConfirmationModal } from "../../components/modales/ConfirmationModal";
 import { Button } from "@tremor/react";
-import { jwtDecode } from "jwt-decode";
+import { enviarLogros, guardarLogros } from "../../api/put";
 
 export const Calificar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,80 +12,35 @@ export const Calificar = () => {
   const handleOpenModal = () => {
     setIsOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsOpen(false);
   };
 
+  //GUARDAR
   const handleSave = async () => {
-    const arrayLogros = {
-      logros: Object.values(selectedLogros)
-    };
 
-    console.log("Datos a guardar:", JSON.stringify(arrayLogros));
-
-    try {
-      const response = await fetch("http://localhost:8000/api/v3/logros/calificar/guardar/", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(arrayLogros),
-      });
-
-      if (response.ok) {
-        console.log("Logros guardados exitosamente");
-        
-      } else {
-        console.error("Error al guardar los logros:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error al realizar la solicitud:", error);
-    }
+    const data = await guardarLogros(selectedLogros);
+    console.log(data);
+  
   };
-  
 
+  //ENVIAR
   const handleSubmit = async () => {
-    const dataToSend = {
-      logros: selectedLogros,
-    };
+    setIsOpen(false);
 
-    console.log("Datos a enviar:", dataToSend);
-    setIsOpen(false); 
-
+    const data = await enviarLogros(selectedLogros);
     
-    const arrayLogros = {
-      logros: Object.values(selectedLogros)
-    };
-    console.log("arrayyyy a enviar:", arrayLogros); 
-    console.log("Datos enviados al servidor:", JSON.stringify(arrayLogros));
+    if(data.status != 200){
+      console.error("Error al enviar los logros:", response.error);
+    }
 
-      try {
-        const response = await fetch("http://localhost:8000/api/v3/logros/calificar/enviar/", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(arrayLogros), 
-        });
-    
-        if (response.ok) {
-          console.log("Logros enviados exitosamente");
-          setIsSubmitted(true); // Actualizar el estado para indicar que ya se envió
-
-        } else {
-          console.error("Error al enviar los logros:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error al realizar la solicitud:", error);
-      }
-    
-  
+    setIsSubmitted(true); // Actualizar el estado para indicar que ya se envió
   };
 
   return (
     <>
       <main className="flex flex-col w-full gap-y-8">
-
         <TableCalificarEstudiante setSelectedLogros={setSelectedLogros} />
 
         <div className="w full flex justify-end gap-x-3">
