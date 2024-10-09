@@ -1,7 +1,7 @@
 import React from "react";
 import { Dialog, DialogPanel, Button } from "@tremor/react";
 
-export function UpdateModal({ isOpen, onClose, children, onSave, isConfirm }) {
+export function UpdateModal({ isOpen, onClose, children, onSave, isConfirm, textConfirmation }) {
   return (
     <Dialog open={isOpen} onClose={onClose} static={true}>
       <DialogPanel className="bg-white p-6 rounded-lg max-w-screen-sm shadow-lg mx-auto">
@@ -33,7 +33,7 @@ export function UpdateModal({ isOpen, onClose, children, onSave, isConfirm }) {
           <div className="w-full h-full flex items-center justify-center flex-col gap-10">
             <img src="../../../public/img/zG59fyltWB.gif" alt=""></img>
             <div className="font-cocogooseRegular text-darkBlue text-title">
-              <h1>Fechas actualizadas con éxito</h1>
+              <h1>{textConfirmation}</h1>
             </div>
             <Button
               className="max-w-[400px] w-full"

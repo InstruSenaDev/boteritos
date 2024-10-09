@@ -20,6 +20,7 @@ export const DetailsTeachers = () => {
   const dataFormInd = new FormData();
   const [errors, setErrors]=useState({})
   const { id } = useParams();
+  const [isFileChanged, setIsFileChanged] = useState(false); // Nuevo estado para detectar cambios en archivos
 
   //almacenar los datos obtenidos del API para diferentes secciones.
   const [dataDetail, setDataDetail] = useState({
@@ -120,6 +121,7 @@ export const DetailsTeachers = () => {
     setSelectedSection(null);
     setSectionData(null);
     setErrors({});
+    setIsFileChanged(false); 
   };
 
   const handleInputChange = (e, key) => {
@@ -140,13 +142,24 @@ export const DetailsTeachers = () => {
     }));
   };
 
+  const handleFileChange = (name, file) => {
+    setIsFileChanged(true);// Se marca que el archivo ha sido cambiado
+    dataFormInd.set(name, file);
+    console.log("Archivo seleccionado",file);
+  };
+
   const handleSave = async () => {
     const hasErrors = Object.values(errors).some((error) => error);
     if (hasErrors) {
       console.error("Errores presentes, no se puede guardar.");
       return;
     }
+      // Condicional en el PUT para enviar el archivo si ha sido cambiado
+      if (isFileChanged && sectionData.hojavida) {
+        dataFormInd.append("hojavida", sectionData.hojavida);
+      }
   
+
     const result = await updateSectionData(selectedSection, sectionData, id, dataFormInd);
     if (result.status === 201) {
       console.log("Datos guardados", result.data);
@@ -157,13 +170,6 @@ export const DetailsTeachers = () => {
     closeModal();
   };
 
-  const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
-  };
-  
-
-  
   return (
     <div className="w-full space-y-2 grid gap-10">
       <HeaderData
