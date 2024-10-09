@@ -3,7 +3,6 @@ import { authToken } from "../api/post";
 export const AutorizarVista = async () => {
 
     const tokenUser = JSON.parse(localStorage.getItem("access_token"));
-    console.log(tokenUser);
 
     if (!tokenUser) {
         return ['notLogin']
@@ -18,7 +17,6 @@ export const AutorizarVista = async () => {
 
     //OBTENEMOS EL ROL
     const rol = data.data.data
-    console.log(rol);
     
     switch (rol) {
         case 1:

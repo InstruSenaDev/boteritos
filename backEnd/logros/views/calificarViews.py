@@ -47,6 +47,7 @@ def CalificarSave(request):
             
         for value in arrrayLogros:
             
+            value['estado'] = 0
             query = Logroestudiante.objects.filter(idlogroestudiante = value['idlogroestudiante'], idestudiante = value['idestudiante']).first()
             
             if not query:

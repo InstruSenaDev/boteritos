@@ -75,7 +75,7 @@ def HistoriaClinica(request):
                 "error" : "Historia clinica no encontrada"
             },status=status.HTTP_404_NOT_FOUND)
         
-        srHistoriaClinica = HistoriaClinicaSerializer(query, data = request.data)
+        srHistoriaClinica = HistoriaClinicaSerializer(query, data = request.data, partial = True)
         
         if not srHistoriaClinica.is_valid():
            return Response({
@@ -106,32 +106,3 @@ def HistoriaClinica(request):
                 "condicion" : srCondicion.errors
             }
         })
-
-class HistoriaClinicaViewSets(viewsets.ModelViewSet):
-    
-    serializer_class = HistoriaClinicaSerializer
-    #queryset = Historiaclinica.objects.filter(idestudiante = 2)
-    
-    def get_queryset(self):
-        # Obtener el parámetro `idestudiante` de los argumentos de la URL
-        id_estudiante = self.request.query_params.get('idestudiante', None)
-        
-        # Filtrar por `idestudiante` si se proporciona; de lo contrario, devolver todos los registros
-        if id_estudiante is not None:
-            return Historiaclinica.objects.filter(idestudiante = id_estudiante)
-        return Historiaclinica.objects.all()
-    
-    def create(self, request):
-        serializer = self.serializer_class(data = request.data)
-        
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                "message" : "¡Historia clinica creada con exito!",
-                "data" : serializer.data
-            }, status=status.HTTP_201_CREATED)
-            
-        return Response({
-            "message" : "Creacion cancelada",
-            "error" : serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)

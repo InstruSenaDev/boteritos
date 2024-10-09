@@ -71,7 +71,6 @@ export const DataPersonal = async (url) => {
   return data;
 };
 
-
 //GET PARA LOS TRIMESTRES
 export const getTrimestres = async (url) =>{
   const data = await fetchFunction ("GET", null, null, `logros/${url}`);
@@ -92,6 +91,12 @@ export const getAllAreas = async (url) => {
 
 //GET PARA LISTAR INFORMES DE UN ESTUDIANTE
 export const getInformesEstudiante = async (url) => {
+  const data = await fetchFunction("GET", null, null, `logros/${url}`);
+  return data
+}
+
+//GET LOGROS PROFESOR A ESTUDIANTE
+export const getLogrosEstudiante = async (url) =>{
   const data = await fetchFunction("GET", null, null, `logros/${url}`);
   return data
 }
