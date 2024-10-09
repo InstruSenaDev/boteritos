@@ -102,7 +102,7 @@ def EstudianteCreateView(request):
                 "error" : "El id del estudiante es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
             
-        data = request.data
+        data = request.data.copy()
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA ESTUDIANTES Y USUARIOS
         queryEstud = Estudiante.objects.select_related('idusuario').filter(idestudiante=idEstud).first()
         #VALIDAMOS QUE SE ENCUENTRE EL ESTUDIANTE
@@ -299,5 +299,4 @@ def EstudianteHeader(request,idstud,idtrim):
         return Response({
             "message" : "¡Consulta exitosa!",
             "data" : dataHead
-        }, status=status.HTTP_200_OK)
-        
+        }, status=status.HTTP_200_OK)        

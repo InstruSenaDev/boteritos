@@ -102,7 +102,7 @@ def ProfesorCreateView(request):
                 "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
      
-        data = request.data
+        data = request.data.copy()
         
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
@@ -120,7 +120,7 @@ def ProfesorCreateView(request):
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
         data['idusuario'] = idUsuario
         
-        srProf = ProfesorSerializer(queryProf, data = data)
+        srProf = ProfesorSerializer(queryProf, data = data, partial = True)
         
         #VALIDACION
         if not srProf.is_valid():
