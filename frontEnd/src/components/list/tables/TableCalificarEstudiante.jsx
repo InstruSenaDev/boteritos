@@ -89,7 +89,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros, data: prop
                 <div className="flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">No°:</p>
                   <div className="acc-header w-full flex justify-between items-center ">
-                    <p>{(index + 1).toString().length === 2 ? index + 1 : `0${index + 1}`}</p>
+                    <p>{(logro.idestudiante).toString().length === 2 ? logro.idestudiante : `0${logro.idestudiante}`}</p>
                     <button onClick={() => toogleRow(index)}>
                       <i className="fa-solid fa-angle-down block lg:hidden"></i>
                     </button>

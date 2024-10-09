@@ -1,5 +1,4 @@
 import TableCalificarEstudiante from "../../components/list/tables/TableCalificarEstudiante";
-import HeaderData from "../../components/list/headerData/HeaderData";
 import { Observacion } from "../../components/forms/Observacion";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -8,7 +7,6 @@ import { Button } from "@tremor/react";
 import { jwtDecode } from "jwt-decode";
 
 export const Calificar = () => {
-  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
   const [isSubmitted, setIsSubmitted] = useState(false); // Estado para verificar si ya se envió la calificación
@@ -24,6 +22,7 @@ export const Calificar = () => {
     const arrayLogros = {
       logros: Object.values(selectedLogros)
     };
+
     console.log("Datos a guardar:", JSON.stringify(arrayLogros));
 
     try {
@@ -88,12 +87,6 @@ export const Calificar = () => {
   return (
     <>
       <main className="flex flex-col w-full gap-y-8">
-        <HeaderData
-          id={id}
-          urlApi={"sql/estudiantes/header/"}
-          typeLink={"back"}
-          urlGo={"listaestudiantes"}
-        />
 
         <TableCalificarEstudiante setSelectedLogros={setSelectedLogros} />
 

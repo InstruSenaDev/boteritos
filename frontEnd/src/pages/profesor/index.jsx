@@ -21,7 +21,7 @@ const Index = () => {
     };
 
     return (
-        <LayoutGeneral titleHeader={"Administrador"}>
+        <LayoutGeneral titleHeader={"Profesor"}>
             <div className='flex flex-col justify-center items-center w-full bg-white rounded-2xl p-7'>
                 <p className='font-cocogooseSemiLight text-darkBlue text-title text-center'>
                     ¡Bienvenido a la plataforma Boteritos!
