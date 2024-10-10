@@ -76,12 +76,38 @@ const Profile = () => {
         setDataDetail({ fechas: null });
       }
 
-      const dataPersonalResponse = await DataPersonal(`${roleName}/${id}`);
+      let personalData = null;
 
-      // Verifica si los datos son un objeto y conviértelo a un array si es necesario
-      const personalData = Array.isArray(dataPersonalResponse.data.data)
-        ? dataPersonalResponse.data.data
-        : [dataPersonalResponse.data.data];
+      try {
+        if (roleName === "profesor") {
+          const dataPersonalResponse = await DataPersonal(`profesor/${id}`);
+          if (dataPersonalResponse.status === 200) {
+            personalData = dataPersonalResponse.data.data;
+          } else {
+            console.error(
+              `Error fetching personal data for profesor:`,
+              dataPersonalResponse
+            );
+          }
+
+          console.log(
+            "Respuesta de la API para profesor:",
+            dataPersonalResponse
+          );
+        } else {
+          const dataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
+          if (dataPersonalEstudiante.status === 200) {
+            personalData = dataPersonalEstudiante.data.datos;
+          } else {
+            console.error(
+              `Error fetching personal data for estudiante:`,
+              dataPersonalEstudiante
+            );
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching personal data:", error);
+      }
 
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
@@ -103,18 +129,13 @@ const Profile = () => {
         setDataDetail({ direcciones: null });
       }
 
-      if (dataPersonalResponse.status === 200) {
-        setDataDetail((prevState) => ({
-          ...prevState,
-          personal: personalData,
-        }));
-      }
       console.log("Datos Historia Clínica:", dataHistClinic.data.data);
       console.log("Datos Responsable:", dataResponsable.data.data);
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
       console.log("Datos personales:", personalData);
+
       console.log("Datos fechas:", dataFechas);
 
       setDataDetail({
@@ -130,7 +151,7 @@ const Profile = () => {
     };
 
     obtainData();
-  }, []);
+  }, [id, roleName]);
 
   return (
     <div className="max-w-7xl mx-auto p-6 bg-white shadow-lg rounded-xl">
@@ -141,44 +162,119 @@ const Profile = () => {
           className="w-32 h-32 rounded-full mr-2 sm:mr-6"
         />
         <div>
-          <h2 className="sm:text-subTitle font-cocogooseSemiLight text-darkBlue ">
-            {dataDetail.personal[0]?.nombre}
-          </h2>
-          <p className="text-xs sm:text-paragraph font-cocogooseLight">
-            {dataDetail.personal[0]?.correo}
-          </p>
+          {rol === 2 // Profesor
+            ? dataDetail.personal &&
+              Object.keys(dataDetail.personal).length > 0 && (
+                <div>
+                  <h2 className="sm:text-subTitle font-cocogooseSemiLight text-darkBlue">
+                    {dataDetail.personal.nombre} {dataDetail.personal.apellido}
+                  </h2>
+                  <p className="text-xs sm:text-paragraph font-cocogooseLight">
+                    {dataDetail.personal.correo}
+                  </p>
+                </div>
+              )
+            : // Estudiante
+              dataDetail.personal &&
+              dataDetail.personal.length > 0 && (
+                <div>
+                  <h2 className="sm:text-subTitle font-cocogooseSemiLight text-darkBlue">
+                    {dataDetail.personal[0].nombre} {dataDetail.personal[0].apellido}
+                  </h2>
+                  <p className="text-xs sm:text-paragraph font-cocogooseLight">
+                    {dataDetail.personal[0].correo}
+                  </p>
+                </div>
+              )}
         </div>
       </div>
 
-      {dataDetail.personal && dataDetail.personal.length > 0 && (
-        <div className="mt-8">
-          <h1 className="font-cocogooseSemiLight text-title2 text-darkBlue">
-            Datos Personales
-          </h1>
-          {dataDetail.personal.map((persona, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4"
-            >
-              <ProfileField label="Nombre" value={persona.nombre} />
-              <ProfileField label="Apellido" value={persona.apellido} />
-              <ProfileField label="Edad" value={persona.edad} />
-              <ProfileField label="Sexo" value={persona.sexo} />
-              <ProfileField
-                label="Tipo de documento"
-                value={persona.tipodocumento}
-              />
-              <ProfileField label="Número ocumento" value={persona.documento} />
-              <ProfileField label="Título" value={persona.título} />
-              <ProfileField label="Área" value={persona.area} />
-              <ProfileField label="Correo" value={persona.correo} editable/>
-              <div className="col-span-2">
-                <ProfileField label="Hoja de Vida" value={persona.hojavida} />
+      {rol === 2 // Si el rol es profesor
+        ? dataDetail.personal &&
+          Object.keys(dataDetail.personal).length > 0 && (
+            <div className="mt-8">
+              <h1 className="font-cocogooseSemiLight text-title2 text-darkBlue">
+                Datos Personales
+              </h1>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4">
+                <ProfileField
+                  label="Nombre"
+                  value={dataDetail.personal.nombre}
+                />
+                <ProfileField
+                  label="Apellido"
+                  value={dataDetail.personal.apellido}
+                />
+                <ProfileField label="Edad" value={dataDetail.personal.edad} />
+                <ProfileField label="Sexo" value={dataDetail.personal.sexo} />
+                <ProfileField
+                  label="Tipo de documento"
+                  value={dataDetail.personal.tipodocumento}
+                />
+                <ProfileField
+                  label="Número documento"
+                  value={dataDetail.personal.documento}
+                />
+                <ProfileField
+                  label="Título"
+                  value={dataDetail.personal.titulo}
+                />
+                <ProfileField label="Área" value={dataDetail.personal.area} />
+                <ProfileField
+                  label="Correo"
+                  value={dataDetail.personal.correo}
+                  editable
+                />
+                <div className="col-span-2">
+                  <ProfileField
+                    label="Hoja de Vida"
+                    value={dataDetail.personal.hojavida}
+                  />
+                </div>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          )
+        : // Si el rol es estudiante
+          dataDetail.personal &&
+          dataDetail.personal.length > 0 && (
+            <div className="mt-8">
+              <h1 className="font-cocogooseSemiLight text-title2 text-darkBlue">
+                Datos Personales
+              </h1>
+              {dataDetail.personal.map((persona, index) => (
+                <div
+                  key={index}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4"
+                >
+                  <ProfileField label="Nombre" value={persona.nombre} />
+                  <ProfileField label="Apellido" value={persona.apellido} />
+                  <ProfileField label="Edad" value={persona.edad} />
+                  <ProfileField label="Sexo" value={persona.sexo} />
+                  <ProfileField
+                    label="Tipo de documento"
+                    value={persona.tipodocumento}
+                  />
+                  <ProfileField
+                    label="Número documento"
+                    value={persona.documento}
+                  />
+                  <ProfileField label="Título" value={persona.título} />
+                  <ProfileField label="Área" value={persona.area} />
+                  <ProfileField
+                    label="Correo"
+                    value={persona.correo}
+                    editable
+                  />
+                  <div className="col-span-2">
+                    <ProfileField
+                      label="Hoja de Vida"
+                      value={persona.hojavida}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
       <div className="mt-8">
         <h1 className="font-cocogooseSemiLight text-title2 text-darkBlue">
@@ -223,7 +319,11 @@ const Profile = () => {
                   value={responsable.nombre}
                 />
                 <ProfileField label="Teléfono" value={responsable.telefono} />
-                <ProfileField label="Correo" value={responsable.correo} editable/>
+                <ProfileField
+                  label="Correo"
+                  value={responsable.correo}
+                  editable
+                />
               </div>
             ))
           ) : (
@@ -234,12 +334,13 @@ const Profile = () => {
         </div>
       )}
 
-       {rol !== 2 && ( // Verifica si el rol no es de profesor (rol 2)
+      {rol !== 2 && ( // Verifica si el rol no es de profesor (rol 2)
         <div className="mt-8">
           <h1 className="font-cocogooseSemiLight text-title2 text-darkBlue">
             Historia Clinica
           </h1>
-          {dataDetail.historiaClinica && dataDetail.historiaClinica.length > 0 ? (
+          {dataDetail.historiaClinica &&
+          dataDetail.historiaClinica.length > 0 ? (
             dataDetail.historiaClinica.map((historiaclini, index) => (
               <div
                 key={index}
@@ -249,28 +350,23 @@ const Profile = () => {
                   label="Diagnostico"
                   value={historiaclini.diagnostico}
                 />
-                  <ProfileField
+                <ProfileField
                   label="Discapacidad"
                   value={historiaclini.discapacidad}
                 />
-                  <ProfileField
+                <ProfileField
                   label="Medicamentos"
                   value={historiaclini.medicamentos}
                 />
-                  <ProfileField
+                <ProfileField
                   label="Observacion"
                   value={historiaclini.observacion}
-                  
                 />
-                  <ProfileField
+                <ProfileField
                   label="Restricciones alimenticias"
                   value={historiaclini.restriccionesalimenticias}
                 />
-                   <ProfileField
-                  label="Archivo"
-                  value={historiaclini.archivo}
-                />
-               
+                <ProfileField label="Archivo" value={historiaclini.archivo} />
               </div>
             ))
           ) : (
@@ -292,7 +388,11 @@ const Profile = () => {
               className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4"
             >
               <ProfileField label="Nombre" value={contacto.nombre} />
-              <ProfileField label="Teléfono" value={contacto.telefono1} editable/>
+              <ProfileField
+                label="Teléfono"
+                value={contacto.telefono1}
+                editable
+              />
               <ProfileField
                 label="Segundo teléfono"
                 value={contacto.telefono2}
@@ -317,9 +417,9 @@ const Profile = () => {
               key={index}
               className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-4"
             >
-              <ProfileField label="Barrio" value={direccion.barrio} editable/>
-              <ProfileField label="comuna" value={direccion.comuna} editable/>
-              <ProfileField label="Número" value={direccion.numero} editable/>
+              <ProfileField label="Barrio" value={direccion.barrio} editable />
+              <ProfileField label="comuna" value={direccion.comuna} editable />
+              <ProfileField label="Número" value={direccion.numero} editable />
             </div>
           ))
         ) : (

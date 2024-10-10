@@ -39,59 +39,86 @@ const Detail = () => {
     direcciones: [],
     usuario: [],
     fechas: [],
-    usuario:[],
   });
 
   //historiaclinica/?idestudiante=2
   //FUNCION PARA OBTENER LOS DATOS
   useEffect(() => {
     const obtainData = async () => {
-      // Obtener datos personales dependiendo del rol
-      let dataPersonalResponse;
-      if (rol === 3) { // Rol de estudiante
-        dataPersonalResponse = await DataPersonal(`estudiante/${id}`);
-      } else if (rol === 2) { // Rol de profesor
-        dataPersonalResponse = await DataPersonal(`profesor/${id}`);
+      const dataHistClinic = await dataDetailEstudiante(
+        `historiaclinica/${id}`
+      );
+
+      const dataResponsable = await dataResponsableEstudiante(
+        `responsable/${id}`
+      );
+
+      const dataDatosMedicos = await dataDatosMedicosEstudiante(
+        `datosmedicos/estudiante/${id}`
+      );
+
+      const dataContactos = await dataContactosEstudiante(
+        `telefono/estudiante/${id}`
+      );
+
+      const dataFechas = await DataFechasEstudiante(`fechas/estudiante/${id}`);
+
+      const dataDirecciones = await DataDireccionesEstudiante(
+        `direccion/estudiante/${id}`
+      );
+
+      if (!dataFechas.status == 200) {
+        setDataDetail({ fechas: null });
       }
 
-      if (dataPersonalResponse && dataPersonalResponse.status === 200) {
-        setDataDetail((prevState) => ({
-          ...prevState,
-          usuario: dataPersonalResponse.data.datos,
-        }));
-      } else {
-        setDataDetail((prevState) => ({ ...prevState, usuario: null }));
+      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
+
+      if (!dataHistClinic.status == 200) {
+        setDataDetail({ historiaClinica: null });
       }
 
-      // Realiza otras llamadas API como antes...
-      const dataHistClinic = await dataDetailEstudiante(`historiaclinica/${id}`);
-      const dataResponsable = await dataResponsableEstudiante(`responsable/${id}`);
-      const dataDatosMedicos = await dataDatosMedicosEstudiante(`datosmedicos/${roleName}/${id}`);
-      const dataContactos = await dataContactosEstudiante(`telefono/${roleName}/${id}`);
-      const dataFechas = await DataFechasEstudiante(`fechas/${roleName}/${id}`);
-      const dataDirecciones = await DataDireccionesEstudiante(`direccion/${roleName}/${id}`);
+      if (!dataResponsable.status == 200) {
+        setDataDetail({ responsables: null });
+      }
 
-      // Verifica otras respuestas y actualiza el estado como lo haces actualmente...
+      if (!dataDatosMedicos.status == 200) {
+        setDataDetail({ datosMedicos: null });
+      }
+
+      if (!dataContactos.status == 200) {
+        setDataDetail({ contactos: null });
+      }
+
+      if (!dataDirecciones.status == 200) {
+        setDataDetail({ direcciones: null });
+      }
+
+      if (!DataPersonalEstudiante.status == 200) {
+        setDataDetail({ usuario: null });
+      }
+
       console.log("Datos Historia Clínica:", dataHistClinic.data.data);
       console.log("Datos Responsable:", dataResponsable.data.data);
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
+      console.log("Datos personales:", DataPersonalEstudiante.data.datos);
       console.log("Datos fechas:", dataFechas);
 
-      setDataDetail((prevState) => ({
-        ...prevState,
+      setDataDetail({
+        ...dataDetail,
         historiaClinica: dataHistClinic.data.data,
         responsables: dataResponsable.data.data,
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
+        usuario: DataPersonalEstudiante.data.datos,
         fechas: dataFechas.data.data,
-      }));
+      });
     };
 
     obtainData();
-  }, [id, rol, roleName]);
+  }, []);
 
   const update = (sectionId, index) => {
     let data;
@@ -141,24 +168,38 @@ const Detail = () => {
       console.error("Errores presentes, no se puede guardar.");
       return;
     }
-
+  
+    // Crear una copia de sectionData para trabajar con ella
+    const dataToSend = { ...sectionData };
+  
     // Crear un nuevo FormData
     const newData = new FormData();
     newData.append("section", selectedSection);
     newData.append("idestudiante", id);
-
-    // Agregar los datos de la sección
-    for (const key in sectionData) {
-      if (sectionData.hasOwnProperty(key)) {
-        newData.append(key, sectionData[key]);
+  
+    // Verificar si el archivo seleccionado es un archivo nuevo
+    if (dataToSend.archivo && dataToSend.archivo instanceof File) {
+      // Si hay un archivo nuevo, agregarlo a FormData
+      newData.append("archivo", dataToSend.archivo);
+      console.log("Nuevo archivo seleccionado, se enviará:", dataToSend.archivo);
+    } else {
+      // Si no se seleccionó un archivo nuevo, simplemente no agregar "archivo" al FormData
+      console.log("No se seleccionó un nuevo archivo, el archivo existente se mantendrá.");
+    }
+  
+    // Agregar el resto de los datos de la sección al FormData
+    for (const key in dataToSend) {
+      if (key !== "archivo" && dataToSend.hasOwnProperty(key)) {
+        newData.append(key, dataToSend[key]);
       }
     }
-
-    // Agregar el archivo, si existe
-    if (dataFormInd.has("archivo")) {
-      newData.append("archivo", dataFormInd.get("archivo"));
-    }
-
+  
+    // Log para verificar los datos que se están enviando
+    console.log("Datos que se están enviando en FormData:");
+    newData.forEach((value, key) => {
+      console.log(`FormData -> ${key}:`, value);
+    });
+  
     let endpoint = "";
     switch (selectedSection) {
       case "Datos personales":
@@ -182,25 +223,35 @@ const Detail = () => {
       default:
         endpoint = "";
     }
-
+  
     if (endpoint) {
       // Realizar la solicitud PUT
       const result = await putUpdate(newData, endpoint, id);
       if (result.status === 201) {
-        console.log("Datos guardados", newData);
+        console.log("Datos guardados", result.data);
       } else {
         console.error("Error al guardar los datos", result.data);
       }
     }
-
+  
     closeModal();
   };
+  
 
   // Handle file changes
   const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
+    if (file && file instanceof File) {
+      // Si el archivo es válido y de tipo File, se almacena en sectionData
+      setSectionData((prevData) => ({
+        ...prevData,
+        [name]: file, // Almacena el archivo seleccionado
+      }));
+      console.log("Archivo seleccionado:", file);
+    } else {
+      console.log("No se seleccionó ningún archivo válido.");
+    }
   };
+  
 
   const handleInputChange = (e, key) => {
     const { name, value } = e.target;

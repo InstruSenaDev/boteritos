@@ -170,25 +170,49 @@ export const DetailsTeachers = () => {
       console.error("Errores presentes, no se puede guardar.");
       return;
     }
-
+  
+    // Crear una copia de los datos para enviar, que luego podemos modificar si es necesario
+    const dataToSend = { ...sectionData };
+  
+    // Verifica si el archivo ha sido seleccionado antes de agregarlo al FormData
+    if (sectionData.hojavida && typeof sectionData.hojavida === "object") {
+      // Si se ha seleccionado un archivo, agregarlo a dataFormInd
+      dataFormInd.append("hojavida", sectionData.hojavida);
+    } else {
+      // Si no hay archivo seleccionado, eliminar el campo 'hojavida' de los datos a enviar
+      delete dataToSend.hojavida;
+      console.log("No se seleccionó archivo o no es válido, no se enviará.");
+    }
+  
+    // Realizar la solicitud con los datos actualizados
     const result = await updateSectionData(
       selectedSection,
-      sectionData,
+      dataToSend, // Enviar los datos modificados
       id,
       dataFormInd
     );
+  
     if (result.status === 201) {
       console.log("Datos guardados", result.data);
     } else {
       console.error("Error al guardar los datos", result.data);
     }
-
+  
     closeModal();
   };
-
+  
+  
   const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
+    if (file && file instanceof File) {
+      // Si el archivo es válido y de tipo File, se almacena en sectionData
+      setSectionData((prevData) => ({
+        ...prevData,
+        [name]: file, // Almacena el archivo seleccionado
+      }));
+      console.log("Archivo seleccionado:", file);
+    } else {
+      console.log("No se seleccionó ningún archivo válido.");
+    }
   };
 
   return (
