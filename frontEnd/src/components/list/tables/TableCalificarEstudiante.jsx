@@ -31,6 +31,22 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
         setDatosLogros([])
         return
       }
+      // Inicializar selectedLogros con los datos existentes
+      const initialSelectedLogros = {};
+      data.data.forEach(logro => {
+        if (logro.resultado !== null) {
+          initialSelectedLogros[logro.idlogroestudiante] = {
+            idestudiante: id,
+            idlogroestudiante: logro.idlogroestudiante,
+            idlogro: logro.idlogro,
+            resultado: parseInt(logro.resultado),
+            fecha: logro.fecha,
+          };
+        }
+      });
+      
+      setLocalSelectedLogros(initialSelectedLogros);
+      setSelectedLogros(initialSelectedLogros);
       setDatosLogros(data.data);
     }
     dataLogros(); 
@@ -59,6 +75,14 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
 
   const toogleRow = (index) => {
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
+  };
+
+  const isChecked = (idLogroEstudiante, expectedResultado) => {
+    const selection = selectedLogros[idLogroEstudiante];
+    if (!selection) return false;
+    
+    const resultadoNumerico = expectedResultado === "LN" ? 0 : expectedResultado === "LA" ? 1 : 2;
+    return selection.resultado === resultadoNumerico;
   };
 
   return (
@@ -123,7 +147,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LA")}
-                        checked={logro.resultado === "1"}
+                        checked={isChecked(logro.idlogroestudiante, "LA")}
                       />
 
                       <label htmlFor={`lp-${index}`} className="pr-5 text-darkBlue lg:hidden">
@@ -135,7 +159,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LP")}
-                        checked={logro.resultado === "2"}
+                        checked={isChecked(logro.idlogroestudiante, "LP")}
                       />
 
                       <label htmlFor={`ln-${index}`} className="pr-5 text-darkBlue lg:hidden">
@@ -147,7 +171,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LN")}
-                        checked={logro.resultado === "0"}
+                        checked={isChecked(logro.idlogroestudiante, "LN")}
                       />
                     </div>
                   </div>

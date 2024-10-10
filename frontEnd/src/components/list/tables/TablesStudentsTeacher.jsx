@@ -6,13 +6,13 @@ import { getAllUser } from "../../../api/get";
 import ReactPaginate from "react-paginate";
 
 
-export default function TablesStudentsTeacher({getId}) {
+export default function TablesStudentsTeacher({ getId }) {
 
-// Paginación
-const [currentPage, setCurrentPage] = useState(0);
-const itemsPerPage = 10;
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
-const [dataStudents, setDataStudents] = useState([]);
+  const [dataStudents, setDataStudents] = useState([]);
 
   const [openAcc, setOpenAcc] = useState(-1);
 
@@ -49,7 +49,7 @@ const [dataStudents, setDataStudents] = useState([]);
         {/*buscador*/}
         {/*<Buscador/>*/}
         <header className="flex justify-center sm:flex sm:justify-start">
-          <Buscador  />
+          <Buscador />
         </header>
 
         <section className="max-h-[80vh] overflow-y-scroll ">
@@ -58,54 +58,70 @@ const [dataStudents, setDataStudents] = useState([]);
             <p>No°</p>
             <p>Nombre</p>
             <p>Diagnóstico</p>
-            <p >Calificación</p>
+            <p>Calificación</p>
           </div>
 
-          {/*CUERPO DE LA TABLA */}
-      {displayedStudents ? (
-        displayedStudents.map((data, index)=>(
-          <div
-          className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(350px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-            openAcc === index ? "open" : "close"
-          }`}
-          key={data.idestudiante}
-        >
-            <div className="flex gap-2 lg:gap-0">
-              <p className="text-darkBlue lg:hidden">No°:</p>
-              <div className="acc-header w-full flex justify-between items-center">
-                <p>
-                  {(data.idestudiante).toString().length == 2
-                    ? data.idestudiante
-                    : `0${data.idestudiante}`}
-                </p>
-                <button onClick={() => toogleRow(index)}><i className="fa-solid fa-angle-down block lg:hidden"></i></button>
-              </div>
-            </div>
-            <div className="flex gap-2 lg:gap-0 ">
-              <p className="text-darkBlue lg:hidden">Nombre:</p>
-              <div className=" flex justify-self-center acc-header">
-                <p className="underline cursor-pointer"  onClick={() => getId(data.idestudiante)}>{`${data.nombre} ${data.apellido}`}</p>
-              </div>
-            </div>
+          {/* CUERPO DE LA TABLA */}
+          {displayedStudents.length > 0 ? (
+            displayedStudents.map((data, index) => (
+              <div
+                className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(350px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                  }`}
+                key={data.idestudiante}
+              >
+                <div className="flex gap-2 lg:gap-0">
+                  <p className="text-darkBlue lg:hidden">No°:</p>
+                  <div className="acc-header w-full flex justify-between items-center">
+                    <p>
+                      {data.idestudiante.toString().length === 2
+                        ? data.idestudiante
+                        : `0${data.idestudiante}`}
+                    </p>
+                    <button onClick={() => toogleRow(index)}>
+                      <i className="fa-solid fa-angle-down block lg:hidden"></i>
+                    </button>
+                  </div>
+                </div>
+                <div className="flex gap-2 lg:gap-0">
+                  <p className="text-darkBlue lg:hidden">Nombre:</p>
+                  <div className="flex justify-self-center acc-header">
+                    <p
+                      className="underline cursor-pointer"
+                      onClick={() => getId(data.idestudiante)}
+                    >
+                      {`${data.nombre} ${data.apellido}`}
+                    </p>
+                  </div>
+                </div>
 
-            <div className="flex gap-2 lg:gap-0 acc-body ">
-              <p className="text-darkBlue lg:hidden">Diagnostico:</p>
-              <div className="flex justify-self-center">
-                <p>{data.diagnostico}</p>
-              </div>
-            </div>
+                <div className="flex gap-2 lg:gap-0 acc-body">
+                  <p className="text-darkBlue lg:hidden">Diagnostico:</p>
+                  <div className="flex justify-self-center">
+                    <p>{data.diagnostico || <div className="bg-redOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
+                      <div className="w-[15px] h-[15px] bg-orange rounded-full"></div>
+                      <p className="text-orange">Sin datos</p>
+                    </div>}</p>
+                  </div>
+                </div>
 
-            <div className="acc-body flex gap-2 lg:gap-0">
-                <p className="text-darkBlue lg:hidden">Calificación:</p>
-                <div className="w-full flex justify-between items-center">
-                  <DataState state={data.calificado} />
+                <div className="acc-body flex gap-2 lg:gap-0">
+                  <p className="text-darkBlue lg:hidden">Calificación:</p>
+                  <div className="w-full flex justify-between items-center">
+                    {data.calificado ? (
+                      <DataState state={data.calificado} />
+                    ) : (
+                      <div className="bg-redOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
+                        <div className="w-[15px] h-[15px] bg-orange rounded-full"></div>
+                        <p className="text-orange">Sin datos</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-          </div>
-        ))
-      ):(
-        <p>¡No hay estudiantes registrados!</p>
-      )}
+            ))
+          ) : (
+            <p>¡No hay estudiantes registrados!</p>
+          )}
         </section>
         {/* Agregar el componente de paginación */}
         <ReactPaginate
@@ -135,7 +151,7 @@ const [dataStudents, setDataStudents] = useState([]);
           activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
           activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
         />
-        </main>
+      </main>
     </>
   );
 }
