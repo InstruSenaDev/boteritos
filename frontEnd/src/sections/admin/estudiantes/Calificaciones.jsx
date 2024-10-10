@@ -86,28 +86,37 @@ const Calificaciones = () => {
 
   const openModal = () => {
 
-    const areasSinCalificar = areasData.some(area => area.calificaciones.length === 0);
-  const newErrors = {};
-
-  // Verificar si hay áreas sin calificar
-  if (areasSinCalificar) {
-    newErrors.areas = <p className="font-cocogooseLight text-paragraph text-red-600">Todas las areas deben estár calificadas para enviar el informe</p>;
-  }
-
-  // Verificar si la observación está vacía
-  if (!observacion) {
-    newErrors.observacion = "La observación es obligatoria";
-  }
-
-  // Si hay errores, actualizar el estado y desplazarse al inicio de la página
-  if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Desplazarse al inicio
-    return;
-  }
-
-  // Si no hay errores, abrir el modal
-  setIsModalOpen(true);
+    const areasSinCalificar = areasData.some((area) => area.calificaciones.length === 0);
+    const newErrors = {};
+  
+    // Verificar si hay áreas sin calificar
+    if (areasSinCalificar) {
+      newErrors.areas = (
+        <p className="font-cocogooseLight text-paragraph text-red-600">
+          Todas las áreas deben estar calificadas para enviar el informe
+        </p>
+      );
+    }
+  
+    // Verificar si la observación está vacía
+    if (!observacion) {
+      newErrors.observacion = "La observación es obligatoria";
+    }
+  
+    // Si hay errores relacionados con las áreas, actualizar el estado y desplazarse al inicio de la página
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      
+      // Solo desplazarse al inicio si hay áreas sin calificar
+      if (areasSinCalificar) {
+        window.scrollTo({ top: 0, behavior: "smooth" }); // Desplazarse al inicio
+      }
+  
+      return;
+    }
+  
+    // Si no hay errores, abrir el modal
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {

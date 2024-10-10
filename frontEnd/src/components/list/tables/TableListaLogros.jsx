@@ -50,7 +50,7 @@ export default function TableListaLogros() {
     estado: 2,
     observacion: "En espera",
     idtipologro: "",
-    idtrimestre: "1",
+    idtrimestre: trimestre,
     idprofesor: idprofesor, //LOCAL STORAGE
   });
   useEffect(() => {
@@ -163,6 +163,16 @@ export default function TableListaLogros() {
         setIsConfirm(true);
         setEstadoValida(true); // Cambiar estado cuando el logro se cree exitosamente
 
+         // Limpiar los valores del formulario después de agregar el logro
+         setValues({
+          logro: "",
+          estado: 2,
+          observacion: "En espera",
+          idtipologro: "",
+          idtrimestre: trimestre,
+          idprofesor: idprofesor, //LOCAL STORAGE
+      });
+
       }
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
@@ -227,7 +237,7 @@ export default function TableListaLogros() {
 
         <section className="max-h-[80vh] overflow-y-scroll">
           {/* HEADER TABLA */}
-          <div className="sticky hidden top-0 bg-white lg:grid grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
+          <div className="sticky hidden top-0 bg-white xl:grid grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] gap-x-8 text-paragraph font-cocogooseLight text-darkBlue p-5 border-b-2 border-b-placeholderBlue">
             <p>No°</p>
             <p>Nombre del logro</p>
             <p>Estado</p>
@@ -236,22 +246,22 @@ export default function TableListaLogros() {
 
           {displayedLogros.map((data, index) => (
             <div
-              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+              className={`acc-item grid grid-cols-1 xl:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
                 }`}
               key={data.idlogro} // Usar idlogro como key
             >
-              <div className="flex gap-2 lg:gap-0 ">
-                <p className="text-darkBlue lg:hidden">No°</p>
+              <div className="flex gap-2 xl:gap-0 ">
+                <p className="text-darkBlue xl:hidden">No°</p>
                 <div className="acc-header w-full flex justify-between items-center ">
                   <p>{(index + 1).toString().padStart(2, '0')}</p>
                   <button onClick={() => toogleRow(index)}>
-                    <i className="fa-solid fa-angle-down block lg:hidden"></i>
+                    <i className="fa-solid fa-angle-down block xl:hidden"></i>
                   </button>
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0">
-                <p className="text-darkBlue lg:hidden">Logro:</p>
+              <div className="flex gap-2 xl:gap-0 ">
+                <p className="text-darkBlue xl:hidden">Logro:</p>
                 <div
                   className="acc-header w-full underline cursor-pointer"
                   onClick={() => handleOpenLogroModal(data)}
@@ -262,15 +272,15 @@ export default function TableListaLogros() {
 
 
 
-              <div className="flex gap-2 lg:gap-0 acc-body ">
-                <p className="text-darkBlue lg:hidden">Estado:</p>
+              <div className="flex gap-2 xl:gap-0 acc-body">
+                <p className="text-darkBlue xl:hidden">Estado:</p>
                 <div className="">
                   <DataState state={Number(data.estado)} /> {/* Usar el estado */}
                 </div>
               </div>
 
-              <div className="flex gap-2 lg:gap-0 acc-body">
-                <p className="text-darkBlue lg:hidden">Tipo:</p>
+              <div className="flex gap-2 xl:gap-0 acc-body">
+                <p className="text-darkBlue xl:hidden">Tipo:</p>
                 <div>
                   <p>{tipoLogroMap[data.idtipologro] || 'Tipo no disponible'}</p> {/* Mostrar el tipo basado en el mapeo */}
                 </div>

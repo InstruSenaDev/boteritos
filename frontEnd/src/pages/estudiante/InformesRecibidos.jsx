@@ -100,7 +100,7 @@ const InformesRecibidos = () => {
                                     <p className="font-cocogooseLight text-subTitle text-darkBlue sm:hidden">Informe:</p>
                                     <p>{informe.informe}</p>
                                 </div>
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:col-span-1">
+                                <div className="flex flex-col sm:flex-row  sm:col-span-1">
                                     <p className="font-cocogooseLight text-subTitle text-darkBlue sm:hidden">Fecha:</p>
                                     <p>{informe.fecha}</p>
                                 </div>
