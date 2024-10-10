@@ -11,6 +11,8 @@ export const Calificar = () => {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
   const [isSubmitted, setIsSubmitted] = useState(false); // Estado para verificar si ya se envió la calificación
+  const [isConfirm, setIsConfirm] = useState(false);
+  const [handleConfirm, setHandleConfirm] = useState(false);
 
   // Cargar estado de envío para el estudiante específico desde localStorage al cargar el componente
   useEffect(() => {
@@ -20,10 +22,12 @@ export const Calificar = () => {
 
   const handleSaveModalOpen = () => {
     setIsSaveOpen(true)
+    setIsConfirm(false);
   }
 
   const handleSaveModalClose = () => {
     setIsSaveOpen(false)
+
   }
 
   const handleOpenModal = () => {
@@ -33,6 +37,7 @@ export const Calificar = () => {
       return;
     }
     setIsOpen(true);
+    setHandleConfirm(false)
   };
 
   const handleCloseModal = () => {
@@ -41,15 +46,14 @@ export const Calificar = () => {
 
   //GUARDAR
   const handleSave = async () => {
-    setIsSaveOpen(false);
+    
     const data = await guardarLogros(selectedLogros);
     console.log(data);
-  
+    setIsConfirm(true);
   };
 
   //ENVIAR
   const handleSubmit = async () => {
-    setIsOpen(false);
     const data = await enviarLogros(selectedLogros);
     
     if (data.status === 200) {
@@ -60,6 +64,7 @@ export const Calificar = () => {
     } else {
       console.error("Error al enviar los logros:", data.error);
     }
+    setHandleConfirm(true);
   };
 
   return (
@@ -94,6 +99,8 @@ export const Calificar = () => {
           txtWarning={
             "Una vez enviada, no podrás modificar esta calificación. Por favor, asegúrate de que toda la información es correcta antes de continuar."
           }
+          isConfirm={handleConfirm}
+          textCheck={"Calificación enviada"}
         />
 
         <ConfirmationModal 
@@ -102,6 +109,8 @@ export const Calificar = () => {
         onClose={handleSaveModalClose}
         txtQuestion={"¿Guardar resultados?"}
         txtWarning={"Tranquilo, los resultados guardados no serán enviados al administrador, es solo para que lleves tus calificaciones con mayor seguridad a lo largo del trimestre."}
+        isConfirm={isConfirm}
+        textCheck={"Calificación guardada"}
         />
       </main>
     </>

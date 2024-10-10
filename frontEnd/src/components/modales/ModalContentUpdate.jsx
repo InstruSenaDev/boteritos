@@ -103,7 +103,7 @@ export const ModalContentUpdate = ({
             label="Tipo de documento"
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
-            value={data.tipodocumento || ""}
+            value={data.idtipodocumento || ""}
             placeholder="Seleccione el tipo de documento"
             error={errores.tipodocumento}
           />
