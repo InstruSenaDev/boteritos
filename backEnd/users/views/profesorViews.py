@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from django.http import QueryDict
 from ..models import Profesor, Usuario
 
 from ..serialzer.profesorSerializer import ProfesorSerializer
@@ -95,14 +95,15 @@ def ProfesorCreateView(request):
     if request.method == 'PUT':
         
         idProf = request.data.get('idprofesor')
+        data = QueryDict(mutable=True)
         
         if not idProf:
             return Response({
                 "message" : "Actualizacion cancelada",
                 "error" : "El id del profesor es obligatorio"
             },status=status.HTTP_400_BAD_REQUEST)
-     
-        data = request.data
+
+        data.update(request.data)
         
         #CONSULTA CON ORM QUE ME PERMITE REALIZAR UN JOIIN ENTRE LA TABLA PROFESOR Y USUARIOS
         queryProf = Profesor.objects.select_related('idusuario').filter(idprofesor=idProf).first()
@@ -120,7 +121,7 @@ def ProfesorCreateView(request):
         #ASIGNAMOS EL ID DEL USUARIO YA QUE ES UN DATO NECESARIO PARA REALIZAR LA ACTUALIZACION
         data['idusuario'] = idUsuario
         
-        srProf = ProfesorSerializer(queryProf, data = data)
+        srProf = ProfesorSerializer(queryProf, data = data, partial = True)
         
         #VALIDACION
         if not srProf.is_valid():

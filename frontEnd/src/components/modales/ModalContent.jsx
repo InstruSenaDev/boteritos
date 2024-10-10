@@ -204,15 +204,7 @@ export const ModalContent = ({
             value={values.medicamentos || ""}
             error={errores.medicamentos}
           />
-          <Input
-            texto="Cantidad de medicamentos"
-            placeholder="Ingresa la cantidad de medicamentos que necesita"
-            name="cantidadmedicamentos"
-            tipo="text"
-            onChange={handleInputChange}
-            value={values.cantidadmedicamentos || ""}
-            error={errores.cantidadmedicamentos}
-          />
+
           <Input
             texto="Observacion"
             placeholder="Ingresa alguna observación sobre el estudiante"

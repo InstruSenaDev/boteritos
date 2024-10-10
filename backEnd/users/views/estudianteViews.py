@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from django.http import QueryDict
 from ..serialzer.estudianteSerializer import EstudianteSerializer
 from ..serialzer.usuarioSerializer import UsuarioSerializer
 from ..serialzer.fechasSerizalizer import FechasSerializer
@@ -95,6 +95,7 @@ def EstudianteCreateView(request):
     if request.method == 'PUT':
         
         idEstud = request.data.get('idestudiante')
+        data = QueryDict(mutable=True)
         
         if not idEstud:
             return Response({
@@ -299,5 +300,4 @@ def EstudianteHeader(request,idstud,idtrim):
         return Response({
             "message" : "¡Consulta exitosa!",
             "data" : dataHead
-        }, status=status.HTTP_200_OK)
-        
+        }, status=status.HTTP_200_OK)        

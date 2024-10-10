@@ -15,7 +15,7 @@ const ProfileField = ({ label, value, editable }) => {
   };
 
   return (
-    <div className="flex items-center justify-between mb-4 bg-backgroundWhite p-3 rounded-lg">
+    <div className="flex items-center justify-between mb-4 bg-backgroundWhite p-3 rounded-lg word-break: break-all">
       <div>
         <p className="text-paragraph font-cocogooseLight text-darkBlue">
           {label}

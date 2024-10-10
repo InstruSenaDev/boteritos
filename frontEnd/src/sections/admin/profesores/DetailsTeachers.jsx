@@ -6,6 +6,7 @@ import {
   DataDireccionesProfesor,
   dataContactosProfesor,
   DataPersonalProfesor,
+  DataFechasProfesor,
 } from "../../../api/get";
 import { GrupoDatos } from "../../../components/list/groupData/GrupoDatos";
 import { UpdateModal } from "../../../components/modales/UpdateModal";
@@ -18,14 +19,19 @@ export const DetailsTeachers = () => {
   const [selectedSection, setSelectedSection] = useState(null); //Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const dataFormInd = new FormData();
-  const [errors, setErrors]=useState({})
+  const [errors, setErrors] = useState({});
   const { id } = useParams();
+  const [values, setValues] = useState({
+    fechainicio: "",
+    fechafinal: "",
+  });
 
   //almacenar los datos obtenidos del API para diferentes secciones.
   const [dataDetail, setDataDetail] = useState({
     direcciones: [],
     datosMedicos: [],
     contactos: [],
+    fechas: [],
     personal: [],
   });
 
@@ -44,6 +50,8 @@ export const DetailsTeachers = () => {
       const dataDirecciones = await DataDireccionesProfesor(
         `direccion/profesor/${id}`
       );
+
+      const dataFechas = await DataFechasProfesor(`fechas/profesor/${id}`);
 
       const dataPersonalResponse = await DataPersonalProfesor(`profesor/${id}`);
 
@@ -64,6 +72,10 @@ export const DetailsTeachers = () => {
         setDataDetail({ direcciones: null });
       }
 
+      if (!dataFechas.status == 200) {
+        setDataDetail({ fechas: null });
+      }
+
       if (dataPersonalResponse.status === 200) {
         setDataDetail((prevState) => ({
           ...prevState,
@@ -75,12 +87,14 @@ export const DetailsTeachers = () => {
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
       console.log("Datos personales:", personalData);
+      console.log("Datos fechas:", dataFechas);
 
       setDataDetail({
         ...dataDetail,
         direcciones: dataDirecciones.data.data,
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
+        fechas: dataFechas.data.data,
         personal: personalData,
       });
     };
@@ -105,6 +119,9 @@ export const DetailsTeachers = () => {
       case "Dirección":
         data = dataDetail.direcciones[index];
         break;
+      case "Fechas":
+        data = dataDetail.direcciones[index];
+        break;
       default:
         data = null;
     }
@@ -120,6 +137,13 @@ export const DetailsTeachers = () => {
     setSelectedSection(null);
     setSectionData(null);
     setErrors({});
+  };
+
+  const handleDateChange = (name, value) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
   };
 
   const handleInputChange = (e, key) => {
@@ -147,7 +171,27 @@ export const DetailsTeachers = () => {
       return;
     }
   
-    const result = await updateSectionData(selectedSection, sectionData, id, dataFormInd);
+    // Crear una copia de los datos para enviar, que luego podemos modificar si es necesario
+    const dataToSend = { ...sectionData };
+  
+    // Verifica si el archivo ha sido seleccionado antes de agregarlo al FormData
+    if (sectionData.hojavida && typeof sectionData.hojavida === "object") {
+      // Si se ha seleccionado un archivo, agregarlo a dataFormInd
+      dataFormInd.append("hojavida", sectionData.hojavida);
+    } else {
+      // Si no hay archivo seleccionado, eliminar el campo 'hojavida' de los datos a enviar
+      delete dataToSend.hojavida;
+      console.log("No se seleccionó archivo o no es válido, no se enviará.");
+    }
+  
+    // Realizar la solicitud con los datos actualizados
+    const result = await updateSectionData(
+      selectedSection,
+      dataToSend, // Enviar los datos modificados
+      id,
+      dataFormInd
+    );
+  
     if (result.status === 201) {
       console.log("Datos guardados", result.data);
     } else {
@@ -156,14 +200,21 @@ export const DetailsTeachers = () => {
   
     closeModal();
   };
-
+  
+  
   const handleFileChange = (name, file) => {
-    dataFormInd.set(name, file);
-    console.log(file);
+    if (file && file instanceof File) {
+      // Si el archivo es válido y de tipo File, se almacena en sectionData
+      setSectionData((prevData) => ({
+        ...prevData,
+        [name]: file, // Almacena el archivo seleccionado
+      }));
+      console.log("Archivo seleccionado:", file);
+    } else {
+      console.log("No se seleccionó ningún archivo válido.");
+    }
   };
-  
 
-  
   return (
     <div className="w-full space-y-2 grid gap-10">
       <HeaderData
@@ -248,7 +299,7 @@ export const DetailsTeachers = () => {
                   {value.titulo}
                 </p>
               </div>
-              
+
               <div>
                 <p className="font-cocogooseLight text-paragraph text-darkBlue">
                   Área:
@@ -264,6 +315,43 @@ export const DetailsTeachers = () => {
                 </p>
                 <p className="font-cocogooseLight text-paragraph2 flex-1">
                   {value.hojavida}
+                </p>
+              </div>
+            </div>
+          </GrupoDatos>
+        ))}
+
+      {dataDetail.fechas &&
+        dataDetail.fechas.map((value, index) => (
+          <GrupoDatos
+            titulo={"Fechas"}
+            update={() => update("Fechas", index)}
+            data={dataDetail.fechas}
+            key={index}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Fecha de nacimiento:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.fechanacimiento}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Fecha de registro
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.fecharegistro}
+                </p>
+              </div>
+              <div>
+                <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                  Fecha de ingreso:
+                </p>
+                <p className="font-cocogooseLight text-paragraph2 flex-1">
+                  {value.fechaingreso}
                 </p>
               </div>
             </div>
@@ -390,10 +478,10 @@ export const DetailsTeachers = () => {
             </GrupoDatos>
           ))}
       </div>
-      <UpdateModal 
-      isOpen={isModalOpen} 
-      onClose={closeModal}
-      onSave={handleSave}
+      <UpdateModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={handleSave}
       >
         <ModalContentUpdate
           section={selectedSection}
@@ -401,6 +489,7 @@ export const DetailsTeachers = () => {
           onChange={handleInputChange}
           handleFileChange={handleFileChange}
           errores={errors}
+          handleDateChange={handleDateChange}
         />
       </UpdateModal>
     </div>
