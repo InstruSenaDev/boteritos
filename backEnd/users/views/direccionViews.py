@@ -39,6 +39,23 @@ def DireccionProfesor(request,id):
             "message" : "¡Datos encontrados!",
             "data" : query
         },status=status.HTTP_200_OK)
+        
+@api_view(['GET'])
+def DireccionAdmin(request,id):
+    if request.method == 'GET':
+                
+        query = querySql("SELECT `admin`.*, `direccion`.`idDireccion`, `direccion`.`comuna`, `direccion`.`numero`, `direccion`.`barrio` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `direccion` ON `direccion`.`idUsuario` = `usuario`.`idUsuario` WHERE `admin`.`idAdmin` = %s ", [id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Datos no encontrados"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "¡Datos encontrados!",
+            "data" : query
+        },status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
 def DireccionUpdate(request):

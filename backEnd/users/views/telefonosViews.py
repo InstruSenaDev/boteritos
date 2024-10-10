@@ -38,6 +38,23 @@ def TelefonosProfesor(request,id):
         return Response({
             "message" : "Telefonos encontrados",
             "data" : query
+        }, status=status.HTTP_200_OK)
+        
+@api_view(['GET'])
+def TelefonosAdmin(request,id):
+    
+    if request.method == 'GET':
+        query = querySql("SELECT `admin`.*, `telefonos`.`idTelefonos`, `telefonos`.`telefono1`, `telefonos`.`telefono2` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `telefonos` ON `telefonos`.`idUsuario` = `usuario`.`idUsuario` WHERE `admin`.`idAdmin` = %s;", [id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Telefonos no encontrados",
+                "error" : "Datos vacios"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "Telefonos encontrados",
+            "data" : query
         }, status=status.HTTP_200_OK) 
         
 @api_view(['PUT'])

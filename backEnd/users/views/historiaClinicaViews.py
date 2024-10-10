@@ -45,8 +45,19 @@ def HistoriaClinica(request):
         
         srHistoriaClinica.save()
         
-        idHistoriaClincia = srHistoriaClinica.data['idhistoriaclinica']
-        datos['idhistoriaclinica'] = idHistoriaClincia
+        idHistoriaClinica = srHistoriaClinica.data.get('idhistoriaclinica')
+        
+        if not idHistoriaClinica:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : [
+                    {
+                        "idhistoriaclinica" : "El id es obligatorio"
+                    }
+                ]
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        datos['idhistoriaclinica'] = idHistoriaClinica
         
         srCondicion = CondicionSerializer(data = datos)
         
@@ -67,8 +78,21 @@ def HistoriaClinica(request):
         },status=status.HTTP_400_BAD_REQUEST)
         
     if request.method == 'PUT':
-        query = Historiaclinica.objects.filter(idhistoriaclinica = request.data['idhistoriaclinica']).first()
-        queryCondicion = Condicion.objects.filter(idhistoriaclinica = request.data['idhistoriaclinica']).first()
+        
+        idHistoriaClinica = request.data.get('idhistoriaclinica')
+        
+        if not idHistoriaClinica:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : [
+                    {
+                        "idhistoriaclinica" : "El id es obligatorio"
+                    }
+                ]
+            },status=status.HTTP_400_BAD_REQUEST)
+            
+        query = Historiaclinica.objects.filter(idhistoriaclinica = idHistoriaClinica).first()
+        queryCondicion = Condicion.objects.filter(idhistoriaclinica = idHistoriaClinica).first()
         
         if not query:
             return Response({

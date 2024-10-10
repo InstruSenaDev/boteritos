@@ -92,6 +92,7 @@ def EstudianteCreateView(request):
             "estudiante" : estudianteSerializer.data
         }, status=status.HTTP_201_CREATED)
 
+    #DATOS PERSONALES
     if request.method == 'PUT':
         
         idEstud = request.data.get('idestudiante')

@@ -38,11 +38,39 @@ def DatosMedicosProfesor(request,id):
             "data" : query
         }, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def DatosMedicosAdmin(request,id):
+    if request.method == 'GET':
+        query = querySql("SELECT `admin`.*, `datosmedicos`.`lugarAtencion`, `datosmedicos`.`idDatosMedicos`, `datosmedicos`.`peso`, `datosmedicos`.`altura`, `datosmedicos`.`idEps`, `datosmedicos`.`idRh`,`eps`.`eps`, `rh`.`rh` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `datosmedicos` ON `datosmedicos`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `eps` ON `datosmedicos`.`idEps` = `eps`.`idEps` LEFT JOIN `rh` ON `datosmedicos`.`idRh` = `rh`.`idRh` WHERE `admin`.`idAdmin` = %s;",[id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Datos no encontrados"
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return Response({
+            "message" : "¡Datos encontrados!",
+            "data" : query
+        }, status=status.HTTP_200_OK)
+
 @api_view(['PUT'])
 def DatosMedicosUpdate(request):
             
     if request.method == 'PUT':
-        query = Datosmedicos.objects.filter(idusuario = request.data['idusuario']).first()
+        idusuario =  request.data.get('idusuario')
+        
+        if not idusuario:
+            return Response({
+                "message" : "Actualizacion cancelada",
+                "error" : [
+                    {
+                        "idusuario" : "el id es obligatorio"
+                    }
+                ]
+            },status=status.HTTP_400_BAD_REQUEST)
+        
+        query = Datosmedicos.objects.filter(idusuario = idusuario).first()
         
         if not query:
             return Response({

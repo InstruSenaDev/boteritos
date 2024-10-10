@@ -37,7 +37,24 @@ def FechasProfesor(request,id):
         return Response({
             "message" : "¡Datos encontrados!",
             "data" : query
-        },status= status.HTTP_200_OK)      
+        },status= status.HTTP_200_OK)
+        
+@api_view(['GET'])
+def FechasAdmin(request,id):
+    
+    if request.method == 'GET':
+        query = querySql("SELECT `admin`.*, `fechas`.`idFecha`, `fechas`.`fechaRegistro`, `fechas`.`fechaIngreso`, `fechas`.`fechaNacimiento` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario` LEFT JOIN `fechas` ON `fechas`.`idUsuario` = `usuario`.`idUsuario` WHERE `admin`.`idAdmin` = %s;",[id])
+        
+        if len(query) == 0:
+            return Response({
+                "message" : "Datos vacios",
+                "error" : "Fechas no encontradas"
+            }, status=status.HTTP_404_NOT_FOUND)
+            
+        return Response({
+            "message" : "¡Datos encontrados!",
+            "data" : query
+        },status= status.HTTP_200_OK)    
         
 @api_view(['PUT'])
 def FechasUpdate(request):

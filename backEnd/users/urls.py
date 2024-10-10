@@ -5,12 +5,12 @@ from rest_framework.decorators import api_view
 from .views.estudianteViews import EstudianteTable, EstudianteHeader, EstudianteCreateView, EstudianteDataPersonal
 from .views.historiaClinicaViews import HistoriaClinicaOne, HistoriaClinica
 from .views.profesorViews import ProfesorCreateView, ProfesorTable, ProfesorHead, ProfesorDataPersonal
-from .views.usuarioViews import AdminCreateView
+from .views.usuarioViews import AdminCreateView, AdminDataPersonal, AdminHeader, AdminTable
 from .views.responsableViews import ResponsableOne, ResponsableView
-from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosProfesor, DatosMedicosUpdate
-from .views.telefonosViews import TelefonosEstudiante, TelefonosProfesor,TelefonosUpdate
-from .views.fechasViews import FechasEstudiantesOne, FechasProfesor,FechasUpdate
-from .views.direccionViews import DireccionEstudianteOne, DireccionProfesor,DireccionUpdate
+from .views.dtMedicosViews import DatosMedicosEstudianteOne, DatosMedicosProfesor, DatosMedicosUpdate, DatosMedicosAdmin
+from .views.telefonosViews import TelefonosEstudiante, TelefonosProfesor, TelefonosUpdate, TelefonosAdmin
+from .views.fechasViews import FechasEstudiantesOne, FechasProfesor,FechasUpdate, FechasAdmin
+from .views.direccionViews import DireccionEstudianteOne, DireccionProfesor, DireccionUpdate, DireccionAdmin
 
 from .middleware import searchDocument
 
@@ -52,7 +52,17 @@ urlpatterns= [
     
     #ADMINISTRADOR
     path('admin/', AdminCreateView),
+    path('admin/<int:id>', AdminDataPersonal),
+    path('admin/header/<int:idadmin>', AdminHeader),
+    path('admin/tabla', AdminTable),
     
+    #DATOS EXTRA ADMIN
+    path('datosmedicos/admin/<int:id>', DatosMedicosAdmin),
+    path('fechas/admin/<int:id>', FechasAdmin),
+    path('telefono/admin/<int:id>', TelefonosAdmin),
+    path('direccion/admin/<int:id>', DireccionAdmin),
+    
+    #ACTUALIZACIONES PARA DATOS EXTRAS DE TODOS LOS USUARIOS
     path('datosmedicos/', DatosMedicosUpdate),
     path('telefono/', TelefonosUpdate),
     path('fechas/', FechasUpdate),
