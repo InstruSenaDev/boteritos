@@ -25,7 +25,7 @@ export const ModalInformes = ({ isOpen, onClose, txtmodal, informes, onDownloadS
 
   return (
     <Dialog open={isOpen} onClose={onClose} static={true} >
-      <DialogPanel className="relative flex flex-col gap-4 items-start py-6 px-4 w-auto max-w-screen-md mx-auto bg-white rounded-lg shadow-lg">
+      <DialogPanel className="relative flex flex-col gap-4 items-start py-6 px-4 w-auto max-w-screen-xl mx-auto bg-white rounded-lg shadow-lg">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 p-2 rounded-full text-gray bg-white hover:bg-slate-200 hover:text-slate-500"
@@ -38,7 +38,7 @@ export const ModalInformes = ({ isOpen, onClose, txtmodal, informes, onDownloadS
         {/* Header Modal */}
         <div className="w-full grid grid-cols-3 sm:grid-cols-[minmax(300px,_1fr)_repeat(2,minmax(200px,_1fr))] gap-4 text-subTitle2 font-cocogooseSemiLight text-darkBlue mb-2">
       <p className="col-span-full sm:col-span-1 text-title xl:text-subTitle2">Informes</p>
-      <p className="hidden sm:block">Fecha</p>
+      <p className="hidden sm:block text-center">Fecha</p>
       <p className="hidden sm:block text-center">Descargar</p>
     </div>
         {/* BODY */}
@@ -48,9 +48,9 @@ export const ModalInformes = ({ isOpen, onClose, txtmodal, informes, onDownloadS
                             <React.Fragment key={index}>
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:col-span-1">
                                     <p className="font-cocogooseLight text-subTitle text-darkBlue sm:hidden">Informe:</p>
-                                    <p>{informe.informe}</p>
+                                    <p className="truncate sm:whitespace-normal">{informe.informe}</p>
                                 </div>
-                                <div className="flex flex-col justify-center sm:flex-row sm:col-span-1">
+                                <div className="flex flex-col sm:justify-center  sm:flex-row sm:col-span-1">
                                     <p className="font-cocogooseLight text-subTitle text-darkBlue sm:hidden">Fecha:</p>
                                     <p>{informe.fecha}</p>
                                 </div>

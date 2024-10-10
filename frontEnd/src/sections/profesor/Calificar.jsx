@@ -3,12 +3,20 @@ import { useState, useEffect } from "react";
 import { ConfirmationModal } from "../../components/modales/ConfirmationModal";
 import { Button } from "@tremor/react";
 import { enviarLogros, guardarLogros } from "../../api/put";
+import { useParams } from "react-router-dom";
 
 export const Calificar = () => {
+  const { id } = useParams(); // Obtener el id del estudiante desde la URL
   const [isOpen, setIsOpen] = useState(false);
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
   const [isSubmitted, setIsSubmitted] = useState(false); // Estado para verificar si ya se envió la calificación
+
+  // Cargar estado de envío para el estudiante específico desde localStorage al cargar el componente
+  useEffect(() => {
+    const submittedLogros = JSON.parse(localStorage.getItem("submittedLogros")) || {};
+    setIsSubmitted(submittedLogros[id] === true);
+  }, [id]);
 
   const handleSaveModalOpen = () => {
     setIsSaveOpen(true)
@@ -19,6 +27,11 @@ export const Calificar = () => {
   }
 
   const handleOpenModal = () => {
+    // Verificar si selectedLogros está vacío
+    if (Object.keys(selectedLogros).length === 0) {
+      <p className="font-cocogooseLight text-paragraph text-red-600">No hay logros calificados para enviar</p>;
+      return;
+    }
     setIsOpen(true);
   };
 
@@ -37,14 +50,16 @@ export const Calificar = () => {
   //ENVIAR
   const handleSubmit = async () => {
     setIsOpen(false);
-
     const data = await enviarLogros(selectedLogros);
     
-    if(data.status != 200){
-      console.error("Error al enviar los logros:", response.error);
+    if (data.status === 200) {
+      setIsSubmitted(true); // Actualizar el estado de envío local
+      const submittedLogros = JSON.parse(localStorage.getItem("submittedLogros")) || {};
+      submittedLogros[id] = true;
+      localStorage.setItem("submittedLogros", JSON.stringify(submittedLogros));
+    } else {
+      console.error("Error al enviar los logros:", data.error);
     }
-
-    setIsSubmitted(true); // Actualizar el estado para indicar que ya se envió
   };
 
   return (
@@ -64,6 +79,7 @@ export const Calificar = () => {
             <Button
               onClick={handleOpenModal}
               className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button text-white"
+              disabled={Object.keys(selectedLogros).length === 0} // Deshabilitar si no hay logros seleccionados
             >
               Enviar
             </Button>
