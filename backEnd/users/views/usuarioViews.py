@@ -170,11 +170,16 @@ def AdminDataPersonal(request,id):
 
 #ENDPOINT PARA LISTAR LOS ESTUDIANTES PARA LA TABLA DE ADMIN
 @api_view(['GET'])
-def AdminTable(request):
+def AdminTable(request, nombre):
     
     if request.method == "GET":
         
-        query = querySql("SELECT `admin`.*, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS 'nombre', `usuario`.`documento` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario`;", [])
+        #LOGICA PARA VALIDAR SI ESTA USANDO EL BUSCADOR O NO
+        like = '%'
+        if nombre != 'all':
+            like = nombre + '%'
+        
+        query = querySql("SELECT `admin`.*, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido`) AS 'nombre', `usuario`.`documento` FROM `admin` LEFT JOIN `usuario` ON `admin`.`idUsuario` = `usuario`.`idUsuario` WHERE `usuario`.`nombre` LIKE %s;", [like])
         
         if len(query) == 0:
             return Response({

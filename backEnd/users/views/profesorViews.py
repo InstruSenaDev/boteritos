@@ -154,8 +154,14 @@ def ProfesorCreateView(request):
         },status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PUT'])
-def ProfesorTable(request):
+def ProfesorTable(request, nombre):
+    
     if request.method == 'GET':
+        
+        like = '%'
+        if nombre != 'all':
+            like = nombre + '%'
+        
         query = querySql("SELECT `profesor`.`idProfesor`, CONCAT(`usuario`.`nombre`, ' ', `usuario`.`apellido` ) AS `nombre` , `profesor`.`titulo`, `areas`.`area` FROM `profesor` LEFT JOIN `areas` ON `profesor`.`idArea` = `areas`.`idArea` LEFT JOIN `usuario` ON `profesor`.`idUsuario` = `usuario`.`idUsuario` WHERE `usuario`.`estado` = 1", [])
         
         if len(query) == 0:

@@ -42,6 +42,7 @@ urlpatterns= [
     path('profesor/', ProfesorCreateView),
     path('profesor/<int:id>', ProfesorDataPersonal),
     path('profesor/tabla', ProfesorTable),
+    #POSIBLE RUTA PARA DESACTIVAR PROFESORES
     path('profesor/header/<int:idprof>/<int:idtrim>', ProfesorHead),
     
     #DATOS EXTRA DE PROFESORES
@@ -54,7 +55,7 @@ urlpatterns= [
     path('admin/', AdminCreateView),
     path('admin/<int:id>', AdminDataPersonal),
     path('admin/header/<int:idadmin>', AdminHeader),
-    path('admin/tabla', AdminTable),
+    path('admin/tabla/<str:nombre>', AdminTable),
     
     #DATOS EXTRA ADMIN
     path('datosmedicos/admin/<int:id>', DatosMedicosAdmin),
