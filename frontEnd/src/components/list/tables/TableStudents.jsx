@@ -221,13 +221,13 @@ export default function TableStudents({ getId }) {
         {/* Agregar el componente de paginación */}
         <ReactPaginate
           previousLabel={
-            <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-              Anterior
+            <div className="flex justify-center items-center bg-blue-500 text-white  text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-left"></i>
             </div>
           }
           nextLabel={
-            <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-              Siguiente
+            <div className="flex justify-center items-center bg-blue-500 text-white text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-right"></i>
             </div>
           }
           breakLabel={"..."}

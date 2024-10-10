@@ -39,11 +39,11 @@ export const TablaLogrosRecibidos = () => {
     const { name, value } = event.target;
 
     // Verificar si el input está vacío y establecer el error
-  if (name === "observacion" && value.trim() === "") {
-    setError("Este campo no puede estar vacío");
-  } else {
-    setError(""); // Limpiar el mensaje de error si el campo no está vacío
-  }
+    if (name === "observacion" && value.trim() === "") {
+      setError("Este campo no puede estar vacío");
+    } else {
+      setError(""); // Limpiar el mensaje de error si el campo no está vacío
+    }
 
     setValues({
       ...values,
@@ -127,7 +127,7 @@ export const TablaLogrosRecibidos = () => {
         const data = await response.json();
         console.log("Datos recibidos:", data);
 
-        // Asegúrate de acceder a 'data' dentro de la respuesta
+        // Acceder a 'data' dentro de la respuesta
         return Array.isArray(data.data) ? data.data : [];
       } else {
         console.error("Error al obtener los datos:", response.statusText);
@@ -328,13 +328,13 @@ export const TablaLogrosRecibidos = () => {
           {/* Agregar el componente de paginación */}
           <ReactPaginate
             previousLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Anterior
+              <div className="flex justify-center items-center bg-blue-500 text-white  text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                <i className="fa-solid fa-angles-left"></i>
               </div>
             }
             nextLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Siguiente
+              <div className="flex justify-center items-center bg-blue-500 text-white text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                <i className="fa-solid fa-angles-right"></i>
               </div>
             }
             breakLabel={"..."}
@@ -347,7 +347,9 @@ export const TablaLogrosRecibidos = () => {
             previousClassName={"cursor-pointer"}
             nextClassName={"cursor-pointer"}
             pageClassName={"cursor-pointer"}
-            pageLinkClassName={"flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"} // Estilo de enlace de página
+            pageLinkClassName={
+              "flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"
+            } // Estilo de enlace de página
             activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
             activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
           />

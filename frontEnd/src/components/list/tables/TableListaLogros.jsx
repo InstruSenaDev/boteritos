@@ -6,7 +6,7 @@ import { Input } from "../../forms/Input";
 import { Dropdown } from "../../forms/Dropdown";
 import { dataTipoLogro } from "../../../helper/objects/dropdownArray";
 import { jwtDecode } from "jwt-decode";
-
+import ReactPaginate from "react-paginate";
 import { ModalCreacion } from "../../modales/ModalCreacion";
 import { Button } from "@tremor/react";
 import { caseLogros } from "../../../helper/validators/case/logros";
@@ -35,6 +35,9 @@ export default function TableListaLogros() {
   const decodedToken = jwtDecode(access_token);
   const idprofesor = decodedToken.idjob; // Extrae el idwork del token
   const trimestre = JSON.parse(localStorage.getItem("trimestre")); //Trimestre
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   const tipoLogroMap = {
     1: "Conocer",
@@ -59,7 +62,7 @@ export default function TableListaLogros() {
     };
     getDataDropdown();
   }, []);
-  
+
   // Función para obtener logros (extraída para reutilizar)
   const getLogros = async () => {
     try {
@@ -159,7 +162,7 @@ export default function TableListaLogros() {
         await getLogros();
         setIsConfirm(true);
         setEstadoValida(true); // Cambiar estado cuando el logro se cree exitosamente
-        
+
       }
     } catch (error) {
       console.error("Error al enviar los datos:", error.message);
@@ -194,6 +197,20 @@ export default function TableListaLogros() {
     setIsConfirm(true);
   };
 
+  // Calcula la paginación
+  const pageCount = Math.ceil(logros.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+  };
+
+  // Obtiene los datos de la página actual
+  const displayedLogros = logros.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
@@ -217,51 +234,77 @@ export default function TableListaLogros() {
             <p>Tipo</p>
           </div>
 
-          {logros.map((data, index) => (
-  <div
-    className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${
-      openAcc === index ? "open" : "close"
-    }`}
-    key={data.idlogro} // Usar idlogro como key
-  >
-    <div className="flex gap-2 lg:gap-0 ">
-      <p className="text-darkBlue lg:hidden">No°</p>
-      <div className="acc-header w-full flex justify-between items-center ">
-        <p>{(index + 1).toString().padStart(2, '0')}</p>
-        <button onClick={() => toogleRow(index)}>
-          <i className="fa-solid fa-angle-down block lg:hidden"></i>
-        </button>
-      </div>
-    </div>
+          {displayedLogros.map((data, index) => (
+            <div
+              className={`acc-item grid grid-cols-1 lg:grid-cols-[100px_minmax(450px,_1fr)_minmax(50px,_1fr)_minmax(150px,_1fr)_minmax(50px,1fr)] items-center gap-x-8 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"
+                }`}
+              key={data.idlogro} // Usar idlogro como key
+            >
+              <div className="flex gap-2 lg:gap-0 ">
+                <p className="text-darkBlue lg:hidden">No°</p>
+                <div className="acc-header w-full flex justify-between items-center ">
+                  <p>{(index + 1).toString().padStart(2, '0')}</p>
+                  <button onClick={() => toogleRow(index)}>
+                    <i className="fa-solid fa-angle-down block lg:hidden"></i>
+                  </button>
+                </div>
+              </div>
 
-    <div className="flex gap-2 lg:gap-0">
-      <p className="text-darkBlue lg:hidden">Logro:</p>
-      <div
-        className="acc-header w-full underline cursor-pointer"
-        onClick={() => handleOpenLogroModal(data)}
-      >
-        <p>{data.logro}</p> {/* Mostrar el logro */}
-      </div>
-    </div>
+              <div className="flex gap-2 lg:gap-0">
+                <p className="text-darkBlue lg:hidden">Logro:</p>
+                <div
+                  className="acc-header w-full underline cursor-pointer"
+                  onClick={() => handleOpenLogroModal(data)}
+                >
+                  <p>{data.logro}</p> {/* Mostrar el logro */}
+                </div>
+              </div>
 
-    
 
-    <div className="flex gap-2 lg:gap-0 acc-body ">
-      <p className="text-darkBlue lg:hidden">Estado:</p>
-      <div className="">
-        <DataState state={Number(data.estado)} /> {/* Usar el estado */}
-      </div>
-    </div>
 
-    <div className="flex gap-2 lg:gap-0 acc-body">
-      <p className="text-darkBlue lg:hidden">Tipo:</p>
-      <div>
-      <p>{tipoLogroMap[data.idtipologro] || 'Tipo no disponible'}</p> {/* Mostrar el tipo basado en el mapeo */}
-      </div>
-    </div>
-  </div>
-))}
+              <div className="flex gap-2 lg:gap-0 acc-body ">
+                <p className="text-darkBlue lg:hidden">Estado:</p>
+                <div className="">
+                  <DataState state={Number(data.estado)} /> {/* Usar el estado */}
+                </div>
+              </div>
+
+              <div className="flex gap-2 lg:gap-0 acc-body">
+                <p className="text-darkBlue lg:hidden">Tipo:</p>
+                <div>
+                  <p>{tipoLogroMap[data.idtipologro] || 'Tipo no disponible'}</p> {/* Mostrar el tipo basado en el mapeo */}
+                </div>
+              </div>
+            </div>
+          ))}
         </section>
+        <ReactPaginate
+          previousLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white  text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-left"></i>
+            </div>
+          }
+          nextLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-right"></i>
+            </div>
+          }
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"flex justify-center items-center space-x-2 py-4"}
+          previousClassName={"cursor-pointer"}
+          nextClassName={"cursor-pointer"}
+          pageClassName={"cursor-pointer"}
+          pageLinkClassName={
+            "flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"
+          } // Estilo de enlace de página
+          activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
+          activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
+        />
       </main>
       <ModalCreacion
         txtmodal={"Crear nuevo logro"}

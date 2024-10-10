@@ -6,8 +6,17 @@ import { enviarLogros, guardarLogros } from "../../api/put";
 
 export const Calificar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSaveOpen, setIsSaveOpen] = useState(false);
   const [selectedLogros, setSelectedLogros] = useState({}); //estado para los logros seleccionados
   const [isSubmitted, setIsSubmitted] = useState(false); // Estado para verificar si ya se envió la calificación
+
+  const handleSaveModalOpen = () => {
+    setIsSaveOpen(true)
+  }
+
+  const handleSaveModalClose = () => {
+    setIsSaveOpen(false)
+  }
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -19,7 +28,7 @@ export const Calificar = () => {
 
   //GUARDAR
   const handleSave = async () => {
-
+    setIsSaveOpen(false);
     const data = await guardarLogros(selectedLogros);
     console.log(data);
   
@@ -45,7 +54,7 @@ export const Calificar = () => {
 
         <div className="w full flex justify-end gap-x-3">
           <Button
-            onClick={handleSave}
+            onClick={handleSaveModalOpen}
             className="max-w-[400px] min-w-28 w-full h-[50px] rounded-xl font-cocogooseRegular tracking-widest text-button bg-white text-darkBlue hover:bg-darkBlue hover:text-white"
           >
             Guardar
@@ -69,6 +78,14 @@ export const Calificar = () => {
           txtWarning={
             "Una vez enviada, no podrás modificar esta calificación. Por favor, asegúrate de que toda la información es correcta antes de continuar."
           }
+        />
+
+        <ConfirmationModal 
+        onConfirm={handleSave}
+        isOpen={isSaveOpen}
+        onClose={handleSaveModalClose}
+        txtQuestion={"¿Guardar resultados?"}
+        txtWarning={"Tranquilo, los resultados guardados no serán enviados al administrador, es solo para que lleves tus calificaciones con mayor seguridad a lo largo del trimestre."}
         />
       </main>
     </>

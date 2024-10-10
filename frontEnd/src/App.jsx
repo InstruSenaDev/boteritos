@@ -44,3 +44,4 @@ export const ListEstudents = lazy(() => import("./pages/profesor/ListStudents.js
 export const TeacherMain = lazy(() => import("./pages/profesor/index.jsx"));
 //ESTUDIANTE
 export const StudentMain = lazy(() => import("./pages/estudiante/index.jsx"));
+export const InformesRecibidos = lazy(() => import("./pages/estudiante/InformesRecibidos.jsx"));

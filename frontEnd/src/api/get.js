@@ -104,7 +104,7 @@ export const getLogrosEstudiante = async (url) =>{
 //GET PARA DESCARGAR EL INFORME DE UN ESTUDIANTE
 export const downloadInforme = async (url) => {
   const response = await fetchFunctionPDF("GET", null, null, `logros/${url}`);
-  
+
   console.log(response);
 
   //RESPUESTA ERRONEA
@@ -135,3 +135,4 @@ export const downloadInforme = async (url) => {
   }
 
 }
+
