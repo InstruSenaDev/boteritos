@@ -411,14 +411,17 @@ export const ModalContentUpdate = ({
 
     case "Fechas":
       return (
-        <div className="space-y-4 grid">
-          <DatePicker2
-            name="fechanacimiento"
-            texto={"Fecha de nacimiento"}
-            value={data.fechanacimiento || ""}
-            onChange={(e) => handleDateChange("fechanacimiento", e.target.value)}
-          />
-
+        <div className="space-y-4 grid ">
+         
+            <DatePicker2
+              name="fechanacimiento"
+              texto={"Fecha de nacimiento"}
+              value={data.fechanacimiento || ""}
+              onChange={(e) =>
+                handleDateChange("fechanacimiento", e.target.value)
+              }
+            />
+        
           <DatePicker2
             name="fecharegistro"
             texto={"Fecha de registro"}

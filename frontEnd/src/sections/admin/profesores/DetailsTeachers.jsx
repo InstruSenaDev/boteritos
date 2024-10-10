@@ -21,6 +21,10 @@ export const DetailsTeachers = () => {
   const dataFormInd = new FormData();
   const [errors, setErrors] = useState({});
   const { id } = useParams();
+  const [values, setValues] = useState({
+    fechainicio: "",
+    fechafinal: "",
+  });
 
   //almacenar los datos obtenidos del API para diferentes secciones.
   const [dataDetail, setDataDetail] = useState({
@@ -133,6 +137,13 @@ export const DetailsTeachers = () => {
     setSelectedSection(null);
     setSectionData(null);
     setErrors({});
+  };
+
+  const handleDateChange = (name, value) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
   };
 
   const handleInputChange = (e, key) => {
@@ -454,6 +465,7 @@ export const DetailsTeachers = () => {
           onChange={handleInputChange}
           handleFileChange={handleFileChange}
           errores={errors}
+          handleDateChange={handleDateChange}
         />
       </UpdateModal>
     </div>

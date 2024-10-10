@@ -39,86 +39,59 @@ const Detail = () => {
     direcciones: [],
     usuario: [],
     fechas: [],
+    usuario:[],
   });
 
   //historiaclinica/?idestudiante=2
   //FUNCION PARA OBTENER LOS DATOS
   useEffect(() => {
     const obtainData = async () => {
-      const dataHistClinic = await dataDetailEstudiante(
-        `historiaclinica/${id}`
-      );
-
-      const dataResponsable = await dataResponsableEstudiante(
-        `responsable/${id}`
-      );
-
-      const dataDatosMedicos = await dataDatosMedicosEstudiante(
-        `datosmedicos/estudiante/${id}`
-      );
-
-      const dataContactos = await dataContactosEstudiante(
-        `telefono/estudiante/${id}`
-      );
-
-      const dataFechas = await DataFechasEstudiante(`fechas/estudiante/${id}`);
-
-      const dataDirecciones = await DataDireccionesEstudiante(
-        `direccion/estudiante/${id}`
-      );
-
-      if (!dataFechas.status == 200) {
-        setDataDetail({ fechas: null });
+      // Obtener datos personales dependiendo del rol
+      let dataPersonalResponse;
+      if (rol === 3) { // Rol de estudiante
+        dataPersonalResponse = await DataPersonal(`estudiante/${id}`);
+      } else if (rol === 2) { // Rol de profesor
+        dataPersonalResponse = await DataPersonal(`profesor/${id}`);
       }
 
-      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
-
-      if (!dataHistClinic.status == 200) {
-        setDataDetail({ historiaClinica: null });
+      if (dataPersonalResponse && dataPersonalResponse.status === 200) {
+        setDataDetail((prevState) => ({
+          ...prevState,
+          usuario: dataPersonalResponse.data.datos,
+        }));
+      } else {
+        setDataDetail((prevState) => ({ ...prevState, usuario: null }));
       }
 
-      if (!dataResponsable.status == 200) {
-        setDataDetail({ responsables: null });
-      }
+      // Realiza otras llamadas API como antes...
+      const dataHistClinic = await dataDetailEstudiante(`historiaclinica/${id}`);
+      const dataResponsable = await dataResponsableEstudiante(`responsable/${id}`);
+      const dataDatosMedicos = await dataDatosMedicosEstudiante(`datosmedicos/${roleName}/${id}`);
+      const dataContactos = await dataContactosEstudiante(`telefono/${roleName}/${id}`);
+      const dataFechas = await DataFechasEstudiante(`fechas/${roleName}/${id}`);
+      const dataDirecciones = await DataDireccionesEstudiante(`direccion/${roleName}/${id}`);
 
-      if (!dataDatosMedicos.status == 200) {
-        setDataDetail({ datosMedicos: null });
-      }
-
-      if (!dataContactos.status == 200) {
-        setDataDetail({ contactos: null });
-      }
-
-      if (!dataDirecciones.status == 200) {
-        setDataDetail({ direcciones: null });
-      }
-
-      if (!DataPersonalEstudiante.status == 200) {
-        setDataDetail({ usuario: null });
-      }
-
+      // Verifica otras respuestas y actualiza el estado como lo haces actualmente...
       console.log("Datos Historia Clínica:", dataHistClinic.data.data);
       console.log("Datos Responsable:", dataResponsable.data.data);
       console.log("Datos datos medicos:", dataDatosMedicos.data.data);
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
-      console.log("Datos personales:", DataPersonalEstudiante.data.datos);
       console.log("Datos fechas:", dataFechas);
 
-      setDataDetail({
-        ...dataDetail,
+      setDataDetail((prevState) => ({
+        ...prevState,
         historiaClinica: dataHistClinic.data.data,
         responsables: dataResponsable.data.data,
         datosMedicos: dataDatosMedicos.data.data,
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
-        usuario: DataPersonalEstudiante.data.datos,
         fechas: dataFechas.data.data,
-      });
+      }));
     };
 
     obtainData();
-  }, []);
+  }, [id, rol, roleName]);
 
   const update = (sectionId, index) => {
     let data;
