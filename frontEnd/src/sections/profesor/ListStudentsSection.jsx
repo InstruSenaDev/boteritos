@@ -17,7 +17,7 @@ export const ListStudentsSection = () => {
         urlApi={"sql/estudiantes/header/"}
         typeLink={"go"}
         urlGo={"calificarestudiante"}
-        typeActiondata={"view1"}
+        typeActiondata={"view2"}
       />
       <p className="text-subTitle font-cocogooseSemiLight text-darkBlue">
         LISTA DE ESTUDIANTES

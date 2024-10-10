@@ -1,6 +1,6 @@
 const ActionData = ({ data, type, goTo, typeHeaderData }) => {
   // Verificamos si el valor de typeHeaderData es 'view1'
-  const isViewMode = typeHeaderData === 'view1'; // Retorna true si es 'view1'
+  const isViewMode = typeHeaderData != 'view1'; // Retorna true si es 'view1'
 
   return (
     <div
