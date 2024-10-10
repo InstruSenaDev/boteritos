@@ -17,7 +17,7 @@ export const sidebarsection = {
   ],
   3: [
     { icon: "fa-solid fa-user", texto: "Perfil", link: "estudiante/perfil" },
-    { icon: "fa-solid fa-file-lines", texto: "Informes", link: "" },
+    { icon: "fa-solid fa-file-lines", texto: "Informes", link: "estudiante/informesrecibidos" },
     { icon: "fa-solid fa-lock", texto: "Cambiar contraseña", link: "estudiante/cambiarcontrasena" },
   ],
 };

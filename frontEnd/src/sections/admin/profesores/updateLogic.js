@@ -7,6 +7,10 @@ export const updateSectionData = async (
   id,
   dataFormInd
 ) => {
+  console.log(sectionData);
+  console.log(dataFormInd);
+  
+  
   const newData = new FormData();
   newData.append("section", selectedSection);
   // newData.append('idprofesor', id);

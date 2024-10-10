@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { getLogrosEstudiante } from "../../../api/get";
 
+
 export default function TableCalificarEstudiante({ setSelectedLogros}) {
   const { id } = useParams();
 
@@ -30,6 +31,22 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
         setDatosLogros([])
         return
       }
+      // Inicializar selectedLogros con los datos existentes
+      const initialSelectedLogros = {};
+      data.data.forEach(logro => {
+        if (logro.resultado !== null) {
+          initialSelectedLogros[logro.idlogroestudiante] = {
+            idestudiante: id,
+            idlogroestudiante: logro.idlogroestudiante,
+            idlogro: logro.idlogro,
+            resultado: parseInt(logro.resultado),
+            fecha: logro.fecha,
+          };
+        }
+      });
+      
+      setLocalSelectedLogros(initialSelectedLogros);
+      setSelectedLogros(initialSelectedLogros);
       setDatosLogros(data.data);
     }
     dataLogros(); 
@@ -60,9 +77,17 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
     openAcc !== index ? setOpenAcc(index) : setOpenAcc(-1);
   };
 
+  const isChecked = (idLogroEstudiante, expectedResultado) => {
+    const selection = selectedLogros[idLogroEstudiante];
+    if (!selection) return false;
+    
+    const resultadoNumerico = expectedResultado === "LN" ? 0 : expectedResultado === "LA" ? 1 : 2;
+    return selection.resultado === resultadoNumerico;
+  };
+
   return (
     <>
-      <main className="bg-white rounded-xl py-7 px-8 w-full overflow-y-hidden">
+      <main className="bg-white rounded-xl mt-7 py-7 px-8 w-full overflow-y-hidden">
         {/* Buscador */}
         <Buscador />
 
@@ -89,7 +114,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                 <div className="flex gap-2 lg:gap-0">
                   <p className="text-darkBlue lg:hidden">No°:</p>
                   <div className="acc-header w-full flex justify-between items-center ">
-                    <p>{(logro.idestudiante).toString().length === 2 ? logro.idestudiante : `0${logro.idestudiante}`}</p>
+                    <p>{(logro.idlogro).toString().length === 2 ? logro.idlogro : `0${logro.idlogro}`}</p>
                     <button onClick={() => toogleRow(index)}>
                       <i className="fa-solid fa-angle-down block lg:hidden"></i>
                     </button>
@@ -122,6 +147,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LA")}
+                        checked={isChecked(logro.idlogroestudiante, "LA")}
                       />
 
                       <label htmlFor={`lp-${index}`} className="pr-5 text-darkBlue lg:hidden">
@@ -133,6 +159,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LP")}
+                        checked={isChecked(logro.idlogroestudiante, "LP")}
                       />
 
                       <label htmlFor={`ln-${index}`} className="pr-5 text-darkBlue lg:hidden">
@@ -144,6 +171,7 @@ export default function TableCalificarEstudiante({ setSelectedLogros}) {
                         type="radio"
                         className="w-4 h-4 text-darkBlue bg-darkBlue"
                         onChange={() => handleRadioChange(logro.idlogroestudiante, logro.idlogro, "LN")}
+                        checked={isChecked(logro.idlogroestudiante, "LN")}
                       />
                     </div>
                   </div>

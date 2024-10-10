@@ -5,6 +5,7 @@ import { ConfirmationModal } from "../modales/ConfirmationModal";
 import { RegisterModal } from "../modales/RegisterModal";
 import { Input } from "../forms/Input";
 import ReactPaginate from 'react-paginate';
+import { caseAdmin } from "../../helper/validators/case/admin";
 
 export const TablaLogrosRecibidos = () => {
   const [openAcc, setOpenAcc] = useState(-1);
@@ -19,6 +20,7 @@ export const TablaLogrosRecibidos = () => {
   const [estadoValida, setEstadoValida] = useState(false);
   const [modalAction, setModalAction] = useState(""); // Nuevo estado para definir si es "aceptar" o "rechazar"
   const [logros, setLogros] = useState([]); // Estado para almacenar los logros.
+  const [error, setError] = useState("");
 
   // Paginación
   const [pageCount, setPageCount] = useState(0); // número total de páginas
@@ -36,26 +38,24 @@ export const TablaLogrosRecibidos = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
+    // Verificar si el input está vacío y establecer el error
+    if (name === "observacion" && value.trim() === "") {
+      setError("Este campo no puede estar vacío");
+    } else {
+      setError(""); // Limpiar el mensaje de error si el campo no está vacío
+    }
+
     setValues({
       ...values,
       [name]: value,
     });
   };
 
-  // Función para actualizar el estado de un logro y guardarlo en localStorage
-  const updateLogroStatus = (idlogro, estado) => {
-    // Actualiza el estado del logro en el array
-    const updatedLogros = logros.map((logro) =>
-      logro.idlogro === idlogro ? { ...logro, estado } : logro
-    );
-    setLogros(updatedLogros);
 
-    // Almacena el estado en localStorage
-    localStorage.setItem("logrosStatus", JSON.stringify(updatedLogros));
-  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
     console.log({
       idlogro: selectedLogro.idlogro,
       estado: 0,
@@ -127,7 +127,7 @@ export const TablaLogrosRecibidos = () => {
         const data = await response.json();
         console.log("Datos recibidos:", data);
 
-        // Asegúrate de acceder a 'data' dentro de la respuesta
+        // Acceder a 'data' dentro de la respuesta
         return Array.isArray(data.data) ? data.data : [];
       } else {
         console.error("Error al obtener los datos:", response.statusText);
@@ -304,7 +304,7 @@ export const TablaLogrosRecibidos = () => {
               <div className="acc-body flex gap-2 lg:gap-0 items-center">
                 <p className="text-darkBlue lg:hidden text-center">Acción:</p>
                 <div className="w-full flex justify-center items-center gap-3">
-                  {logro.estado !== 0 && logro.estado !== 1 ? (
+                  {logro.estado == 2 ? (  // Cambia ==! a !==
                     <>
                       <i
                         className="fa-solid fa-circle-check text-2xl cursor-pointer text-green-700"
@@ -315,12 +315,11 @@ export const TablaLogrosRecibidos = () => {
                         onClick={() => handleRejectedModalOpen(logro)}
                       ></i>
                     </>
-                  ) : (
-                    <div className="bg-greenOpaque rounded-md py-1 px-2 flex gap-3 items-center w-auto">
-                      <div className="w-[15px] h-[15px] bg-greenFull rounded-full"></div>
-                      <p className="text-greenFull">OK</p>
-                    </div>
-                  )}
+                  ) : logro.estado == 1 ? (
+                    <p className="text-green-700 text-paragraph2 font-cocogooseLight">Aceptado</p>
+                  ) : logro.estado == 0 ? (
+                    <p className="text-red-700 text-paragraph2 font-cocogooseLight">Rechazado</p>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -329,13 +328,13 @@ export const TablaLogrosRecibidos = () => {
           {/* Agregar el componente de paginación */}
           <ReactPaginate
             previousLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Anterior
+              <div className="flex justify-center items-center bg-blue-500 text-white  text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                <i className="fa-solid fa-angles-left"></i>
               </div>
             }
             nextLabel={
-              <div className="flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
-                Siguiente
+              <div className="flex justify-center items-center bg-blue-500 text-white text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+                <i className="fa-solid fa-angles-right"></i>
               </div>
             }
             breakLabel={"..."}
@@ -348,7 +347,9 @@ export const TablaLogrosRecibidos = () => {
             previousClassName={"cursor-pointer"}
             nextClassName={"cursor-pointer"}
             pageClassName={"cursor-pointer"}
-            pageLinkClassName={"flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"} // Estilo de enlace de página
+            pageLinkClassName={
+              "flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"
+            } // Estilo de enlace de página
             activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
             activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
           />
@@ -383,6 +384,8 @@ export const TablaLogrosRecibidos = () => {
           texto={"Agregue una observación al logro"}
           name={"observacion"}
           onChange={handleInputChange}
+          value={values.observacion}
+          error={error}
         />
       </RegisterModal>
 

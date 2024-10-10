@@ -33,6 +33,11 @@ export const DataDireccionesProfesor = async (url) => {
   return data;
 };
 
+export const DataFechasProfesor = async (url) => {
+  const data = await fetchFunction("GET", null, null, `registro/${url}`);
+  return data;
+};
+
 export const DataPersonalProfesor = async (url) => {
   const data = await fetchFunction("GET", null, null, `registro/${url}`);
   return data;
@@ -52,6 +57,11 @@ export const dataResponsableEstudiante = async (url) => {
 };
 
 export const dataDatosMedicosEstudiante = async (url) => {
+  const data = await fetchFunction("GET", null, null, `registro/${url}`);
+  return data;
+};
+
+export const DataFechasEstudiante = async (url) => {
   const data = await fetchFunction("GET", null, null, `registro/${url}`);
   return data;
 };
@@ -104,7 +114,7 @@ export const getLogrosEstudiante = async (url) =>{
 //GET PARA DESCARGAR EL INFORME DE UN ESTUDIANTE
 export const downloadInforme = async (url) => {
   const response = await fetchFunctionPDF("GET", null, null, `logros/${url}`);
-  
+
   console.log(response);
 
   //RESPUESTA ERRONEA
@@ -135,3 +145,4 @@ export const downloadInforme = async (url) => {
   }
 
 }
+

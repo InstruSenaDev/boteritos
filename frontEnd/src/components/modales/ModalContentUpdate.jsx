@@ -14,6 +14,7 @@ import {
 } from "../../helper/objects/dropdownArray";
 import { UploadFile } from "../forms/UploadFile";
 import { jwtDecode } from "jwt-decode";
+import { DatePicker2 } from "../forms/DatePicker";
 
 export const ModalContentUpdate = ({
   section,
@@ -21,6 +22,7 @@ export const ModalContentUpdate = ({
   onChange,
   handleFileChange,
   errores,
+  handleDateChange,
 }) => {
   const [values, setValues] = useState({});
 
@@ -101,7 +103,7 @@ export const ModalContentUpdate = ({
             label="Tipo de documento"
             data={dataDropdown.dropdownDocumento}
             onChange={(value) => handleDropdownChange("idtipodocumento", value)}
-            value={data.tipodocumento || ""}
+            value={data.idtipodocumento || ""}
             placeholder="Seleccione el tipo de documento"
             error={errores.tipodocumento}
           />
@@ -313,8 +315,8 @@ export const ModalContentUpdate = ({
             name="iddiscapacidad"
             label="Discapacidad"
             data={dataDropdown.dataDiscapacidad}
-            onChange={(value) => handleDropdownChange("ididiscapacidad", value)}
-            value={data.iddiscapacidad || ""}
+            onChange={(value) => handleDropdownChange("iddiscapacidad", value)}
+            value={values.iddiscapacidad || ""}
             placeholder="Seleccione la discapacidad"
             error={errores.iddiscapacidad}
           />
@@ -403,6 +405,35 @@ export const ModalContentUpdate = ({
             onChange={(e) => onChange(e, "telefono2")}
             value={data.telefono2 || ""}
             error={errores.telefono2}
+          />
+        </div>
+      );
+
+    case "Fechas":
+      return (
+        <div className="space-y-4 grid ">
+         
+            <DatePicker2
+              name="fechanacimiento"
+              texto={"Fecha de nacimiento"}
+              value={data.fechanacimiento || ""}
+              onChange={(e) =>
+                handleDateChange("fechanacimiento", e.target.value)
+              }
+            />
+        
+          <DatePicker2
+            name="fecharegistro"
+            texto={"Fecha de registro"}
+            value={data.fecharegistro || ""}
+            onChange={(e) => handleDateChange("fecharegistro", e.target.value)}
+          />
+
+          <DatePicker2
+            name="fechaingreso"
+            texto={"Fecha de ingreso"}
+            value={data.fechaingreso || ""}
+            onChange={(e) => handleDateChange("fechaingreso", e.target.value)}
           />
         </div>
       );

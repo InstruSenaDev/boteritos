@@ -31,6 +31,9 @@ const TableTrimestres = () => {
   // };
 
   const handleOpenModal = (trimestre) => {
+    console.log("Trimestre seleccionado:", trimestre);
+    console.log("Fecha inicio:", new Date(trimestre.fechainicio));
+    console.log("Fecha final:", new Date(trimestre.fechafin));
     setSelectedTrim(trimestre); // Guarda el trimestre seleccionado
     setValues({
       fechainicio: new Date(trimestre.fechainicio), // Asegúrate de que esto sea un objeto Date
@@ -119,8 +122,8 @@ const TableTrimestres = () => {
             : trim
         )
       );
-
-      handleCloseModal();
+      setIsConfirm(true);
+      
     } catch (error) {
       console.error("Error al actualizar las fechas:", error);
       // Si hay un error, restaurar el estado anterior
@@ -218,6 +221,8 @@ const TableTrimestres = () => {
         isOpen={isOpen}
         onClose={handleCloseModal}
         onSave={handleSaveChanges}
+        isConfirm={isConfirm}
+        textConfirmation={"Fechas actualizadas con éxito"}
       >
         <div className="grid grid-cols-2 gap-8 w-full">
           <DatePicker2

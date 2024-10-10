@@ -85,23 +85,37 @@ const Calificaciones = () => {
   };
 
   const openModal = () => {
-    
-    if(!observacion){
-        setErrors({observacion : "La observación es obligatoria"})
-        return
+
+    const areasSinCalificar = areasData.some((area) => area.calificaciones.length === 0);
+    const newErrors = {};
+  
+    // Verificar si hay áreas sin calificar
+    if (areasSinCalificar) {
+      newErrors.areas = (
+        <p className="font-cocogooseLight text-paragraph text-red-600">
+          Todas las áreas deben estar calificadas para enviar el informe
+        </p>
+      );
     }
-    /*
-    const error = caseAdmin("observacion", observacion);
-    
-    if (error) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        observacion: error,
-      }));
+  
+    // Verificar si la observación está vacía
+    if (!observacion) {
+      newErrors.observacion = "La observación es obligatoria";
+    }
+  
+    // Si hay errores relacionados con las áreas, actualizar el estado y desplazarse al inicio de la página
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      
+      // Solo desplazarse al inicio si hay áreas sin calificar
+      if (areasSinCalificar) {
+        window.scrollTo({ top: 0, behavior: "smooth" }); // Desplazarse al inicio
+      }
+  
       return;
     }
-    */
-
+  
+    // Si no hay errores, abrir el modal
     setIsModalOpen(true);
   };
 
@@ -110,9 +124,9 @@ const Calificaciones = () => {
   };
 
   const handleSubmit = async () => {
-    if(!observacion){
-        setErrors({observacion : "La observación es obligatoria"})
-        return
+    if (!observacion) {
+      setErrors({ observacion: "La observación es obligatoria" })
+      return
     }
     /*
     const error = caseAdmin("observacion", observacion);
@@ -125,7 +139,7 @@ const Calificaciones = () => {
       return;
     }
     */
-   
+
     const data = {
       idestudiante: idestud,
       idtrimestre: trimestre,
@@ -142,23 +156,29 @@ const Calificaciones = () => {
       console.error("Error en la solicitud:", error);
     } finally {
       console.log("FINISH");
-
       setIsLoading(false);
+      // Desplazarse al inicio de la página
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   return (
     <>
       <div className="w-full space-y-7">
+        {/* Mostrar mensaje de error si hay áreas sin calificar */}
+        {errors.areas && (
+          <p className="text-red-500 text-center">{errors.areas}</p>
+        )}
+
         {/* Mapear las áreas para renderizar InformeIndividual */}
         {areasData.map(({ idArea, calificaciones }, index) => (
           <InformeIndividual
             key={idArea}
-            tituloArea={titulosAreas[index]} // Obtener el título del área según el índice
+            tituloArea={titulosAreas[index]}
             idArea={idArea}
             idtrim={trimestre}
             idestud={idestud}
-            data={calificaciones} // Pasar las calificaciones obtenidas
+            data={calificaciones}
           />
         ))}
 
@@ -197,7 +217,7 @@ const Calificaciones = () => {
 
       <LoadingModal
         isOpen={isLoading}
-        onClose={() => {}}
+        onClose={() => { }}
         text={"Espera mientras se genera el informe..."}
       />
     </>

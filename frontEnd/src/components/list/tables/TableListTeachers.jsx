@@ -3,12 +3,17 @@ import Buscador from "../../search/Buscador";
 import { ConfirmationModal } from "../../modales/ConfirmationModal";
 import { getAllTeachers } from "../../../api/get";
 import { putDeleteTeacher } from "../../../api/put";
+import ReactPaginate from "react-paginate";
 
 const TableListTeachers = ({ getId }) => {
   const [openAcc, setOpenAcc] = useState(-1);
   const [isOpen, setIsOpen] = useState(false);
   const [dataTeacher, setDataTeacher] = useState([]); // Estado para almacenar los profesores.
   const [selectedIdTeacher, setSelectedIdTeacher] = useState(null); 
+
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
   const handleOpen = (idprofesor) => {
     setSelectedIdTeacher(idprofesor);
@@ -62,6 +67,20 @@ const TableListTeachers = ({ getId }) => {
     }
   };
 
+  // Calcula la paginación
+  const pageCount = Math.ceil(dataTeacher.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const selectedPage = event.selected;
+    setCurrentPage(selectedPage);
+  };
+
+  // Obtiene los datos de la página actual
+  const displayedTeachers = dataTeacher.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
   return (
     <>
       <main className="bg-white rounded-xl py-7 px-3 w-full overflow-y-hidden">
@@ -77,7 +96,7 @@ const TableListTeachers = ({ getId }) => {
             <p>Área</p>
             <p>Acción</p>
           </div>
-          {dataTeacher.map((data, index) => (
+          {displayedTeachers.map((data, index) => (
             <div
               className={`acc-item grid grid-cols-1 lg:grid-cols-[150px_minmax(400px,1fr)_minmax(250px,_1fr)_repeat(2,_minmax(100px,_1fr))] items-center gap-x-3 text-paragraph2 font-cocogooseLight text-black p-5 border-b-2 border-b-placeholderBlue ${openAcc === index ? "open" : "close"}`}
               key={index}
@@ -122,6 +141,33 @@ const TableListTeachers = ({ getId }) => {
             </div>
           ))}
         </section>
+        <ReactPaginate
+          previousLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white  text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-left"></i>
+            </div>
+          }
+          nextLabel={
+            <div className="flex justify-center items-center bg-blue-500 text-white text-subTitle px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in">
+              <i className="fa-solid fa-angles-right"></i>
+            </div>
+          }
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"flex justify-center items-center space-x-2 py-4"}
+          previousClassName={"cursor-pointer"}
+          nextClassName={"cursor-pointer"}
+          pageClassName={"cursor-pointer"}
+          pageLinkClassName={
+            "flex justify-center items-center bg-blue-500 text-white font-cocogooseLight text-paragraph2 px-4 py-2 rounded hover:bg-darkBlue transition-all duration-200 ease-in"
+          } // Estilo de enlace de página
+          activeClassName={"bg-darkBlue text-white rounded"} // Clase para el botón de página activa
+          activeLinkClassName={"bg-darkBlue text-white rounded"} // Clase para el enlace activo
+        />
       </main>
       <ConfirmationModal
         isOpen={isOpen}

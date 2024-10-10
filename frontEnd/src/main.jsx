@@ -42,7 +42,8 @@ import {
   TeacherMain,
   TeacherRegister,
   Trimestre,
-  DatosProfesor
+  DatosProfesor,
+  InformesRecibidos
 } from "./App.jsx";
 
 import Loading from "./components/loaders/loading.jsx";
@@ -149,6 +150,7 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <StudentMain /> },
       { path: "perfil", element: <Perfil /> },
+      { path: "informesrecibidos", element: <InformesRecibidos/> },
 
       { path: "cambiarcontrasena", element: <ChangePassword /> },
     ],
