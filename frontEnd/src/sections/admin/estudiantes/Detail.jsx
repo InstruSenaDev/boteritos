@@ -14,17 +14,18 @@ import {
   DataDireccionesEstudiante,
   dataContactosEstudiante,
   DataPersonal,
+  DataFechasEstudiante,
 } from "../../../api/get";
 import { ModalContentUpdate } from "../../../components/modales/ModalContentUpdate";
 import { putUpdate } from "../../../api/put";
 import { UpdateModalesValidators } from "../../../helper/validators/UpdateModalesValidators";
 
 const Detail = () => {
-  const [selectedSection, setSelectedSection] = useState(null);//Para almacenar la sección actual que se está editando.
+  const [selectedSection, setSelectedSection] = useState(null); //Para almacenar la sección actual que se está editando.
   const [sectionData, setSectionData] = useState(null); //para almacenar los datos de cada sección
   const [isModalOpen, setModalOpen] = useState(false);
   const dataFormInd = new FormData();
-  const [errors, setErrors]=useState({})
+  const [errors, setErrors] = useState({});
 
   const { id } = useParams();
 
@@ -37,6 +38,7 @@ const Detail = () => {
     contactos: [],
     direcciones: [],
     usuario: [],
+    fechas: [],
   });
 
   //historiaclinica/?idestudiante=2
@@ -59,12 +61,17 @@ const Detail = () => {
         `telefono/estudiante/${id}`
       );
 
+      const dataFechas = await DataFechasEstudiante(`fechas/estudiante/${id}`);
+
       const dataDirecciones = await DataDireccionesEstudiante(
         `direccion/estudiante/${id}`
       );
 
-      const DataPersonalEstudiante = await DataPersonal(
-        `estudiante/${id}`);
+      if (!dataFechas.status == 200) {
+        setDataDetail({ fechas: null });
+      }
+
+      const DataPersonalEstudiante = await DataPersonal(`estudiante/${id}`);
 
       if (!dataHistClinic.status == 200) {
         setDataDetail({ historiaClinica: null });
@@ -96,6 +103,7 @@ const Detail = () => {
       console.log("Datos Contactos:", dataContactos.data.data);
       console.log("Datos direcciones:", dataDirecciones.data.data);
       console.log("Datos personales:", DataPersonalEstudiante.data.datos);
+      console.log("Datos fechas:", dataFechas);
 
       setDataDetail({
         ...dataDetail,
@@ -105,6 +113,7 @@ const Detail = () => {
         contactos: dataContactos.data.data,
         direcciones: dataDirecciones.data.data,
         usuario: DataPersonalEstudiante.data.datos,
+        fechas: dataFechas.data.data,
       });
     };
 
@@ -133,6 +142,9 @@ const Detail = () => {
       case "Dirección":
         data = dataDetail.direcciones[index];
         break;
+      case "Fechas":
+        data = dataDetail.direcciones[index];
+        break;
       default:
         data = null;
     }
@@ -156,25 +168,25 @@ const Detail = () => {
       console.error("Errores presentes, no se puede guardar.");
       return;
     }
-  
+
     // Crear un nuevo FormData
     const newData = new FormData();
-    newData.append('section', selectedSection);
-    newData.append('idestudiante', id);
-    
+    newData.append("section", selectedSection);
+    newData.append("idestudiante", id);
+
     // Agregar los datos de la sección
     for (const key in sectionData) {
       if (sectionData.hasOwnProperty(key)) {
         newData.append(key, sectionData[key]);
       }
     }
-  
+
     // Agregar el archivo, si existe
-    if (dataFormInd.has('archivo')) {
-      newData.append('archivo', dataFormInd.get('archivo'));
+    if (dataFormInd.has("archivo")) {
+      newData.append("archivo", dataFormInd.get("archivo"));
     }
-  
-    let endpoint = '';
+
+    let endpoint = "";
     switch (selectedSection) {
       case "Datos personales":
         endpoint = `registro/estudiante/`;
@@ -195,41 +207,39 @@ const Detail = () => {
         endpoint = `registro/direccion/`;
         break;
       default:
-        endpoint = '';
+        endpoint = "";
     }
-  
+
     if (endpoint) {
       // Realizar la solicitud PUT
-      const result = await putUpdate(newData, endpoint, id); 
+      const result = await putUpdate(newData, endpoint, id);
       if (result.status === 201) {
         console.log("Datos guardados", newData);
       } else {
         console.error("Error al guardar los datos", result.data);
       }
     }
-  
+
     closeModal();
   };
-  
-   // Handle file changes
-   const handleFileChange = (name, file) => {
+
+  // Handle file changes
+  const handleFileChange = (name, file) => {
     dataFormInd.set(name, file);
     console.log(file);
   };
 
-
   const handleInputChange = (e, key) => {
     const { name, value } = e.target;
     const content = selectedSection || "default"; // Sección actual
-  
-  
+
     const error = UpdateModalesValidators(content, name, value);
-  
+
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: error, // Almacena el error en el estado
     }));
-  
+
     setSectionData((prevData) => ({
       ...prevData,
       [key]: value, // Actualiza el valor en la sección
@@ -321,7 +331,7 @@ const Detail = () => {
                     {value.documento}
                   </p>
                 </div>
-                
+
                 <div>
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     edad:
@@ -357,7 +367,6 @@ const Detail = () => {
                     {value.institutoprocedencia}
                   </p>
                 </div>
-
               </div>
             </GrupoDatos>
           ))}
@@ -517,12 +526,16 @@ const Detail = () => {
                   </p>
                 </div>
 
-                <div  className="break-words">
+                <div className="break-words">
                   <p className="font-cocogooseLight text-paragraph text-darkBlue">
                     Archivo:
                   </p>
-                  <a download="Archivo boterito" href={value.archivo} className="font-cocogooseLight text-paragraph2 flex-1">
-                  {value.archivo}
+                  <a
+                    download="Archivo boterito"
+                    href={value.archivo}
+                    className="font-cocogooseLight text-paragraph2 flex-1"
+                  >
+                    {value.archivo}
                   </a>
                 </div>
               </div>
@@ -611,6 +624,43 @@ const Detail = () => {
             </GrupoDatos>
           ))}
 
+        {dataDetail.fechas &&
+          dataDetail.fechas.map((value, index) => (
+            <GrupoDatos
+              titulo={"Fechas"}
+              update={() => update("Fechas", index)}
+              data={dataDetail.fechas}
+              key={index}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-y-3">
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Fecha de nacimiento:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.fechanacimiento}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Fecha de registro
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.fecharegistro}
+                  </p>
+                </div>
+                <div>
+                  <p className="font-cocogooseLight text-paragraph text-darkBlue">
+                    Fecha de ingreso:
+                  </p>
+                  <p className="font-cocogooseLight text-paragraph2 flex-1">
+                    {value.fechaingreso}
+                  </p>
+                </div>
+              </div>
+            </GrupoDatos>
+          ))}
+
         {dataDetail.direcciones &&
           dataDetail.direcciones.map((value, index) => (
             <GrupoDatos
@@ -649,21 +699,18 @@ const Detail = () => {
           ))}
       </div>
       <UpdateModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          onSave={handleSave}
-        
-          
-        >
-          <ModalContentUpdate
-            section={selectedSection}
-            data={sectionData}
-            onChange={handleInputChange}
-            handleFileChange={handleFileChange}
-            errores={errors}
-
-          />
-        </UpdateModal>
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSave={handleSave}
+      >
+        <ModalContentUpdate
+          section={selectedSection}
+          data={sectionData}
+          onChange={handleInputChange}
+          handleFileChange={handleFileChange}
+          errores={errors}
+        />
+      </UpdateModal>
     </div>
   );
 };
