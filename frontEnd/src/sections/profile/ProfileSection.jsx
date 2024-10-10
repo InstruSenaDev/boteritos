@@ -225,7 +225,7 @@ const Profile = () => {
                   value={dataDetail.personal.correo}
                   editable
                 />
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                   <ProfileField
                     label="Hoja de Vida"
                     value={dataDetail.personal.hojavida}
